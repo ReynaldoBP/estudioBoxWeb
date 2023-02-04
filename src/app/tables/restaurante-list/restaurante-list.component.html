@@ -1,0 +1,130 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-12">
+        <div class="content-header mt-0">Restaurantes</div>
+        <p class="content-sub-header">Listado de restaurantes</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Criterios de Búsqueda</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <input type='text' class="form-control" [(ngModel)]="buscaRestaurante"
+                                            placeholder='Filtra por cualquier campo...' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2" align="left">
+                            <div class="form-group">
+                                <label for="projectinput5">Exportar</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button *ngIf="getAccion('EXCEL')" type="button"
+                                            class="btn btn-raised btn-raised btn-success" (click)="exportAsXLSX()">
+                                            <i class="fa fa-file-excel-o"></i>
+                                        </button>
+                                        <button *ngIf="getAccion('PDF')" type="button" style="margin-left:0.7rem"
+                                            class="btn btn-raised btn-raised btn-danger" (click)="exportAsPDF()">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Estado</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <select id="cmbEstado" name="cmbEstado" class="form-control"
+                                                [(ngModel)]="estadoFiltro" #cmbRol="ngModel">
+                                                <option *ngFor="let item of estados" value="{{item}}">{{item}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Ciudad</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbCiudad" name="cmbCiudad" class="form-control"
+                                            [(ngModel)]="strCiudad" (change)="getRestaurantesPorCiudad()">
+                                            <option value="0" disabled="">Seleccione ciudad</option>
+                                            <option value="TODAS" selected="TODAS">TODAS</option>
+                                            <option *ngFor="let item of listCiudad" value="{{item['ID_CIUDAD']}}">
+                                                {{item['CIUDAD_NOMBRE']}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div *ngIf="getAccion('CREAR')" class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Acción</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" class="btn btn-raised btn-raised btn-primary"
+                                            [routerLink]="['/forms/restaurante/0']">
+                                            <i class="fa fa-plus"></i> Nuevo Restaurante
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="getAccion('VER')" class="card-block">
+                        <table id="tblrestaurantes" class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>Nombre Comercial</th>
+                                    <th>Razón Social</th>
+                                    <th>Representante Legal</th>
+                                    <th>Ícono</th>
+                                    <th>IdentificaciÓn</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of rows | filterRestaurante : buscaRestaurante : estadoFiltro| paginate: { itemsPerPage: 10, currentPage: p }"
+                                    [className]="item['ESTADO']=='INACTIVO'?'bg-danger':'bg-light'">
+                                    <td>{{item['NOMBRE_COMERCIAL']}}</td>
+                                    <td>{{item['RAZON_SOCIAL']}}</td>
+                                    <td>{{item['REPRESENTANTE_LEGAL']}}</td>
+                                    <td>
+                                        <img *ngIf="item['ICONO']" [src]="item['ICONO'] | sanitizeUrl" width="40"
+                                            height="40" name="imgIcono">
+                                    </td>
+                                    <td>{{item['IDENTIFICACION']}}</td>
+                                    <td>
+                                        <a *ngIf="getAccion('EDITAR')" class="success p-0" data-original-title=""
+                                            title="Editar Restaurante"
+                                            [routerLink]="['/forms/restaurante/' + item['ID_RESTAURANTE']]">
+                                            <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

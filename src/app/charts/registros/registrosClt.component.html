@@ -1,0 +1,113 @@
+<!-- Line Chart Starts -->
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header mt-0">Registros</div>
+        <p class="content-sub-header">{{strDescripcion}}
+            <a class="text-info" (click)="vermas()">
+                <strong> ... ver más</strong>
+            </a>
+        </p>
+    </div>
+</div>
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="projectinput5">Rango de fechas</label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <select id="cmbAnio" [(ngModel)]="strAnio" class="form-control" name="cmbMes"
+                                        (change)="getDataCliente()">
+                                        <option value="2019">2019</option>
+                                        <option value="2020">2020</option>
+                                        <option value="2021">2021</option>
+                                        <option value="2022">2022</option>
+                                        <option value="2022">2023</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <select id="cmbMes" [(ngModel)]="strMes" class="form-control" name="cmbMes"
+                                            (change)="getDataCliente()">
+                                            <option *ngFor="let item of arrayMonthNames" value="{{item.numanio}}">
+                                                {{item.anio}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Estado</label>
+                            <div class="row">
+                                <div class="col-sm-12">
+
+                                    <select id="cmbEstado" name="cmbEstado" class="form-control" [(ngModel)]="strEstado"
+                                        #cmbRol="ngModel" (change)="getDataCliente()">
+                                        <option *ngFor="let item of arrayEstados" value="{{item}}">{{item}}</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" align="left">
+                        <div class="form-group">
+                            <label for="projectinput5">Exportar</label>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <button type="button" class="btn btn-raised btn-raised btn-success"
+                                        (click)="exportAsXLSX()" *ngIf="getAccion('EXCEL')">
+                                        <i class="fa fa-file-excel-o"></i>
+                                    </button>
+                                    <button type="button" style="margin-left:0.7rem"
+                                        class="btn btn-raised btn-raised btn-danger" (click)="exportAsPDF()"
+                                        *ngIf="getAccion('PDF')">
+                                        <i class="fa fa-file-pdf-o"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading" class="form-group">
+    <div class="col-md-12 text-center">
+        <div style="width: 3rem; height: 3rem;" class="spinner-border text-default" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<!-- Bar Chart Starts -->
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card-block">
+                            <br>
+                            <h5 align="center" class="form-section" style="font-weight:600;padding-top: 10">Número de registros del mes:
+                                {{intTotalRegistros}}</h5>
+                            <div id="bar-bar1" class="height-400">
+                                <canvas baseChart class="chart" [datasets]="barChartData" [labels]="barChartLabels"
+                                    [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                                    [chartType]="barChartType" (chartHover)="chartHovered($event)"
+                                    (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bar Chart Ends -->

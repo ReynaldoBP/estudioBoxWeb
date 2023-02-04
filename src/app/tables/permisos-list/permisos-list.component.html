@@ -1,0 +1,71 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+        <div class="col-12">
+            <div class="content-header mt-0">Permisos de Usuario</div>
+            <p class="content-sub-header">Listado de permisos por usuario para acceder a los modulos del sistema </p>
+        </div>
+    </div>
+    <section id="extended">
+        <div class="row text-left">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <input type='text' class="form-control" [(ngModel)]="usuariobuscar" placeholder='Filtra por nombre de usuario' />
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select id="cmbRol" name="cmbRol" class="form-control" [(ngModel)]="idtiporol" #cmbRol="ngModel" >
+                                        <option value="" selected="">TODOS</option>
+                                        <option *ngFor="let item of listRol" value="{{item['ID_TIPO_ROL']}}">{{item['DESCRIPCION_TIPO_ROL']}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div *ngIf="getAccion('ASIGNAR')"  class="col-sm-4" align="right">
+                                <button type="button" class="btn btn-raised btn-raised btn-primary" (click)="guardarCambios()">
+                                    <i class="fa fa-save"></i> Guardar cambios
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="getAccion('VER')" class="card-block">
+                            <div class="table-wrapper-2">
+                                <table class="table table-responsive-md text-center">
+                                    <thead>
+                                        <tr>
+                                            <th class="fixed-column" >Usuarios/Módulos</th>
+                                            <th *ngFor="let item of listModulos">{{item.DESCRIPCION_MODULO}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of rows | byRol: idtiporol | byUsuario: usuariobuscar | paginate: { itemsPerPage: 3, currentPage: p }">
+                                            <td class="fixed-column">{{item['NOMBRES'] + ' ' + item['APELLIDOS']}}<br><strong>{{item['NOMBRE_RESTAURANTE']}}</strong></td>
+                                            <td *ngFor="let modulo of listModulos">
+                                                <tr *ngFor="let accion of listAcciones | filterAccionByModulo : modulo.ID_MODULO">
+                                                    <div class="row" style="width: 150px">
+                                                        <div class="col-sm-7">
+                                                            <p style="font-size: 12px" class="m-0">{{accion.DESCRIPCION_ACCION}}</p>
+                                                        </div>
+                                                        <div class="col-sm-5">                                                    
+                                                            <ui-switch [checked]="(listPermisos | byModuloUsuarioAccion: accion.ID_MODULO_ACCION : item.ID_USUARIO).length>0?true:false" (change)="addPermiso($event,accion.ID_MODULO_ACCION,item.ID_USUARIO)"></ui-switch>
+                                                        </div>
+                                                    </div>
+                                                </tr>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>                                
+                            </div>
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Extended Table Ends-->
+
+
+    

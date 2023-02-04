@@ -1,0 +1,78 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-12">
+        <div class="content-header mt-0">Influencers</div>
+        <p class="content-sub-header">Listado de usuarios influencers</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="projectinput5">Criterios de Búsqueda</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type='text' class="form-control"
+                                            placeholder='Filtra por cualquier campo...' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="getAccion('CREAR')" class="col-sm-6">
+                            <div class="form-group">
+                                <label for="projectinput5">Acción</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-raised btn-raised btn-primary"
+                                            [routerLink]="['/forms/influencer/0']">
+                                            <i class="fa fa-plus"></i> Nuevo Influencer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="getAccion('VER')" class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>Nombres</th>
+                                    <th>Correo</th>
+                                    <th>Edad</th>
+                                    <th>Imagen</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of rows | paginate: { itemsPerPage: 10, currentPage: p }">
+                                    <td>{{item['NOMBRE']}}</td>
+                                    <td>{{item['CORREO']}}</td>
+                                    <td>{{item['EDAD'] | getEdad}}</td>
+                                    <td>
+                                        <img *ngIf="item['IMAGEN']" [src]="item['IMAGEN'] | sanitizeUrl" width="40"
+                                            height="40" name="imgIcono">
+                                    </td>
+                                    <td>
+                                        <a *ngIf="getAccion('EDITAR')" class="success p-0" data-original-title=""
+                                            title="Editar usuario"
+                                            [routerLink]="['/forms/influencer/' + item['ID_CLIENTE_INFLUENCER']]">
+                                            <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

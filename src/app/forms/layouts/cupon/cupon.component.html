@@ -1,0 +1,138 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+	<div class="row text-left">
+		<div class="col-sm-12">
+			<div class="content-header mt-0">Cupón</div>
+		</div>
+	</div>
+	<div class="row text-left">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title" id="basic-layout-form">{{objCupon.id == '0'?'Nuevo cupón':'Editando
+						cupón'}}
+					</h4>
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+						<form class="form">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-user"></i> Datos para el Cupón</h4>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="txtDescripcion">Descripcion</label>
+											<input type="text" id="txtDescripcion" [(ngModel)]="objCupon.strDescripcion"
+												class="form-control" name="fname">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="cmbTipo">Tipo de cupón</label>
+											<ng-select [items]="arrayTipo" [multiple]="false" [closeOnSelect]="true"
+												[hideSelected]="true" bindLabel="DESCRIPCION" bindValue="ID_TIPO_CUPON"
+												placeholder="Seleccione tipo de cupón" [(ngModel)]="strTipoCupon"
+												(change)="getVerificaRestaurantes()" name="cmbTipo">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											<label for="txtValor">Puntos</label>
+											<input type="number" id="txtValor" class="form-control"
+												[(ngModel)]="objCupon.strValor" name="txtValor"
+												[disabled]="strTipoCupon == 5 || strTipoCupon == 6 || strTipoCupon == 7">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											<label>Estado</label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdEstado" name="rdEstado"
+														class="custom-control-input" [(ngModel)]="objCupon.strEstado"
+														[value]="true">
+													<label class="custom-control-label" for="rdEstado">Activo</label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdEstado2" name="rdEstado2"
+														class="custom-control-input" [(ngModel)]="objCupon.strEstado"
+														[value]="false">
+													<label class="custom-control-label" for="rdEstado2">Inactivo</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="lblRestaurante">Restaurante</label>
+											<div class="row">
+												<div class="col-md-12">
+													<ng-select [items]="arrayRestaurante" [multiple]="false"
+														[closeOnSelect]="true" [hideSelected]="true"
+														bindLabel="NOMBRE_COMERCIAL" bindValue="ID_RESTAURANTE"
+														placeholder="Seleccione restaurantes"
+														[(ngModel)]="strRestaurante" name="cmbrestaurantes"
+														[disabled]="strTipoCupon != 3 && strTipoCupon != 4">
+													</ng-select>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											<label for="txtPrecio">Precio</label>
+											<input type="number" id="txtPrecio" class="form-control"
+												[(ngModel)]="objCupon.strPrecio" name="txtPrecio"
+												[disabled]="strTipoCupon != 5">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											<label for="txtDiasVigentes">Días Vigente</label>
+											<input type="number" min=0 max=100 step=5 id="txtDiasVigentes"
+												class="form-control" [(ngModel)]="objCupon.strDiaVigente" name="txtDiasVigentes"
+												[disabled]="strTipoCupon != 6 && strTipoCupon != 7">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div *ngIf="!objCupon.strImagen" ng2FileDrop
+											[ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader"
+											class="py-5 mb-3 text-center font-medium-1 text-uppercase grey my-drop-zone"
+											(onFileDrop)="previewImg($event)" (click)="fileInput.click()">
+											IMAGEN
+											<input type="file" #fileInput ng2FileSelect [uploader]="uploader"
+												style="display: none" name="txtImg"
+												(change)="preview(fileInput.files)" />
+										</div>
+										<img *ngIf="objCupon.strImagen" [src]="objCupon.strImagen" width="500"
+											height="300" name="imgImagen">
+										<button *ngIf="objCupon.strImagen" type="button"
+											class="btn btn-raised btn-danger btn-sm" (click)="remove()"
+											name="btnRemoveIcono">
+											<span class="fa fa-trash"></span> Quitar
+										</button>
+									</div>
+								</div>
+
+							</div>
+							<div class="form-actions">
+								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+									[routerLink]="['/tables/cupon']">
+									<i class="ft-x"></i> Cancelar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-primary"
+									(click)="guardarDatos()">
+									<i class="fa fa-check-square-o"></i> Guardar Datos
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- // Basic form layout section end -->

@@ -1,0 +1,114 @@
+<!-- Line Chart Starts -->
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header mt-0">Encuestas vs Compartidos</div>
+        <p class="content-sub-header">Gráfico de barras que muestra el número de encuestas vs compartidos</p>
+    </div>
+</div>
+
+<!-- Bar Chart Starts -->
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="projectinput5">Rango Fechas</label>
+                            <div class="row">
+                                <div class="col-md-6">                          
+                                    <input type="date" id="txtFechaInicio" class="form-control"  name="lname">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="date" id="txtFechaFin" class="form-control"  name="lname">
+                                </div>  
+                            </div>
+                        </div>                                              
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Horario</label>
+                            <select id="cmbRol" name="cmbRol" class="form-control" >
+                                <option value="" selected="" disabled="">Seleccione</option>
+                                <option value="MA&Ntilde;ANA" >Ma&ntilde;ana</option>
+                                <option value="TARDE" >Tarde</option>
+                                <option value="NOCHE" >Noche</option>
+                            </select>
+                        </div>                                              
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Genero</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="none" selected="" disabled="">Seleccione</option>
+                                <option value="H">Hombre</option>
+                                <option value="M">Mujer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Rango Edad</label>
+                            <select id="cmbRol" name="cmbRol" class="form-control" >
+                                <option value="" selected="" disabled="">Seleccione</option>
+                                <option value="MENOR" >Menor a 18</option>
+                                <option value="ZENTENIAL" >De 18 a 34</option>
+                                <option value="MILENIAL" >De 35 a 48</option>
+                                <option value="GENERACIONX" >Mayor a 48</option>
+                            </select>
+                        </div>                                              
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Pais</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="none" selected="" disabled="">Seleccione</option>
+                                <option *ngFor="let item of listPais" value="item['PaisCodigo']">{{item['PaisNombre']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Provincia</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="none" selected="" disabled="">Seleccione</option>
+                                <option *ngFor="let item of listPais" value="item['PaisCodigo']">{{item['PaisNombre']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Ciudad</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="none" selected="" disabled="">Seleccione</option>
+                                <option *ngFor="let item of listCiudad" value="item['PaisCodigo']">{{item['CiudadNombre']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="projectinput5">Sector</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="none" selected="" disabled="">Seleccione</option>
+                                <option value="RUC">KFC</option>
+                                <option value="CEDULA">PARRILLADA DEL NATO</option>
+                                <option value="PASAPORTE">MENESTRAS DEL NEGRO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-block">
+                    <div id="bar-bar1" class="height-400">
+                        <canvas baseChart class="chart" [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                            [chartType]="barChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bar Chart Ends -->

@@ -1,0 +1,125 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-12">
+        <div class="content-header mt-0">Estadística de Puntos Redimidos</div>
+        <p class="content-sub-header">Registro de todos los puntos redimidos, filtrados por año y mes.</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Criterios de Búsqueda</label>
+
+                                <div class="row" *ngIf="objUsuario.DESCRIPCION_TIPO_ROL=='RESTAURANTE' || objUsuario.DESCRIPCION_TIPO_ROL=='RESTAURANTE GERENCIA'">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ng-select [items]="objListSucursalUsuarioRes" [multiple]="false"
+                                                [closeOnSelect]="true" [hideSelected]="false" bindLabel="DESCRIPCION"
+                                                bindValue="ID_SUCURSAL" placeholder="Seleccione Sucursal"
+                                                name="cmbSucursalUsuarioRes" [(ngModel)]="objSelectSucursal"
+                                                (change)="getPromocionesCanjeada()">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" *ngIf="objUsuario.DESCRIPCION_TIPO_ROL=='ADMINISTRADOR'">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ng-select [items]="objListSucursalUsuarioAdmin" [multiple]="false"
+                                                [closeOnSelect]="true" [hideSelected]="false" bindLabel="DESCRIPCION"
+                                                bindValue="ID_SUCURSAL" placeholder="Seleccione Sucursal"
+                                                name="cmbSucursalUsuarioAdmin"
+                                                [(ngModel)]="objSelectSucursal"
+                                                (change)="getPromocionesCanjeada()">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="projectinput5">Rango de fechas</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <select id="cmbAnio" [(ngModel)]="intAnio" class="form-control"
+                                            name="cmbMes" (change)="getPromocionesCanjeada()">
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2022">2023</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <select id="cmbMes" [(ngModel)]="intMes" class="form-control"
+                                                name="cmbMes" (change)="getPromocionesCanjeada()">
+                                                <option *ngFor="let item of arrayMonthNames" value="{{item.numanio}}">
+                                                    {{item.anio}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2" align="left" *ngIf="getAccion('EXCEL') && getAccion('PDF')">
+                            <div class="form-group">
+                                <label for="projectinput5">Exportar</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button"
+                                            class="btn btn-raised btn-raised btn-success" (click)="exportAsXLSX()" *ngIf="getAccion('EXCEL')">
+                                            <i class="fa fa-file-excel-o"></i>
+                                        </button>
+                                        <button type="button" style="margin-left:0.7rem"
+                                            class="btn btn-raised btn-raised btn-danger" (click)="exportAsPDF()"*ngIf="getAccion('PDF')">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="getAccion('VER')" class="card-block">
+                        <div class="card-block">
+                            <table class="table table-responsive-md text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Nombres completos</th>
+                                        <th>Cant. Puntos Redimidos</th>
+                                        <th>Promoción</th>
+                                        <th>Fecha</th>
+                                        <th>Sucursal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let item of rows | paginate: { itemsPerPage: 10, currentPage: p }">
+                                        <td>{{item['CLIENTE']}}</td>
+                                        <td>{{item['CANTIDAD_PUNTOS']}}</td>
+                                        <td>{{item['DESCRIPCION_TIPO_PROMOCION']}}</td>
+                                        <td>{{item['FE_CREACION']}}</td>
+                                        <td>{{item['SUCURSAL']}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

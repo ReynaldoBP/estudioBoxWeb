@@ -1,0 +1,57 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-12">
+        <div class="content-header mt-0">Data Encuestas</div>
+        <p class="content-sub-header">Listado de encuestas realizadas</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <input type='text' class="form-control" placeholder='Filtra por cualquier campo...' />
+                        </div>
+                        <div class="col-sm-2" align="left">
+                            <button type="button" class="btn btn-raised btn-raised btn-success" (click)="exportAsXLSX()">
+                                <i class="fa fa-file-excel-o"></i> 
+                            </button>
+                            <button type="button" style="margin-left:0.7rem" class="btn btn-raised btn-raised btn-danger" (click)="exportAsPDF()">
+                                <i class="fa fa-file-pdf-o"></i> 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="card-block">
+                        <table id="tblrestaurantes" class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Encuesta</th>
+                                    <th>Ver Respuestas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of rows"  >
+                                    <td>{{item['fecha']}}</td>
+                                    <td>{{item['cliente']}}</td>
+                                    <td>{{item['encuesta']}}</td>
+                                    <td>
+                                        <a class="success p-0" data-original-title="" title="Ver Respuestas"  (click)="verPreguntas(item['idencuesta'])">
+                                            <i class="ft-eye font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

@@ -1,0 +1,121 @@
+<!-- Line Chart Starts -->
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header mt-0">Grafico ME GUSTA o NO ME GUSTA</div>
+        <p class="content-sub-header">Gráfico para visualizar el contador de ME GUSTA y NO ME GUSTA de los clientes sobre restaurantes y sucursales</p>
+    </div>
+</div>
+
+<!-- Bar Chart Starts -->
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="projectinput5">Rango Fechas</label>
+                            <div class="row">
+                                <div class="col-md-6">                          
+                                    <input type="date" id="txtFechaInicio" class="form-control"  name="lname">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="date" id="txtFechaFin" class="form-control"  name="lname">
+                                </div>  
+                            </div>
+                        </div>                                              
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Horario</label>
+                            <select id="cmbRol" name="cmbRol" class="form-control" >
+                                <option value="" selected="" disabled="">TODOS</option>
+                                <option value="MA&Ntilde;ANA" >Ma&ntilde;ana</option>
+                                <option value="TARDE" >Tarde</option>
+                                <option value="NOCHE" >Noche</option>
+                            </select>
+                        </div>                                              
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Genero</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="" selected="" disabled="">TODOS</option>
+                                <option value="H">Hombre</option>
+                                <option value="M">Mujer</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Rango Edad</label>
+                            <select id="cmbRol" name="cmbRol" class="form-control" >
+                                <option value="" selected="" disabled="">TODOS</option>
+                                <option value="MENOR" >Menor a 18</option>
+                                <option value="ZENTENIAL" >De 18 a 34</option>
+                                <option value="MILENIAL" >De 35 a 48</option>
+                                <option value="GENERACIONX" >Mayor a 48</option>
+                            </select>
+                        </div>                                              
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Pais</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="" selected="" disabled="">TODOS</option>
+                                <option *ngFor="let item of listPais" value="item['PaisCodigo']">{{item['PaisNombre']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Provincia</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="" selected="" disabled="">TODOS</option>
+                                <option *ngFor="let item of listPais" value="item['PaisCodigo']">{{item['PaisNombre']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Ciudad</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="" selected="" disabled="">TODOS</option>
+                                <option *ngFor="let item of listCiudad" value="item['PaisCodigo']">{{item['CiudadNombre']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="projectinput5">Sector</label>
+                            <select id="projectinput5" name="interested" class="form-control">
+                                <option value="" selected="" disabled="">TODOS</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-2" align="center">
+                            <i class="fa fa-thumbs-up fa-4x" style="color: rgba(0, 157, 160, 0.8)"></i>
+                        </div>
+                        <div class="col-md-8">
+                            <div id="bar-doughnut" class="height-300">
+                                <canvas baseChart  class="chart" [data]="doughnutChartData" [labels]="doughnutChartLabels" [options]="doughnutChartOptions" [chartType]="doughnutChartType" [colors]="doughnutChartColors" 
+                                    (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-2" align="center">
+                            <i class="fa fa-thumbs-down fa-4x" style="color: rgba(255, 141, 96, 0.8)"></i>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bar Chart Ends -->

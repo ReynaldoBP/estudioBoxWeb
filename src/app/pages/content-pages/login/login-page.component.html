@@ -1,0 +1,64 @@
+<!--Login Page Starts-->
+<section id="login" [style.background]="'url('+ruta_bg+')'" style.background-size="{{'cover'}}">
+    <div class="container-fluid" style="background-color:rgb(0, 0, 0,0.5)">
+        <div class="row full-height-vh">
+            <div class="col-12 d-flex align-items-center justify-content-center">
+                <div class="card gradient-massvision text-center width-400">
+                    <div class="card-img ">
+                        <img alt="element 06" class="mb-1 mt-3" src="assets/img/logos/estudioBoxLogo.png" width="190">
+                    </div>
+                    <div class="card-body">
+                        <div class="card-block">
+                            <h2 class="white">Bienvenido</h2>
+                            <form novalidate="" (ngSubmit)="login()" #f="ngForm">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control" name="inputEmail" id="inputEmail"
+                                            placeholder="Email" [(ngModel)]="user.strCorreo" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <input type="password" class="form-control" name="inputPass" id="inputPass"
+                                            placeholder="Password" [(ngModel)]="user.strContrasenia" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button type="submit" class="btn btn-block btn-raised"
+                                            style="background-color: #65a8ea;color: #ffffff">Iniciar Sesion</button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 text-center">
+                                        <div *ngIf="loading" style="width: 3rem; height: 3rem;"
+                                            class="spinner-border text-default" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="float-left"><a (click)="onForgotPassword()" class="white">Recuperar Contraseña</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-block btn-raised"
+                                style="background-color: #FF8C00;color: #ffffff"><a
+                                    href="https://la.bitte.app/descargar-app/" class="white">Descargar
+                                    EstudioBox</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Login Page Ends-->

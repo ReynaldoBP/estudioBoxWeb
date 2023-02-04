@@ -1,0 +1,346 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-12">
+        <div class="content-header mt-0">Data Encuestas</div>
+        <p class="content-sub-header">{{descripcion}}
+            <a class="text-info" (click)="vermas()">
+                <strong>{{descripcion == descripcionOrigin?' ... ver menos':' ... ver más'}}</strong>
+            </a>
+        </p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="projectinput5">Criterios de Búsqueda</label>
+                        </div>
+                    </div>
+                    <div class="row"
+                        *ngIf="user.DESCRIPCION_TIPO_ROL=='RESTAURANTE' || user.DESCRIPCION_TIPO_ROL=='RESTAURANTE GERENCIA'">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="projectinput5">Sucursal</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ng-select [items]="objListSucursalUsuarioRes" [multiple]="false"
+                                            [closeOnSelect]="true" [hideSelected]="false" bindLabel="DESCRIPCION"
+                                            bindValue="ID_SUCURSAL" placeholder="Seleccione Sucursal"
+                                            name="cmbSucursalUsuarioRes" [(ngModel)]="objSelectSucursalUsuarioRes">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Mes</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbtipocomida" [(ngModel)]="mesEncuestas" class="form-control"
+                                            name="cmbMes" (change)="getRepuestasPublicaciones()">
+                                            <option *ngFor="let item of monthNames" value="{{item.numanio}}">
+                                                {{item.anio}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Año</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbtipocomida" [(ngModel)]="anioEncuestas" class="form-control"
+                                            name="cmbMes" (change)="getRepuestasPublicaciones()">
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2022">2023</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Estado</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbEstado" name="cmbEstado" class="form-control"
+                                            [(ngModel)]="estadoFiltro" #cmbRol="ngModel">
+                                            <option *ngFor="let item of estados" value="{{item}}">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="projectinput5">Acción</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" style="width: 100%"
+                                            class="btn btn-raised btn-raised btn-success"
+                                            (click)="getRepuestasPublicaciones()">
+                                            <i class="fa fa-search"></i> Buscar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="user.DESCRIPCION_TIPO_ROL=='ADMINISTRADOR'">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="projectinput5">Sucursal</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ng-select [items]="objListSucursalUsuarioAdmin" [multiple]="false"
+                                            [closeOnSelect]="true" [hideSelected]="false" bindLabel="DESCRIPCION"
+                                            bindValue="ID_SUCURSAL" placeholder="Seleccione Sucursal"
+                                            name="cmbSucursalUsuarioAdmin" [(ngModel)]="objSelectSucursalUsuarioAdmin">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Mes</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbtipocomida" [(ngModel)]="mesEncuestas" class="form-control"
+                                            name="cmbMes" (change)="getRepuestasPublicaciones()">
+                                            <option *ngFor="let item of monthNames" value="{{item.numanio}}">
+                                                {{item.anio}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Año</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbtipocomida" [(ngModel)]="anioEncuestas" class="form-control"
+                                            name="cmbMes" (change)="getRepuestasPublicaciones()">
+                                            <option value="2019">2019</option>
+                                            <option value="2020">2020</option>
+                                            <option value="2021">2021</option>
+                                            <option value="2022">2022</option>
+                                            <option value="2022">2023</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Estado</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbEstado" name="cmbEstado" class="form-control"
+                                            [(ngModel)]="estadoFiltro" #cmbRol="ngModel">
+                                            <option *ngFor="let item of estados" value="{{item}}">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="projectinput5">Acción</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button type="button" style="width: 100%"
+                                            class="btn btn-raised btn-raised btn-success"
+                                            (click)="getRepuestasPublicaciones()">
+                                            <i class="fa fa-search"></i> Buscar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row" *ngIf="getAccion('EDITAR')">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <ng-select [items]="objListSucursal" [multiple]="false" [closeOnSelect]="true"
+                                    [hideSelected]="false" bindLabel="DESCRIPCION" bindValue="ID_SUCURSAL"
+                                    placeholder="Seleccione Sucursal" name="cmbSucursal"
+                                    [(ngModel)]="objSelectSucursal">
+                                </ng-select>
+                            </div>
+                        </div>
+                        <div class="col-md-6" align="right">
+                            <button type="button" style="width: 100%" class="btn btn-raised btn-raised btn-warning"
+                                (click)="cambiarSucursal()">
+                                <i class="fa fa-edit"></i> Cambiar Sucursal
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select id="cmbtipocomida" [(ngModel)]="anioEncuestas" class="form-control"
+                                    name="cmbMes" (change)="getRepuestasPublicaciones()">
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                    <option value="2021">2021</option>
+                                    <option value="2022">2022</option>
+                                    <option value="2022">2023</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select id="cmbEstado" name="cmbEstado" class="form-control" [(ngModel)]="estadoFiltro"
+                                    #cmbRol="ngModel">
+                                    <option *ngFor="let item of estados" value="{{item}}">{{item}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select id="cmbtipocomida" [(ngModel)]="mesEncuestas" class="form-control" name="cmbMes"
+                                    (change)="getRepuestasPublicaciones()">
+                                    <option *ngFor="let item of monthNames" value="{{item.numanio}}">{{item.anio}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div *ngIf="getAccion('QUIT.PTS')" class="col-md-3" align="right">
+                            <button type="button" style="width: 100%" class="btn btn-raised btn-raised btn-primary"
+                                (click)="editarEstadoPunto()">
+                                <i class="fa fa-times"></i> Editar Puntos
+                            </button>
+                        </div>
+                        <div *ngIf="getAccion('QUIT.PTS')" class="col-md-3" align="right">
+                            <button type="button" style="width: 100%" class="btn btn-raised btn-raised btn-danger"
+                                (click)="declinar()">
+                                <i class="fa fa-times"></i> Quitar Puntos
+                            </button>
+                        </div>
+                    </div>-->
+                </div>
+                <div class="card-body">
+                    <div *ngIf="getAccion('VER')" class="card-block">
+                        <table id="tblrestaurantes" class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <!--<th>Red Social</th>-->
+                                    <th>Fecha</th>
+                                    <th>Cliente</th>
+                                    <th>Sucursal</th>
+                                    <th>Promedio</th>
+                                    <th>Respuestas</th>
+                                    <!--<th>Imagen</th>
+                                    <th>Selecc.</th>-->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of rows | filterDataEncuesta : estadoFiltro| paginate: { itemsPerPage: 10, currentPage: p }"
+                                    [className]="item['ESTADO']=='ELIMINADO'||item['ES_MENOR_3']=='SI'?'bg-danger':'bg-light'">
+                                    <!--<td>
+                                        <i
+                                            class="fa fa-{{item['RED_SOCIAL']=='FACEBOOK'?'facebook-square':
+                                                          item['RED_SOCIAL']=='INSTAGRAM'?'instagram':
+                                                          item['RED_SOCIAL']=='TWITTER'?'twitter-square':'ban'}} fa-2x"></i>
+                                    </td>-->
+                                    <td>
+                                        <div *ngIf="item['VISTO'] =='0' && item['COMENTARIO'] !=''"
+                                            style='font-weight:600;padding-top: 10'>
+                                            {{item['FE_CREACION']}}
+                                        </div>
+                                        <div *ngIf="item['COMENTARIO'] ==''">
+                                            {{item['FE_CREACION']}}
+                                        </div>
+                                        <div *ngIf="item['VISTO'] !='0' && item['COMENTARIO'] !=''">
+                                            {{item['FE_CREACION']}}
+                                        </div>
+                                    </td>
+                                    <td *ngIf="user.DESCRIPCION_TIPO_ROL=='ADMINISTRADOR'">
+                                        <a data-original-title="" title="Ver Información"
+                                            (click)="getResumenCliente(item)">
+                                            <div *ngIf="item['VISTO'] =='0' && item['COMENTARIO'] !=''"
+                                                style='font-weight:600;padding-top: 10'>
+                                                {{ '(CL-' +item['CLIENTE_ID']+') '+item['NOMBRE_CLIENTE']}}
+                                            </div>
+                                            <div *ngIf="item['COMENTARIO'] ==''">
+                                                {{ '(CL-' +item['CLIENTE_ID']+') '+item['NOMBRE_CLIENTE']}}
+                                            </div>
+                                            <div *ngIf="item['VISTO'] !='0' && item['COMENTARIO'] !=''">
+                                                {{ '(CL-' +item['CLIENTE_ID']+') '+item['NOMBRE_CLIENTE']}}
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td *ngIf="user.DESCRIPCION_TIPO_ROL!='ADMINISTRADOR'">
+                                        <div *ngIf="item['VISTO'] =='0' && item['COMENTARIO'] !=''"
+                                            style='font-weight:600;padding-top: 10'>
+                                            {{ 'CL-' +item['CLIENTE_ID']}}
+                                        </div>
+                                        <div *ngIf="item['COMENTARIO'] ==''">
+                                            {{ 'CL-' +item['CLIENTE_ID']}}
+                                        </div>
+                                        <div *ngIf="item['VISTO'] !='0' && item['COMENTARIO'] !=''">
+                                            {{ 'CL-' +item['CLIENTE_ID']}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div *ngIf="item['VISTO'] =='0' && item['COMENTARIO'] !=''"
+                                            style='font-weight:600;padding-top: 10'>
+                                            {{item['DESCRIPCION']}}
+                                        </div>
+                                        <div *ngIf="item['COMENTARIO'] ==''">
+                                            {{item['DESCRIPCION']}}
+                                        </div>
+                                        <div *ngIf="item['VISTO'] !='0' && item['COMENTARIO'] !=''">
+                                            {{item['DESCRIPCION']}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div *ngIf="item['VISTO'] =='0' && item['COMENTARIO'] !=''"
+                                            style='font-weight:600;padding-top: 10'>
+                                            {{item['PROMEDIO']}}
+                                        </div>
+                                        <div *ngIf="item['COMENTARIO'] ==''">
+                                            {{item['PROMEDIO']}}
+                                        </div>
+                                        <div *ngIf="item['VISTO'] !='0' && item['COMENTARIO'] !=''">
+                                            {{item['PROMEDIO']}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a class="success p-0" data-original-title="" title="Ver Respuestas"
+                                            (click)="verPreguntas(item)">
+                                            <i class="ft-list font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                    <!--<td>
+                                        <a class="success p-0" data-original-title="" title="Ver Imagen"
+                                            (click)="verImagen(item)">
+                                            <i class="ft-eye font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" [(ngModel)]="item['CHECKED']" class="form-control">
+                                    </td>-->
+                                </tr>
+                            </tbody>
+                        </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

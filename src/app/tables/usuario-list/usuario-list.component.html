@@ -1,0 +1,76 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+        <div class="col-12">
+            <div class="content-header mt-0">Usuarios</div>
+            <p class="content-sub-header">Esta sección le permite crear usuarios adicionales para que puedan acceder al sistema BITTE.  </p>
+        </div>
+    </div>
+    <section id="extended">
+        <div class="row text-left">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-sm-5">
+                                <input type='text' class="form-control" [(ngModel)]="usuariobuscar"  placeholder='Filtra por nombres o apelllidos' />
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <select id="cmbRol" name="cmbRol" class="form-control" [(ngModel)]="idtiporol" #cmbRol="ngModel" >
+                                        <option value="" selected="">TODOS</option>
+                                        <option *ngFor="let item of listRol" value="{{item['ID_TIPO_ROL']}}">{{item['DESCRIPCION_TIPO_ROL']}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2" align="left">
+                                <button *ngIf="getAccion('EXCEL')" type="button" class="btn btn-raised btn-raised btn-success" (click)="exportAsXLSX()">
+                                    <i class="fa fa-file-excel-o"></i> 
+                                </button>
+                                <button *ngIf="getAccion('PDF')" type="button" style="margin-left:0.7rem" class="btn btn-raised btn-raised btn-danger" (click)="exportAsPDF()">
+                                    <i class="fa fa-file-pdf-o"></i> 
+                                </button>
+                            </div>
+                            <div *ngIf="getAccion('CREAR')" class="col-sm-3" align="right">
+                                <button type="button" class="btn btn-raised btn-raised btn-primary" [routerLink]="['/forms/usuario/0']">
+                                    <i class="fa fa-plus"></i> Nuevo Usuario
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="getAccion('VER')" class="card-block">
+                            <table class="table table-responsive-md text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Identificación</th>
+                                        <th>Nombres</th>
+                                        <th>Correo</th>
+                                        <th>Rol</th>
+                                        <th>Restaurante</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of rows | byRol: idtiporol | byUsuario: usuariobuscar | paginate: { itemsPerPage: 10, currentPage: p }">
+                                        <td>{{item['IDENTIFICACION']}}</td>
+                                        <td>{{item['NOMBRES'] + ' ' + item['APELLIDOS']}}</td>
+                                        <td>{{item['CORREO']}}</td>
+                                        <td>{{item['DESCRIPCION_TIPO_ROL']}}</td>
+                                        <td>{{item['NOMBRE_RESTAURANTE']}}</td>
+                                        <td>
+                                            <a *ngIf="getAccion('EDITAR')" class="success p-0" data-original-title=""  title="Editar usuario"  [routerLink]="['/forms/usuario/' + item['ID_USUARIO']]">
+                                                <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Extended Table Ends-->
+    

@@ -1,0 +1,267 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+	<div class="row text-left">
+		<div class="col-sm-12">
+			<div class="content-header mt-0">Restaurante</div>
+		</div>
+	</div>
+	<div class="row text-left">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title" id="basic-layout-form">{{restaurante.id == '0'?'Nuevo Restaurante':'Editando
+						Restaurante'}}</h4>
+					<!--
+						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
+					-->
+
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+						<form class="form">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-file-text"></i> Datos del Restaurante</h4>
+
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="txtrazonsocial">Razon Social</label>
+											<input type="text" id="txtrazonsocial"
+												[(ngModel)]="restaurante.razon_social" class="form-control"
+												name="txtrazonsocial">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="txtnombrecomercial">Nombre Comercial</label>
+											<input type="text" id="txtnombrecomercial"
+												[(ngModel)]="restaurante.nombre_comercial" class="form-control"
+												name="txtnombrecomercial">
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											<label for="cmbtipoid">Tipo de Id.</label>
+											<select id="cmbtipoid" [(ngModel)]="restaurante.tipo_id"
+												class="form-control" name="cmbtipoid">
+												<option value="none" selected="" disabled="">Seleccione</option>
+												<option value="RUC">RUC</option>
+												<option value="CEDULA">CEDULA</option>
+												<option value="PASAPORTE">PASAPORTE</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-2">
+										<div class="form-group">
+											<label for="txtid">Identificación</label>
+											<input type="text" id="txtid" [(ngModel)]="restaurante.identificacion"
+												class="form-control" name="txtid">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="txtrepresentante">Representante Legal</label>
+											<input type="text" id="txtrepresentante"
+												[(ngModel)]="restaurante.representante_legal" class="form-control"
+												name="txtrepresentante">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="txtemail">Direccion Tributaria</label>
+											<input type="text" id="txtemail"
+												[(ngModel)]="restaurante.direccion_tributaria" class="form-control"
+												name="direccion">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="txtNumeroContacto">Número de Contacto</label>
+											<input type="text" id="txtNumeroContacto"
+												[(ngModel)]="restaurante.numero_contacto" class="form-control"
+												name="contacto">
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="txtUrlCatalogos">RED SOCIAL</label>
+													<input type="text" id="txtUrlRedSocial"
+														[(ngModel)]="restaurante.url_redSocial" class="form-control"
+														name="redSocial">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="txtUrlCatalogos">URL CATALOGOS</label>
+													<input type="text" id="txtUrlCatalogos"
+														[(ngModel)]="restaurante.url_catalogos" class="form-control"
+														name="catalogos">
+												</div>
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="cmbtipocomida">Tipo de Comida</label>
+													<div class="row">
+														<div class="col-md-2">
+															<div class="row">
+																<div class="col-md-6">
+																	<input type="checkbox" class="form-control"
+																		name="txtTodosTitpocomida"
+																		[(ngModel)]="boolSeleccionarTodosTipoComida"
+																		(change)="getSeleccionarTodoTipoComida()">
+																</div>
+																<div class="col-md-6">
+																	<label name="lblTodostipocomida">Todos</label>
+																</div>
+															</div>
+														</div>
+														<div class="col-md-10">
+															<ng-select [items]="arrayTipoComida" [multiple]="true"
+																[closeOnSelect]="false" [hideSelected]="true"
+																bindLabel="DESCRIPCION_TIPO_COMIDA"
+																bindValue="ID_TIPO_COMIDA"
+																placeholder="Seleccione tipos de comida"
+																(change)="getValidarTiposComida()"
+																[(ngModel)]="arrayTipoComidaSeleccionada"
+																name="cmbtipocomida">
+															</ng-select>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div *ngIf="!restaurante.icono" ng2FileDrop
+											[ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader"
+											class="py-5 mb-3 text-center font-medium-1 text-uppercase grey my-drop-zone"
+											(onFileDrop)="previewIcon($event)" (click)="fileInput.click()">
+											ICONO
+											<input type="file" #fileInput ng2FileSelect [uploader]="uploader"
+												style="display: none" name="txtIcono"
+												(change)="previewIcon(fileInput.files)" />
+										</div>
+										<img *ngIf="restaurante.icono" [src]="restaurante.icono | sanitizeUrl"
+											width="250" height="180" name="imgIcono">
+										<button *ngIf="restaurante.icono" type="button"
+											class="btn btn-raised btn-danger btn-sm" (click)="removeIcon()"
+											name="btnRemoveIcono">
+											<span class="fa fa-trash"></span> Quitar
+										</button>
+									</div>
+									<div class="col-md-3">
+										<div *ngIf="!restaurante.imagen" ng2FileDrop
+											[ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader"
+											class="py-5 mb-3 text-center font-medium-1 text-uppercase grey my-drop-zone"
+											(onFileDrop)="previewImg($event)" (click)="fileInput.click()">
+											IMAGEN
+											<input type="file" #fileInput ng2FileSelect [uploader]="uploader"
+												style="display: none" name="txtImg"
+												(change)="previewImg(fileInput.files)" />
+										</div>
+										<img *ngIf="restaurante.imagen" [src]="restaurante.imagen" width="230"
+											height="180" name="imgImagen">
+										<button *ngIf="restaurante.imagen" type="button"
+											class="btn btn-raised btn-danger btn-sm" (click)="removeImg()"
+											name="btnRemoveImg">
+											<span class="fa fa-trash"></span> Quitar
+										</button>
+									</div>
+								</div>
+
+
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Estado Restaurante </label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="customRadioInline3"
+														[(ngModel)]="restaurante.estado" [value]="true"
+														name="customRadioInline2" class="custom-control-input">
+													<label class="custom-control-label"
+														for="customRadioInline3">Activo</label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="customRadioInline4"
+														[(ngModel)]="restaurante.estado" [value]="false" checked
+														name="customRadioInline2" class="custom-control-input">
+													<label class="custom-control-label"
+														for="customRadioInline4">Inactivo</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Genera código </label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="customRadioInline6"
+														[(ngModel)]="restaurante.codigo" [value]="true"
+														name="customRadioInline5" class="custom-control-input">
+													<label class="custom-control-label" for="customRadioInline6">SI
+													</label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="customRadioInline7"
+														[(ngModel)]="restaurante.codigo" [value]="false" checked
+														name="customRadioInline5" class="custom-control-input">
+													<label class="custom-control-label"
+														for="customRadioInline7">NO</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Afiliado</label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdAfiliadoSi"
+														[(ngModel)]="restaurante.esAfiliado" [value]="true"
+														name="rdAfiliadoSi" class="custom-control-input">
+													<label class="custom-control-label" for="rdAfiliadoSi">SI </label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdAfiliadoNo"
+														[(ngModel)]="restaurante.esAfiliado" [value]="false"
+														name="rdAfiliadoNo" class="custom-control-input">
+													<label class="custom-control-label" for="rdAfiliadoNo">NO</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="form-actions">
+								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+									[routerLink]="['/tables/restaurante']">
+									<i class="ft-x"></i> Cancelar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-primary"
+									(click)="guardarDatos()">
+									<i class="fa fa-check-square-o"></i> Guardar Datos
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- // Basic form layout section end -->

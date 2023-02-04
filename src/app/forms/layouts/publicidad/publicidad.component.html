@@ -1,0 +1,226 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+	<div class="row text-left">
+		<div class="col-sm-12">
+			<div class="content-header mt-0">Publicidad</div>
+		</div>
+	</div>
+	<div class="row text-left">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title" id="basic-layout-form">{{publicidad.id == '0'?'Nuevo publicidad':'Editando
+						publicidad'}}</h4>
+					<!--
+						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
+					-->
+
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+						<form class="form">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-user"></i> Datos para publicidad</h4>
+								<div class="row">
+									<div class="col-md-9">
+										<div class="form-group">
+											<label for="txtNombres">Descripcion</label>
+											<input type="text" id="txtNombres" [(ngModel)]="publicidad.descripcion"
+												class="form-control" name="fname">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="cmborientacion">Ubicacion</label>
+											<select id="cmborientacion" name="cmborientacion" class="form-control"
+												[(ngModel)]="publicidad.orientacion">
+												<option value="VERTICAL">Al Cargar foto</option>
+												<option value="HORIZONTAL">En listado restaurantes</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="cmbgenero">Genero</label>
+													<select id="cmbgenero" name="cmbgenero" class="form-control"
+														[(ngModel)]="publicidad.genero">
+														<option value="TODOS" selected="">TODOS</option>
+														<option value="HOMBRE">Hombre</option>
+														<option value="MUJER">Mujer</option>
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="projectinput5">Edad Minima</label>
+													<input type="number" id="txtEdadMinima"
+														[(ngModel)]="publicidad.edadminima" class="form-control"
+														name="txtEdadMinima">
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="projectinput5">Edad Maxima</label>
+													<input type="number" id="txtEdadMaxima"
+														[(ngModel)]="publicidad.edadmaxima" class="form-control"
+														name="txtEdadMaxima">
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div *ngIf="!publicidad.imagen" ng2FileDrop
+											[ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader"
+											class="py-5 mb-3 text-center font-medium-1 text-uppercase grey my-drop-zone"
+											(onFileDrop)="previewImg($event)" (click)="fileInput.click()">
+											IMAGEN
+											<input type="file" #fileInput ng2FileSelect [uploader]="uploader"
+												style="display: none" name="txtImg"
+												(change)="preview(fileInput.files)" />
+										</div>
+										<img *ngIf="publicidad.imagen" [src]="publicidad.imagen" width="500"
+											height="300" name="imgImagen">
+										<button *ngIf="publicidad.imagen" type="button"
+											class="btn btn-raised btn-danger btn-sm" (click)="remove()"
+											name="btnRemoveIcono">
+											<span class="fa fa-trash"></span> Quitar
+										</button>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group">
+											<label for="cmbtipocomida">Tipo de Comida</label>
+											<div class="row">
+												<div class="col-md-2">
+													<div class="row">
+														<div class="col-md-6">
+															<input type="checkbox" class="form-control"
+																name="txtTODOSitpocomida"
+																[(ngModel)]="chkTODOStipocomida"
+																(change)="seleccTodoTipoComida()">
+														</div>
+														<div class="col-md-6">
+															<label name="lblTodostipocomida">Todos</label>
+														</div>
+													</div>
+												</div>
+												<div class="col-md-10">
+													<ng-select [items]="listTipoComida" [multiple]="true"
+														[closeOnSelect]="false" [hideSelected]="true"
+														bindLabel="DESCRIPCION_TIPO_COMIDA" bindValue="ID_TIPO_COMIDA"
+														placeholder="Seleccione tipos de comida"
+														(change)="verificaTodosTipoComida()"
+														[(ngModel)]="listTipoComidaSelected" name="cmbtipocomida">
+													</ng-select>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-2">
+										<div class="form-group">
+											<label for="cmpais">Pais</label>
+											<select id="cmpais" name="cmpais" class="form-control"
+												[(ngModel)]="publicidad.idpais"
+												(change)="getProvincia(publicidad.idpais)">
+												<option *ngFor="let item of listPais" value="{{item['ID_PAIS']}}">
+													{{item['PAIS_NOMBRE']}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="cmbprov">Provincia</label>
+											<select id="cmbprov" name="cmbprov" class="form-control"
+												[(ngModel)]="publicidad.idprovincia"
+												(change)="getCiudad(publicidad.idprovincia)">
+												<option value="" selected="" disabled="">Seleccione
+												</option>
+												<option *ngFor="let item of listProvincia"
+													value="{{item['ID_PROVINCIA']}}">{{item['PROVINCIA_NOMBRE']}}
+												</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="projectinput5">Ciudad</label>
+											<select id="projectinput5" name="interested" class="form-control"
+												[(ngModel)]="publicidad.idciudad"
+												(change)="getParroquia(publicidad.idciudad)">
+												<option value="" selected="" disabled="">Seleccione
+												</option>
+												<option *ngFor="let item of listCiudad" value="{{item['ID_CIUDAD']}}">
+													{{item['CIUDAD_NOMBRE']}}</option>
+											</select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="cmbParroquia">Parroquia</label>
+											<select id="cmbParroquia" name="cmbParroquia" class="form-control"
+												[(ngModel)]="publicidad.idparroquia" #cmbParroquia="ngModel">
+												<option value="" selected="" disabled="">Seleccione
+												</option>
+												<option *ngFor="let item of listParroquia"
+													value="{{item['ID_PARROQUIA']}}">{{item['PARROQUIA_NOMBRE']}}
+												</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Estado</label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdEstado" name="rdEstado"
+														class="custom-control-input" [(ngModel)]="publicidad.estado"
+														[value]="true">
+													<label class="custom-control-label" for="rdEstado">Activo</label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdEstado2" name="rdEstado2"
+														class="custom-control-input" [(ngModel)]="publicidad.estado"
+														[value]="false">
+													<label class="custom-control-label" for="rdEstado2">Inactivo</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+							</div>
+
+							<div class="form-actions">
+								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+									[routerLink]="['/tables/publicidad']">
+									<i class="ft-x"></i> Cancelar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-danger mr-1"
+									*ngIf="publicidad.id!=0 && user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'"
+									(click)="eliminarDatos()">
+									<i class="fa fa-trash-o fa-lg"></i> Eliminar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-primary"
+									(click)="guardarDatos()">
+									<i class="fa fa-check-square-o"></i> Guardar Datos
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- // Basic form layout section end -->

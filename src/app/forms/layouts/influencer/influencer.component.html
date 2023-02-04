@@ -1,0 +1,102 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+	<div class="row text-left">
+		<div class="col-sm-12">
+			<div class="content-header mt-0">Influencer</div>
+		</div>
+	</div>
+	<div class="row text-left">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title" id="basic-layout-form">{{influencer.id == '0'?'Nuevo Influencer':'Editando
+						Influencer'}}</h4>
+					<!--
+						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
+					-->
+
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+						<form class="form">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-file-text"></i> Datos del Influencer</h4>
+								<div class="row">
+									<div class="col-md-9">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="cmbtipocomida">Cliente</label>
+													<ng-select [items]="listCliente" [multiple]="false"
+														[closeOnSelect]="false" [hideSelected]="false"
+														bindLabel="NOMBRE_COMPLETO" bindValue="ID_CLIENTE"
+														placeholder="Seleccione cliente"
+														[(ngModel)]="influencer.id_cliente" name="cmbclientes">
+													</ng-select>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label>Estado Restaurante </label>
+													<div class="input-group">
+														<div class="custom-control custom-radio display-inline-block">
+															<input type="radio" id="customRadioInline3"
+																[(ngModel)]="influencer.estado" [value]="true"
+																name="customRadioInline2" class="custom-control-input">
+															<label class="custom-control-label"
+																for="customRadioInline3">Activo</label>
+														</div>
+														<div class="custom-control custom-radio display-inline-block">
+															<input type="radio" id="customRadioInline4"
+																[(ngModel)]="influencer.estado" [value]="false" checked
+																name="customRadioInline2" class="custom-control-input">
+															<label class="custom-control-label"
+																for="customRadioInline4">Inactivo</label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-3">
+										<div *ngIf="!influencer.icono" ng2FileDrop
+											[ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader"
+											class="py-5 mb-3 text-center font-medium-1 text-uppercase grey my-drop-zone"
+											(onFileDrop)="previewIcon($event)" (click)="fileInput.click()">
+											ICONO
+											<input type="file" #fileInput ng2FileSelect [uploader]="uploader"
+												style="display: none" name="txtIcono"
+												(change)="previewIcon(fileInput.files)" />
+										</div>
+										<img *ngIf="influencer.icono" [src]="influencer.icono | sanitizeUrl" width="250"
+											height="180" name="imgIcono">
+										<button *ngIf="influencer.icono" type="button"
+											class="btn btn-raised btn-danger btn-sm" (click)="removeIcon()"
+											name="btnRemoveIcono">
+											<span class="fa fa-trash"></span> Quitar
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-actions">
+								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+									[routerLink]="['/tables/influencer']">
+									<i class="ft-x"></i> Cancelar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-primary"
+									(click)="guardarDatos()">
+									<i class="fa fa-check-square-o"></i> Guardar Datos
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- // Basic form layout section end -->

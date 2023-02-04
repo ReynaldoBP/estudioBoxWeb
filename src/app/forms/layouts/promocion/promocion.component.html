@@ -1,0 +1,319 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+	<div class="row text-left">
+		<div class="col-sm-12">
+			<div class="content-header mt-0">Promoción</div>
+		</div>
+	</div>
+	<div class="row text-left">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title" id="basic-layout-form">{{promocion.id == '0'?'Nuevo promoción':'Editando
+						promoción'}}</h4>
+					<!--
+						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
+					-->
+
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+						<form class="form">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-user"></i> Datos de la promoción</h4>
+								<div class="row">
+									<div class="col-md-6" *ngIf="user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'">
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="cmbRestaurante">Restaurante</label>
+													<div class="row">
+														<div class="col-md-12">
+															<ng-select [items]="listRestaurante" [multiple]="false"
+																[closeOnSelect]="true" [hideSelected]="true"
+																[(clearable)]="isActivoComboClear"
+																[maxSelectedItems]="1" bindLabel="NOMBRE_COMERCIAL"
+																bindValue="ID_RESTAURANTE"
+																placeholder="Seleccione restaurante"
+																(change)="getValidaCodigo()"
+																[(ngModel)]="promocion.idrestaurante"
+																name="cmbrestaurantes">
+															</ng-select>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label for="txtCondiciones">Descripción</label>
+													<input type="text" id="txtCondiciones" class="form-control"
+														[(ngModel)]="promocion.descripcion" name="catalogos">
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Tipo</label>
+													<ng-select [items]="arrayTipoPromocion" [multiple]="false"
+														[closeOnSelect]="true" [hideSelected]="true"
+														bindLabel="DESCRIPCION" bindValue="ID_TIPO_PROMOCION"
+														placeholder="Seleccione Tipo" (change)="getDesactivarCupon()"
+														[(ngModel)]="promocion.idTipoPromocion" name="cmbTipoPromocion">
+													</ng-select>
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label>Cupón</label>
+													<ng-select [items]="arrayCupon" [multiple]="false"
+														[closeOnSelect]="true" [hideSelected]="true"
+														bindLabel="strDescripcion" bindValue="strIdCupon"
+														placeholder="Seleccione Cupón" [(ngModel)]="promocion.idCupon"
+														name="cmbCupon" [disabled]="promocion.idTipoPromocion != 2">
+													</ng-select>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-6" *ngIf="user.DESCRIPCION_TIPO_ROL != 'ADMINISTRADOR'">
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="cmbRestaurante">Restaurante</label>
+													<div class="row">
+														<div class="col-md-12">
+															<ng-select [items]="listRestaurante" [multiple]="false"
+																[closeOnSelect]="true" [hideSelected]="true"
+																[(clearable)]="isActivoComboClear"
+																[maxSelectedItems]="1" bindLabel="NOMBRE_COMERCIAL"
+																bindValue="ID_RESTAURANTE"
+																placeholder="Seleccione restaurante"
+																(change)="getValidaCodigo()"
+																[(ngModel)]="promocion.idrestaurante"
+																name="cmbrestaurantes">
+															</ng-select>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-12">
+												<div class="form-group">
+													<label for="txtCondiciones">Descripción</label>
+													<input type="text" id="txtCondiciones" class="form-control"
+														[(ngModel)]="promocion.descripcion" name="catalogos">
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-6">
+										<div *ngIf="!promocion.imagen" ng2FileDrop
+											[ngClass]="{'nv-file-over': hasBaseDropZoneOver}" [uploader]="uploader"
+											class="py-5 mb-3 text-center font-medium-1 text-uppercase grey my-drop-zone"
+											(onFileDrop)="previewImg($event)" (click)="fileInput.click()">
+											IMAGEN
+											<input type="file" #fileInput ng2FileSelect [uploader]="uploader"
+												style="display: none" name="txtImg"
+												(change)="preview(fileInput.files)" />
+										</div>
+										<img *ngIf="promocion.imagen" [src]="promocion.imagen" width="310" height="200"
+											name="imgImagen">
+										<button *ngIf="promocion.imagen" type="button"
+											class="btn btn-raised btn-danger btn-sm" (click)="removeImg()"
+											name="btnRemoveImg">
+											<span class="fa fa-trash"></span> Quitar
+										</button>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Estado</label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdEstado" name="rdEstado"
+														class="custom-control-input" [(ngModel)]="promocion.estado"
+														[value]="true">
+													<label class="custom-control-label" for="rdEstado">Activo</label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdEstado2" name="rdEstado2"
+														class="custom-control-input" [(ngModel)]="promocion.estado"
+														[value]="false">
+													<label class="custom-control-label" for="rdEstado2">Inactivo</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="txtVigencia">Vigencia del cupón</label>
+											<input type="number" id="txtVigencia" class="form-control" [disabled]="promocion.idTipoPromocion != 3"
+												[(ngModel)]="promocion.cantDiasVigencia" name="txtVigencia">
+										</div>
+									</div>
+									<div class="col-md-3" [style.visibility]="!isVisible ? 'visible' : 'hidden'">
+										<div class="form-group">
+											<label for="txtPuntos">Puntos</label>
+											<input type="number" id="txtPuntos" class="form-control"
+												[(ngModel)]="promocion.puntos" name="txtPuntos">
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label><i class="fa fa-gift fa-2x"></i> Tenedor de Oro</label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdTenedor" name="rdTenedor"
+														class="custom-control-input" (change)="handleChange($event)"
+														[(ngModel)]="promocion.tenedor" [value]="true">
+													<label class="custom-control-label" for="rdTenedor">Sí</label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdTenedor2" name="rdTenedor2"
+														class="custom-control-input" (change)="handleChange2($event)"
+														[(ngModel)]="promocion.tenedor" [value]="false">
+													<label class="custom-control-label" for="rdTenedor2">No</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-4" [style.visibility]="isVisibleCodigo ? 'visible' : 'hidden'">
+										<div class="form-group">
+											<label>Genera código </label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdCodigo" [(ngModel)]="promocion.codigo"
+														[value]="true" name="rdCodigo" class="custom-control-input">
+													<label class="custom-control-label" for="rdCodigo">SI </label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdCodigo2" [(ngModel)]="promocion.codigo"
+														[value]="false" checked name="rdCodigo2"
+														class="custom-control-input">
+													<label class="custom-control-label" for="rdCodigo2">NO</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3" [style.visibility]="isVisibleCodigo ? 'visible' : 'hidden'">
+										<div class="custom-file mb-3">
+											<button type="button" class="btn btn-raised btn-raised btn-primary"
+												(click)="getCodigoPromocion(objModalCodigo)">
+												<i class="fa fa-search"></i> Ver código
+											</button>
+										</div>
+									</div>
+									<div class="col-md-3" [style.visibility]="isVisibleCodigo ? 'visible' : 'hidden'">
+										<div class="custom-file mb-3">
+											<input type="file" #fileInput ng2FileSelect [uploader]="uploader"
+												style="display: none" class="custom-file-input" id="customFileLang"
+												(change)="previewExcel(fileInput.files)">
+											<label id="objLabelExcel" class="custom-file-label"
+												for="customFileLang">Seleccionar Archivo</label>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-actions">
+								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+									[routerLink]="['/tables/promocion']">
+									<i class="ft-x"></i> Cancelar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-danger mr-1"
+									*ngIf="promocion.id!=0 && user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'"
+									(click)="eliminarDatos()">
+									<i class="fa fa-trash-o fa-lg"></i> Eliminar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-primary"
+									(click)="guardarDatos()">
+									<i class="fa fa-check-square-o"></i> Guardar Datos
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<ng-template #objModalCodigo let-c="close" let-d="dismiss">
+	<div class="modal-header">
+		<div class="col-sm-4" align="left">
+			<h4 class="modal-title" id="myModalLabel">Listado de códigos</h4>
+		</div>
+		<div class="col-sm-4" align="left">
+			<select id="objCmbEstadoCodigo" name="objCmbEstadoCodigo" class="form-control" [(ngModel)]="strEstadoFiltro"
+				#cmbRol="ngModel">
+				<option *ngFor="let item of objEstadoCodigo" value="{{item}}">{{item}}</option>
+			</select>
+		</div>
+		<div class="col-sm-2" align="left">
+			<button type="button" class="btn btn-raised btn-raised btn-success" (click)="exportAsXLSX()">
+				<i class="fa fa-file-excel-o"></i>
+			</button>
+		</div>
+		<div class="col-sm-2" align="right">
+			<button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+	</div>
+	<div class="modal-body">
+		<div class="form-group">
+			<div class="col-sm-12 text-center">
+				<div *ngIf="!strListadoCodigo || loading" style="width: 3rem; height: 3rem;"
+					class="spinner-border text-success" role="status">
+					<span class="sr-only">Loading...</span>
+				</div>
+			</div>
+			<table *ngIf="strListadoCodigo && strListadoCodigo.length != 0"
+				class="table table-responsive-md text-center">
+				<thead>
+					<tr>
+						<th>Código</th>
+						<th>Estado</th>
+						<th colspan="3">Acciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr *ngFor="let item of strListadoCodigo | filtroCodigoPromocion : strEstadoFiltro"
+						[className]="item['ESTADO']=='ELIMINADO'?'bg-danger':'bg-light'">
+						<td>{{item['CODIGO']}}</td>
+						<td>{{item['ESTADO']}}</td>
+						<td>
+							<div *ngIf="item.BANDERA_CANJEADO">{{item['CLIENTE'] + ' ' + item['FE_CREACION']}}</div>
+						</td>
+						<td>
+							<div *ngIf="!item.BANDERA_ESTADO && !item.BANDERA_CANJEADO"><button type="button"
+									class="btn btn-raised btn-raised btn-primary"
+									(click)="editCodigoPromocion(item['ID_CODIGO_PROMOCION'],'ACTIVAR')">
+									<i class="ft-thumbs-up"></i> Activar
+								</button></div>
+						</td>
+						<td>
+							<div *ngIf="item.BANDERA_ESTADO && !item.BANDERA_CANJEADO"><button type="button"
+									class="btn btn-raised btn-raised btn-warning"
+									(click)="editCodigoPromocion(item['ID_CODIGO_PROMOCION'],'ELIMINADO')">
+									<i class="ft-thumbs-down font-medium-3 mr-2"></i> Eliminar
+								</button></div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<h5 *ngIf="strListadoCodigo && strListadoCodigo.length == 0">No existe información</h5>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-outline-dark" (click)="d('Cross click')">Cerrar</button>
+		<button type="button" class="btn btn-outline-success" (click)="editCodigoPromocion('','DELETE_ALL')">Borrar
+			códigos</button>
+	</div>
+</ng-template>

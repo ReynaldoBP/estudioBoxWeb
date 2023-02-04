@@ -1,0 +1,83 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-12">
+        <div class="content-header mt-0">Bitacora</div>
+        <p class="content-sub-header">Registro de toda acción realizada en todos los mantenimientos.</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="projectinput5">Criterios de Búsqueda</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type='text' class="form-control" [(ngModel)]="descripcionBitacora"
+                                            placeholder='Filtra por módulo, acción, usuario, correo' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="projectinput5">Rango de fechas</label>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <input type='date' id="txtDateIni" class="form-control" name="txtDateIni"
+                                            [(ngModel)]="strFechaIni" (change)="getBitacora()">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type='date' id="txtDateFin" class="form-control" name="txtDateFin"
+                                            [(ngModel)]="strFechaFin" (change)="getBitacora()">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="getAccion('VER')" class="card-block">
+                        <div class="card-block">
+                            <table class="table table-responsive-md text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Modulo</th>
+                                        <th>Acción</th>
+                                        <th>Referencia</th>
+                                        <th>Usuario</th>
+                                        <th>Correo</th>
+                                        <th>Fe. creación</th>
+                                        <th>Detalle</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let item of rows | FilterBitacora : descripcionBitacora | paginate: { itemsPerPage: 10, currentPage: p }">
+                                        <td>{{item['MODULO']}}</td>
+                                        <td>{{item['ACCION']}}</td>
+                                        <td>{{item['REFERENCIA_VALOR']}}</td>
+                                        <td>{{item['USUARIO']}}</td>
+                                        <td>{{item['CORREO']}}</td>
+                                        <td>{{item['FE_CREACION']}}</td>
+                                        <td>
+                                            <a class="success p-0" data-original-title="" title="Ver Detalle"
+                                                (click)="verDetalle(item['ID_BITACORA'],item['REFERENCIA_VALOR'])">
+                                                <i class="ft-eye font-medium-3 mr-2"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

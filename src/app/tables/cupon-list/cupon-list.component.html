@@ -1,0 +1,132 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-12">
+        <div class="content-header mt-0">Cupon</div>
+        <p class="content-sub-header">{{strDescripcion}}
+            <a *ngIf="strDescripcion != strDescripcionOrigin" class="text-info" (click)="vermas()">
+                <strong> ... ver más</strong>
+            </a>
+        </p>
+        <ul *ngIf="strDescripcion == strDescripcionOrigin" class="list-group">
+            <li class="list-group-item"><strong>GENERAL:</strong> Se puede usar en cualquier restaurante 1 sola vez por usuario, N usuarios y se acreditan PUNTOS.</li>
+            <li class="list-group-item"><strong>ÚNICO:</strong> Se puede usar en cualquier restaurante 1 sola vez a un solo usuario y se acreditan PUNTOS.</li>
+            <li class="list-group-item"><strong>GENERAL RESTAURANTE:</strong> Se puede usar en el restaurante especificado 1 sola vez por usuario, N usuarios y se acreditan PUNTOS.</li>
+            <li class="list-group-item"><strong>ÚNICO RESTAURANTE:</strong> Se puede usar en el restaurante especificado 1 sola vez a un solo usuario y se acreditan PUNTOS.</li>
+            <li class="list-group-item"><strong>EMPRESARIAL:</strong> Se puede usar 1 vez en el restaurante elegido a un solo usuario y se acredita PROMOCIÓN.</li>
+            <li class="list-group-item"><strong>GENERAL PREMIO ESPECIAL:</strong> Se puede usar 1 vez por N usuarios en el restaurante especificado asociado a la promoción del restaurante y se acredita PROMOCIÓN.</li>
+            <li class="list-group-item"><strong>ÚNICO PREMIO ESPECIAL:</strong> Se puede usar 1 vez por un solo usuario en el restaurante especificado asociado a la promoción del restaurante y se acredita PROMOCIÓN.</li>
+        </ul>
+        <p *ngIf="strDescripcion == strDescripcionOrigin" class="content-sub-header">
+            <a class="text-info" (click)="vermas()">
+                <strong> ... ver menos</strong>
+            </a>
+        </p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="projectinput5">Criterios de Búsqueda</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type='text' class="form-control" [(ngModel)]="strFiltroDescripcion"
+                                            placeholder='Filtra por descripción' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2" align="left">
+                            <div class="form-group">
+                                <label for="projectinput5">Exportar</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button *ngIf="getAccion('EXCEL')" type="button"
+                                            class="btn btn-raised btn-raised btn-success" (click)="exportAsXLSX()">
+                                            <i class="fa fa-file-excel-o"></i>
+                                        </button>
+                                        <button *ngIf="getAccion('PDF')" type="button" style="margin-left:0.7rem"
+                                            class="btn btn-raised btn-raised btn-danger" (click)="exportAsPDF()">
+                                            <i class="fa fa-file-pdf-o"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="projectinput5">Estado</label>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <select id="cmbEstado" name="cmbEstado" class="form-control"
+                                            [(ngModel)]="strEstadoFiltro" #cmbRol="ngModel">
+                                            <option *ngFor="let item of arrayEstados" value="{{item}}">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="getAccion('CREAR')" class="col-sm-2">
+                            <div class="form-group">
+                                <label for="projectinput5">Acción</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button type="button" class="btn btn-raised btn-raised btn-primary"
+                                            [routerLink]="['/forms/cupon/0']">
+                                            <i class="fa fa-plus"></i> Nuevo Cupón
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="getAccion('VER')" class="card-block">
+                        <div class="card-block">
+                            <table class="table table-responsive-md text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Descripción</th>
+                                        <th>Tipo</th>
+                                        <th>Puntos</th>
+                                        <th>Vigencia</th>
+                                        <th>Estado</th>
+                                        <th>Restaurante</th>
+                                        <th>Fe. creación</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of arrayResultado | FilterCupon : strFiltroDescripcion : strEstadoFiltro | paginate: { itemsPerPage: 10, currentPage: p }"
+                                        [className]="item['strEstado']=='INACTIVO'?'bg-danger':'bg-light'">
+                                        <td>{{item['strDescripcion']}}</td>
+                                        <td>{{item['strTipoCupon']}}</td>
+                                        <td>{{item['strValor']}}</td>
+                                        <td>{{item['strDiaVigente']}}</td>
+                                        <td>{{item['strEstado']}}</td>
+                                        <td>{{item['strRestaurante']}}</td>
+                                        <td>{{item['strFeCreacion']}}</td>
+                                        <td>
+                                            <a *ngIf="getAccion('EDITAR')" class="success p-0" data-original-title=""
+                                                title="Editar cupon"
+                                                [routerLink]="['/forms/cupon/' + item['strIdCupon']]">
+                                                <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

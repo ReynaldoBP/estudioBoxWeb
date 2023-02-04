@@ -1,0 +1,200 @@
+<!-- Line Chart Starts -->
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="content-header mt-0">Indice Promotor Neto (IPN)</div>
+        <p class="content-sub-header">{{descripcion}}
+            <a *ngIf="descripcion != descripcionOrigin" class="text-info" (click)="vermas()">
+                <strong> ... ver más</strong>
+            </a>
+        </p>
+        <ul *ngIf="descripcion == descripcionOrigin" class="list-group">
+            <li class="list-group-item"><strong>PROMOTORES - Calificaciones de 9 - 10:</strong> Clientes que dan
+                comentarios positivos y recomendaciones de su restaurante. </li>
+            <li class="list-group-item"><strong>PROMOTORES - Calificaciones de 7 - 8:</strong> Clientes que no opinan
+                sobre su restaurante.</li>
+            <li class="list-group-item"><strong>PROMOTORES - Calificaciones de 1 - 6:</strong> Clientes que dan malas
+                recomendaciones sobre su restaurante. </li>
+        </ul>
+        <br *ngIf="descripcion == descripcionOrigin">
+        <p *ngIf="descripcion == descripcionOrigin" class="content-sub-header">
+            El cálculo del IPN se obtiene restando los detractores de los promotores que brinda un porcentaje
+            estadístico. El resultado es un número -100 a 100. Si el resultado es positivo, se considera bueno, si es +
+            50 se considera muy bueno, ya que más de la mitad de su clientela está comentando de manera positiva sobre
+            la experiencia en su restaurante. Puntuaciones mayores de 60-70 serían excelentes.
+            <a class="text-info" (click)="vermas()">
+                <strong> ... ver menos</strong>
+            </a>
+        </p>
+    </div>
+</div>
+
+<div class="row text-left">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label for="projectinput5">Rango Fechas</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="date" id="txtFechaInicio" [(ngModel)]="parametros.fechaInicio"
+                                        class="form-control" (change)="getIPN()" name="txtFechaInicio">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="date" id="txtFechaFin" [(ngModel)]="parametros.fechaFin"
+                                        class="form-control" (change)="getIPN()" name="txtFechaFin">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Horario</label>
+                            <select id="cmbRol" name="cmbRol" class="form-control" [(ngModel)]="parametros.horario"
+                                (change)="getIPN()">
+                                <option value="" selected="">TODOS</option>
+                                <option *ngFor="let item of listHorarios" value="{{item.VALOR1}}">{{item.VALOR1}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Genero</label>
+                            <select id="projectinput5" name="interested" class="form-control"
+                                [(ngModel)]="parametros.genero" (change)="getIPN()">
+                                <option value="" selected="">TODOS</option>
+                                <option value="MASCULINO">MASCULINO</option>
+                                <option value="FEMENINO">FEMENINO</option>
+                                <option value="SIN GENERO">SIN GENERO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="projectinput5">Rango Edad</label>
+                            <select id="cmbRol" name="cmbRol" class="form-control" [(ngModel)]="parametros.edad"
+                                (change)="getIPN()">
+                                <option value="" selected="">TODOS</option>
+                                <option *ngFor="let item of listEdades" value="{{item.VALOR1}}">{{item.VALOR1}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="user.DESCRIPCION_TIPO_ROL=='RESTAURANTE' || user.DESCRIPCION_TIPO_ROL=='RESTAURANTE GERENCIA'"
+                    class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput5">Sucursal</label>
+                            <div class="form-group">
+                                <ng-select [items]="objListSucursalUsuarioRes" [multiple]="false" [closeOnSelect]="true"
+                                    [hideSelected]="false" bindLabel="DESCRIPCION" bindValue="ID_SUCURSAL"
+                                    placeholder="Seleccione Sucursal" name="cmbSucursalUsuarioRes"
+                                    [(ngModel)]="objSelectSucursalUsuarioRes" (change)="getIPN()">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'" class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="cmbRestaurante">Restaurante</label>
+                            <ng-select [items]="listRestaurante" [multiple]="false" [closeOnSelect]="true"
+                                [hideSelected]="false" bindLabel="NOMBRE_COMERCIAL" bindValue="ID_RESTAURANTE"
+                                placeholder="Seleccione Restaurante" name="cmbRestaurante"
+                                [(ngModel)]="objSelectRestaurante" (change)="getIPN()">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="cmbPais">Pais</label>
+                            <select id="cmbPais" name="cmbPais" class="form-control" [(ngModel)]="parametros.pais"
+                                (change)="getProvincia(parametros.pais)">
+                                <option *ngFor="let item of listPais" value="{{item['ID_PAIS']}}">
+                                    {{item['PAIS_NOMBRE']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="cmbPrv">Provincia</label>
+                            <select id="cmbPrv" name="cmbPrv" class="form-control" [(ngModel)]="parametros.provincia"
+                                (change)="getCiudad(parametros.provincia)">
+                                <option value="" selected="">TODOS</option>
+                                <option *ngFor="let item of listProvincia" value="{{item['ID_PROVINCIA']}}">
+                                    {{item['PROVINCIA_NOMBRE']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="cmbCiudad">Ciudad</label>
+                            <select id="cmbCiudad" name="cmbCiudad" class="form-control" [(ngModel)]="parametros.ciudad"
+                                (change)="getParroquia(parametros.ciudad)">
+                                <option value="" selected="">TODOS</option>
+                                <option *ngFor="let item of listCiudad" value="{{item['ID_CIUDAD']}}">
+                                    {{item['CIUDAD_NOMBRE']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="cmbSector">Sector</label>
+                            <select id="cmbSector" name="cmbSector" [(ngModel)]="parametros.parroquia"
+                                class="form-control">
+                                <option value="" selected="">TODOS</option>
+                                <option *ngFor="let item of listParroquia" value="{{item['ID_PARROQUIA']}}">
+                                    {{item['PARROQUIA_NOMBRE']}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="loading" class="form-group">
+    <div class="col-md-12 text-center">
+        <div style="width: 3rem; height: 3rem;" class="spinner-border text-default" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+<!-- Bar Chart Starts -->
+<div class="row text-left">
+    <div class="col-sm-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-block">
+                    <h5 align="center" class="form-section" style="font-weight:600;padding-top: 10">IPN:
+                        {{porcentajeIPN}}%</h5>
+                    <div id="bar-doughnut" class="height-400">
+                        <canvas baseChart class="chart" [data]="doughnutChartData" [labels]="doughnutChartLabels"
+                            [options]="doughnutChartOptions" [chartType]="doughnutChartType"
+                            [colors]="doughnutChartColors" (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-block">
+                    <br>
+                    <div id="bar-bar1" class="height-400">
+                        <canvas baseChart class="chart" [datasets]="barChartData" [labels]="barChartLabels"
+                            [options]="barChartOptions" [colors]="barChartColors" [legend]="barChartLegend"
+                            [chartType]="barChartType" (chartHover)="chartHovered($event)"
+                            (chartClick)="chartClicked($event)"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bar Chart Ends -->

@@ -1,0 +1,516 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+	<div class="row text-left">
+		<div class="col-sm-12">
+			<div class="content-header mt-0">Sucursal</div>
+		</div>
+	</div>
+	<div class="row text-left">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title" id="basic-layout-form">{{sucursal.id == '0'?'Nueva Sucursal':'Editando
+						Sucursal'}}</h4>
+					<!--
+						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
+					-->
+
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+						<form class="form">
+							<div class="form-body">
+								<ngb-tabset>
+									<ngb-tab>
+										<ng-template ngbTabTitle><b>Datos Sucursal</b></ng-template>
+										<ng-template ngbTabContent>
+											<div id="activity" class="col-12 timeline-left">
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="cmbRestaurante">Restaurante</label>
+															<!--
+															<select id="cmbRestaurante" name="cmbRestaurante" class="form-control" [(ngModel)]="sucursal.id_restaurante" (change)="seleccRestaurante(sucursal.id_restaurante)">
+															<option value="none" selected="" disabled="">Seleccione</option>
+															<option *ngFor="let item of listRestaurante" value="{{item['ID_RESTAURANTE']}}">{{item['NOMBRE_COMERCIAL']}}</option>
+															</select>
+														-->
+															<div class="row">
+																<div class="col-md-12">
+																	<ng-select [items]="listRestaurante"
+																		[multiple]="false" [closeOnSelect]="true"
+																		[hideSelected]="true" [maxSelectedItems]="1"
+																		bindLabel="NOMBRE_COMERCIAL"
+																		bindValue="ID_RESTAURANTE"
+																		placeholder="Seleccione restaurante"
+																		[(ngModel)]="sucursal.id_restaurante"
+																		name="cmbRestaurante">
+																	</ng-select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="txtNombre">Nombre</label>
+															<input type="text" id="txtNombre"
+																[(ngModel)]="sucursal.nombre" class="form-control"
+																name="Nombre">
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="txtNumContacto">Numero de Contacto</label>
+															<input type="text" id="txtNumContacto"
+																[(ngModel)]="sucursal.numero_contacto"
+																class="form-control" name="NumContacto">
+														</div>
+													</div>
+												</div>
+												<div class="row"
+													*ngIf="usuario.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'">
+													<div class="col-md-3">
+														<div class="form-group">
+															<label>Estado Facturacion</label>
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type="radio" id="rdEstadoFact"
+																		name="rdEstadoFact" class="custom-control-input"
+																		[(ngModel)]="sucursal.estado_fact"
+																		[value]="true">
+																	<label class="custom-control-label"
+																		for="rdEstadoFact">Activo</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type="radio" id="rdEstadoFact2"
+																		name="rdEstadoFact2"
+																		class="custom-control-input"
+																		[(ngModel)]="sucursal.estado_fact"
+																		[value]="false">
+																	<label class="custom-control-label"
+																		for="rdEstadoFact2">Inactivo</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+															<label>Centro Comercial</label>
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type="radio" id="rdCentro" name="rdCentro"
+																		class="custom-control-input"
+																		[(ngModel)]="sucursal.escentrocomercial"
+																		(change)="getCentroComercial($event)"
+																		[value]="true">
+																	<label class="custom-control-label"
+																		for="rdCentro">Si</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type="radio" id="rdCentro2" name="rdCentro2"
+																		class="custom-control-input"
+																		[(ngModel)]="sucursal.escentrocomercial"
+																		(change)="hideCentroComercial($event)"
+																		[value]="false">
+																	<label class="custom-control-label"
+																		for="rdCentro2">No</label>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-3"
+														[style.visibility]="sucursal.escentrocomercial ? 'visible' : 'hidden'">
+														<div class="form-group">
+															<label for="cmbCentroComercial">Centro Comercial</label>
+															<div class="row">
+																<div class="col-md-12">
+																	<ng-select [items]="arrayCentroComercial"
+																		[multiple]="false" [closeOnSelect]="true"
+																		[hideSelected]="true" [maxSelectedItems]="1"
+																		bindLabel="strNombre" bindValue="intIdCC"
+																		placeholder="Seleccione centro comercial"
+																		[(ngModel)]="sucursal.id_centro_comercial"
+																		name="cmbCentroComercial">
+																	</ng-select>
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="cmbClientePromotor">Promotor</label>
+															<div class="row">
+																<div class="col-md-12">
+																	<ng-select [items]="arrayCliente" [multiple]="false"
+																		[closeOnSelect]="true" [hideSelected]="true"
+																		[maxSelectedItems]="1"
+																		bindLabel="NOMBRE_COMPLETO"
+																		bindValue="ID_CLIENTE"
+																		placeholder="Seleccione promotor"
+																		[(ngModel)]="sucursal.id_cliente"
+																		name="cmbClientePromotor">
+																	</ng-select>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-6">
+														<div class="form-group">
+															<label for="txtDireccion">Direccion</label>
+															<input type="text" id="txtDireccion" class="form-control"
+																name="txtDireccion" [(ngModel)]="sucursal.direccion">
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+															<label>Es Matriz</label>
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type="radio" id="rdMatriz" name="rdMatriz"
+																		class="custom-control-input"
+																		[(ngModel)]="sucursal.esmatriz" [value]="true">
+																	<label class="custom-control-label"
+																		for="rdMatriz">Si</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type="radio" id="rdMatriz2" name="rdMatriz2"
+																		class="custom-control-input"
+																		[(ngModel)]="sucursal.esmatriz" [value]="false">
+																	<label class="custom-control-label"
+																		for="rdMatriz2">No</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</ng-template>
+									</ngb-tab>
+									<ngb-tab>
+										<ng-template ngbTabTitle><b>Horario de Atención</b></ng-template>
+										<ng-template ngbTabContent>
+											<div id="activity" class="col-12 timeline-left">
+												<div class="row">
+													<div class="col-md-1">
+														<label>Lunes</label>
+													</div>
+													<div class="col-md-11">
+														<div class="form-group">
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionLunesIni"
+																		class="form-control"
+																		name="txtDateHorarioAtencionLunesIni"
+																		[(ngModel)]="sucursal.horarioAtencionLunesIni">
+																	<label>Inicio</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionLunesFin"
+																		class="form-control"
+																		name="txtDateHorarioAtencionLunesFin"
+																		[(ngModel)]="sucursal.horarioAtencionLunesFin">
+																	<label>Fin</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-1">
+														<label>Martes</label>
+													</div>
+													<div class="col-md-11">
+														<div class="form-group">
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionMartesIni"
+																		class="form-control"
+																		name="txtDateHorarioAtencionMartesIni"
+																		[(ngModel)]="sucursal.horarioAtencionMartesIni">
+																	<label>Inicio</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionMartesFin"
+																		class="form-control"
+																		name="txtDateHorarioAtencionMartesFin"
+																		[(ngModel)]="sucursal.horarioAtencionMartesFin">
+																	<label>Fin</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-1">
+														<label>Miercoles</label>
+													</div>
+													<div class="col-md-11">
+														<div class="form-group">
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionMiercolesIni"
+																		class="form-control"
+																		name="txtDateHorarioAtencionMiercolesIni"
+																		[(ngModel)]="sucursal.horarioAtencionMiercolesIni">
+																	<label>Inicio</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionMiercolesFin"
+																		class="form-control"
+																		name="txtDateHorarioAtencionMiercolesFin"
+																		[(ngModel)]="sucursal.horarioAtencionMiercolesFin">
+																	<label>Fin</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-1">
+														<label>Jueves</label>
+													</div>
+													<div class="col-md-11">
+														<div class="form-group">
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionJuevesIni"
+																		class="form-control"
+																		name="txtDateHorarioAtencionJuevesIni"
+																		[(ngModel)]="sucursal.horarioAtencionJuevesIni">
+																	<label>Inicio</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionJuevesFin"
+																		class="form-control"
+																		name="txtDateHorarioAtencionJuevesFin"
+																		[(ngModel)]="sucursal.horarioAtencionJuevesFin">
+																	<label>Fin</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-1">
+														<label>Viernes</label>
+													</div>
+													<div class="col-md-11">
+														<div class="form-group">
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionViernesIni"
+																		class="form-control"
+																		name="txtDateHorarioAtencionViernesIni"
+																		[(ngModel)]="sucursal.horarioAtencionViernesIni">
+																	<label>Inicio</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionViernesFin"
+																		class="form-control"
+																		name="txtDateHorarioAtencionViernesFin"
+																		[(ngModel)]="sucursal.horarioAtencionViernesFin">
+																	<label>Fin</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-1">
+														<label>Sábado</label>
+													</div>
+													<div class="col-md-11">
+														<div class="form-group">
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionSabadoIni"
+																		class="form-control"
+																		name="txtDateHorarioAtencionSabadoIni"
+																		[(ngModel)]="sucursal.horarioAtencionSabadoIni">
+																	<label>Inicio</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionSabadoFin"
+																		class="form-control"
+																		name="txtDateHorarioAtencionSabadoFin"
+																		[(ngModel)]="sucursal.horarioAtencionSabadoFin">
+																	<label>Fin</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-md-1">
+														<label>Domingo</label>
+													</div>
+													<div class="col-md-11">
+														<div class="form-group">
+															<div class="input-group">
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionDomingoIni"
+																		class="form-control"
+																		name="txtDateHorarioAtencionDomingoIni"
+																		[(ngModel)]="sucursal.horarioAtencionDomingoIni">
+																	<label>Inicio</label>
+																</div>
+																<div
+																	class="custom-control custom-radio display-inline-block">
+																	<input type='time'
+																		id="txtDateHorarioAtencionDomingoFin"
+																		class="form-control"
+																		name="txtDateHorarioAtencionDomingoFin"
+																		[(ngModel)]="sucursal.horarioAtencionDomingoFin">
+																	<label>Fin</label>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</ng-template>
+									</ngb-tab>
+									<ngb-tab>
+										<ng-template ngbTabTitle><b>Ubicacion {{restauranteSelecc?('(' +
+												restauranteSelecc + ')'):''}}</b></ng-template>
+										<ng-template ngbTabContent>
+											<div id="activity" class="col-12 timeline-left">
+												<div class="row">
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="cmbPais">Pais</label>
+															<select id="cmbPais" name="cmbPais"
+																[(ngModel)]="sucursal.id_pais" class="form-control"
+																(change)="getProvincia(sucursal.id_pais)">
+																<option value="" selected="" disabled="">Seleccione
+																</option>
+																<option *ngFor="let item of listPais"
+																	value="{{item['ID_PAIS']}}">{{item['PAIS_NOMBRE']}}
+																</option>
+															</select>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="cmbProvincia">Provincia</label>
+															<select id="cmbProvincia" name="cmbProvincia"
+																[(ngModel)]="sucursal.id_provincia" class="form-control"
+																(change)="getCiudad(sucursal.id_provincia)">
+																<option value="" selected="" disabled="">Seleccione
+																</option>
+																<option *ngFor="let item of listProvincia"
+																	value="{{item['ID_PROVINCIA']}}">
+																	{{item['PROVINCIA_NOMBRE']}}</option>
+															</select>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="cmbCiudad">Ciudad</label>
+															<select id="cmbCiudad" name="cmbCiudad" class="form-control"
+																[(ngModel)]="sucursal.id_ciudad" #cmbCiudad="ngModel"
+																(change)="getParroquia(sucursal.id_ciudad)">
+																<option value="" selected="" disabled="">Seleccione
+																</option>
+																<option *ngFor="let item of listCiudad"
+																	value="{{item['ID_CIUDAD']}}">
+																	{{item['CIUDAD_NOMBRE']}}</option>
+															</select>
+														</div>
+													</div>
+													<div class="col-md-3">
+														<div class="form-group">
+															<label for="cmbParroquia">Parroquia</label>
+															<select id="cmbParroquia" name="cmbParroquia"
+																class="form-control" [(ngModel)]="sucursal.id_parroquia"
+																#cmbParroquia="ngModel">
+																<option value="" selected="" disabled="">Seleccione
+																</option>
+																<option *ngFor="let item of listParroquia"
+																	value="{{item['ID_PARROQUIA']}}">
+																	{{item['PARROQUIA_NOMBRE']}}</option>
+															</select>
+														</div>
+													</div>
+												</div>
+												<div class="row">
+													<div class="col-sm-12">
+														<div class="card" style="margin-top: 0px">
+															<div class="card-body">
+																<div class="card-block m-0 p-0">
+																	<agm-map [latitude]="sucursal.lat"
+																		[longitude]="sucursal.lng"
+																		(mapClick)="mapClick($event)" [zoom]="16"
+																		[mapTypeControl]="true">
+																		<agm-marker [latitude]="sucursal.lat"
+																			[longitude]="sucursal.lng"></agm-marker>
+																	</agm-map>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</ng-template>
+									</ngb-tab>
+								</ngb-tabset>
+
+							</div>
+
+							<div class="form-actions">
+								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+									[routerLink]="['/tables/sucursal']">
+									<i class="ft-x"></i> Cancelar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-danger mr-1"
+									*ngIf="sucursal.id!=0 && usuario.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'"
+									(click)="eliminarDatos()">
+									<i class="fa fa-trash-o fa-lg"></i> Eliminar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-primary"
+									(click)="guardarDatos()">
+									<i class="fa fa-check-square-o"></i> Guardar Datos
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- // Basic form layout section end -->
