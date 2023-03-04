@@ -25,8 +25,8 @@ export class PipeClienteTotalGenero implements PipeTransform {
         if (!items || !genero) {
             return items;
         }
-        return items.filter(item=> item.GENERO == genero)
-                    .map(element => Number.parseInt(element.CANTIDAD))
+        return items.filter(item=> item.intGenero == genero)
+                    .map(element => Number.parseInt(element.intCantidad))
                     .reduce(function(prev, current) {
                         return (prev+current)
                     },0)

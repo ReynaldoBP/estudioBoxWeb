@@ -530,15 +530,26 @@ var ClienteService = /** @class */ (function () {
         };
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     };
-    ClienteService.prototype.getTotalClientes = function (idusuario) {
+    ClienteService.prototype.getTotalCliente = function (intIdUsuario) {
         var datos = {
             data: {
-                strContador: 'SI',
-                id_usuario: idusuario
-            },
-            op: 'getCliente'
+                strBanderaContador: "SI",
+                intIdUsuario: intIdUsuario
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getClienteCriterio', datos);
+    };
+    ClienteService.prototype.getTotalClientePorEdad = function (intMes, intAnio, intIdUsuario, intIdRestaurante) {
+        var datos = {
+            data: {
+                strBanderaEdad: "SI",
+                intMes: intMes,
+                intAnio: intAnio,
+                intIdUsuario: intIdUsuario,
+                intIdRestaurante: intIdRestaurante
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getClienteCriterio', datos);
     };
     ClienteService.prototype.getInfluencers = function () {
         var datos = {
@@ -868,18 +879,18 @@ var EncuestaService = /** @class */ (function () {
     EncuestaService.prototype.getOpciones = function () {
         return this.http.get(this.globals.host + this.globals.port + '/getOpcionRespuesta?estado=ACTIVO');
     };
-    EncuestaService.prototype.getTotalEncuestaActiva = function (mes, anio, intIdUsuario, intIdRestaurante) {
+    EncuestaService.prototype.getTotalEncuestaMensual = function (intMes, intAnio, intIdUsuario, intIdRestaurante) {
         var datos = {
             data: {
-                strMes: mes,
-                strAnio: anio,
+                intMes: intMes,
+                intAnio: intAnio,
                 strEstado: 'ACTIVO',
+                strBanderaMensual: "SI",
                 intIdUsuario: intIdUsuario,
                 intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteEncuesta'
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     };
     EncuestaService.prototype.getRespuestasPublicaciones = function (mes, anio, idusuario, intIdSucursal) {
         return this.http.get(this.globals.host + this.globals.port + '/getRespuestaDashboard?strAnio=' + anio + '&strMes=' + mes + '&conImagen=NO&id_usuario=' + idusuario + '&intIdSucursal=' + intIdSucursal);
@@ -922,30 +933,29 @@ var EncuestaService = /** @class */ (function () {
         };
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     };
-    EncuestaService.prototype.getTotalEncuestaMensual = function (intIdUsuario, intIdRestaurante) {
+    EncuestaService.prototype.getTotalEncuestaSemestral = function (intIdUsuario, intIdRestaurante) {
         var datos = {
             data: {
                 strLimite: "6",
                 strEstado: "ACTIVO",
+                strBanderaSemestral: "SI",
                 intIdUsuario: intIdUsuario,
                 intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteEncuestaSemestral',
-            user: ''
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     };
     EncuestaService.prototype.getTotalEncuestaSemanal = function (intIdUsuario, intIdRestaurante) {
         var datos = {
             data: {
-                strLimite: "2",
+                intLimite: "2",
                 strEstado: "ACTIVO",
+                strBanderaSemanal: "SI",
                 intIdUsuario: intIdUsuario,
                 intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteEncuestaSemanal'
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     };
     EncuestaService.prototype.getRedesSocialMensual = function (strMes, strAnio, intIdUsuario, intIdRestaurante) {
         var datos = {
@@ -959,29 +969,16 @@ var EncuestaService = /** @class */ (function () {
         };
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     };
-    EncuestaService.prototype.getClienteGenero = function (mes, anio, intIdUsuario, intIdRestaurante) {
+    EncuestaService.prototype.getPromedioClteGenero = function (intMes, intAnio, intIdUsuario, intIdRestaurante) {
         var datos = {
             data: {
-                strMes: mes,
-                strAnio: anio,
+                intMes: intMes,
+                intAnio: intAnio,
                 intIdUsuario: intIdUsuario,
                 intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteGenero'
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
-    };
-    EncuestaService.prototype.getClienteEdad = function (mes, anio, intIdUsuario, intIdRestaurante) {
-        var datos = {
-            data: {
-                strMes: mes,
-                strAnio: anio,
-                intIdUsuario: intIdUsuario,
-                intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteEdad'
-        };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getPromedioClteGenero', datos);
     };
     EncuestaService.prototype.getResumenCliente = function (intIdCltEncuesta, strUsuarioCreacion) {
         var datos = {
@@ -1195,7 +1192,8 @@ var Globals = /** @class */ (function () {
     function Globals() {
         //host:string = 'https://bitte.app:8080';
         //host:string = 'http://127.0.0.1:8000';
-        this.host = 'https://52.72.24.3:8888';
+        //host:string = 'https://52.72.24.3:8888';
+        this.host = 'https://bitte.app:8888';
         this.port = '';
     }
     Globals = __decorate([

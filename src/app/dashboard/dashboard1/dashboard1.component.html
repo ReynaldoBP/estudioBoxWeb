@@ -4,41 +4,41 @@
 		<div class="card">
 			<div class="card-header">
 				<div class="row">
-					<div class="col-sm-6" *ngIf="user.strTipoRol == 'ADMINISTRADOR'">
+					<!--<div class="col-sm-6" *ngIf="user.strTipoRol == 'ADMINISTRADOR'">
 						<div class="form-group">
 							<label for="projectinput5">Criterios de Búsqueda</label>
 							<div class="col-sm-12">
 								<div class="form-group">
 									<ng-select [items]="listRestaurante" [multiple]="false" [closeOnSelect]="true"
 										[hideSelected]="false" bindLabel="NOMBRE_COMERCIAL" bindValue="ID_RESTAURANTE"
-										placeholder="Seleccione Restaurante" name="cmbRestaurante"
+										placeholder="Seleccione Empresas" name="cmbRestaurante"
 										[(ngModel)]="objSelectRestaurante"
 										(change)="getDashboard(objSelectRestaurante)">
 									</ng-select>
 								</div>
 							</div>
 						</div>
-					</div>
+					</div>-->
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="projectinput5">Rango de fechas</label>
 							<div class="row">
 								<div class="col-sm-6">
-									<select id="cmbAnio" [(ngModel)]="intAnioEncuestas" class="form-control"
-										name="cmbMes" (change)="getDashboard('')">
-										<option value="2019">2019</option>
-										<option value="2020">2020</option>
-										<option value="2021">2021</option>
-										<option value="2022">2022</option>
-										<option value="2022">2023</option>
-									</select>
+									<div class="form-group">
+										<select id="cmbMes" [(ngModel)]="intAnioEncuestas" class="form-control"
+											name="cmbMes" (change)="getDashboard('')">
+											<option *ngFor="let item of arrayAnio" value="{{item.intIdAnio}}">
+												{{item.strAnio}}
+											</option>
+										</select>
+									</div>
 								</div>
 								<div class="col-sm-6">
 									<div class="form-group">
 										<select id="cmbMes" [(ngModel)]="intMesEncuestas" class="form-control"
 											name="cmbMes" (change)="getDashboard('')">
-											<option *ngFor="let item of arrayMonthNames" value="{{item.numanio}}">
-												{{item.anio}}
+											<option *ngFor="let item of arrayMonthNames" value="{{item.intIdMes}}">
+												{{item.strMes}}
 											</option>
 										</select>
 									</div>
@@ -52,13 +52,14 @@
 	</div>
 </div>
 <div class="row">
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
+	<!--Card View de total de encuestas en el mes-->
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12">
 		<div class="card gradient-blackberry">
 			<div class="card-body">
 				<div class="card-block pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{encuestaActual.cantidad}}</h3>
+							<h3 class="font-large-1 mb-0">{{intTotalEncuesta}}</h3>
 							<span>{{'Encuestas ' + monthNames[intMesEncuestas-1]}}</span>
 						</div>
 						<div class="media-right white text-right">
@@ -75,16 +76,16 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
+	<!--Card View de total de empresas-->
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12">
 		<div class="card gradient-ibiza-sunset">
 			<div class="card-body">
 				<div class="card-block pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
 							<h3 class="font-large-1 mb-0">
-								{{user.strTipoRol=='ADMINISTRADOR'?intTotalEmpresas:totalAlcance}}</h3>
-							<span>{{user.strTipoRol=='ADMINISTRADOR'?'Total Empresas':'Alcance Redes
-								('+monthNames[date.getMonth()].substring(0,3)+')'}}</span>
+								{{user.strTipoRol=='ADMINISTRADOR'?intTotalEmpresas:intTotalSucursal}}</h3>
+							<span>{{user.strTipoRol=='ADMINISTRADOR'?'Total Empresas':'Total Sucursales'}}</span>
 						</div>
 						<div class="media-right white text-right">
 							<i class="fa fa-cutlery font-large-1"></i>
@@ -101,17 +102,16 @@
 			</div>
 		</div>
 	</div>
-
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
+	<!--Card View de total de usuarios-->
+	<div class="col-xl-4 col-lg-6 col-md-6 col-12">
 		<div class="card gradient-green-tea">
 			<div class="card-body">
 				<div class="card-block pt-2 pb-0">
 					<div class="media">
 						<div class="media-body white text-left">
 							<h3 class="font-large-1 mb-0">{{
-								user.strTipoRol=='ADMINISTRADOR'?totalClientes:nivelSatisfaccion}}</h3>
-							<span>{{user.strTipoRol=='ADMINISTRADOR'?'Total Usuarios':'Nivel Satisfaccion
-								('+monthNames[date.getMonth()].substring(0,3)+')'}}</span>
+								user.strTipoRol=='ADMINISTRADOR'?totalClientes:totalClientes}}</h3>
+							<span>{{user.strTipoRol=='ADMINISTRADOR'?'Total Usuarios':'Total Usuarios'}}</span>
 						</div>
 						<div class="media-right white text-right">
 							<i class="fa fa-users font-large-1"></i>
@@ -127,37 +127,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-3 col-lg-6 col-md-6 col-12">
-		<div class="card gradient-pomegranate">
-			<div class="card-body">
-				<div class="card-block pt-2 pb-0">
-					<div class="media">
-						<div class="media-body white text-left">
-							<h3 class="font-large-1 mb-0">{{totalPublicaciones}}</h3>
-							<span>Publicaciones {{monthNames[intMesEncuestas-1]}}</span>
-						</div>
-						<div class="media-right white text-right">
-							<i class="fa fa-share-alt font-large-1"></i>
-						</div>
-					</div>
-				</div>
-				<div id="Widget-line-chart" class="height-75 WidgetlineChart WidgetlineChartshadow mb-2">
-					<x-chartist class="" [data]="WidgetlineChart.data" [type]="WidgetlineChart.type"
-						[options]="WidgetlineChart.options" [responsiveOptions]="WidgetlineChart.responsiveOptions"
-						[events]="WidgetlineChart.events">
-					</x-chartist>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
-<!--Statistics cards Ends-->
-
-<div *ngIf="totalEncuestaSemanal && redSocialMensual && totalEncuestasMensual" class="row" matchHeight="card">
-	<div class="col-xl-4 col-lg-12 col-12">
+<div *ngIf="totalEncuestasSemestral && totalEncuestaSemanal" class="row" matchHeight="card">
+	<!--Card View de Encuestas semestrales-->
+	<div class="col-xl-7 col-lg-12 col-12">
 		<div class="card">
 			<div class="card-header">
-				<h4 class="card-title">Encuestas</h4>
+				<h4 class="card-title">Encuestas Semestrales</h4>
 			</div>
 			<div class="card-body">
 				<p class="font-medium-2 text-muted text-center pb-2">Últimos 6 meses</p>
@@ -171,26 +147,27 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-4 col-lg-12 col-12">
+	<!--Card View de Encuestas semanales-->
+	<div class="col-xl-5 col-lg-12 col-12">
 		<div class="card gradient-blackberry height-490">
 			<div class="card-body">
 				<div class="card-block">
-					<h4 class="card-title white">Encuestas {{date.getFullYear()}}</h4>
+					<h4 class="card-title white">Encuestas Semanales</h4>
 					<div *ngIf="totalEncuestaSemanal != null && totalEncuestaSemanal != ''" class="p-2 text-center">
 						<a class="btn btn-raised btn-round bg-white mx-3 px-3">Semana
-							{{totalEncuestaSemanal[0].SEMANA}}</a>
+							{{totalEncuestaSemanal[0].intSemana}}</a>
 					</div>
 					<div *ngIf="totalEncuestaSemanal != null && totalEncuestaSemanal != ''"
 						class="my-3 text-center white">
-						<a class="font-large-2 d-block mb-1">{{totalEncuestaSemanal[0].CANTIDAD}}<span
+						<a class="font-large-2 d-block mb-1">{{totalEncuestaSemanal[0].intCantidad}}<span
 								class="ft-arrow-up font-large-2"></span></a>
 						<span *ngIf="totalEncuestaSemanal.length > 1" class="font-medium-1">Semana
-							{{totalEncuestaSemanal[1].SEMANA}} {{(totalEncuestaSemanal[0].CANTIDAD -
-							totalEncuestaSemanal[1].CANTIDAD)>=0?'+':''}}{{totalEncuestaSemanal[0].CANTIDAD -
-							totalEncuestaSemanal[1].CANTIDAD}}</span>
+							{{totalEncuestaSemanal[1].intSemana}} {{(totalEncuestaSemanal[0].intCantidad -
+							totalEncuestaSemanal[1].intCantidad)>=0?'+':''}}{{totalEncuestaSemanal[0].intCantidad -
+							totalEncuestaSemanal[1].intCantidad}}</span>
 					</div>
 				</div>
-				<div id="lineChart" class="height-250 lineChart lineChartShadow">
+				<div id="lineChart" class="height-200 lineChart lineChartShadow">
 					<x-chartist class="" [data]="lineChart.data" [type]="lineChart.type" [options]="lineChart.options"
 						[responsiveOptions]="lineChart.responsiveOptions" [events]="lineChart.events">
 					</x-chartist>
@@ -198,51 +175,10 @@
 			</div>
 		</div>
 	</div>
-	<div class="col-xl-4 col-lg-12">
-		<div class="card">
-			<div class="card-header">
-				<h4 class="card-title">Redes Sociales</h4>
-			</div>
-			<div class="card-body">
-
-				<p class="font-medium-2 text-muted text-center">{{monthNames[intMesEncuestas-1]}}</p>
-				<div id="bar-chart" class="height-250 BarChartShadow BarChart2">
-					<x-chartist class="" [data]="BarChart.data" [type]="BarChart.type" [options]="BarChart.options"
-						[responsiveOptions]="BarChart.responsiveOptions" [events]="BarChart.events">
-					</x-chartist>
-				</div>
-
-				<div class="card-block">
-					<div class="row">
-						<div class="col text-center">
-							<span class="gradient-pomegranate d-block rounded-circle mx-auto mb-2"
-								style="width:10px; height:10px;"></span>
-							<span class="font-large-1 d-block mb-2">{{(redSocialMensual | filterRedSocial :
-								'INSTAGRAM').CANTIDAD}}</span>
-							<span>Instagram</span>
-						</div>
-						<div class="col text-center">
-							<span class="gradient-green-tea d-block rounded-circle mx-auto mb-2"
-								style="width:10px; height:10px;"></span>
-							<span class="font-large-1 d-block mb-2">{{(redSocialMensual | filterRedSocial :
-								'FACEBOOK').CANTIDAD}}</span>
-							<span>Facebook</span>
-						</div>
-						<div class="col text-center">
-							<span class="gradient-blackberry d-block rounded-circle mx-auto mb-2"
-								style="width:10px; height:10px;"></span>
-							<span class="font-large-1 d-block mb-2">{{(redSocialMensual | filterRedSocial :
-								'TWITTER').CANTIDAD}}</span>
-							<span>Twitter</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>
 
 <div class="row" matchHeight="card">
+	<!--Diagrama de pie de género-->
 	<div class="col-xl-5 col-lg-12">
 		<div class="card">
 			<div class="card-header">
@@ -279,7 +215,7 @@
 							<span class="mb-1 text-muted d-block">{{clientesGeneroMensual | totalClienteGenero : 'SIN
 								GENERO'}} - Sin Genero</span>
 							<div class="progress" style="height: 5px;">
-								<div class="progress-bar bg-amber" role="progressbar" style="width: 14%;"
+								<div class="progress-bar bg-cyan" role="progressbar" style="width: 14%;"
 									aria-valuenow="14" aria-valuemin="0" aria-valuemax="100"></div>
 							</div>
 						</div>
@@ -288,6 +224,7 @@
 			</div>
 		</div>
 	</div>
+	<!--Diagrama de barra de edades-->
 	<div class="col-xl-7 col-lg-13 col-12">
 		<div class="card">
 			<div class="card-header">

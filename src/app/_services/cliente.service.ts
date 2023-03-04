@@ -73,17 +73,27 @@ export class ClienteService {
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     }
 
-    getTotalClientes(idusuario: string) {
+    getTotalCliente(intIdUsuario: string) {
         let datos = {
             data: {
-                strContador: 'SI',
-                id_usuario: idusuario
-            },
-            op: 'getCliente'
+                strBanderaContador: "SI",
+                intIdUsuario: intIdUsuario
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getClienteCriterio', datos);
     }
-
+    getTotalClientePorEdad(intMes: string, intAnio: string, intIdUsuario: string, intIdRestaurante: string) {
+        let datos = {
+            data: {
+                strBanderaEdad: "SI",
+                intMes: intMes,
+                intAnio: intAnio,
+                intIdUsuario: intIdUsuario,
+                intIdRestaurante: intIdRestaurante
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getClienteCriterio', datos);
+    }
     getInfluencers() {
         let datos = {
             data: {

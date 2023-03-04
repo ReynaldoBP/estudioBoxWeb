@@ -65,7 +65,7 @@ export class LoginPageComponent implements OnInit {
                     data => {
                         if (data["intStatus"] != 200) {
                             this.loading = false
-                            this.toastr.warning('Usuario y/o contraseña incorrectos', 'Datos incorrectos')
+                            this.toastr.warning(data["strMensaje"], 'Datos incorrectos')
                         }
                         else {
                             localStorage.setItem('usuario', JSON.stringify(data["arrayUsuario"]))
@@ -86,10 +86,16 @@ export class LoginPageComponent implements OnInit {
         this.usuarioService.getPermisosByUsuario(idUsuario)
             .subscribe(
                 data => {
-                    this.loading = false
-                    this.permisos = data['arrayPerfil']
-                    localStorage.setItem('permisos', JSON.stringify(data['arrayPerfil']))
-                    this.router.navigate(['/dashboard/dashboard1']);
+                    if (data["intStatus"] != 200) {
+                        this.loading = false
+                        this.toastr.warning(data["strMensaje"], 'Datos incorrectos')
+                    }
+                    else {
+                        this.loading = false
+                        this.permisos = data['arrayPerfil']
+                        localStorage.setItem('permisos', JSON.stringify(data['arrayPerfil']))
+                        this.router.navigate(['/dashboard/dashboard1']);
+                    }
                 },
                 error => {
                     this.loading = false

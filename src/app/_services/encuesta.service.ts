@@ -78,18 +78,18 @@ export class EncuestaService {
         return this.http.get(this.globals.host + this.globals.port + '/getOpcionRespuesta?estado=ACTIVO');
     }
 
-    getTotalEncuestaActiva(mes: string, anio: string, intIdUsuario: string, intIdRestaurante: string) {
+    getTotalEncuestaMensual(intMes: string, intAnio: string, intIdUsuario: string, intIdEmpresa: string) {
         let datos = {
             data: {
-                strMes: mes,
-                strAnio: anio,
+                intMes: intMes,
+                intAnio: intAnio,
                 strEstado: 'ACTIVO',
+                strBanderaMensual:"SI",
                 intIdUsuario: intIdUsuario,
-                intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteEncuesta'
+                intIdEmpresa: intIdEmpresa
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
     getRespuestasPublicaciones(mes: string, anio: string, idusuario: string,intIdSucursal: string) {
@@ -139,31 +139,30 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     }
 
-    getTotalEncuestaMensual(intIdUsuario: string, intIdRestaurante: string) {
+    getTotalEncuestaSemestral(intIdUsuario: string, intIdRestaurante: string) {
         let datos = {
             data: {
                 strLimite: "6",
                 strEstado: "ACTIVO",
+                strBanderaSemestral:"SI",
                 intIdUsuario: intIdUsuario,
                 intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteEncuestaSemestral',
-            user: ''
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
     getTotalEncuestaSemanal(intIdUsuario: string, intIdRestaurante: string) {
         let datos = {
             data: {
-                strLimite: "2",
+                intLimite: "2",
                 strEstado: "ACTIVO",
+                strBanderaSemanal:"SI",
                 intIdUsuario: intIdUsuario,
                 intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteEncuestaSemanal'
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
     getRedesSocialMensual(strMes: string, strAnio: string, intIdUsuario: string, intIdRestaurante: string) {
@@ -179,30 +178,16 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     }
 
-    getClienteGenero(mes: string, anio: string, intIdUsuario: string, intIdRestaurante: string) {
+    getPromedioClteGenero(intMes: string, intAnio: string, intIdUsuario: string, intIdRestaurante: string) {
         let datos = {
             data: {
-                strMes: mes,
-                strAnio: anio,
+                intMes: intMes,
+                intAnio: intAnio,
                 intIdUsuario: intIdUsuario,
                 intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteGenero'
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
-    }
-
-    getClienteEdad(mes: string, anio: string, intIdUsuario: string, intIdRestaurante: string) {
-        let datos = {
-            data: {
-                strMes: mes,
-                strAnio: anio,
-                intIdUsuario: intIdUsuario,
-                intIdRestaurante: intIdRestaurante
-            },
-            op: 'getClienteEdad'
-        }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getPromedioClteGenero', datos);
     }
     getResumenCliente(intIdCltEncuesta: string, strUsuarioCreacion: string) {
         let datos = {

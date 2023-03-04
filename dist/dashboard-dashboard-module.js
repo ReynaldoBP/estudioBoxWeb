@@ -167,7 +167,7 @@ var DashboardModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--Statistics cards Starts-->\r\n<div class=\"row\">\r\n\t<div class=\"col-sm-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t<div class=\"col-sm-6\" *ngIf=\"user.strTipoRol == 'ADMINISTRADOR'\">\r\n\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t<label for=\"projectinput5\">Criterios de Búsqueda</label>\r\n\t\t\t\t\t\t\t<div class=\"col-sm-12\">\r\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t<ng-select [items]=\"listRestaurante\" [multiple]=\"false\" [closeOnSelect]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t[hideSelected]=\"false\" bindLabel=\"NOMBRE_COMERCIAL\" bindValue=\"ID_RESTAURANTE\"\r\n\t\t\t\t\t\t\t\t\t\tplaceholder=\"Seleccione Restaurante\" name=\"cmbRestaurante\"\r\n\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objSelectRestaurante\"\r\n\t\t\t\t\t\t\t\t\t\t(change)=\"getDashboard(objSelectRestaurante)\">\r\n\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"col-sm-6\">\r\n\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t<label for=\"projectinput5\">Rango de fechas</label>\r\n\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t<div class=\"col-sm-6\">\r\n\t\t\t\t\t\t\t\t\t<select id=\"cmbAnio\" [(ngModel)]=\"intAnioEncuestas\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\tname=\"cmbMes\" (change)=\"getDashboard('')\">\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2019\">2019</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2020\">2020</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2021\">2021</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2022\">2022</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2022\">2023</option>\r\n\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<div class=\"col-sm-6\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t<select id=\"cmbMes\" [(ngModel)]=\"intMesEncuestas\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\tname=\"cmbMes\" (change)=\"getDashboard('')\">\r\n\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of arrayMonthNames\" value=\"{{item.numanio}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t{{item.anio}}\r\n\t\t\t\t\t\t\t\t\t\t\t</option>\r\n\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<div class=\"row\">\r\n\t<div class=\"col-xl-3 col-lg-6 col-md-6 col-12\">\r\n\t\t<div class=\"card gradient-blackberry\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block pt-2 pb-0\">\r\n\t\t\t\t\t<div class=\"media\">\r\n\t\t\t\t\t\t<div class=\"media-body white text-left\">\r\n\t\t\t\t\t\t\t<h3 class=\"font-large-1 mb-0\">{{encuestaActual.cantidad}}</h3>\r\n\t\t\t\t\t\t\t<span>{{'Encuestas ' + monthNames[intMesEncuestas-1]}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"media-right white text-right\">\r\n\t\t\t\t\t\t\t<i class=\"icon-note font-large-1\"></i>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"Widget-line-chart\" class=\"height-75 WidgetlineChart WidgetlineChartshadow mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"WidgetlineChart.data\" [type]=\"WidgetlineChart.type\"\r\n\t\t\t\t\t\t[options]=\"WidgetlineChart.options\" [responsiveOptions]=\"WidgetlineChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"WidgetlineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"col-xl-3 col-lg-6 col-md-6 col-12\">\r\n\t\t<div class=\"card gradient-ibiza-sunset\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block pt-2 pb-0\">\r\n\t\t\t\t\t<div class=\"media\">\r\n\t\t\t\t\t\t<div class=\"media-body white text-left\">\r\n\t\t\t\t\t\t\t<h3 class=\"font-large-1 mb-0\">\r\n\t\t\t\t\t\t\t\t{{user.strTipoRol=='ADMINISTRADOR'?intTotalEmpresas:totalAlcance}}</h3>\r\n\t\t\t\t\t\t\t<span>{{user.strTipoRol=='ADMINISTRADOR'?'Total Empresas':'Alcance Redes\r\n\t\t\t\t\t\t\t\t('+monthNames[date.getMonth()].substring(0,3)+')'}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"media-right white text-right\">\r\n\t\t\t\t\t\t\t<i class=\"fa fa-cutlery font-large-1\"></i>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"Widget-line-chart\" class=\"height-75 WidgetlineChart WidgetlineChartshadow mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"WidgetlineChart.data\" [type]=\"WidgetlineChart.type\"\r\n\t\t\t\t\t\t[options]=\"WidgetlineChart.options\" [responsiveOptions]=\"WidgetlineChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"WidgetlineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\r\n\t<div class=\"col-xl-3 col-lg-6 col-md-6 col-12\">\r\n\t\t<div class=\"card gradient-green-tea\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block pt-2 pb-0\">\r\n\t\t\t\t\t<div class=\"media\">\r\n\t\t\t\t\t\t<div class=\"media-body white text-left\">\r\n\t\t\t\t\t\t\t<h3 class=\"font-large-1 mb-0\">{{\r\n\t\t\t\t\t\t\t\tuser.strTipoRol=='ADMINISTRADOR'?totalClientes:nivelSatisfaccion}}</h3>\r\n\t\t\t\t\t\t\t<span>{{user.strTipoRol=='ADMINISTRADOR'?'Total Usuarios':'Nivel Satisfaccion\r\n\t\t\t\t\t\t\t\t('+monthNames[date.getMonth()].substring(0,3)+')'}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"media-right white text-right\">\r\n\t\t\t\t\t\t\t<i class=\"fa fa-users font-large-1\"></i>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"Widget-line-chart\" class=\"height-75 WidgetlineChart WidgetlineChartshadow mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"WidgetlineChart.data\" [type]=\"WidgetlineChart.type\"\r\n\t\t\t\t\t\t[options]=\"WidgetlineChart.options\" [responsiveOptions]=\"WidgetlineChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"WidgetlineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"col-xl-3 col-lg-6 col-md-6 col-12\">\r\n\t\t<div class=\"card gradient-pomegranate\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block pt-2 pb-0\">\r\n\t\t\t\t\t<div class=\"media\">\r\n\t\t\t\t\t\t<div class=\"media-body white text-left\">\r\n\t\t\t\t\t\t\t<h3 class=\"font-large-1 mb-0\">{{totalPublicaciones}}</h3>\r\n\t\t\t\t\t\t\t<span>Publicaciones {{monthNames[intMesEncuestas-1]}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"media-right white text-right\">\r\n\t\t\t\t\t\t\t<i class=\"fa fa-share-alt font-large-1\"></i>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"Widget-line-chart\" class=\"height-75 WidgetlineChart WidgetlineChartshadow mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"WidgetlineChart.data\" [type]=\"WidgetlineChart.type\"\r\n\t\t\t\t\t\t[options]=\"WidgetlineChart.options\" [responsiveOptions]=\"WidgetlineChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"WidgetlineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<!--Statistics cards Ends-->\r\n\r\n<div *ngIf=\"totalEncuestaSemanal && redSocialMensual && totalEncuestasMensual\" class=\"row\" matchHeight=\"card\">\r\n\t<div class=\"col-xl-4 col-lg-12 col-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<h4 class=\"card-title\">Encuestas</h4>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<p class=\"font-medium-2 text-muted text-center pb-2\">Últimos 6 meses</p>\r\n\t\t\t\t<div id=\"Stack-bar-chart\" class=\"height-350 Stackbarchart mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"Stackbarchart.data\" [type]=\"Stackbarchart.type\"\r\n\t\t\t\t\t\t[options]=\"Stackbarchart.options\" [responsiveOptions]=\"Stackbarchart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"Stackbarchart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"col-xl-4 col-lg-12 col-12\">\r\n\t\t<div class=\"card gradient-blackberry height-490\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block\">\r\n\t\t\t\t\t<h4 class=\"card-title white\">Encuestas {{date.getFullYear()}}</h4>\r\n\t\t\t\t\t<div *ngIf=\"totalEncuestaSemanal != null && totalEncuestaSemanal != ''\" class=\"p-2 text-center\">\r\n\t\t\t\t\t\t<a class=\"btn btn-raised btn-round bg-white mx-3 px-3\">Semana\r\n\t\t\t\t\t\t\t{{totalEncuestaSemanal[0].SEMANA}}</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div *ngIf=\"totalEncuestaSemanal != null && totalEncuestaSemanal != ''\"\r\n\t\t\t\t\t\tclass=\"my-3 text-center white\">\r\n\t\t\t\t\t\t<a class=\"font-large-2 d-block mb-1\">{{totalEncuestaSemanal[0].CANTIDAD}}<span\r\n\t\t\t\t\t\t\t\tclass=\"ft-arrow-up font-large-2\"></span></a>\r\n\t\t\t\t\t\t<span *ngIf=\"totalEncuestaSemanal.length > 1\" class=\"font-medium-1\">Semana\r\n\t\t\t\t\t\t\t{{totalEncuestaSemanal[1].SEMANA}} {{(totalEncuestaSemanal[0].CANTIDAD -\r\n\t\t\t\t\t\t\ttotalEncuestaSemanal[1].CANTIDAD)>=0?'+':''}}{{totalEncuestaSemanal[0].CANTIDAD -\r\n\t\t\t\t\t\t\ttotalEncuestaSemanal[1].CANTIDAD}}</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"lineChart\" class=\"height-250 lineChart lineChartShadow\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"lineChart.data\" [type]=\"lineChart.type\" [options]=\"lineChart.options\"\r\n\t\t\t\t\t\t[responsiveOptions]=\"lineChart.responsiveOptions\" [events]=\"lineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"col-xl-4 col-lg-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<h4 class=\"card-title\">Redes Sociales</h4>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"card-body\">\r\n\r\n\t\t\t\t<p class=\"font-medium-2 text-muted text-center\">{{monthNames[intMesEncuestas-1]}}</p>\r\n\t\t\t\t<div id=\"bar-chart\" class=\"height-250 BarChartShadow BarChart2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"BarChart.data\" [type]=\"BarChart.type\" [options]=\"BarChart.options\"\r\n\t\t\t\t\t\t[responsiveOptions]=\"BarChart.responsiveOptions\" [events]=\"BarChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"card-block\">\r\n\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t<div class=\"col text-center\">\r\n\t\t\t\t\t\t\t<span class=\"gradient-pomegranate d-block rounded-circle mx-auto mb-2\"\r\n\t\t\t\t\t\t\t\tstyle=\"width:10px; height:10px;\"></span>\r\n\t\t\t\t\t\t\t<span class=\"font-large-1 d-block mb-2\">{{(redSocialMensual | filterRedSocial :\r\n\t\t\t\t\t\t\t\t'INSTAGRAM').CANTIDAD}}</span>\r\n\t\t\t\t\t\t\t<span>Instagram</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"col text-center\">\r\n\t\t\t\t\t\t\t<span class=\"gradient-green-tea d-block rounded-circle mx-auto mb-2\"\r\n\t\t\t\t\t\t\t\tstyle=\"width:10px; height:10px;\"></span>\r\n\t\t\t\t\t\t\t<span class=\"font-large-1 d-block mb-2\">{{(redSocialMensual | filterRedSocial :\r\n\t\t\t\t\t\t\t\t'FACEBOOK').CANTIDAD}}</span>\r\n\t\t\t\t\t\t\t<span>Facebook</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"col text-center\">\r\n\t\t\t\t\t\t\t<span class=\"gradient-blackberry d-block rounded-circle mx-auto mb-2\"\r\n\t\t\t\t\t\t\t\tstyle=\"width:10px; height:10px;\"></span>\r\n\t\t\t\t\t\t\t<span class=\"font-large-1 d-block mb-2\">{{(redSocialMensual | filterRedSocial :\r\n\t\t\t\t\t\t\t\t'TWITTER').CANTIDAD}}</span>\r\n\t\t\t\t\t\t\t<span>Twitter</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\r\n<div class=\"row\" matchHeight=\"card\">\r\n\t<div class=\"col-xl-5 col-lg-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<h4 class=\"card-title\">Género</h4>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<p class=\"font-medium-2 text-muted text-center\">{{monthNames[intMesEncuestas-1]}}</p>\r\n\t\t\t\t<div id=\"donut-dashboard-chart\" class=\"height-250 donut\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"DonutChart.data\" [type]=\"DonutChart.type\"\r\n\t\t\t\t\t\t[options]=\"DonutChart.options\" [responsiveOptions]=\"DonutChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"DonutChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"card-block\">\r\n\t\t\t\t\t<div class=\"row mb-3\">\r\n\t\t\t\t\t\t<div class=\"col\">\r\n\t\t\t\t\t\t\t<span class=\"mb-1 text-muted d-block\">{{clientesGeneroMensual | totalClienteGenero :\r\n\t\t\t\t\t\t\t\t'MASCULINO'}} - Masculino</span>\r\n\t\t\t\t\t\t\t<div class=\"progress\" style=\"height: 5px;\">\r\n\t\t\t\t\t\t\t\t<div class=\"progress-bar bg-success\" role=\"progressbar\" style=\"width: 23%;\"\r\n\t\t\t\t\t\t\t\t\taria-valuenow=\"23\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"col\">\r\n\t\t\t\t\t\t\t<span class=\"mb-1 text-muted d-block\">{{clientesGeneroMensual | totalClienteGenero :\r\n\t\t\t\t\t\t\t\t'FEMENINO'}} - Femenino</span>\r\n\t\t\t\t\t\t\t<div class=\"progress\" style=\"height: 5px;\">\r\n\t\t\t\t\t\t\t\t<div class=\"progress-bar bg-amber\" role=\"progressbar\" style=\"width: 14%;\"\r\n\t\t\t\t\t\t\t\t\taria-valuenow=\"14\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"col\">\r\n\t\t\t\t\t\t\t<span class=\"mb-1 text-muted d-block\">{{clientesGeneroMensual | totalClienteGenero : 'SIN\r\n\t\t\t\t\t\t\t\tGENERO'}} - Sin Genero</span>\r\n\t\t\t\t\t\t\t<div class=\"progress\" style=\"height: 5px;\">\r\n\t\t\t\t\t\t\t\t<div class=\"progress-bar bg-amber\" role=\"progressbar\" style=\"width: 14%;\"\r\n\t\t\t\t\t\t\t\t\taria-valuenow=\"14\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"col-xl-7 col-lg-13 col-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<h4 class=\"card-title\">Edades</h4>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"card-body\">\r\n\r\n\t\t\t\t<p class=\"font-medium-2 text-muted text-center pb-2\">{{monthNames[intMesEncuestas-1]}}</p>\r\n\t\t\t\t<div id=\"Stack-bar-chart\" class=\"height-315 EdadesChart mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"EdadesChart.data\" [type]=\"EdadesChart.type\"\r\n\t\t\t\t\t\t[options]=\"EdadesChart.options\" [responsiveOptions]=\"EdadesChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"EdadesChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>"
+module.exports = "<!--Statistics cards Starts-->\r\n<div class=\"row\">\r\n\t<div class=\"col-sm-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t<div class=\"col-sm-6\" *ngIf=\"user.strTipoRol == 'ADMINISTRADOR'\">\r\n\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t<label for=\"projectinput5\">Criterios de Búsqueda</label>\r\n\t\t\t\t\t\t\t<div class=\"col-sm-12\">\r\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t<ng-select [items]=\"listRestaurante\" [multiple]=\"false\" [closeOnSelect]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t[hideSelected]=\"false\" bindLabel=\"NOMBRE_COMERCIAL\" bindValue=\"ID_RESTAURANTE\"\r\n\t\t\t\t\t\t\t\t\t\tplaceholder=\"Seleccione Empresas\" name=\"cmbRestaurante\"\r\n\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objSelectRestaurante\"\r\n\t\t\t\t\t\t\t\t\t\t(change)=\"getDashboard(objSelectRestaurante)\">\r\n\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div class=\"col-sm-6\">\r\n\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t<label for=\"projectinput5\">Rango de fechas</label>\r\n\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t<div class=\"col-sm-6\">\r\n\t\t\t\t\t\t\t\t\t<select id=\"cmbAnio\" [(ngModel)]=\"intAnioEncuestas\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\tname=\"cmbMes\" (change)=\"getDashboard('')\">\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2019\">2023</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2020\">2024</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2021\">2025</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2022\">2026</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2022\">2027</option>\r\n\t\t\t\t\t\t\t\t\t\t<option value=\"2022\">2028</option>\r\n\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<div class=\"col-sm-6\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t<select id=\"cmbMes\" [(ngModel)]=\"intMesEncuestas\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\tname=\"cmbMes\" (change)=\"getDashboard('')\">\r\n\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of arrayMonthNames\" value=\"{{item.numanio}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t{{item.anio}}\r\n\t\t\t\t\t\t\t\t\t\t\t</option>\r\n\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<div class=\"row\">\r\n\t<!--Card View de total de encuestas en el mes-->\r\n\t<div class=\"col-xl-4 col-lg-6 col-md-6 col-12\">\r\n\t\t<div class=\"card gradient-blackberry\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block pt-2 pb-0\">\r\n\t\t\t\t\t<div class=\"media\">\r\n\t\t\t\t\t\t<div class=\"media-body white text-left\">\r\n\t\t\t\t\t\t\t<h3 class=\"font-large-1 mb-0\">{{intTotalEncuesta}}</h3>\r\n\t\t\t\t\t\t\t<span>{{'Encuestas ' + monthNames[intMesEncuestas-1]}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"media-right white text-right\">\r\n\t\t\t\t\t\t\t<i class=\"icon-note font-large-1\"></i>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"Widget-line-chart\" class=\"height-75 WidgetlineChart WidgetlineChartshadow mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"WidgetlineChart.data\" [type]=\"WidgetlineChart.type\"\r\n\t\t\t\t\t\t[options]=\"WidgetlineChart.options\" [responsiveOptions]=\"WidgetlineChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"WidgetlineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<!--Card View de total de empresas-->\r\n\t<div class=\"col-xl-4 col-lg-6 col-md-6 col-12\">\r\n\t\t<div class=\"card gradient-ibiza-sunset\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block pt-2 pb-0\">\r\n\t\t\t\t\t<div class=\"media\">\r\n\t\t\t\t\t\t<div class=\"media-body white text-left\">\r\n\t\t\t\t\t\t\t<h3 class=\"font-large-1 mb-0\">\r\n\t\t\t\t\t\t\t\t{{user.strTipoRol=='ADMINISTRADOR'?intTotalEmpresas:totalAlcance}}</h3>\r\n\t\t\t\t\t\t\t<span>{{user.strTipoRol=='ADMINISTRADOR'?'Total Empresas':'Alcance Redes\r\n\t\t\t\t\t\t\t\t('+monthNames[date.getMonth()].substring(0,3)+')'}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"media-right white text-right\">\r\n\t\t\t\t\t\t\t<i class=\"fa fa-cutlery font-large-1\"></i>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"Widget-line-chart\" class=\"height-75 WidgetlineChart WidgetlineChartshadow mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"WidgetlineChart.data\" [type]=\"WidgetlineChart.type\"\r\n\t\t\t\t\t\t[options]=\"WidgetlineChart.options\" [responsiveOptions]=\"WidgetlineChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"WidgetlineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<!--Card View de total de usuarios-->\r\n\t<div class=\"col-xl-4 col-lg-6 col-md-6 col-12\">\r\n\t\t<div class=\"card gradient-green-tea\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block pt-2 pb-0\">\r\n\t\t\t\t\t<div class=\"media\">\r\n\t\t\t\t\t\t<div class=\"media-body white text-left\">\r\n\t\t\t\t\t\t\t<h3 class=\"font-large-1 mb-0\">{{\r\n\t\t\t\t\t\t\t\tuser.strTipoRol=='ADMINISTRADOR'?totalClientes:nivelSatisfaccion}}</h3>\r\n\t\t\t\t\t\t\t<span>{{user.strTipoRol=='ADMINISTRADOR'?'Total Usuarios':'Nivel Satisfaccion\r\n\t\t\t\t\t\t\t\t('+monthNames[date.getMonth()].substring(0,3)+')'}}</span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"media-right white text-right\">\r\n\t\t\t\t\t\t\t<i class=\"fa fa-users font-large-1\"></i>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"Widget-line-chart\" class=\"height-75 WidgetlineChart WidgetlineChartshadow mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"WidgetlineChart.data\" [type]=\"WidgetlineChart.type\"\r\n\t\t\t\t\t\t[options]=\"WidgetlineChart.options\" [responsiveOptions]=\"WidgetlineChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"WidgetlineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n<div *ngIf=\"totalEncuestasSemestral && totalEncuestaSemanal\" class=\"row\" matchHeight=\"card\">\r\n\t<!--Card View de Encuestas semestrales-->\r\n\t<div class=\"col-xl-7 col-lg-12 col-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<h4 class=\"card-title\">Encuestas Semestrales</h4>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<p class=\"font-medium-2 text-muted text-center pb-2\">Últimos 6 meses</p>\r\n\t\t\t\t<div id=\"Stack-bar-chart\" class=\"height-350 Stackbarchart mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"Stackbarchart.data\" [type]=\"Stackbarchart.type\"\r\n\t\t\t\t\t\t[options]=\"Stackbarchart.options\" [responsiveOptions]=\"Stackbarchart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"Stackbarchart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<!--Card View de Encuestas semanales-->\r\n\t<div class=\"col-xl-5 col-lg-12 col-12\">\r\n\t\t<div class=\"card gradient-blackberry height-490\">\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<div class=\"card-block\">\r\n\t\t\t\t\t<h4 class=\"card-title white\">Encuestas Semanales</h4>\r\n\t\t\t\t\t<div *ngIf=\"totalEncuestaSemanal != null && totalEncuestaSemanal != ''\" class=\"p-2 text-center\">\r\n\t\t\t\t\t\t<a class=\"btn btn-raised btn-round bg-white mx-3 px-3\">Semana\r\n\t\t\t\t\t\t\t{{totalEncuestaSemanal[0].intSemana}}</a>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t\t<div *ngIf=\"totalEncuestaSemanal != null && totalEncuestaSemanal != ''\"\r\n\t\t\t\t\t\tclass=\"my-3 text-center white\">\r\n\t\t\t\t\t\t<a class=\"font-large-2 d-block mb-1\">{{totalEncuestaSemanal[0].intCantidad}}<span\r\n\t\t\t\t\t\t\t\tclass=\"ft-arrow-up font-large-2\"></span></a>\r\n\t\t\t\t\t\t<span *ngIf=\"totalEncuestaSemanal.length > 1\" class=\"font-medium-1\">Semana\r\n\t\t\t\t\t\t\t{{totalEncuestaSemanal[1].intSemana}} {{(totalEncuestaSemanal[0].intCantidad -\r\n\t\t\t\t\t\t\ttotalEncuestaSemanal[1].intCantidad)>=0?'+':''}}{{totalEncuestaSemanal[0].intCantidad -\r\n\t\t\t\t\t\t\ttotalEncuestaSemanal[1].intCantidad}}</span>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div id=\"lineChart\" class=\"height-200 lineChart lineChartShadow\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"lineChart.data\" [type]=\"lineChart.type\" [options]=\"lineChart.options\"\r\n\t\t\t\t\t\t[responsiveOptions]=\"lineChart.responsiveOptions\" [events]=\"lineChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n\r\n<div class=\"row\" matchHeight=\"card\">\r\n\t<!--Diagrama de pie de género-->\r\n\t<div class=\"col-xl-5 col-lg-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<h4 class=\"card-title\">Género</h4>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"card-body\">\r\n\t\t\t\t<p class=\"font-medium-2 text-muted text-center\">{{monthNames[intMesEncuestas-1]}}</p>\r\n\t\t\t\t<div id=\"donut-dashboard-chart\" class=\"height-250 donut\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"DonutChart.data\" [type]=\"DonutChart.type\"\r\n\t\t\t\t\t\t[options]=\"DonutChart.options\" [responsiveOptions]=\"DonutChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"DonutChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t\t<div class=\"card-block\">\r\n\t\t\t\t\t<div class=\"row mb-3\">\r\n\t\t\t\t\t\t<div class=\"col\">\r\n\t\t\t\t\t\t\t<span class=\"mb-1 text-muted d-block\">{{clientesGeneroMensual | totalClienteGenero :\r\n\t\t\t\t\t\t\t\t'MASCULINO'}} - Masculino</span>\r\n\t\t\t\t\t\t\t<div class=\"progress\" style=\"height: 5px;\">\r\n\t\t\t\t\t\t\t\t<div class=\"progress-bar bg-success\" role=\"progressbar\" style=\"width: 23%;\"\r\n\t\t\t\t\t\t\t\t\taria-valuenow=\"23\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"col\">\r\n\t\t\t\t\t\t\t<span class=\"mb-1 text-muted d-block\">{{clientesGeneroMensual | totalClienteGenero :\r\n\t\t\t\t\t\t\t\t'FEMENINO'}} - Femenino</span>\r\n\t\t\t\t\t\t\t<div class=\"progress\" style=\"height: 5px;\">\r\n\t\t\t\t\t\t\t\t<div class=\"progress-bar bg-amber\" role=\"progressbar\" style=\"width: 14%;\"\r\n\t\t\t\t\t\t\t\t\taria-valuenow=\"14\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t<div class=\"col\">\r\n\t\t\t\t\t\t\t<span class=\"mb-1 text-muted d-block\">{{clientesGeneroMensual | totalClienteGenero : 'SIN\r\n\t\t\t\t\t\t\t\tGENERO'}} - Sin Genero</span>\r\n\t\t\t\t\t\t\t<div class=\"progress\" style=\"height: 5px;\">\r\n\t\t\t\t\t\t\t\t<div class=\"progress-bar bg-cyan\" role=\"progressbar\" style=\"width: 14%;\"\r\n\t\t\t\t\t\t\t\t\taria-valuenow=\"14\" aria-valuemin=\"0\" aria-valuemax=\"100\"></div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<!--Diagrama de barra de edades-->\r\n\t<div class=\"col-xl-7 col-lg-13 col-12\">\r\n\t\t<div class=\"card\">\r\n\t\t\t<div class=\"card-header\">\r\n\t\t\t\t<h4 class=\"card-title\">Edades</h4>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"card-body\">\r\n\r\n\t\t\t\t<p class=\"font-medium-2 text-muted text-center pb-2\">{{monthNames[intMesEncuestas-1]}}</p>\r\n\t\t\t\t<div id=\"Stack-bar-chart\" class=\"height-315 EdadesChart mb-2\">\r\n\t\t\t\t\t<x-chartist class=\"\" [data]=\"EdadesChart.data\" [type]=\"EdadesChart.type\"\r\n\t\t\t\t\t\t[options]=\"EdadesChart.options\" [responsiveOptions]=\"EdadesChart.responsiveOptions\"\r\n\t\t\t\t\t\t[events]=\"EdadesChart.events\">\r\n\t\t\t\t\t</x-chartist>\r\n\t\t\t\t</div>\r\n\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>"
 
 /***/ }),
 
@@ -238,11 +238,6 @@ var Dashboard1Component = /** @class */ (function () {
         this.monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
             "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
         ];
-        this.encuestaActual = {
-            id: '',
-            titulo: '',
-            cantidad: ''
-        };
         this.parametros = {
             fechaInicio: '',
             fechaFin: '',
@@ -637,16 +632,13 @@ var Dashboard1Component = /** @class */ (function () {
         if (this.getAccion('VER')) {
             var intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString();
             var intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString();
-            /*this.getTotalClientes()
-            this.getTotalEncuestaActiva()
-            this.getTotalEncuestaMensual()
-            this.getTotalEncuestaSemanal()
-            this.getRedSocialMensual(intMesFiltro, intAnioFiltro)
-            this.getClientesGeneroMensual(intMesFiltro, intAnioFiltro)
-            this.getClientesEdadMensual(intMesFiltro, intAnioFiltro)*/
+            this.getTotalEncuestaSemanal();
+            this.getTotalEncuestaSemestral();
+            this.getTotalClientePorEdad(intMesFiltro, intAnioFiltro);
+            this.getTotalCliente();
+            this.getTotalEncuestaMensual();
+            this.getPromedioClteGenero();
             if (this.user.strTipoRol == "ADMINISTRADOR") {
-                //this.getRestaurantes()
-                console.log("entro");
                 this.getTotalEmpresas();
             }
             else {
@@ -700,29 +692,28 @@ var Dashboard1Component = /** @class */ (function () {
         });
         //}
     };
-    Dashboard1Component.prototype.getTotalClientes = function () {
+    Dashboard1Component.prototype.getTotalCliente = function () {
         var _this = this;
-        this.clienteService.getTotalClientes(this.user.ID_USUARIO)
+        this.clienteService.getTotalCliente(this.user.ID_USUARIO)
             .subscribe(function (data) {
-            if (data['resultado']['cantidad'] != null && data['resultado']['cantidad'] != '') {
-                _this.totalClientes = data['resultado']['cantidad'];
+            if (data["arrayData"][0]["intCantidad"] != null && data["arrayData"][0]["intCantidad"] != "") {
+                _this.totalClientes = data["arrayData"][0]["intCantidad"];
             }
             else {
                 _this.totalClientes = '0';
             }
         }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
     };
-    Dashboard1Component.prototype.getTotalEncuestaActiva = function () {
+    Dashboard1Component.prototype.getTotalEncuestaMensual = function () {
         var _this = this;
         var intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString();
         var intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString();
-        this.encuestaService.getTotalEncuestaActiva(intMesFiltro, intAnioFiltro, this.user.ID_USUARIO, this.objSelectRestaurante)
+        this.encuestaService.getTotalEncuestaMensual(intMesFiltro, intAnioFiltro, this.user.ID_USUARIO, this.objSelectRestaurante)
             .subscribe(function (data) {
-            if (data['status'] == 200) {
-                _this.encuestaActual.id = data['resultado']['resultados'][0].ENCUESTA_ID;
-                _this.encuestaActual.titulo = data['resultado']['resultados'][0].TITULO;
-                _this.encuestaActual.cantidad = data['resultado']['resultados'][0].CANTIDAD;
+            if (data["intStatus"] == 200) {
+                _this.intTotalEncuesta = data["arrayData"][0]["intCantidad"];
             }
             else {
                 _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
@@ -731,19 +722,19 @@ var Dashboard1Component = /** @class */ (function () {
             _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
     };
-    Dashboard1Component.prototype.getTotalEncuestaMensual = function () {
+    Dashboard1Component.prototype.getTotalEncuestaSemestral = function () {
         var _this = this;
-        this.encuestaService.getTotalEncuestaMensual(this.user.ID_USUARIO, this.objSelectRestaurante)
+        this.encuestaService.getTotalEncuestaSemestral(this.user.ID_USUARIO, this.objSelectRestaurante)
             .subscribe(function (data) {
-            if (data['status'] == 200) {
-                _this.totalEncuestasMensual = data['resultado']['resultados'];
-                if (_this.totalEncuestasMensual != null && _this.totalEncuestasMensual != '') {
-                    var maxValue_1 = _this.totalEncuestasMensual.reduce(function (prev, current) {
-                        return (Number.parseInt(prev.CANTIDAD) > Number.parseInt(current.CANTIDAD)) ? prev : current;
+            if (data["intStatus"] == 200) {
+                _this.totalEncuestasSemestral = data['arrayData'];
+                if (_this.totalEncuestasSemestral != null && _this.totalEncuestasSemestral != '') {
+                    var maxValue_1 = _this.totalEncuestasSemestral.reduce(function (prev, current) {
+                        return (Number.parseInt(prev.intCantidad) > Number.parseInt(current.intCantidad)) ? prev : current;
                     });
                     _this.Stackbarchart.data = {
-                        labels: _this.totalEncuestasMensual.map(function (item) { return item.CANTIDAD + "\n \n" + _this.monthNames[item.MES - 1]; }),
-                        series: [_this.totalEncuestasMensual.map(function (item) { return item.CANTIDAD; }), _this.totalEncuestasMensual.map(function (item) { return maxValue_1.CANTIDAD - item.CANTIDAD; })
+                        labels: _this.totalEncuestasSemestral.map(function (item) { return item.intCantidad + "\n \n" + _this.monthNames[item.intMes - 1]; }),
+                        series: [_this.totalEncuestasSemestral.map(function (item) { return item.intCantidad; }), _this.totalEncuestasSemestral.map(function (item) { return maxValue_1.intCantidad - item.intCantidad; })
                         ]
                     };
                 }
@@ -759,8 +750,8 @@ var Dashboard1Component = /** @class */ (function () {
         var _this = this;
         this.encuestaService.getTotalEncuestaSemanal(this.user.ID_USUARIO, this.objSelectRestaurante)
             .subscribe(function (data) {
-            if (data['status'] == 200) {
-                _this.totalEncuestaSemanal = data['resultado']['resultados'];
+            if (data['intStatus'] == 200) {
+                _this.totalEncuestaSemanal = data['arrayData'];
             }
             else {
                 _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
@@ -769,71 +760,21 @@ var Dashboard1Component = /** @class */ (function () {
             _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
     };
-    Dashboard1Component.prototype.getRedSocialMensual = function (mes, anio) {
+    Dashboard1Component.prototype.getPromedioClteGenero = function () {
         var _this = this;
-        this.encuestaService.getRedesSocialMensual(mes, anio, this.user.ID_USUARIO, this.objSelectRestaurante)
+        var intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString();
+        var intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString();
+        this.encuestaService.getPromedioClteGenero(intMesFiltro, intAnioFiltro, this.user.ID_USUARIO, this.objSelectRestaurante)
             .subscribe(function (data) {
-            if (data['status'] == 200) {
-                _this.redSocialMensual = data['resultado']['resultados'];
-                var sumRedes_1 = _this.redSocialMensual.filter(function (item) { return item.DESCRIPCION != 'NO COMPARTIDO'; }).map(function (element) { return Number.parseInt(element.CANTIDAD); })
-                    .reduce(function (prev, current) {
-                    return Number.parseInt(prev) + Number.parseInt(current);
-                });
-                _this.totalAlcance = _this.redSocialMensual.filter(function (item) { return item.DESCRIPCION != 'NO COMPARTIDO'; }).map(function (element) {
-                    switch (element.DESCRIPCION) {
-                        case 'INSTAGRAM':
-                            return Number.parseInt(element.CANTIDAD) * 150;
-                        case 'FACEBOOK':
-                            return Number.parseInt(element.CANTIDAD) * 100;
-                        case 'TWITTER':
-                            return Number.parseInt(element.CANTIDAD) * 200;
-                    }
-                })
-                    .reduce(function (prev, current) {
-                    return Number.parseInt(prev) + Number.parseInt(current);
-                });
-                _this.totalPublicaciones = sumRedes_1;
-                _this.BarChart.data = {
-                    labels: ['', '', ''],
-                    series: [[
-                            _this.redSocialMensual.filter(function (item) { return item.DESCRIPCION == 'INSTAGRAM'; })
-                                .map(function (element) { return (Number.parseInt(element.CANTIDAD) * 100 / sumRedes_1); })
-                                .reduce(function (prev, current) {
-                                return Number.parseInt(prev) + Number.parseInt(current);
-                            }),
-                            _this.redSocialMensual.filter(function (item) { return item.DESCRIPCION == 'FACEBOOK'; })
-                                .map(function (element) { return (Number.parseInt(element.CANTIDAD) * 100 / sumRedes_1); })
-                                .reduce(function (prev, current) {
-                                return Number.parseInt(prev) + Number.parseInt(current);
-                            }),
-                            _this.redSocialMensual.filter(function (item) { return item.DESCRIPCION == 'TWITTER'; })
-                                .map(function (element) { return (Number.parseInt(element.CANTIDAD) * 100 / sumRedes_1); })
-                                .reduce(function (prev, current) {
-                                return Number.parseInt(prev) + Number.parseInt(current);
-                            }),
-                        ]]
-                };
-            }
-            else {
-                _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
-            }
-        }, function (error) {
-            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
-        });
-    };
-    Dashboard1Component.prototype.getClientesGeneroMensual = function (mes, anio) {
-        var _this = this;
-        this.encuestaService.getClienteGenero(mes, anio, this.user.ID_USUARIO, this.objSelectRestaurante)
-            .subscribe(function (data) {
-            if (data['status'] == 200) {
-                _this.clientesGeneroMensual = data['resultado']['resultados'];
+            if (data["intStatus"] == 200) {
+                _this.clientesGeneroMensual = data["arrayData"];
                 _this.DonutChart.data = {
                     series: [
                         {
                             name: "Masculino",
                             className: "ct-done",
-                            value: _this.clientesGeneroMensual.filter(function (item) { return item.GENERO == 'MASCULINO'; })
-                                .map(function (element) { return Number.parseInt(element.CANTIDAD); })
+                            value: _this.clientesGeneroMensual.filter(function (item) { return item.intGenero == 'MASCULINO'; })
+                                .map(function (element) { return Number.parseInt(element.intCantidad); })
                                 .reduce(function (prev, current) {
                                 return (prev + current);
                             }, 0)
@@ -841,8 +782,8 @@ var Dashboard1Component = /** @class */ (function () {
                         {
                             name: "Femenino",
                             className: "ct-progress",
-                            value: _this.clientesGeneroMensual.filter(function (item) { return item.GENERO == 'FEMENINO'; })
-                                .map(function (element) { return Number.parseInt(element.CANTIDAD); })
+                            value: _this.clientesGeneroMensual.filter(function (item) { return item.intGenero == 'FEMENINO'; })
+                                .map(function (element) { return Number.parseInt(element.intCantidad); })
                                 .reduce(function (prev, current) {
                                 return (prev + current);
                             }, 0)
@@ -850,40 +791,40 @@ var Dashboard1Component = /** @class */ (function () {
                         {
                             name: "Sin Genero",
                             className: "ct-outstanding",
-                            value: _this.clientesGeneroMensual.filter(function (item) { return item.GENERO == 'SIN GENERO'; })
-                                .map(function (element) { return Number.parseInt(element.CANTIDAD); })
+                            value: _this.clientesGeneroMensual.filter(function (item) { return item.intGenero == 'SIN GENERO'; })
+                                .map(function (element) { return Number.parseInt(element.intCantidad); })
                                 .reduce(function (prev, current) {
                                 return (prev + current);
                             }, 0)
                         }
                     ],
                     labels: [
-                        (((_this.clientesGeneroMensual.filter(function (item) { return item.GENERO == 'MASCULINO'; })
-                            .map(function (element) { return Number.parseInt(element.CANTIDAD); })
+                        (((_this.clientesGeneroMensual.filter(function (item) { return item.intGenero == 'MASCULINO'; })
+                            .map(function (element) { return Number.parseInt(element.intCantidad); })
                             .reduce(function (prev, current) {
                             return (prev + current);
-                        }, 0)) / (_this.clientesGeneroMensual.map(function (element) { return Number.parseInt(element.CANTIDAD); })
-                            .reduce(function (prev, current) {
-                            return (prev + current);
-                        }, 0))) * 100).toFixed(2) + "%",
-                        (((_this.clientesGeneroMensual.filter(function (item) { return item.GENERO == 'FEMENINO'; })
-                            .map(function (element) { return Number.parseInt(element.CANTIDAD); })
-                            .reduce(function (prev, current) {
-                            return (prev + current);
-                        }, 0)) / (_this.clientesGeneroMensual.map(function (element) { return Number.parseInt(element.CANTIDAD); })
+                        }, 0)) / (_this.clientesGeneroMensual.map(function (element) { return Number.parseInt(element.intCantidad); })
                             .reduce(function (prev, current) {
                             return (prev + current);
                         }, 0))) * 100).toFixed(2) + "%",
-                        (_this.clientesGeneroMensual.filter(function (item) { return item.GENERO == 'SIN GENERO'; })
-                            .map(function (element) { return Number.parseInt(element.CANTIDAD); })
+                        (((_this.clientesGeneroMensual.filter(function (item) { return item.intGenero == 'FEMENINO'; })
+                            .map(function (element) { return Number.parseInt(element.intCantidad); })
+                            .reduce(function (prev, current) {
+                            return (prev + current);
+                        }, 0)) / (_this.clientesGeneroMensual.map(function (element) { return Number.parseInt(element.intCantidad); })
+                            .reduce(function (prev, current) {
+                            return (prev + current);
+                        }, 0))) * 100).toFixed(2) + "%",
+                        (_this.clientesGeneroMensual.filter(function (item) { return item.intGenero == 'SIN GENERO'; })
+                            .map(function (element) { return Number.parseInt(element.intCantidad); })
                             .reduce(function (prev, current) {
                             return (prev + current);
                         }, 0)) != 0 ?
-                            (((_this.clientesGeneroMensual.filter(function (item) { return item.GENERO == 'SIN GENERO'; })
-                                .map(function (element) { return Number.parseInt(element.CANTIDAD); })
+                            (((_this.clientesGeneroMensual.filter(function (item) { return item.intGenero == 'SIN GENERO'; })
+                                .map(function (element) { return Number.parseInt(element.intCantidad); })
                                 .reduce(function (prev, current) {
                                 return (prev + current);
-                            }, 0)) / (_this.clientesGeneroMensual.map(function (element) { return Number.parseInt(element.CANTIDAD); })
+                            }, 0)) / (_this.clientesGeneroMensual.map(function (element) { return Number.parseInt(element.intCantidad); })
                                 .reduce(function (prev, current) {
                                 return (prev + current);
                             }, 0))) * 100).toFixed(2) + "%" : "0%",
@@ -897,25 +838,25 @@ var Dashboard1Component = /** @class */ (function () {
             _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
     };
-    Dashboard1Component.prototype.getClientesEdadMensual = function (mes, anio) {
+    Dashboard1Component.prototype.getTotalClientePorEdad = function (intMes, intAnio) {
         var _this = this;
-        this.encuestaService.getClienteEdad(mes, anio, this.user.ID_USUARIO, this.objSelectRestaurante)
+        this.clienteService.getTotalClientePorEdad(intMes, intAnio, this.user.ID_USUARIO, this.objSelectRestaurante)
             .subscribe(function (data) {
-            if (data['status'] == 200) {
-                if (data['resultado']['resultados'] != null && data['resultado']['resultados'] != '') {
-                    _this.clientesEdadMensual = data['resultado']['resultados'];
+            if (data["intStatus"] == 200) {
+                if (data["arrayData"] != null && data["arrayData"] != '') {
+                    _this.clientesEdadMensual = data["arrayData"];
                     var maxValue_2 = _this.clientesEdadMensual.reduce(function (prev, current) {
-                        return (Number.parseInt(prev.CANTIDAD) > Number.parseInt(current.CANTIDAD)) ? prev : current;
+                        return (Number.parseInt(prev.intCantidad) > Number.parseInt(current.intCantidad)) ? prev : current;
                     });
                     var labels_1 = [];
                     _this.clientesEdadMensual.forEach(function (element) {
-                        labels_1.push(element['GENERACION']);
+                        labels_1.push(element['strGeneracion']);
                     });
                     _this.EdadesChart.data = {
                         labels: labels_1,
                         series: [
-                            _this.clientesEdadMensual.map(function (item) { return item.CANTIDAD; }),
-                            _this.clientesEdadMensual.map(function (item) { return maxValue_2.CANTIDAD - item.CANTIDAD; })
+                            _this.clientesEdadMensual.map(function (item) { return item.intCantidad; }),
+                            _this.clientesEdadMensual.map(function (item) { return maxValue_2.intCantidad - item.intCantidad; })
                         ]
                     };
                 }

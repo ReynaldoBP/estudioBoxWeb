@@ -47,8 +47,8 @@ var PipeClienteTotalGenero = /** @class */ (function () {
         if (!items || !genero) {
             return items;
         }
-        return items.filter(function (item) { return item.GENERO == genero; })
-            .map(function (element) { return Number.parseInt(element.CANTIDAD); })
+        return items.filter(function (item) { return item.intGenero == genero; })
+            .map(function (element) { return Number.parseInt(element.intCantidad); })
             .reduce(function (prev, current) {
             return (prev + current);
         }, 0);

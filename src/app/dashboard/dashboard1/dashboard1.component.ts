@@ -34,23 +34,24 @@ export class Dashboard1Component implements OnInit {
         strEstado: "ACTIVO",
         strContador: "SI"
     }
+    objParametrosSucursal: any = {
+        strEstado: "ACTIVO",
+        strContador: "SI",
+        intIdUsuario:""
+    }
     date: any = new Date();
     intTotalEmpresas: string
+    intTotalSucursal: string
     totalClientes: string
     totalPublicaciones: string
     monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ];
-    totalEncuestasMensual: any
+    totalEncuestasSemestral: any
     totalEncuestaSemanal: any
-    redSocialMensual: any
     clientesGeneroMensual: any
     clientesEdadMensual: any
-    encuestaActual: any = {
-        id: '',
-        titulo: '',
-        cantidad: ''
-    }
+    intTotalEncuesta: 0
     parametros: any = {
         fechaInicio: '',
         fechaFin: '',
@@ -450,20 +451,27 @@ export class Dashboard1Component implements OnInit {
     intAnioEncuestas: number = this.date.getFullYear()
     intMesEncuestas: number = this.date.getMonth() + 1
     arrayMonthNames = [
-        { anio: "Enero", numanio: 1 },
-        { anio: "Febrero", numanio: 2 },
-        { anio: "Marzo", numanio: 3 },
-        { anio: "Abril", numanio: 4 },
-        { anio: "Mayo", numanio: 5 },
-        { anio: "Junio", numanio: 6 },
-        { anio: "Julio", numanio: 7 },
-        { anio: "Agosto", numanio: 8 },
-        { anio: "Septiembre", numanio: 9 },
-        { anio: "Octubre", numanio: 10 },
-        { anio: "Noviembre", numanio: 11 },
-        { anio: "Diciembre", numanio: 12 }
+        { strMes: "Enero", intIdMes: 1 },
+        { strMes: "Febrero", intIdMes: 2 },
+        { strMes: "Marzo", intIdMes: 3 },
+        { strMes: "Abril", intIdMes: 4 },
+        { strMes: "Mayo", intIdMes: 5 },
+        { strMes: "Junio", intIdMes: 6 },
+        { strMes: "Julio", intIdMes: 7 },
+        { strMes: "Agosto", intIdMes: 8 },
+        { strMes: "Septiembre", intIdMes: 9 },
+        { strMes: "Octubre", intIdMes: 10 },
+        { strMes: "Noviembre", intIdMes: 11 },
+        { strMes: "Diciembre", intIdMes: 12 }
     ];
-    constructor(private sucursalService: SucursalService,
+    arrayAnio = [
+        { strAnio: "2023", intIdAnio: 2023 },
+        { strAnio: "2024", intIdAnio: 2024 },
+        { strAnio: "2025", intIdAnio: 2025 },
+        { strAnio: "2026", intIdAnio: 2026 },
+        { strAnio: "2027", intIdAnio: 2027 }
+    ];
+    constructor(private objSucursalService: SucursalService,
         private objEmpresaService: EmpresaService,
         private clienteService: ClienteService,
         private encuestaService: EncuestaService,
@@ -478,20 +486,20 @@ export class Dashboard1Component implements OnInit {
     }
     getDashboard(objSelectRestaurante) {
         if (this.getAccion('VER')) {
+            this.objParametrosSucursal.intIdUsuario = this.user.intIdUsuario
             let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
             let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
-            /*this.getTotalClientes()
-            this.getTotalEncuestaActiva()
             this.getTotalEncuestaMensual()
             this.getTotalEncuestaSemanal()
-            this.getRedSocialMensual(intMesFiltro, intAnioFiltro)
-            this.getClientesGeneroMensual(intMesFiltro, intAnioFiltro)
-            this.getClientesEdadMensual(intMesFiltro, intAnioFiltro)*/
+            this.getTotalEncuestaSemestral()
+            this.getTotalCliente()
+            this.getTotalClientePorEdad(intMesFiltro, intAnioFiltro)
+            this.getPromedioClteGenero()
             if (this.user.strTipoRol == "ADMINISTRADOR") {
-                //this.getRestaurantes()
-                console.log("entro");
                 this.getTotalEmpresas()
-
+            }
+            else if (this.user.strTipoRol == "EMPRESA") {
+                this.getTotalSucursal()
             }
             else {
                 this.parametros.fechaInicio = (new Date(Date.now() - (30 * 24 * 60 * 60 * 1000))).toISOString().slice(0, 10);
@@ -515,23 +523,6 @@ export class Dashboard1Component implements OnInit {
         return (this.acciones.find(item => item['DESCRIPCION_ACCION'] == descAccion) != undefined)
     }
     getTotalEmpresas() {
-        //Para la proxima listar todas las sucursales si no soy admin
-        /*if (this.objSelectRestaurante != null) {
-            this.sucursalService.getSucursalByIdRestaurante(this.objSelectRestaurante)
-                .subscribe(
-                    data => {
-                        if (data['status'] == 200) {
-                            this.intTotalEmpresas = data['resultado']['cantidad']
-                        } else {
-                            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-                        }
-                    },
-                    error => {
-                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-                    }
-                )
-        }
-        else {*/
         this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
             .subscribe(
                 data => {
@@ -545,37 +536,51 @@ export class Dashboard1Component implements OnInit {
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }
             )
-        //}
     }
 
-    getTotalClientes() {
-        this.clienteService.getTotalClientes(this.user.ID_USUARIO)
+    getTotalSucursal() {
+        this.objSucursalService.getSucursal(this.objParametrosSucursal)
             .subscribe(
                 data => {
-                    if (data['resultado']['cantidad'] != null && data['resultado']['cantidad'] != '') {
-                        this.totalClientes = data['resultado']['cantidad']
+                    console.log(data)
+                    if (data['intStatus'] != 200) {
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    } else {
+                        this.intTotalSucursal = data['arraySucursal'][0]['intCantidad']
                     }
-                    else {
-                        this.totalClientes = '0'
-                    }
-
                 },
                 error => {
-
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }
             )
     }
 
-    getTotalEncuestaActiva() {
-        let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
-        let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
-        this.encuestaService.getTotalEncuestaActiva(intMesFiltro, intAnioFiltro, this.user.ID_USUARIO, this.objSelectRestaurante)
+    getTotalCliente() {
+        this.clienteService.getTotalCliente(this.user.intIdUsuario)
             .subscribe(
                 data => {
-                    if (data['status'] == 200) {
-                        this.encuestaActual.id = data['resultado']['resultados'][0].ENCUESTA_ID
-                        this.encuestaActual.titulo = data['resultado']['resultados'][0].TITULO
-                        this.encuestaActual.cantidad = data['resultado']['resultados'][0].CANTIDAD
+                    if (data["arrayData"][0]["intCantidad"] != null && data["arrayData"][0]["intCantidad"] != "") {
+                        this.totalClientes = data["arrayData"][0]["intCantidad"]
+                    }
+                    else {
+                        this.totalClientes = '0'
+                    }
+                },
+                error => {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            )
+    }
+
+    getTotalEncuestaMensual() {
+        let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
+        let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
+        console.log(this.user)
+        this.encuestaService.getTotalEncuestaMensual(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectRestaurante)
+            .subscribe(
+                data => {
+                    if (data["intStatus"] == 200) {
+                        this.intTotalEncuesta = data["arrayData"][0]["intCantidad"]
                     } else {
                         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                     }
@@ -586,20 +591,20 @@ export class Dashboard1Component implements OnInit {
             )
     }
 
-    getTotalEncuestaMensual() {
-        this.encuestaService.getTotalEncuestaMensual(this.user.ID_USUARIO, this.objSelectRestaurante)
+    getTotalEncuestaSemestral() {
+        this.encuestaService.getTotalEncuestaSemestral(this.user.intIdUsuario, this.objSelectRestaurante)
             .subscribe(
                 data => {
-                    if (data['status'] == 200) {
-                        this.totalEncuestasMensual = data['resultado']['resultados']
-                        if (this.totalEncuestasMensual != null && this.totalEncuestasMensual != '') {
-                            let maxValue = this.totalEncuestasMensual.reduce(function (prev, current) {
-                                return (Number.parseInt(prev.CANTIDAD) > Number.parseInt(current.CANTIDAD)) ? prev : current
+                    if (data["intStatus"] == 200) {
+                        this.totalEncuestasSemestral = data['arrayData']
+                        if (this.totalEncuestasSemestral != null && this.totalEncuestasSemestral != '') {
+                            let maxValue = this.totalEncuestasSemestral.reduce(function (prev, current) {
+                                return (Number.parseInt(prev.intCantidad) > Number.parseInt(current.intCantidad)) ? prev : current
                             })
                             this.Stackbarchart.data = {
                                 labels:
-                                    this.totalEncuestasMensual.map(item => item.CANTIDAD + "\n \n" + this.monthNames[item.MES - 1]),
-                                series: [this.totalEncuestasMensual.map(item => item.CANTIDAD), this.totalEncuestasMensual.map(item => maxValue.CANTIDAD - item.CANTIDAD)
+                                    this.totalEncuestasSemestral.map(item => item.intCantidad + "\n \n" + this.monthNames[item.intMes - 1]),
+                                series: [this.totalEncuestasSemestral.map(item => item.intCantidad), this.totalEncuestasSemestral.map(item => maxValue.intCantidad - item.intCantidad)
                                 ]
                             }
                         }
@@ -614,11 +619,11 @@ export class Dashboard1Component implements OnInit {
     }
 
     getTotalEncuestaSemanal() {
-        this.encuestaService.getTotalEncuestaSemanal(this.user.ID_USUARIO, this.objSelectRestaurante)
+        this.encuestaService.getTotalEncuestaSemanal(this.user.intIdUsuario, this.objSelectRestaurante)
             .subscribe(
                 data => {
-                    if (data['status'] == 200) {
-                        this.totalEncuestaSemanal = data['resultado']['resultados']
+                    if (data['intStatus'] == 200) {
+                        this.totalEncuestaSemanal = data['arrayData']
                     } else {
                         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                     }
@@ -629,74 +634,21 @@ export class Dashboard1Component implements OnInit {
             )
     }
 
-    getRedSocialMensual(mes: string, anio: string) {
-        this.encuestaService.getRedesSocialMensual(mes, anio, this.user.ID_USUARIO, this.objSelectRestaurante)
+    getPromedioClteGenero() {
+        let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
+        let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
+        this.encuestaService.getPromedioClteGenero(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectRestaurante)
             .subscribe(
                 data => {
-                    if (data['status'] == 200) {
-                        this.redSocialMensual = data['resultado']['resultados']
-                        let sumRedes = this.redSocialMensual.filter(item => item.DESCRIPCION != 'NO COMPARTIDO').map(element => Number.parseInt(element.CANTIDAD))
-                            .reduce(function (prev, current) {
-                                return Number.parseInt(prev) + Number.parseInt(current)
-                            })
-                        this.totalAlcance = this.redSocialMensual.filter(item => item.DESCRIPCION != 'NO COMPARTIDO').map(element => {
-                            switch (element.DESCRIPCION) {
-                                case 'INSTAGRAM':
-                                    return Number.parseInt(element.CANTIDAD) * 150
-                                case 'FACEBOOK':
-                                    return Number.parseInt(element.CANTIDAD) * 100
-                                case 'TWITTER':
-                                    return Number.parseInt(element.CANTIDAD) * 200
-                            }
-                        }
-                        )
-                            .reduce(function (prev, current) {
-                                return Number.parseInt(prev) + Number.parseInt(current)
-                            })
-                        this.totalPublicaciones = sumRedes
-                        this.BarChart.data = {
-                            labels: ['', '', ''],//this.redSocialMensual.filter(item => item.DESCRIPCION != 'NO COMPARTIDO').map(element => element.DESCRIPCION),
-                            series: [[
-                                this.redSocialMensual.filter(item => item.DESCRIPCION == 'INSTAGRAM')
-                                    .map(element => (Number.parseInt(element.CANTIDAD) * 100 / sumRedes))
-                                    .reduce(function (prev, current) {
-                                        return Number.parseInt(prev) + Number.parseInt(current)
-                                    }),
-                                this.redSocialMensual.filter(item => item.DESCRIPCION == 'FACEBOOK')
-                                    .map(element => (Number.parseInt(element.CANTIDAD) * 100 / sumRedes))
-                                    .reduce(function (prev, current) {
-                                        return Number.parseInt(prev) + Number.parseInt(current)
-                                    }),
-                                this.redSocialMensual.filter(item => item.DESCRIPCION == 'TWITTER')
-                                    .map(element => (Number.parseInt(element.CANTIDAD) * 100 / sumRedes))
-                                    .reduce(function (prev, current) {
-                                        return Number.parseInt(prev) + Number.parseInt(current)
-                                    }),
-                            ]]
-                        }
-                    } else {
-                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-                    }
-                },
-                error => {
-                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-                }
-            )
-    }
-
-    getClientesGeneroMensual(mes: string, anio: string) {
-        this.encuestaService.getClienteGenero(mes, anio, this.user.ID_USUARIO, this.objSelectRestaurante)
-            .subscribe(
-                data => {
-                    if (data['status'] == 200) {
-                        this.clientesGeneroMensual = data['resultado']['resultados']
+                    if (data["intStatus"] == 200) {
+                        this.clientesGeneroMensual = data["arrayData"]
                         this.DonutChart.data = {
                             series: [
                                 {
                                     name: "Masculino",
                                     className: "ct-done",
-                                    value: this.clientesGeneroMensual.filter(item => item.GENERO == 'MASCULINO')
-                                        .map(element => Number.parseInt(element.CANTIDAD))
+                                    value: this.clientesGeneroMensual.filter(item => item.intGenero == 'MASCULINO')
+                                        .map(element => Number.parseInt(element.intCantidad))
                                         .reduce(function (prev, current) {
                                             return (prev + current)
                                         }, 0)
@@ -704,8 +656,8 @@ export class Dashboard1Component implements OnInit {
                                 {
                                     name: "Femenino",
                                     className: "ct-progress",
-                                    value: this.clientesGeneroMensual.filter(item => item.GENERO == 'FEMENINO')
-                                        .map(element => Number.parseInt(element.CANTIDAD))
+                                    value: this.clientesGeneroMensual.filter(item => item.intGenero == 'FEMENINO')
+                                        .map(element => Number.parseInt(element.intCantidad))
                                         .reduce(function (prev, current) {
                                             return (prev + current)
                                         }, 0)
@@ -713,42 +665,42 @@ export class Dashboard1Component implements OnInit {
                                 {
                                     name: "Sin Genero",
                                     className: "ct-outstanding",
-                                    value: this.clientesGeneroMensual.filter(item => item.GENERO == 'SIN GENERO')
-                                        .map(element => Number.parseInt(element.CANTIDAD))
+                                    value: this.clientesGeneroMensual.filter(item => item.intGenero == 'SIN GENERO')
+                                        .map(element => Number.parseInt(element.intCantidad))
                                         .reduce(function (prev, current) {
                                             return (prev + current)
                                         }, 0)
                                 }
                             ],
                             labels: [
-                                (((this.clientesGeneroMensual.filter(item => item.GENERO == 'MASCULINO')
-                                    .map(element => Number.parseInt(element.CANTIDAD))
+                                (((this.clientesGeneroMensual.filter(item => item.intGenero == 'MASCULINO')
+                                    .map(element => Number.parseInt(element.intCantidad))
                                     .reduce(function (prev, current) {
                                         return (prev + current)
-                                    }, 0)) / (this.clientesGeneroMensual.map(element => Number.parseInt(element.CANTIDAD))
+                                    }, 0)) / (this.clientesGeneroMensual.map(element => Number.parseInt(element.intCantidad))
                                         .reduce(function (prev, current) {
                                             return (prev + current)
                                         }, 0))) * 100).toFixed(2) + "%",
-                                (((this.clientesGeneroMensual.filter(item => item.GENERO == 'FEMENINO')
-                                    .map(element => Number.parseInt(element.CANTIDAD))
+                                (((this.clientesGeneroMensual.filter(item => item.intGenero == 'FEMENINO')
+                                    .map(element => Number.parseInt(element.intCantidad))
                                     .reduce(function (prev, current) {
                                         return (prev + current)
-                                    }, 0)) / (this.clientesGeneroMensual.map(element => Number.parseInt(element.CANTIDAD))
+                                    }, 0)) / (this.clientesGeneroMensual.map(element => Number.parseInt(element.intCantidad))
                                         .reduce(function (prev, current) {
                                             return (prev + current)
                                         }, 0))) * 100).toFixed(2) + "%",
 
-                                (this.clientesGeneroMensual.filter(item => item.GENERO == 'SIN GENERO')
-                                    .map(element => Number.parseInt(element.CANTIDAD))
+                                (this.clientesGeneroMensual.filter(item => item.intGenero == 'SIN GENERO')
+                                    .map(element => Number.parseInt(element.intCantidad))
                                     .reduce(function (prev, current) {
                                         return (prev + current)
                                     }, 0)) != 0 ?
 
-                                    (((this.clientesGeneroMensual.filter(item => item.GENERO == 'SIN GENERO')
-                                        .map(element => Number.parseInt(element.CANTIDAD))
+                                    (((this.clientesGeneroMensual.filter(item => item.intGenero == 'SIN GENERO')
+                                        .map(element => Number.parseInt(element.intCantidad))
                                         .reduce(function (prev, current) {
                                             return (prev + current)
-                                        }, 0)) / (this.clientesGeneroMensual.map(element => Number.parseInt(element.CANTIDAD))
+                                        }, 0)) / (this.clientesGeneroMensual.map(element => Number.parseInt(element.intCantidad))
                                             .reduce(function (prev, current) {
                                                 return (prev + current)
                                             }, 0))) * 100).toFixed(2) + "%" : "0%",
@@ -764,27 +716,25 @@ export class Dashboard1Component implements OnInit {
             )
     }
 
-    getClientesEdadMensual(mes: string, anio: string) {
-        this.encuestaService.getClienteEdad(mes, anio, this.user.ID_USUARIO, this.objSelectRestaurante)
+    getTotalClientePorEdad(intMes: string, intAnio: string) {
+        this.clienteService.getTotalClientePorEdad(intMes, intAnio, this.user.intIdUsuario, this.objSelectRestaurante)
             .subscribe(
                 data => {
-                    if (data['status'] == 200) {
-                        if (data['resultado']['resultados'] != null && data['resultado']['resultados'] != '') {
-                            this.clientesEdadMensual = data['resultado']['resultados']
+                    if (data["intStatus"] == 200) {
+                        if (data["arrayData"] != null && data["arrayData"] != '') {
+                            this.clientesEdadMensual = data["arrayData"]
                             let maxValue = this.clientesEdadMensual.reduce(function (prev, current) {
-                                return (Number.parseInt(prev.CANTIDAD) > Number.parseInt(current.CANTIDAD)) ? prev : current
+                                return (Number.parseInt(prev.intCantidad) > Number.parseInt(current.intCantidad)) ? prev : current
                             })
-
                             let labels: any[] = []
                             this.clientesEdadMensual.forEach(element => {
-                                labels.push(element['GENERACION'])
+                                labels.push(element['strGeneracion'])
                             });
-
                             this.EdadesChart.data = {
                                 labels: labels,
                                 series: [
-                                    this.clientesEdadMensual.map(item => item.CANTIDAD),
-                                    this.clientesEdadMensual.map(item => maxValue.CANTIDAD - item.CANTIDAD)
+                                    this.clientesEdadMensual.map(item => item.intCantidad),
+                                    this.clientesEdadMensual.map(item => maxValue.intCantidad - item.intCantidad)
                                 ]
                             }
                         }
@@ -799,7 +749,7 @@ export class Dashboard1Component implements OnInit {
     }
 
     getPreguntasEncuestaActiva() {
-        this.chartsService.getPreguntasEncuestaActiva(this.parametros, this.user.ID_USUARIO)
+        this.chartsService.getPreguntasEncuestaActiva(this.parametros, this.user.intIdUsuario)
             .subscribe(
                 data => {
                     if (data['resultado']['resultados'] != null && data['resultado']['resultados'] != '') {
