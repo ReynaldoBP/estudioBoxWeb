@@ -113,7 +113,6 @@ export class ChartComparaRestauranteComponent implements OnInit {
   ngOnInit(){
     this.parametros.limite = "1"
     this.barChartLabels = ["Septiembre"];
-    this.getPais()
     if(this.user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'){
       this.getRestaurantes()
     }else{
@@ -129,65 +128,6 @@ export class ChartComparaRestauranteComponent implements OnInit {
 
   public chartHovered(e: any): void {
     //your code here
-  }
-
-  getPais(){
-    this.paramService.getPais().subscribe(
-      data => {
-          if(data != null){
-              this.listPais = data['resultado']['pais'];     
-              this.parametros.pais = this.listPais.filter(item => item.PAIS_NOMBRE == "ECUADOR")[0].ID_PAIS 
-              this.getProvincia(this.parametros.pais)                 
-          }
-      },
-      error =>{
-        this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
-      });
-  }
-
-  getProvincia(value:any){
-    this.parametros.provincia = ''
-    this.parametros.ciudad = ''
-    this.parametros.parroquia = ''
-    this.getComparacionRestaurantes()
-    this.paramService.getProvincia(value).subscribe(
-      data => {
-          if(data != null){
-              this.listProvincia = data['resultado']['provincia'];
-          }
-      },
-      error =>{
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getCiudad(value:any){
-    this.parametros.ciudad = ''
-    this.parametros.parroquia = ''
-    this.getComparacionRestaurantes()
-    this.paramService.getCiudad(value).subscribe(
-      data => {
-          if(data != null){
-              this.listCiudad = data['resultado']['ciudad'];     
-          }
-      },
-      error =>{
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getParroquia(value:any){
-    this.parametros.parroquia = ''
-    this.getComparacionRestaurantes()
-    this.paramService.getParroquia(value).subscribe(
-      data => {
-          if(data != null){
-              this.listParroquia = data['resultado']['Parroquia']; 
-          }
-      },
-      error =>{
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
   }
 
   getRestaurantesPorUsuario(idusuario:string){

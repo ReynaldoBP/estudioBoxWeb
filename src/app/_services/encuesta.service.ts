@@ -6,6 +6,24 @@ import { Globals } from './global.service';
 export class EncuestaService {
     constructor(private http: HttpClient, private globals: Globals) { }
 
+    getPregunta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdEncuesta: arrayParametros.intIdEncuesta
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getPregunta', datos);
+    }
+
+    getEncuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdUsuario: arrayParametros.intIdUsuario,
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getEncuesta', datos);
+    }
+
     getEncuestas(estado: number) {
         switch (estado) {
             case 1:
@@ -70,10 +88,6 @@ export class EncuestaService {
         );
     }
 
-    getPreguntas(idEncuesta: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/getPregunta?idEncuesta=' + idEncuesta);
-    }
-
     getOpciones() {
         return this.http.get(this.globals.host + this.globals.port + '/getOpcionRespuesta?estado=ACTIVO');
     }
@@ -84,7 +98,7 @@ export class EncuestaService {
                 intMes: intMes,
                 intAnio: intAnio,
                 strEstado: 'ACTIVO',
-                strBanderaMensual:"SI",
+                strBanderaMensual: "SI",
                 intIdUsuario: intIdUsuario,
                 intIdEmpresa: intIdEmpresa
             }
@@ -92,8 +106,8 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
-    getRespuestasPublicaciones(mes: string, anio: string, idusuario: string,intIdSucursal: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/getRespuestaDashboard?strAnio=' + anio + '&strMes=' + mes + '&conImagen=NO&id_usuario=' + idusuario+ '&intIdSucursal=' + intIdSucursal);
+    getRespuestasPublicaciones(mes: string, anio: string, idusuario: string, intIdSucursal: string) {
+        return this.http.get(this.globals.host + this.globals.port + '/getRespuestaDashboard?strAnio=' + anio + '&strMes=' + mes + '&conImagen=NO&id_usuario=' + idusuario + '&intIdSucursal=' + intIdSucursal);
     }
 
     getRespuestasPublicacionesById(id: string, mes: string, anio: string) {
@@ -101,7 +115,7 @@ export class EncuestaService {
     }
 
     getRespuestas(id: string, usuarioCreacion: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/getRespuesta?idCltEncuesta=' + id +'&usuarioCreacion=' +usuarioCreacion);
+        return this.http.get(this.globals.host + this.globals.port + '/getRespuesta?idCltEncuesta=' + id + '&usuarioCreacion=' + usuarioCreacion);
     }
 
     editEncuestasRealizadas(idRespuestaCab: string, usuarioCreacion: string) {
@@ -116,11 +130,11 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     }
 
-    editSucursalEncuestasRealizadas(intIdClienteEncuesta: string,intIdSucursal: string, usuarioCreacion: string) {
+    editSucursalEncuestasRealizadas(intIdClienteEncuesta: string, intIdSucursal: string, usuarioCreacion: string) {
         let datos = {
             data: {
                 intIdClienteEncuesta: intIdClienteEncuesta,
-                intIdSucursal:intIdSucursal,
+                intIdSucursal: intIdSucursal,
                 usuarioCreacion: usuarioCreacion
             },
             op: 'editSucursalEncuestasRealizadas'
@@ -139,52 +153,39 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     }
 
-    getTotalEncuestaSemestral(intIdUsuario: string, intIdRestaurante: string) {
+    getTotalEncuestaSemestral(intIdUsuario: string, intIdEmpresa: string) {
         let datos = {
             data: {
                 strLimite: "6",
                 strEstado: "ACTIVO",
-                strBanderaSemestral:"SI",
+                strBanderaSemestral: "SI",
                 intIdUsuario: intIdUsuario,
-                intIdRestaurante: intIdRestaurante
+                intIdEmpresa: intIdEmpresa
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
-    getTotalEncuestaSemanal(intIdUsuario: string, intIdRestaurante: string) {
+    getTotalEncuestaSemanal(intIdUsuario: string, intIdEmpresa: string) {
         let datos = {
             data: {
                 intLimite: "2",
                 strEstado: "ACTIVO",
-                strBanderaSemanal:"SI",
+                strBanderaSemanal: "SI",
                 intIdUsuario: intIdUsuario,
-                intIdRestaurante: intIdRestaurante
+                intIdEmpresa: intIdEmpresa
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
-    getRedesSocialMensual(strMes: string, strAnio: string, intIdUsuario: string, intIdRestaurante: string) {
-        let datos = {
-            data: {
-                strMes: strMes,
-                strAnio: strAnio,
-                intIdUsuario: intIdUsuario,
-                intIdRestaurante: intIdRestaurante
-            },
-            op: 'getRedesSocialMensual'
-        }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
-    }
-
-    getPromedioClteGenero(intMes: string, intAnio: string, intIdUsuario: string, intIdRestaurante: string) {
+    getPromedioClteGenero(intMes: string, intAnio: string, intIdUsuario: string, intIdEmpresa: string) {
         let datos = {
             data: {
                 intMes: intMes,
                 intAnio: intAnio,
                 intIdUsuario: intIdUsuario,
-                intIdRestaurante: intIdRestaurante
+                intIdEmpresa: intIdEmpresa
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getPromedioClteGenero', datos);

@@ -5,6 +5,7 @@ import { ParamService } from 'app/_services/param.service';
 import { ToastrService } from 'ngx-toastr';
 import { RestauranteService } from 'app/_services/restaurante.service';
 import { SucursalService } from 'app/_services/sucursal.service';
+import { EmpresaService } from 'app/_services/empresa.service';
 @Component({
   selector: 'app-chartjs',
   templateUrl: './ipn.component.html',
@@ -12,27 +13,26 @@ import { SucursalService } from 'app/_services/sucursal.service';
 })
 
 export class ChartIPNComponent {
-
-  parametros: any = {
-    fechaInicio: '',
-    fechaFin: '',
-    genero: '',
-    horario: '',
-    edad: '',
-    pais: '',
-    provincia: '',
-    ciudad: '',
-    parroquia: '',
-    restaurante: '',
-    intIdSucursal: ''
+  arrayParametrosSucursal: any = {
+    strEstado: "ACTIVO",
+    intIdUsuario: ""
   }
-  listPais: any
-  listCiudad: any
-  listProvincia: any
-  listParroquia: any
-  listHorarios: any
-  listEdades: any
-  loading: any = false;
+  arraySucursal: any
+
+  arrayParametrosIpn: any = {
+    strFechaInicio: "",
+    strFechaFin: "",
+    strGenero: "",
+    strHorario: "",
+    strEdad: "",
+    intIdSucursal: "",
+    intIdEmpresa: "",
+    intIdUsuario: ""
+    
+  }
+  arrayHorarios: any
+  arrayEdades: any
+  objLoading: any = false;
 
   // lineChart
   public lineChartData = chartsData.lineChartData;
@@ -99,33 +99,36 @@ export class ChartIPNComponent {
   public polarAreaChartType = chartsData.polarAreaChartType;
   public polarChartOptions = chartsData.polarChartOptions;
 
-  porcentajeIPN: number
+  intPorcentajeIPN: number
   user: any
   descripcionOrigin: string
   descripcion: string
-  objSelectRestaurante: any = null
-  listRestaurante: any
-  objSelectSucursalUsuarioRes: any
-  objListSucursalUsuarioRes: any
-  constructor(private chartsService: ChartsService,
-    private restauranteService: RestauranteService,
-    private sucursalService: SucursalService,
-    private paramService: ParamService,
+  objSelectEmpresa: any = null
+  arrayEmpresa: any
+  objSelectSucursal: any
+  objParametrosEmpresa: any = {
+    strEstado: "ACTIVO",
+    strContador: "NO"
+}
+  constructor(private objChartsService: ChartsService,
+    private objEmpresaService: EmpresaService,
+    private objSucursalService: SucursalService,
+    private objParametroService: ParamService,
     private toastr: ToastrService) {
     this.user = JSON.parse(localStorage.getItem('usuario'))
+    console.log(this.user);
   }
 
   ngOnInit(): void {
-    this.parametros.fechaInicio = (new Date(Date.now() - (30 * 24 * 60 * 60 * 1000))).toISOString().slice(0, 10);
-    this.parametros.fechaFin = (new Date(Date.now())).toISOString().slice(0, 10);
-    this.getPais()
+    this.arrayParametrosIpn.strFechaInicio = (new Date(Date.now() - (30 * 24 * 60 * 60 * 1000))).toISOString().slice(0, 10);
+    this.arrayParametrosIpn.strFechaFin = (new Date(Date.now())).toISOString().slice(0, 10);
     this.getHorarios()
     this.getEdades()
-    this.getRestaurantes()
+    this.getEmpresas()
     this.descripcionOrigin = "El Índice Promotor Neto permite conocer la lealtad de los clientes de una empresa basándose en las recomendaciones que se fomentan entre la clientela."
     this.descripcion = "El Índice Promotor Neto permite conocer la lealtad de los clientes de una empresa basándose en las recomendaciones que se fomentan entre la clientela. "
-    if (this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE" || this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE GERENCIA") {
-      this.getSucursalesbyUsuario(this.user.ID_USUARIO)
+    if (this.user.strTipoRol == "EMPRESA") {
+      this.getSucursales()
     }
   }
 
@@ -146,118 +149,39 @@ export class ChartIPNComponent {
     //your code here
   }
 
-  getPais() {
-    this.paramService.getPais().subscribe(
-      data => {
-        if (data != null) {
-          this.listPais = data['resultado']['pais'];
-          this.parametros.pais = this.listPais.filter(item => item.PAIS_NOMBRE == "ECUADOR")[0].ID_PAIS
-          this.getProvincia(this.parametros.pais)
-        }
-      },
-      error => {
-        this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
-      });
-  }
-
-  getProvincia(value: any) {
-    this.parametros.provincia = ''
-    this.parametros.ciudad = ''
-    this.parametros.parroquia = ''
-    this.getIPN()
-    this.paramService.getProvincia(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listProvincia = data['resultado']['provincia'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getCiudad(value: any) {
-    this.parametros.ciudad = ''
-    this.parametros.parroquia = ''
-    this.getIPN()
-    this.paramService.getCiudad(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listCiudad = data['resultado']['ciudad'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getParroquia(value: any) {
-    this.parametros.parroquia = ''
-    this.getIPN()
-    this.paramService.getParroquia(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listParroquia = data['resultado']['Parroquia'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getHorarios() {
-    this.paramService.getParametro('HORARIO').subscribe(
-      data => {
-        if (data != null) {
-          this.listHorarios = data['resultado']['resultados'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getEdades() {
-    this.paramService.getParametro('EDAD').subscribe(
-      data => {
-        if (data != null) {
-          this.listEdades = data['resultado']['resultados'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getIPN() {
-    this.loading = true
-    this.parametros.restaurante = this.objSelectRestaurante
-    this.parametros.intIdSucursal = this.objSelectSucursalUsuarioRes
-    this.chartsService.getIPN(this.parametros, this.user.ID_USUARIO)
+  getResultadoProIPN() {
+    this.objLoading = true
+    this.arrayParametrosIpn.intIdUsuario = this.user.intIdUsuario
+    this.arrayParametrosIpn.intIdEmpresa = this.objSelectEmpresa
+    this.arrayParametrosIpn.intIdSucursal = this.objSelectSucursal
+    if (this.objSelectSucursal != undefined) {
+      this.arrayParametrosIpn.intIdSucursal = this.objSelectSucursal
+    }
+    this.objChartsService.getResultadoProIPN(this.arrayParametrosIpn)
       .subscribe(
         data => {
-          this.loading = false
-          let resultado = data['resultado']['resultados'][0]
-          let datos = [Number.parseInt(resultado.CANT_1),
-          Number.parseInt(resultado.CANT_2),
-          Number.parseInt(resultado.CANT_3),
-          Number.parseInt(resultado.CANT_4),
-          Number.parseInt(resultado.CANT_5),
-          Number.parseInt(resultado.CANT_6),
-          Number.parseInt(resultado.CANT_7),
-          Number.parseInt(resultado.CANT_8),
-          Number.parseInt(resultado.CANT_9),
-          Number.parseInt(resultado.CANT_10)]
-          let detractores = (Number.parseInt(resultado.CANT_1) +
-            Number.parseInt(resultado.CANT_2) +
-            Number.parseInt(resultado.CANT_3) +
-            Number.parseInt(resultado.CANT_4) +
-            Number.parseInt(resultado.CANT_5) +
-            Number.parseInt(resultado.CANT_6))
-          let pasivos = (Number.parseInt(resultado.CANT_7) +
-            Number.parseInt(resultado.CANT_8))
-          let promotores = (Number.parseInt(resultado.CANT_9) +
-            Number.parseInt(resultado.CANT_10))
+          this.objLoading = false
+          let resultado = data["arrayData"]['resultados'][0]
+          let datos = [Number.parseInt(resultado.intCant1),
+          Number.parseInt(resultado.intCant2),
+          Number.parseInt(resultado.intCant3),
+          Number.parseInt(resultado.intCant4),
+          Number.parseInt(resultado.intCant5),
+          Number.parseInt(resultado.intCant6),
+          Number.parseInt(resultado.intCant7),
+          Number.parseInt(resultado.intCant8),
+          Number.parseInt(resultado.intCant9),
+          Number.parseInt(resultado.intCant10)]
+          let detractores = (Number.parseInt(resultado.intCant1) +
+            Number.parseInt(resultado.intCant2) +
+            Number.parseInt(resultado.intCant3) +
+            Number.parseInt(resultado.intCant4) +
+            Number.parseInt(resultado.intCant5) +
+            Number.parseInt(resultado.intCant6))
+          let pasivos = (Number.parseInt(resultado.intCant7) +
+            Number.parseInt(resultado.intCant8))
+          let promotores = (Number.parseInt(resultado.intCant9) +
+            Number.parseInt(resultado.intCant10))
           let total = (detractores + pasivos + promotores)
           let intTotalDetractores = 0
           if (detractores > 0) {
@@ -272,37 +196,74 @@ export class ChartIPNComponent {
             intTotalPromotores = (promotores / total * 100)
           }
           this.doughnutChartData = [intTotalDetractores, intTotalPasivos, intTotalPromotores]
-          this.porcentajeIPN = Math.round(intTotalPromotores - intTotalDetractores)
+          this.intPorcentajeIPN = Math.round(intTotalPromotores - intTotalDetractores)
           this.barChartData = [
             { data: datos, label: null },
           ];
         },
         error => {
-          this.loading = false
+          this.objLoading = false
           this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
         }
       )
   }
-  getRestaurantes() {
-    this.restauranteService.getRestaurantesACTIVOS()
+
+  getEmpresas() {
+    this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
+    .subscribe(
+        data => {
+            if (data['intStatus'] != 200) {
+                this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+            } else {
+              console.log(data)
+                this.arrayEmpresa = data['arrayEmpresa']
+            }
+        },
+        error => {
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+    )
+  }
+
+  getSucursales() {
+    this.arrayParametrosSucursal.intIdUsuario = this.user.intIdUsuario
+    this.objSucursalService.getSucursal(this.arrayParametrosSucursal)
       .subscribe(
         data => {
-          this.listRestaurante = data['resultado']['resultados']
+          this.arraySucursal = data["arraySucursal"]
         },
         error => {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
       )
   }
-  getSucursalesbyUsuario(idusuario: string) {
-    this.sucursalService.getSucursalesbyUsuario(idusuario)
-      .subscribe(
-        data => {
-          this.objListSucursalUsuarioRes = data['resultado']['resultados']
-        },
-        error => {
+
+  getHorarios() {
+    this.objParametroService.getParametro('HORARIO').subscribe(
+      data => {
+        if (data["intStatus"] == 200) {
+          this.arrayHorarios = data["arrayData"]
+        } else {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
-      )
+      },
+      error => {
+        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+      });
   }
+
+  getEdades() {
+    this.objParametroService.getParametro('EDAD').subscribe(
+      data => {
+        if (data["intStatus"] == 200) {
+          this.arrayEdades = data["arrayData"]
+        } else {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      },
+      error => {
+        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+      });
+  }
+
 }

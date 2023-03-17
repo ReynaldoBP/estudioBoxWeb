@@ -23,6 +23,9 @@ export class EncuestaComponent implements OnInit {
     idrestaurante:'',
     estado:true
   }
+  arrayParametrosPreguntas: any = {
+    intIdEncuesta: ""
+  }
   user:any
 
   constructor(private restauranteService:RestauranteService,
@@ -67,10 +70,25 @@ export class EncuestaComponent implements OnInit {
           this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas','Error')
       }
     )
-  }
-
+  }/*
+  getPregunta() {
+    this.arrayParametrosPreguntas.intIdEncuesta = "2"
+    this.encuestaService.getPregunta(this.arrayParametrosPreguntas).subscribe(
+      data => {
+        if (data["intStatus"] == 200) {
+          this.arrayPreguntas = data['arrayPregunta'].filter(item => item.intCantidadEstrellas == "5")
+        } else {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      },
+      error => {
+        this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+      });
+  }*/
   obtenerPreguntas(){
-    this.encuestaService.getPreguntas(this.encuesta.id)
+    //this.encuestaService.getPregunta(this.encuesta.id)
+    this.arrayParametrosPreguntas.intIdEncuesta = "2"
+    this.encuestaService.getPregunta(this.arrayParametrosPreguntas)
     .subscribe(
       data =>{
         if(data['status'] == 404){

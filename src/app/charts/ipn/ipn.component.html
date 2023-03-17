@@ -33,37 +33,62 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-5">
+                    <div *ngIf="user.strTipoRol == 'EMPRESA'" class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput5">Sucursal</label>
+                            <div class="form-group">
+                                <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
+                                    [hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
+                                    placeholder="Seleccione Sucursal" name="cmbSucursalUsuarioRes"
+                                    [(ngModel)]="objSelectSucursal" (change)="getResultadoProIPN()">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="user.strTipoRol == 'ADMINISTRADOR'" class="col-md-6">
+                        <div class="form-group">
+                            <label for="cmbEmpresa">Empresa</label>
+                            <ng-select [items]="arrayEmpresa" [multiple]="false" [closeOnSelect]="true"
+                                [hideSelected]="false" bindLabel="strNombreComercial" bindValue="intIdEmpresa"
+                                placeholder="Seleccione Empresa" name="cmbEmpresa" [(ngModel)]="objSelectEmpresa"
+                                (change)="getResultadoProIPN()">
+                            </ng-select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="projectinput5">Rango Fechas</label>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <input type="date" id="txtFechaInicio" [(ngModel)]="parametros.fechaInicio"
-                                        class="form-control" (change)="getIPN()" name="txtFechaInicio">
+                                    <input type="date" id="txtFechaInicio"
+                                        [(ngModel)]="arrayParametrosIpn.strFechaInicio" class="form-control"
+                                        (change)="getResultadoProIPN()" name="txtFechaInicio">
                                 </div>
                                 <div class="col-md-6">
-                                    <input type="date" id="txtFechaFin" [(ngModel)]="parametros.fechaFin"
-                                        class="form-control" (change)="getIPN()" name="txtFechaFin">
+                                    <input type="date" id="txtFechaFin" [(ngModel)]="arrayParametrosIpn.strFechaFin"
+                                        class="form-control" (change)="getResultadoProIPN()" name="txtFechaFin">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="projectinput5">Horario</label>
-                            <select id="cmbRol" name="cmbRol" class="form-control" [(ngModel)]="parametros.horario"
-                                (change)="getIPN()">
+                            <select id="cmbRol" name="cmbRol" class="form-control"
+                                [(ngModel)]="arrayParametrosIpn.strHorario" (change)="getResultadoProIPN()">
                                 <option value="" selected="">TODOS</option>
-                                <option *ngFor="let item of listHorarios" value="{{item.VALOR1}}">{{item.VALOR1}}
+                                <option *ngFor="let item of arrayHorarios" value="{{item.strValor1}}">{{item.strValor1}}
                                 </option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="projectinput5">Genero</label>
                             <select id="projectinput5" name="interested" class="form-control"
-                                [(ngModel)]="parametros.genero" (change)="getIPN()">
+                                [(ngModel)]="arrayParametrosIpn.strGenero" (change)="getResultadoProIPN()">
                                 <option value="" selected="">TODOS</option>
                                 <option value="MASCULINO">MASCULINO</option>
                                 <option value="FEMENINO">FEMENINO</option>
@@ -71,83 +96,13 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="projectinput5">Rango Edad</label>
-                            <select id="cmbRol" name="cmbRol" class="form-control" [(ngModel)]="parametros.edad"
-                                (change)="getIPN()">
+                            <select id="cmbRol" name="cmbRol" class="form-control"
+                                [(ngModel)]="arrayParametrosIpn.strEdad" (change)="getResultadoProIPN()">
                                 <option value="" selected="">TODOS</option>
-                                <option *ngFor="let item of listEdades" value="{{item.VALOR1}}">{{item.VALOR1}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="user.DESCRIPCION_TIPO_ROL=='RESTAURANTE' || user.DESCRIPCION_TIPO_ROL=='RESTAURANTE GERENCIA'"
-                    class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput5">Sucursal</label>
-                            <div class="form-group">
-                                <ng-select [items]="objListSucursalUsuarioRes" [multiple]="false" [closeOnSelect]="true"
-                                    [hideSelected]="false" bindLabel="DESCRIPCION" bindValue="ID_SUCURSAL"
-                                    placeholder="Seleccione Sucursal" name="cmbSucursalUsuarioRes"
-                                    [(ngModel)]="objSelectSucursalUsuarioRes" (change)="getIPN()">
-                                </ng-select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div *ngIf="user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'" class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="cmbRestaurante">Restaurante</label>
-                            <ng-select [items]="listRestaurante" [multiple]="false" [closeOnSelect]="true"
-                                [hideSelected]="false" bindLabel="NOMBRE_COMERCIAL" bindValue="ID_RESTAURANTE"
-                                placeholder="Seleccione Restaurante" name="cmbRestaurante"
-                                [(ngModel)]="objSelectRestaurante" (change)="getIPN()">
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="cmbPais">Pais</label>
-                            <select id="cmbPais" name="cmbPais" class="form-control" [(ngModel)]="parametros.pais"
-                                (change)="getProvincia(parametros.pais)">
-                                <option *ngFor="let item of listPais" value="{{item['ID_PAIS']}}">
-                                    {{item['PAIS_NOMBRE']}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="cmbPrv">Provincia</label>
-                            <select id="cmbPrv" name="cmbPrv" class="form-control" [(ngModel)]="parametros.provincia"
-                                (change)="getCiudad(parametros.provincia)">
-                                <option value="" selected="">TODOS</option>
-                                <option *ngFor="let item of listProvincia" value="{{item['ID_PROVINCIA']}}">
-                                    {{item['PROVINCIA_NOMBRE']}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="cmbCiudad">Ciudad</label>
-                            <select id="cmbCiudad" name="cmbCiudad" class="form-control" [(ngModel)]="parametros.ciudad"
-                                (change)="getParroquia(parametros.ciudad)">
-                                <option value="" selected="">TODOS</option>
-                                <option *ngFor="let item of listCiudad" value="{{item['ID_CIUDAD']}}">
-                                    {{item['CIUDAD_NOMBRE']}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="cmbSector">Sector</label>
-                            <select id="cmbSector" name="cmbSector" [(ngModel)]="parametros.parroquia"
-                                class="form-control">
-                                <option value="" selected="">TODOS</option>
-                                <option *ngFor="let item of listParroquia" value="{{item['ID_PARROQUIA']}}">
-                                    {{item['PARROQUIA_NOMBRE']}}</option>
+                                <option *ngFor="let item of arrayEdades" value="{{item.strValor1}}">{{item.strValor1}}
                             </select>
                         </div>
                     </div>

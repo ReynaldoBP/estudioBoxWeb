@@ -131,39 +131,38 @@ export class ChartPreguntasComponent implements OnInit {
   public chartHovered(e: any): void {
     //your code here
   }
-  parametros: any = {
-    genero: '',
-    horario: '',
-    edad: '',
-    pais: '',
-    provincia: '',
-    ciudad: '',
-    parroquia: '',
-    limite: '',
-    pregunta: '',
-    intIdSucursal: ''
+  arrayParametrosEncuestas: any = {
+    intIdSucursal: '',
+    intIdUsuario: '',
+    intLimite: '',
+    intIdPregunta: '',
+    strEdad: '',
+    strGenero: '',
+    strHorario: ''
   }
-  listPais: any
-  listCiudad: any
-  listProvincia: any
-  listParroquia: any
-  listHorarios: any
-  listEdades: any
+  arrayParametrosPreguntas: any = {
+    intIdEncuesta: ""
+  }
+  arrayHorarios: any
+  arrayEdades: any
   loading: any = false;
-  listPreguntas: any
+  arrayPreguntas: any
   user: any
   descripcionOrigin: string
   descripcion: string
+  arrayTotalEncuestas: any[] = [];
   arrayEncuestas: any[] = [];
-  objSelectSucursalUsuarioRes: any
-  objListSucursalUsuarioRes: any
-  objSelectSucursalUsuarioAdmin: any
-  objListSucursalUsuarioAdmin
-  constructor(private chartsService: ChartsService,
-    private paramService: ParamService,
+  objSelectSucursal: any
+  arraySucursal: any
+  arrayParametrosSucursal: any = {
+    strEstado: "ACTIVO",
+    intIdUsuario: ""
+  }
+  constructor(private objChartsService: ChartsService,
+    private objParametroService: ParamService,
     private toastr: ToastrService,
-    private encuestaService: EncuestaService,
-    private sucursalService: SucursalService) {
+    private objEncuestaService: EncuestaService,
+    private objSucursalService: SucursalService) {
     this.user = JSON.parse(localStorage.getItem('usuario'))
     this.descripcionOrigin = "Acceda a las estadísticas de preguntas individuales. El gráfico presenta puntuaciones promediadas sobre todas las respuestas de sus clientes. Esta sección le permite elegir diferentes variables para visualizar data estadística según su interés y realizar comparativos."
     this.descripcion = "Acceda a las estadísticas de preguntas individuales."
@@ -189,17 +188,12 @@ export class ChartPreguntasComponent implements OnInit {
     ];
 
     this.barChartColors = _barChartColors
-    this.parametros.limite = "3"
-    this.getPreguntas()
-    this.getPais()
+    this.arrayParametrosEncuestas.intLimite = "3"
+    this.arrayParametrosEncuestas.intIdUsuario = this.user.intIdUsuario
+    this.getEncuesta()
     this.getHorarios()
     this.getEdades()
-    if (this.user.DESCRIPCION_TIPO_ROL == "ADMINISTRADOR") {
-      this.getSucursales()
-    }
-    else if (this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE" || this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE GERENCIA") {
-      this.getSucursalesbyUsuario(this.user.ID_USUARIO)
-    }
+    this.getSucursales()
   }
 
   vermas() {
@@ -210,21 +204,13 @@ export class ChartPreguntasComponent implements OnInit {
     }
   }
 
-  getPreguntas() {
-    this.encuestaService.getEncuestas(1).subscribe(
+  getEncuesta() {
+    this.objEncuestaService.getEncuesta(this.arrayParametrosEncuestas).subscribe(
       data => {
-        if (data['resultado']['resultados'] != null) {
-          let encuestaActiva = data['resultado']['resultados'][0];
-          this.encuestaService.getPreguntas(encuestaActiva.ID_ENCUESTA).subscribe(
-            data => {
-              if (data['resultado']['resultados'] != null) {
-                let listado = data['resultado']['resultados'];
-                this.listPreguntas = listado.filter(item => item.VALOR_OPCION_RESPUESTA == "5")
-              }
-            },
-            error => {
-              this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
-            });
+        if (data["intStatus"] == 200) {
+          this.arrayEncuestas = data['arrayEncuesta']
+        } else {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
       },
       error => {
@@ -232,13 +218,14 @@ export class ChartPreguntasComponent implements OnInit {
       });
   }
 
-  getPais() {
-    this.paramService.getPais().subscribe(
+  getPregunta() {
+    console.log(this.arrayParametrosPreguntas)
+    this.objEncuestaService.getPregunta(this.arrayParametrosPreguntas).subscribe(
       data => {
-        if (data != null) {
-          this.listPais = data['resultado']['pais'];
-          this.parametros.pais = this.listPais.filter(item => item.PAIS_NOMBRE == "ECUADOR")[0].ID_PAIS
-          this.getProvincia(this.parametros.pais)
+        if (data["intStatus"] == 200) {
+          this.arrayPreguntas = data['arrayPregunta'].filter(item => item.intCantidadEstrellas == "5")
+        } else {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
       },
       error => {
@@ -246,99 +233,35 @@ export class ChartPreguntasComponent implements OnInit {
       });
   }
 
-  getProvincia(value: any) {
-    this.parametros.provincia = ''
-    this.parametros.ciudad = ''
-    this.parametros.parroquia = ''
-    this.getPreguntasPromedio()
-    this.paramService.getProvincia(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listProvincia = data['resultado']['provincia'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getCiudad(value: any) {
-    this.parametros.ciudad = ''
-    this.parametros.parroquia = ''
-    this.getPreguntasPromedio()
-    this.paramService.getCiudad(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listCiudad = data['resultado']['ciudad'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getParroquia(value: any) {
-    this.parametros.parroquia = ''
-    this.getPreguntasPromedio()
-    this.paramService.getParroquia(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listParroquia = data['resultado']['Parroquia'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getHorarios() {
-    this.paramService.getParametro('HORARIO').subscribe(
-      data => {
-        if (data != null) {
-          this.listHorarios = data['resultado']['resultados'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getEdades() {
-    this.paramService.getParametro('EDAD').subscribe(
-      data => {
-        if (data != null) {
-          this.listEdades = data['resultado']['resultados'];
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-
-  getPreguntasPromedio() {
+  getResultadoProPregunta() {
     this.loading = true
-    this.parametros.intIdSucursal = ''
-    if (this.objSelectSucursalUsuarioAdmin != undefined && this.user.DESCRIPCION_TIPO_ROL == "ADMINISTRADOR") {
-      this.parametros.intIdSucursal = this.objSelectSucursalUsuarioAdmin
+    this.arrayParametrosEncuestas.intIdSucursal = ''
+    if (this.objSelectSucursal != undefined) {
+      this.arrayParametrosEncuestas.intIdSucursal = this.objSelectSucursal
     }
-    if (this.objSelectSucursalUsuarioRes != undefined && (this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE" || this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE GERENCIA")) {
-      this.parametros.intIdSucursal = this.objSelectSucursalUsuarioRes
-    }
-    this.chartsService.getPreguntasPromedio(this.parametros, this.user.ID_USUARIO)
+    this.objChartsService.getResultadoProPregunta(this.arrayParametrosEncuestas)
       .subscribe(
         data => {
           this.loading = false
-          let resultados = data['resultado']['resultados']
-          let encuesta = data['resultado']['NUMERO_ENCUESTA']
-          this.barChartData[0].data = resultados.map(item => item.PROMEDIO)
-          if (this.parametros.pregunta == '') {
-            this.barChartData[0].label = 'TODAS'
+          console.log(data)
+          if (data["intStatus"] == 200) {
+            let intNumeroEncuesta = data["arrayData"]["intNumeroEncuesta"]
+            this.barChartData[0].data = data["arrayData"].resultados.map(item => item.strPromedio)
+            if (this.arrayParametrosEncuestas.intIdPregunta == "") {
+              this.barChartData[0].label = 'Todas'
+            } else {
+              this.barChartData[0].label = this.arrayPreguntas.filter(item => item.intIdPregunta == this.arrayParametrosEncuestas.intIdPregunta)[0].strPregunta
+            }
+            this.barChartLabels = data["arrayData"].resultados.map(item => this.monthNames[Number.parseInt(item.intMes) - 1])
+            this.arrayTotalEncuestas = intNumeroEncuesta;
+
           } else {
-            this.barChartData[0].label = this.listPreguntas.filter(item => item.ID_PREGUNTA == this.parametros.pregunta)[0].DESCRIPCION_PREGUNTA
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+            this.loading = false
+            this.barChartData[0].data = []
+            this.barChartData[0].label = ""
+            this.barChartLabels = []
           }
-          this.barChartLabels = resultados.map(item => this.monthNames[Number.parseInt(item.MES) - 1])
-          this.arrayEncuestas = encuesta;
         },
         error => {
           this.loading = false
@@ -346,26 +269,46 @@ export class ChartPreguntasComponent implements OnInit {
         }
       )
   }
+
   getSucursales() {
-    this.sucursalService.getSucursalesActivas()
+    this.arrayParametrosSucursal.intIdUsuario = this.user.intIdUsuario
+    this.objSucursalService.getSucursal(this.arrayParametrosSucursal)
       .subscribe(
         data => {
-          this.objListSucursalUsuarioAdmin = data['resultado']['resultados']
+          this.arraySucursal = data["arraySucursal"]
         },
         error => {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
       )
   }
-  getSucursalesbyUsuario(idusuario: string) {
-    this.sucursalService.getSucursalesbyUsuario(idusuario)
-      .subscribe(
-        data => {
-          this.objListSucursalUsuarioRes = data['resultado']['resultados']
-        },
-        error => {
+
+  getHorarios() {
+    this.objParametroService.getParametro('HORARIO').subscribe(
+      data => {
+        if (data["intStatus"] == 200) {
+          this.arrayHorarios = data["arrayData"]
+        } else {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
-      )
+      },
+      error => {
+        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+      });
   }
+
+  getEdades() {
+    this.objParametroService.getParametro('EDAD').subscribe(
+      data => {
+        if (data["intStatus"] == 200) {
+          this.arrayEdades = data["arrayData"]
+        } else {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      },
+      error => {
+        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+      });
+  }
+
 }

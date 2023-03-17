@@ -57,43 +57,6 @@
                         </div>                                              
                     </div>
                 </div>
-                <div *ngIf="user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'" class="row">
-                    <div class="col-md-2">
-                        <div class="form-group">
-                            <label for="cmbPais">Pais</label>
-                            <select id="cmbPais" name="cmbPais" class="form-control" [(ngModel)]="parametros.pais" (change)="getProvincia(parametros.pais)">
-                                <option *ngFor="let item of listPais" value="{{item['ID_PAIS']}}">{{item['PAIS_NOMBRE']}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="cmbPrv">Provincia</label>
-                            <select id="cmbPrv" name="cmbPrv" class="form-control" [(ngModel)]="parametros.provincia" (change)="getCiudad(parametros.provincia)">
-                                <option value="" selected="" >TODOS</option>
-                                <option *ngFor="let item of listProvincia" value="{{item['ID_PROVINCIA']}}">{{item['PROVINCIA_NOMBRE']}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="cmbCiudad">Ciudad</label>
-                            <select id="cmbCiudad" name="cmbCiudad" class="form-control" [(ngModel)]="parametros.ciudad" (change)="getParroquia(parametros.ciudad)">
-                                <option value="" selected="" >TODOS</option>
-                                <option *ngFor="let item of listCiudad" value="{{item['ID_CIUDAD']}}">{{item['CIUDAD_NOMBRE']}}</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="cmbSector">Sector</label>
-                            <select id="cmbSector" name="cmbSector" [(ngModel)]="parametros.parroquia" class="form-control">
-                                <option value="" selected="" >TODOS</option>
-                                <option *ngFor="let item of listParroquia" value="{{item['ID_PARROQUIA']}}">{{item['PARROQUIA_NOMBRE']}}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div *ngIf="loading" class="form-group">
                 <div class="col-md-12 text-center">

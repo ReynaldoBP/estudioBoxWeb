@@ -176,7 +176,6 @@ export class ChartPublicacionComponent implements OnInit{
 
     this.barChartColors = _barChartColors
     this.parametros.limite = "3"
-    this.getPais()
     this.getHorarios()
     this.getEdades()
     this.descripcionOrigin ="Acceda a las estadísticas de las publicaciones en redes sociales (Facebook - Instagram - Twitter) que sus clientes compartieron. Esta sección le permite elegir diferentes variables para visualizar data estadística según su interés y realizar comparativos. "
@@ -191,64 +190,6 @@ export class ChartPublicacionComponent implements OnInit{
     }        
   }
 
-  getPais(){
-    this.paramService.getPais().subscribe(
-      data => {
-          if(data != null){
-              this.listPais = data['resultado']['pais'];     
-              this.parametros.pais = this.listPais.filter(item => item.PAIS_NOMBRE == "ECUADOR")[0].ID_PAIS 
-              this.getProvincia(this.parametros.pais)                 
-          }
-      },
-      error =>{
-        this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
-      });
-  }
-
-  getProvincia(value:any){
-    this.parametros.provincia = ''
-    this.parametros.ciudad = ''
-    this.parametros.parroquia = ''
-    this.getPublicacionesPromedio()
-    this.paramService.getProvincia(value).subscribe(
-      data => {
-          if(data != null){
-              this.listProvincia = data['resultado']['provincia'];
-          }
-      },
-      error =>{
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getCiudad(value:any){
-    this.parametros.ciudad = ''
-    this.parametros.parroquia = ''
-    this.getPublicacionesPromedio()
-    this.paramService.getCiudad(value).subscribe(
-      data => {
-          if(data != null){
-              this.listCiudad = data['resultado']['ciudad'];     
-          }
-      },
-      error =>{
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getParroquia(value:any){
-    this.parametros.parroquia = ''
-    this.getPublicacionesPromedio()
-    this.paramService.getParroquia(value).subscribe(
-      data => {
-          if(data != null){
-              this.listParroquia = data['resultado']['Parroquia']; 
-          }
-      },
-      error =>{
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
 
   getHorarios(){
     this.paramService.getParametro('HORARIO').subscribe(

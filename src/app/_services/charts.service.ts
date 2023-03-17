@@ -6,46 +6,50 @@ import { Globals } from './global.service';
 export class ChartsService {
     constructor(private http: HttpClient, private globals: Globals) { }
 
-    getPreguntasEncuestaActiva(params: any, idusuario: string) {
+    getPreguntasEncuestaActiva(arrayParametros: any) {
         let datos = {
             data: {
-                strFechaIni: params.fechaInicio,
-                strFechaFin: params.fechaFin,
-                strGenero: params.genero,
-                strHorario: params.horario,
-                strEdad: params.edad,
-                strPais: params.pais,
-                strCiudad: params.ciudad,
-                strProvincia: params.provincia,
-                strParroquia: params.parroquia,
-                id_usuario: idusuario,
-                intIdSucursal: params.intIdSucursal
-            },
-            op: 'getResultadoProEncuesta',
-            user: ''
+                strFechaIni: arrayParametros.strFechaInicio,
+                strFechaFin: arrayParametros.strFechaFin,
+                strGenero: arrayParametros.strGenero,
+                strHorario: arrayParametros.strHorario,
+                strEdad: arrayParametros.strEdad,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                intIdSucursal: arrayParametros.intIdSucursal
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getResultadoProEncuesta', datos);
     }
 
-    getPreguntasPromedio(params: any, idusuario: string) {
+    getResultadoProPregunta(arrayParametros: any) {
         let datos = {
             data: {
-                strGenero: params.genero,
-                strHorario: params.horario,
-                strEdad: params.edad,
-                strPais: params.pais,
-                strCiudad: params.ciudad,
-                strProvincia: params.provincia,
-                strParroquia: params.parroquia,
-                intLimite: params.limite,
-                intIdPregunta: params.pregunta.ID_PREGUNTA,
-                id_usuario: idusuario,
-                intIdSucursal: params.intIdSucursal
-            },
-            op: 'getResultadoProPregunta',
-            user: ''
+                strGenero: arrayParametros.strGenero,
+                strHorario: arrayParametros.strHorario,
+                strEdad: arrayParametros.strEdad,
+                intLimite: arrayParametros.intLimite,
+                intIdPregunta: arrayParametros.intIdPregunta,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                intIdSucursal: arrayParametros.intIdSucursal
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getResultadoProPregunta', datos);
+    }
+
+    getResultadoProIPN(arrayParametros: any) {
+        let datos = {
+            data: {
+                strFechaInicio: arrayParametros.strFechaInicio,
+                strFechaFin: arrayParametros.strFechaFin,
+                strGenero: arrayParametros.strGenero,
+                strHorario: arrayParametros.strHorario,
+                strEdad: arrayParametros.strEdad,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                intIdEmpresa: arrayParametros.intIdEmpresa,
+                intIdSucursal: arrayParametros.intIdSucursal
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getResultadoProIPN', datos);
     }
 
     getPublicacionesPromedio(params: any, idusuario: string) {
@@ -62,28 +66,6 @@ export class ChartsService {
                 id_usuario: idusuario
             },
             op: 'getResultadoProPublicaciones',
-            user: ''
-        }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
-    }
-
-    getIPN(params: any, idusuario: string) {
-        let datos = {
-            data: {
-                strFechaIni: params.fechaInicio,
-                strFechaFin: params.fechaFin,
-                strGenero: params.genero,
-                strHorario: params.horario,
-                strEdad: params.edad,
-                strPais: params.pais,
-                strCiudad: params.ciudad,
-                strProvincia: params.provincia,
-                strParroquia: params.parroquia,
-                id_usuario: idusuario,
-                intIdRestaurante: params.restaurante,
-                intIdSucursal: params.intIdSucursal
-            },
-            op: 'getResultadosProIPN',
             user: ''
         }
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);

@@ -82,14 +82,14 @@ export class ClienteService {
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getClienteCriterio', datos);
     }
-    getTotalClientePorEdad(intMes: string, intAnio: string, intIdUsuario: string, intIdRestaurante: string) {
+    getTotalClientePorEdad(intMes: string, intAnio: string, intIdUsuario: string, intIdEmpresa: string) {
         let datos = {
             data: {
                 strBanderaEdad: "SI",
                 intMes: intMes,
                 intAnio: intAnio,
                 intIdUsuario: intIdUsuario,
-                intIdRestaurante: intIdRestaurante
+                intIdEmpresa: intIdEmpresa
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getClienteCriterio', datos);

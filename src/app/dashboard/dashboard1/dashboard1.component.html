@@ -4,21 +4,20 @@
 		<div class="card">
 			<div class="card-header">
 				<div class="row">
-					<!--<div class="col-sm-6" *ngIf="user.strTipoRol == 'ADMINISTRADOR'">
+					<div class="col-sm-6" *ngIf="user.strTipoRol == 'ADMINISTRADOR'">
 						<div class="form-group">
 							<label for="projectinput5">Criterios de Búsqueda</label>
 							<div class="col-sm-12">
 								<div class="form-group">
-									<ng-select [items]="listRestaurante" [multiple]="false" [closeOnSelect]="true"
-										[hideSelected]="false" bindLabel="NOMBRE_COMERCIAL" bindValue="ID_RESTAURANTE"
-										placeholder="Seleccione Empresas" name="cmbRestaurante"
-										[(ngModel)]="objSelectRestaurante"
-										(change)="getDashboard(objSelectRestaurante)">
+									<ng-select [items]="arrayRestaurante" [multiple]="false" [closeOnSelect]="true"
+										[hideSelected]="false" bindLabel="strNombreComercial" bindValue="intIdEmpresa"
+										placeholder="Seleccione Empresas" [(ngModel)]="objSelectEmpresa"
+										(change)="getDashboard(objSelectEmpresa)">
 									</ng-select>
 								</div>
 							</div>
 						</div>
-					</div>-->
+					</div>
 					<div class="col-sm-6">
 						<div class="form-group">
 							<label for="projectinput5">Rango de fechas</label>
@@ -231,7 +230,6 @@
 				<h4 class="card-title">Edades</h4>
 			</div>
 			<div class="card-body">
-
 				<p class="font-medium-2 text-muted text-center pb-2">{{monthNames[intMesEncuestas-1]}}</p>
 				<div id="Stack-bar-chart" class="height-315 EdadesChart mb-2">
 					<x-chartist class="" [data]="EdadesChart.data" [type]="EdadesChart.type"

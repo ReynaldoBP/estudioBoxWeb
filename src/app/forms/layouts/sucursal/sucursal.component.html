@@ -410,64 +410,6 @@
 										<ng-template ngbTabContent>
 											<div id="activity" class="col-12 timeline-left">
 												<div class="row">
-													<div class="col-md-3">
-														<div class="form-group">
-															<label for="cmbPais">Pais</label>
-															<select id="cmbPais" name="cmbPais"
-																[(ngModel)]="sucursal.id_pais" class="form-control"
-																(change)="getProvincia(sucursal.id_pais)">
-																<option value="" selected="" disabled="">Seleccione
-																</option>
-																<option *ngFor="let item of listPais"
-																	value="{{item['ID_PAIS']}}">{{item['PAIS_NOMBRE']}}
-																</option>
-															</select>
-														</div>
-													</div>
-													<div class="col-md-3">
-														<div class="form-group">
-															<label for="cmbProvincia">Provincia</label>
-															<select id="cmbProvincia" name="cmbProvincia"
-																[(ngModel)]="sucursal.id_provincia" class="form-control"
-																(change)="getCiudad(sucursal.id_provincia)">
-																<option value="" selected="" disabled="">Seleccione
-																</option>
-																<option *ngFor="let item of listProvincia"
-																	value="{{item['ID_PROVINCIA']}}">
-																	{{item['PROVINCIA_NOMBRE']}}</option>
-															</select>
-														</div>
-													</div>
-													<div class="col-md-3">
-														<div class="form-group">
-															<label for="cmbCiudad">Ciudad</label>
-															<select id="cmbCiudad" name="cmbCiudad" class="form-control"
-																[(ngModel)]="sucursal.id_ciudad" #cmbCiudad="ngModel"
-																(change)="getParroquia(sucursal.id_ciudad)">
-																<option value="" selected="" disabled="">Seleccione
-																</option>
-																<option *ngFor="let item of listCiudad"
-																	value="{{item['ID_CIUDAD']}}">
-																	{{item['CIUDAD_NOMBRE']}}</option>
-															</select>
-														</div>
-													</div>
-													<div class="col-md-3">
-														<div class="form-group">
-															<label for="cmbParroquia">Parroquia</label>
-															<select id="cmbParroquia" name="cmbParroquia"
-																class="form-control" [(ngModel)]="sucursal.id_parroquia"
-																#cmbParroquia="ngModel">
-																<option value="" selected="" disabled="">Seleccione
-																</option>
-																<option *ngFor="let item of listParroquia"
-																	value="{{item['ID_PARROQUIA']}}">
-																	{{item['PARROQUIA_NOMBRE']}}</option>
-															</select>
-														</div>
-													</div>
-												</div>
-												<div class="row">
 													<div class="col-sm-12">
 														<div class="card" style="margin-top: 0px">
 															<div class="card-body">

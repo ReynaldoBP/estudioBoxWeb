@@ -47,7 +47,7 @@ export class EncuestaListComponent implements OnInit{
     }
 
     verPreguntas(encuesta:any){
-        this.encuestaService.getPreguntas(encuesta['ID_ENCUESTA'])
+        this.encuestaService.getPregunta(encuesta['ID_ENCUESTA'])//hacer cambio
         .subscribe(
             data =>{
                 let listpreg = data['resultado']['resultados']

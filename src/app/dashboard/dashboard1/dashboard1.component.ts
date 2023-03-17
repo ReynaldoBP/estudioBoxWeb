@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import * as Chartist from 'chartist';
 import { ChartType, ChartEvent } from "ng-chartist/dist/chartist.component";
-import { RestauranteService } from 'app/_services/restaurante.service';
 import { ClienteService } from 'app/_services/cliente.service';
 import { EncuestaService } from 'app/_services/encuesta.service';
 import { SucursalService } from 'app/_services/sucursal.service';
 import { EmpresaService } from 'app/_services/empresa.service';
-import { ChartsService } from 'app/_services/charts.service';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -37,7 +35,7 @@ export class Dashboard1Component implements OnInit {
     objParametrosSucursal: any = {
         strEstado: "ACTIVO",
         strContador: "SI",
-        intIdUsuario:""
+        intIdUsuario: ""
     }
     date: any = new Date();
     intTotalEmpresas: string
@@ -446,8 +444,8 @@ export class Dashboard1Component implements OnInit {
     totalAlcance: any
     nivelSatisfaccion: any = 0
     user: any
-    objSelectRestaurante: any = null
-    listRestaurante: any
+    objSelectEmpresa: any = null
+    arrayRestaurante: any
     intAnioEncuestas: number = this.date.getFullYear()
     intMesEncuestas: number = this.date.getMonth() + 1
     arrayMonthNames = [
@@ -473,19 +471,18 @@ export class Dashboard1Component implements OnInit {
     ];
     constructor(private objSucursalService: SucursalService,
         private objEmpresaService: EmpresaService,
-        private clienteService: ClienteService,
-        private encuestaService: EncuestaService,
-        private chartsService: ChartsService,
-        private restauranteService: RestauranteService,
+        private objClienteService: ClienteService,
+        private objEncuestaService: EncuestaService,
         private toastr: ToastrService) {
         this.getPermisos("Dashboard")
         this.user = JSON.parse(localStorage.getItem('usuario'))
     }
     ngOnInit() {
-        this.getDashboard(this.objSelectRestaurante)
+        this.getDashboard(this.objSelectEmpresa)
     }
-    getDashboard(objSelectRestaurante) {
+    getDashboard(objSelectEmpresa) {
         if (this.getAccion('VER')) {
+            console.log(this.user)
             this.objParametrosSucursal.intIdUsuario = this.user.intIdUsuario
             let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
             let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
@@ -497,6 +494,7 @@ export class Dashboard1Component implements OnInit {
             this.getPromedioClteGenero()
             if (this.user.strTipoRol == "ADMINISTRADOR") {
                 this.getTotalEmpresas()
+                this.getEmpresas()
             }
             else if (this.user.strTipoRol == "EMPRESA") {
                 this.getTotalSucursal()
@@ -504,7 +502,6 @@ export class Dashboard1Component implements OnInit {
             else {
                 this.parametros.fechaInicio = (new Date(Date.now() - (30 * 24 * 60 * 60 * 1000))).toISOString().slice(0, 10);
                 this.parametros.fechaFin = (new Date(Date.now())).toISOString().slice(0, 10);
-                //this.getPreguntasEncuestaActiva()
             }
         }
     }
@@ -522,7 +519,26 @@ export class Dashboard1Component implements OnInit {
     getAccion(descAccion: string) {
         return (this.acciones.find(item => item['DESCRIPCION_ACCION'] == descAccion) != undefined)
     }
+
+    getEmpresas() {
+        this.objParametrosEmpresa.strContador = "NO"
+        this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
+            .subscribe(
+                data => {
+                    if (data['intStatus'] != 200) {
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    } else {
+                        this.arrayRestaurante = data["arrayEmpresa"]
+                    }
+                },
+                error => {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            )
+    }
+
     getTotalEmpresas() {
+        this.objParametrosEmpresa.strContador = "SI"
         this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
             .subscribe(
                 data => {
@@ -542,7 +558,6 @@ export class Dashboard1Component implements OnInit {
         this.objSucursalService.getSucursal(this.objParametrosSucursal)
             .subscribe(
                 data => {
-                    console.log(data)
                     if (data['intStatus'] != 200) {
                         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                     } else {
@@ -556,7 +571,7 @@ export class Dashboard1Component implements OnInit {
     }
 
     getTotalCliente() {
-        this.clienteService.getTotalCliente(this.user.intIdUsuario)
+        this.objClienteService.getTotalCliente(this.user.intIdUsuario)
             .subscribe(
                 data => {
                     if (data["arrayData"][0]["intCantidad"] != null && data["arrayData"][0]["intCantidad"] != "") {
@@ -575,8 +590,7 @@ export class Dashboard1Component implements OnInit {
     getTotalEncuestaMensual() {
         let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
         let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
-        console.log(this.user)
-        this.encuestaService.getTotalEncuestaMensual(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectRestaurante)
+        this.objEncuestaService.getTotalEncuestaMensual(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectEmpresa)
             .subscribe(
                 data => {
                     if (data["intStatus"] == 200) {
@@ -592,7 +606,7 @@ export class Dashboard1Component implements OnInit {
     }
 
     getTotalEncuestaSemestral() {
-        this.encuestaService.getTotalEncuestaSemestral(this.user.intIdUsuario, this.objSelectRestaurante)
+        this.objEncuestaService.getTotalEncuestaSemestral(this.user.intIdUsuario, this.objSelectEmpresa)
             .subscribe(
                 data => {
                     if (data["intStatus"] == 200) {
@@ -619,7 +633,7 @@ export class Dashboard1Component implements OnInit {
     }
 
     getTotalEncuestaSemanal() {
-        this.encuestaService.getTotalEncuestaSemanal(this.user.intIdUsuario, this.objSelectRestaurante)
+        this.objEncuestaService.getTotalEncuestaSemanal(this.user.intIdUsuario, this.objSelectEmpresa)
             .subscribe(
                 data => {
                     if (data['intStatus'] == 200) {
@@ -637,7 +651,7 @@ export class Dashboard1Component implements OnInit {
     getPromedioClteGenero() {
         let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
         let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
-        this.encuestaService.getPromedioClteGenero(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectRestaurante)
+        this.objEncuestaService.getPromedioClteGenero(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectEmpresa)
             .subscribe(
                 data => {
                     if (data["intStatus"] == 200) {
@@ -717,7 +731,7 @@ export class Dashboard1Component implements OnInit {
     }
 
     getTotalClientePorEdad(intMes: string, intAnio: string) {
-        this.clienteService.getTotalClientePorEdad(intMes, intAnio, this.user.intIdUsuario, this.objSelectRestaurante)
+        this.objClienteService.getTotalClientePorEdad(intMes, intAnio, this.user.intIdUsuario, this.objSelectEmpresa)
             .subscribe(
                 data => {
                     if (data["intStatus"] == 200) {
@@ -741,36 +755,6 @@ export class Dashboard1Component implements OnInit {
                     } else {
                         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                     }
-                },
-                error => {
-                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-                }
-            )
-    }
-
-    getPreguntasEncuestaActiva() {
-        this.chartsService.getPreguntasEncuestaActiva(this.parametros, this.user.intIdUsuario)
-            .subscribe(
-                data => {
-                    if (data['resultado']['resultados'] != null && data['resultado']['resultados'] != '') {
-                        let resultados = data['resultado']['resultados']
-                        this.nivelSatisfaccion = resultados.map(element => Number.parseFloat(element.PROMEDIO))
-                            .reduce(function (prev, current) {
-                                return (prev + current)
-                            }, 0)
-                        this.nivelSatisfaccion = Math.round(this.nivelSatisfaccion / resultados.length)
-                    }
-                },
-                error => {
-                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-                }
-            )
-    }
-    getRestaurantes() {
-        this.restauranteService.getRestaurantesACTIVOS()
-            .subscribe(
-                data => {
-                    this.listRestaurante = data['resultado']['resultados']
                 },
                 error => {
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')

@@ -95,7 +95,6 @@ export class PublicidadComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getPais()
     this.getTiposComida()
     if (this.publicidad.id != "0") {
       this.obtenerPublicidad()
@@ -125,9 +124,6 @@ export class PublicidadComponent implements OnInit {
             this.publicidad.estado = rest.ESTADO == 'ACTIVO' ? true : false
             this.publicidad.imagen = rest.IMAGEN
             this.publicidad.orientacion = rest.ORIENTACION
-            this.getProvincia(this.publicidad.idpais)
-            this.getCiudad(this.publicidad.idprovincia)
-            this.getParroquia(this.publicidad.idciudad)
             this.getTiposComidaByPublicidad()
           }
         },
@@ -177,7 +173,7 @@ export class PublicidadComponent implements OnInit {
     //this.imgURL = null
     this.publicidad.imagen = null
   }
-  eliminarDatos() {
+  eliminarDatos() {/*
     this.publicidad.estado = this.publicidad.estado ? 'ACTIVO' : 'INACTIVO'
     swal({
       title: '¿Está seguro de eliminar la publicidad?',
@@ -232,7 +228,7 @@ export class PublicidadComponent implements OnInit {
           'error'
         )
       }
-    });
+    });*/
 
 
   }
@@ -315,20 +311,6 @@ export class PublicidadComponent implements OnInit {
     this.router.navigate(['/tables/publicidad']);
   }
 
-  getPais() {
-    this.paramService.getPais().subscribe(
-      data => {
-        if (data != null) {
-          this.listPais = data['resultado']['pais'];
-          if (this.publicidad.id == "0") {
-            this.getLocation()
-          }
-        }
-      },
-      error => {
-        this.toastr.warning("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
   getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: Position) => {
@@ -350,82 +332,11 @@ export class PublicidadComponent implements OnInit {
           let pais = this.listPais.find(item => item['PAIS_NOMBRE'].toUpperCase() == this.geolocation.pais.toUpperCase())
           if (pais != null) {
             this.publicidad.idpais = pais.ID_PAIS
-            this.getProvincia(this.publicidad.ID_PAIS)
           }
         }
       }
       );
   }
-  getProvincia(value: any) {
-    if (this.publicidad.id == "0") {
-      this.publicidad.idprovincia = ''
-      this.publicidad.idciudad = ''
-    }
-
-    this.paramService.getProvincia(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listProvincia = data['resultado']['provincia'];
-          if (this.geolocation != null && this.geolocation.provincia != null) {
-            let provincia = this.listProvincia.find(item => item['PROVINCIA_NOMBRE'].toUpperCase() == this.geolocation.provincia.toUpperCase())
-            if (provincia != null) {
-              this.publicidad.idprovincia = provincia.ID_PROVINCIA
-              this.getCiudad(this.publicidad.idprovincia)
-            }
-          }
-        }
-      },
-      error => {
-        this.toastr.warning("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getCiudad(value: any) {
-    if (this.publicidad.id == "0") {
-      this.publicidad.idciudad = ''
-    }
-
-    this.paramService.getCiudad(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listCiudad = data['resultado']['ciudad'];
-          if (this.geolocation != null && this.geolocation.ciudad != null) {
-            let ciudad = this.listCiudad.find(item => item['CIUDAD_NOMBRE'].toUpperCase() == this.geolocation.ciudad.toUpperCase())
-            if (ciudad != null) {
-              this.publicidad.idciudad = ciudad.ID_CIUDAD
-              this.getParroquia(this.publicidad.idciudad)
-            }
-          }
-        }
-      },
-      error => {
-        this.toastr.warning("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getParroquia(value: any) {
-    if (this.publicidad.id == "0") {
-      this.publicidad.idparroquia = ''
-    }
-
-    this.paramService.getParroquia(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listParroquia = data['resultado']['Parroquia'];
-          if (this.geolocation != null && this.geolocation.parroquia != null) {
-            let parroquia = this.listParroquia.find(item => item['PARROQUIA_NOMBRE'].toUpperCase() == this.geolocation.parroquia.toUpperCase())
-            if (parroquia != null) {
-              this.publicidad.idparroquia = parroquia.ID_PARROQUIA
-            }
-          }
-          this.geolocation = null
-        }
-      },
-      error => {
-        this.toastr.warning("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
   getTiposComida() {
     this.tipocomidaservice.getTiposComida(1)
       .subscribe(

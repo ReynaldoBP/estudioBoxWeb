@@ -86,8 +86,8 @@ export class SucursalComponent implements OnInit {
     this.sucursal.id = this.route.snapshot.paramMap.get('id');
   }
 
-  ngOnInit() {
-    this.getPais()
+  ngOnInit() {/*
+
     if (this.usuario.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR') {
       this.getRestaurantes()
       this.getListadoCentroComercial()
@@ -98,7 +98,7 @@ export class SucursalComponent implements OnInit {
     this.sucursal.usuario = this.usuario.ID_USUARIO
     if (this.sucursal.id != "0") {
       this.obtenerSucursal()
-    }
+    }*/
   }
 
   getListadoCliente() {
@@ -154,7 +154,6 @@ export class SucursalComponent implements OnInit {
             this.sucursal.horarioAtencionSabadoFin = rest.HORA_SABADO_FIN != "00:00" ? rest.HORA_SABADO_FIN : "23:59"
             this.sucursal.horarioAtencionDomingoIni = rest.HORA_DOMINGO_INI != "00:00" ? rest.HORA_DOMINGO_INI : "00:00"
             this.sucursal.horarioAtencionDomingoFin = rest.HORA_DOMINGO_FIN != "00:00" ? rest.HORA_DOMINGO_FIN : "23:59"
-            this.getProvincia(this.sucursal.id_pais)
           }
         },
         error => {
@@ -206,93 +205,6 @@ export class SucursalComponent implements OnInit {
       )
   }
 
-  getPais() {
-    this.paramService.getPais().subscribe(
-      data => {
-        if (data != null) {
-          this.listPais = data['resultado']['pais'];
-          if (this.sucursal.id == "0") {
-            this.getLocation()
-          }
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getProvincia(value: any) {
-    if (this.sucursal.id == "0") {
-      this.sucursal.id_provincia = ''
-      this.sucursal.id_ciudad = ''
-      this.sucursal.id_parroquia = ''
-    }
-
-    this.paramService.getProvincia(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listProvincia = data['resultado']['provincia'];
-          if (this.geolocation != null && this.geolocation.provincia != null) {
-            let provincia = this.listProvincia.find(item => item['PROVINCIA_NOMBRE'].toUpperCase() == this.geolocation.provincia.toUpperCase())
-            if (provincia != null) {
-              this.sucursal.id_provincia = provincia.ID_PROVINCIA
-              this.getCiudad(this.sucursal.id_provincia)
-            }
-          }
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getCiudad(value: any) {
-    if (this.sucursal.id == "0") {
-      this.sucursal.id_ciudad = ''
-      this.sucursal.id_parroquia = ''
-    }
-
-    this.paramService.getCiudad(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listCiudad = data['resultado']['ciudad'];
-          if (this.geolocation != null && this.geolocation.ciudad != null) {
-            let ciudad = this.listCiudad.find(item => item['CIUDAD_NOMBRE'].toUpperCase() == this.geolocation.ciudad.toUpperCase())
-            if (ciudad != null) {
-              this.sucursal.id_ciudad = ciudad.ID_CIUDAD
-              this.getParroquia(this.sucursal.id_ciudad)
-            }
-          }
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
-  getParroquia(value: any) {
-    if (this.sucursal.id == "0") {
-      this.sucursal.id_parroquia = ''
-    }
-
-    this.paramService.getParroquia(value).subscribe(
-      data => {
-        if (data != null) {
-          this.listParroquia = data['resultado']['Parroquia'];
-          if (this.geolocation != null && this.geolocation.parroquia != null) {
-            let parroquia = this.listParroquia.find(item => item['PARROQUIA_NOMBRE'].toUpperCase() == this.geolocation.parroquia.toUpperCase())
-            if (parroquia != null) {
-              this.sucursal.id_parroquia = parroquia.ID_PARROQUIA
-            }
-          }
-          this.geolocation = null
-        }
-      },
-      error => {
-        console.log("Error en el servidor, comuniquise con Sistemas")
-      });
-  }
-
   getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position: Position) => {
@@ -317,7 +229,6 @@ export class SucursalComponent implements OnInit {
           let pais = this.listPais.find(item => item['PAIS_NOMBRE'].toUpperCase() == this.geolocation.pais.toUpperCase())
           if (pais != null) {
             this.sucursal.id_pais = pais.ID_PAIS
-            this.getProvincia(this.sucursal.ID_PAIS)
           }
         }
       }

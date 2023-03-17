@@ -55,7 +55,7 @@ export class DataListComponent implements OnInit{
     }
 
     verPreguntas(encuesta:any){
-        this.encuestaService.getPreguntas(encuesta)
+        this.encuestaService.getPregunta(encuesta)//hacer cambio
         .subscribe(
             data =>{
                 let listpreg = data['resultado']['resultados']
