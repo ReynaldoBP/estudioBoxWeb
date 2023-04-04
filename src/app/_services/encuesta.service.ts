@@ -106,14 +106,27 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
-    getRespuestasPublicaciones(mes: string, anio: string, idusuario: string, intIdSucursal: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/getRespuestaDashboard?strAnio=' + anio + '&strMes=' + mes + '&conImagen=NO&id_usuario=' + idusuario + '&intIdSucursal=' + intIdSucursal);
+    getDataEncuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intMes: arrayParametros.intMes,
+                intAnio: arrayParametros.intAnio,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                intIdSucursal: arrayParametros.intIdSucursal
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getDataEncuesta', datos);
     }
 
-    getRespuestasPublicacionesById(id: string, mes: string, anio: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/getRespuestaDashboard?intIdCltEncuesta=' + id + '&conImagen=SI&strAnio=' + anio + '&strMes=' + mes);
+    getRespuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdCltEncuesta: arrayParametros.intIdCltEncuesta,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getRespuesta', datos);
     }
-
     getRespuestas(id: string, usuarioCreacion: string) {
         return this.http.get(this.globals.host + this.globals.port + '/getRespuesta?idCltEncuesta=' + id + '&usuarioCreacion=' + usuarioCreacion);
     }

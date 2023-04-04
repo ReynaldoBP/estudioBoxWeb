@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FilterDataEncuesta implements PipeTransform {
     transform(items: any[], estado: string): any {
         return items.filter(item =>
-            item['ESTADO'] == estado
+            item['strEstado'] == estado
         );
 
     }

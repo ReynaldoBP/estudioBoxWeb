@@ -26,9 +26,9 @@ export const ROUTES: RouteInfo[] = [
             { value: "9", path: '/tables/clientes', title: 'Redimir', icon: 'ft-user', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "23", path: '/tables/puntosEstadistica', title: 'Reportes', icon: 'ft-bar-chart-2', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
-    },
-    { value: "10", path: '/tables/publicaciones', title: 'Data Encuestas', icon: 'ft-camera', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-    */{
+    },*/
+    { value: "5", path: '/tables/publicaciones', title: 'Data Encuestas', icon: 'ft-camera', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    {
         value: "0", path: '', title: 'Estadística', icon: 'ft-bar-chart-2', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
         submenu: [
             { value: "2", path: '/charts/encuesta', title: 'Encuesta', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

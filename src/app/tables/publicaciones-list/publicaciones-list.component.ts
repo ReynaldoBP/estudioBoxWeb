@@ -43,13 +43,27 @@ export class PublicacionesListComponent implements OnInit {
     objSelectSucursalUsuarioRes: any
     objListSucursalUsuarioRes: any
     objSelectSucursalUsuarioAdmin: any
-    objListSucursalUsuarioAdmin
+    arraySucursal
     estados: any
     estadoFiltro: any
-    constructor(private encuestaService: EncuestaService,
+    arrayParametrosSucursal: any = {
+        strEstado: "ACTIVO",
+        intIdUsuario: ""
+    }
+    arrayParametrosDataEncuesta: any = {
+        intMes: "",
+        intAnio: "",
+        intIdSucursal: "",
+        intIdUsuario: ""
+    }
+    arrayParametrosRespuestas: any = {
+        intIdCltEncuesta: "",
+        intIdUsuario: ""
+    }
+    constructor(private objEncuestaService: EncuestaService,
         private excelService: ExcelService,
         private toastr: ToastrService,
-        private sucursalService: SucursalService) {
+        private objSucursalService: SucursalService) {
         this.rows = []
         toastr.toastrConfig.timeOut = 3000
         this.anioEncuestas = this.date.getFullYear()
@@ -64,13 +78,8 @@ export class PublicacionesListComponent implements OnInit {
 
     ngOnInit() {
         if (this.getAccion('VER')) {
-            this.getRepuestasPublicaciones()
-            if (this.user.DESCRIPCION_TIPO_ROL == "ADMINISTRADOR") {
-                this.getSucursales()
-            }
-            else if (this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE" || this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE GERENCIA") {
-                this.getSucursalesbyUsuario(this.user.ID_USUARIO)
-            }
+            this.getDataEncuesta()
+            this.getSucursales()
         }
     }
 
@@ -91,60 +100,38 @@ export class PublicacionesListComponent implements OnInit {
         return (this.acciones.find(item => item['DESCRIPCION_ACCION'] == descAccion) != undefined)
     }
 
-    getRepuestasPublicaciones() {
+    getDataEncuesta() {
         this.rows = []
-        let intIdSucursal = ""
-        if (this.objSelectSucursalUsuarioAdmin != undefined && this.user.DESCRIPCION_TIPO_ROL == "ADMINISTRADOR") {
-            intIdSucursal = this.objSelectSucursalUsuarioAdmin
+        if (this.arraySucursal != undefined) {
+            this.arrayParametrosDataEncuesta.intIdSucursal = this.objSelectSucursal
         }
-        if (this.objSelectSucursalUsuarioRes != undefined && (this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE" || this.user.DESCRIPCION_TIPO_ROL == "RESTAURANTE GERENCIA")) {
-            intIdSucursal = this.objSelectSucursalUsuarioRes
-        }
-        this.encuestaService.getRespuestasPublicaciones(this.mesEncuestas.toString(), this.anioEncuestas.toString(), this.user.ID_USUARIO, intIdSucursal)
+        this.arrayParametrosDataEncuesta.intIdUsuario = this.user.intIdUsuario
+        this.arrayParametrosDataEncuesta.intMes = this.mesEncuestas.toString()
+        this.arrayParametrosDataEncuesta.intAnio = this.anioEncuestas.toString()
+        this.objEncuestaService.getDataEncuesta(this.arrayParametrosDataEncuesta)
             .subscribe(
                 data => {
-                    let datos = data['resultado']['resultados']
-                    this.rows = datos.map(item => {
-                        let obj = {
-                            RED_SOCIAL: item.RED_SOCIAL,
-                            FE_CREACION: item.FE_CREACION,
-                            CLIENTE_ID: item.CLIENTE_ID,
-                            NOMBRE_CLIENTE: item.NOMBRE_CLIENTE,
-                            DESCRIPCION: item.DESCRIPCION,
-                            TITULO: item.TITULO,
-                            IMAGEN: item.IMAGEN,
-                            CHECKED: false,
-                            ID_CLT_ENCUESTA: item.ID_CLT_ENCUESTA,
-                            ESTADO: item.ESTADO,
-                            PROMEDIO: item.PROMEDIO,
-                            COMENTARIO: item.COMENTARIO,
-                            VISTO: item.VISTO,
-                            ES_MENOR_3: item.ES_MENOR_3
-                        }
-                        return obj
-                    })
-                },
-                error => {
-
-                }
-            )
-    }
-
-    verImagen(item: any) {
-        this.encuestaService.getRespuestasPublicacionesById(item.ID_CLT_ENCUESTA, this.mesEncuestas.toString(), this.anioEncuestas.toString())
-            .subscribe(
-                data => {
-                    let datos = data['resultado']['resultados']
-                    let src = ''
-                    if (datos != null) {
-                        src = datos[0].IMAGEN
-                        swal({
-                            imageUrl: src,
-                            width: 900,
-                            showConfirmButton: false,
-                        });
-                    } else {
-                        this.toastr.warning("No hay imagen para ese registro")
+                    if (data["intStatus"] == 200) {
+                        let datos = data["arrayData"]["resultados"]
+                        this.rows = datos.map(item => {
+                            let obj = {
+                                strFeCreacion: item.strFeCreacion,
+                                intIdCliente: item.intIdCliente,
+                                strNombreClt: item.strNombreClt,
+                                strSucursal: item.strSucursal,
+                                strTitulo: item.strTitulo,
+                                intIdCltEncuesta: item.intIdCltEncuesta,
+                                strEstado: item.strEstado,
+                                strPromedio: item.strPromedio,
+                                strComentario: item.strComentario,
+                                strVisto: 1,
+                                strEsmenor3: item.strEsmenor3
+                            }
+                            return obj
+                        })
+                    }
+                    else {
+                        this.toastr.warning(data["strMensaje"], 'Error')
                     }
                 },
                 error => {
@@ -153,104 +140,65 @@ export class PublicacionesListComponent implements OnInit {
             )
     }
 
-    declinar() {
-        if (this.rows.filter(item => item.CHECKED).length == 0) {
-            this.toastr.warning("No ha seleccionado items", "Datos insuficientes")
-            return
-        }
-        let boolValidacionEstado = false
-        this.rows.filter(item => item.CHECKED).forEach(element => {
-            if (element.ESTADO == "ELIMINADO") {
-                boolValidacionEstado = true
-            }
-        });
-        if (boolValidacionEstado) {
-            this.toastr.warning("Almenos un registro seleccionado se encuentra en estado ELIMINADO.", 'Error')
-            return
-        }
-        swal({
-            title: "Quitar Puntos",
-            text: "¿Está seguro que desea eliminar los puntos de los registros seleccionados?",
-            showConfirmButton: true,
-            showCancelButton: true,
-            confirmButtonText: "Sí, eliminar puntos",
-            cancelButtonText: "No, cancelar",
-            type: "question"
-        }).then(result => {
-            if (result.value) {
-                this.quitarPuntos()
-            }
-        })
-    }
-
-    quitarPuntos() {
-        let arrayOfData = [];
-        this.rows.filter(item => item.CHECKED).forEach(element => {
-            arrayOfData.push(this.encuestaService.editEncuestasRealizadas(element.ID_CLT_ENCUESTA, this.user.ID_USUARIO))
-        });
-        forkJoin(arrayOfData).subscribe(response => {
-            swal({ title: "Encuestas", text: "Se han eliminado las encuestas exitosamente!", type: "success", showConfirmButton: true })
-                .then((result) => {
-                    if (result.value)
-                        this.getRepuestasPublicaciones()
-                });
-        }, error => {
-            this.toastr.warning(error, "Error")
-        });
-    }
-
-    verPreguntas(encuesta: any) {
-        this.encuestaService.getRespuestas(encuesta.ID_CLT_ENCUESTA, this.user.ID_USUARIO)
+    verPreguntas(objCltEncuesta: any) {
+        this.arrayParametrosRespuestas.intIdCltEncuesta = objCltEncuesta.intIdCltEncuesta
+        this.arrayParametrosRespuestas.intIdUsuario = this.user.intIdUsuario
+        this.objEncuestaService.getRespuesta(this.arrayParametrosRespuestas)
             .subscribe(
                 data => {
-                    let listpreg = data['resultado']['resultados']
-                    let list = document.createElement('UL');
-                    let tablehtml = "<table class='table table-responsive-md text-center'><tbody>"
-                    let tr = ""
-                    listpreg.forEach(element => {
-                        const listItem = document.createElement('div');
-                        listItem.className = "row"
+                    if (data['intStatus'] != 200) {
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    } else {
+                        let listpreg = data["arrayData"]["resultados"]
+                        let list = document.createElement('UL');
+                        let tablehtml = "<table class='table table-responsive-md text-center'><tbody>"
+                        let tr = ""
+                        listpreg.forEach(element => {
+                            const listItem = document.createElement('div');
+                            listItem.className = "row"
 
-                        let icons = ''
-                        for (let index = 0; index < element['RESPUESTA']; index++) {
-                            icons += "<i class='fa fa-star font-medium-3 mr-2'></i>"
-                        }
-                        for (let index = 0; index < element['VALOR'] - element['RESPUESTA']; index++) {
-                            icons += "<i class='fa fa-star-o font-medium-3 mr-2'></i>"
-                        }
-                        listItem.innerHTML = ("<div class='col-md-1'><strong>" +
-                            (listpreg.indexOf(element) + 1) +
-                            "</strong></div>" +
-                            "<div class='col-md-7'>" +
-                            element['DESCRIPCION_PREGUNTA'] +
-                            "</div>" +
-                            "<div class='col-md-4'>" +
-                            icons +
-                            "</div>");
-                        tr += "<tr>" +
-                            "<td>" + (listpreg.indexOf(element) + 1) + "</td>" +
-                            "<td>" + element['DESCRIPCION_PREGUNTA'] + "</td>" +
-                            "<td>" + (element['VALOR'] == null ? '<p style="font-size:12px">' + element['RESPUESTA'] + '</p>' : icons) + "</td>" +
-                            "</tr>"
-                        list.appendChild(listItem);
-                    });
-                    tablehtml += (tr + "</table>")
-                    swal(
-                        {
-                            title: encuesta.TITULO,
-                            html: tablehtml,
-                            showConfirmButton: true,
-                            width: 900
-                        })
-                    this.getRepuestasPublicaciones()
+                            let icons = ''
+                            for (let index = 0; index < element['RESPUESTA']; index++) {
+                                icons += "<i class='fa fa-star font-medium-3 mr-2'></i>"
+                            }
+                            for (let index = 0; index < element['VALOR'] - element['RESPUESTA']; index++) {
+                                icons += "<i class='fa fa-star-o font-medium-3 mr-2'></i>"
+                            }
+                            listItem.innerHTML = ("<div class='col-md-1'><strong>" +
+                                (listpreg.indexOf(element) + 1) +
+                                "</strong></div>" +
+                                "<div class='col-md-7'>" +
+                                element['DESCRIPCION_PREGUNTA'] +
+                                "</div>" +
+                                "<div class='col-md-4'>" +
+                                icons +
+                                "</div>");
+                            tr += "<tr>" +
+                                "<td>" + (listpreg.indexOf(element) + 1) + "</td>" +
+                                "<td>" + element['DESCRIPCION_PREGUNTA'] + "</td>" +
+                                "<td>" + (element['VALOR'] == null ? '<p style="font-size:12px">' + element['RESPUESTA'] + '</p>' : icons) + "</td>" +
+                                "</tr>"
+                            list.appendChild(listItem);
+                        });
+                        tablehtml += (tr + "</table>")
+                        swal(
+                            {
+                                title: objCltEncuesta.strTitulo,
+                                html: tablehtml,
+                                showConfirmButton: true,
+                                width: 900
+                            })
+                        this.getDataEncuesta()
+                    }
                 },
                 error => {
 
                 }
             )
     }
+
     getResumenCliente(encuesta: any) {
-        this.encuestaService.getResumenCliente(encuesta.ID_CLT_ENCUESTA, this.user.ID_USUARIO)
+        this.objEncuestaService.getResumenCliente(encuesta.ID_CLT_ENCUESTA, this.user.intIdUsuario)
             .subscribe(
                 data => {
                     let arrayResultado = data['resultado']
@@ -319,7 +267,7 @@ export class PublicacionesListComponent implements OnInit {
                             showConfirmButton: true,
                             width: 900
                         })
-                    this.getRepuestasPublicaciones()
+                    this.getDataEncuesta()
                 },
                 error => {
 
@@ -327,119 +275,15 @@ export class PublicacionesListComponent implements OnInit {
             )
     }
     getSucursales() {
-        this.sucursalService.getSucursalesActivas()
+        this.arrayParametrosSucursal.intIdUsuario = this.user.intIdUsuario
+        this.objSucursalService.getSucursal(this.arrayParametrosSucursal)
             .subscribe(
                 data => {
-                    this.objListSucursal = data['resultado']['resultados']
-                    this.objListSucursalUsuarioAdmin = data['resultado']['resultados']
+                    this.arraySucursal = data["arraySucursal"]
                 },
                 error => {
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }
             )
-    }
-    getSucursalesbyUsuario(idusuario: string) {
-        this.sucursalService.getSucursalesbyUsuario(idusuario)
-            .subscribe(
-                data => {
-                    this.objListSucursalUsuarioRes = data['resultado']['resultados']
-                },
-                error => {
-                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-                }
-            )
-    }
-
-    cambiarSucursal() {
-        if (this.objSelectSucursal == null) {
-            this.toastr.warning("No ha seleccionado una sucursal", "Datos insuficientes")
-            return
-        }
-        if (this.rows.filter(item => item.CHECKED).length == 0) {
-            this.toastr.warning("No ha seleccionado items", "Datos insuficientes")
-            return
-        }
-        let boolValidacionEstado = false
-        this.rows.filter(item => item.CHECKED).forEach(element => {
-            if (element.ESTADO != "PENDIENTE") {
-                boolValidacionEstado = true
-            }
-        });
-        if (boolValidacionEstado) {
-            this.toastr.warning("Almenos un registro seleccionado se encuentra en estado Activo o Eliminado.", 'Error')
-            return
-        }
-
-        swal({
-            title: "Cambiar Sucursal",
-            text: "¿Está seguro que desea cambiar la sucursal de los registros seleccionados?",
-            showConfirmButton: true,
-            showCancelButton: true,
-            confirmButtonText: "Sí, cambiar sucursal",
-            cancelButtonText: "No, cancelar",
-            type: "question"
-        }).then(result => {
-            if (result.value) {
-                this.editSucursal()
-            }
-        })
-    }
-
-    editSucursal() {
-        let arrayOfData = [];
-        this.rows.filter(item => item.CHECKED).forEach(element => {
-            arrayOfData.push(this.encuestaService.editSucursalEncuestasRealizadas(element.ID_CLT_ENCUESTA, this.objSelectSucursal, this.user.ID_USUARIO))
-        });
-        forkJoin(arrayOfData).subscribe(response => {
-            swal({ title: "Encuestas", text: "Se a cambiado la sucursal de las encuestas exitosamente!", type: "success", showConfirmButton: true })
-                .then((result) => {
-                    if (result.value)
-                        this.getRepuestasPublicaciones()
-                });
-        }, error => {
-            this.toastr.warning(error, "Error")
-        });
-    }
-
-    editarEstadoPunto() {
-        if (this.rows.filter(item => item.CHECKED).length == 0) {
-            this.toastr.warning("No ha seleccionado items", "Datos insuficientes")
-            return
-        }
-        let boolValidacionEstado = false
-        this.rows.filter(item => item.CHECKED).forEach(element => {
-            if (element.ESTADO != "ELIMINADO") {
-                boolValidacionEstado = true
-            }
-        });
-        if (boolValidacionEstado) {
-            this.toastr.warning("Almenos un registro seleccionado se encuentra en estado Activo o Pendiente.", 'Error')
-            return
-        }
-        swal({
-            title: "Editar Puntos",
-            text: "¿Está seguro que desea editar el estado de los puntos en los registros seleccionados?",
-            showConfirmButton: true,
-            showCancelButton: true,
-            confirmButtonText: "Sí, editar puntos",
-            cancelButtonText: "No, cancelar",
-            type: "question"
-        }).then(result => {
-            if (result.value) {
-                let arrayOfData = [];
-                this.rows.filter(item => item.CHECKED).forEach(element => {
-                    arrayOfData.push(this.encuestaService.editEstadoEncuestasRealizadas(element.ID_CLT_ENCUESTA, this.user.ID_USUARIO))
-                });
-                forkJoin(arrayOfData).subscribe(response => {
-                    swal({ title: "Encuestas", text: "Se a editado el estado de los puntos en las encuestas exitosamente!", type: "success", showConfirmButton: true })
-                        .then((result) => {
-                            if (result.value)
-                                this.getRepuestasPublicaciones()
-                        });
-                }, error => {
-                    this.toastr.warning(error, "Error")
-                });
-            }
-        })
     }
 }
