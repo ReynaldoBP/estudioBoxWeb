@@ -1,0 +1,167 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+    <div class="row text-left">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="px-3">
+                        <form class="form">
+                            <div class="form-body">
+                                <h4 class="form-section"><i class="ft-user"></i> {{objEncuesta.strTitulo}}</h4>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="strCorreo">Correo Electrónico</label>
+                                            <input type="text" id="strCorreo" class="form-control" name="strCorreo"
+                                                [(ngModel)]="objData.strCorreo">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="projectinput5">Genero</label>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <select id="cmbGenero" name="cmbGenero" class="form-control"
+                                                            [(ngModel)]="objData.strGenero" #cmbGenero="ngModel">
+                                                            <option *ngFor="let item of arrayGenero" value="{{item}}">
+                                                                {{item}}</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="strEdad">Año de Nacimiento</label>
+                                            <input type="text" id="strEdad" class="form-control" name="strEdad"
+                                                [(ngModel)]="objData.strEdad">
+                                        </div>
+                                    </div>
+                                </div>
+                                <h4 class="form-section"><i class="ft-file-text"></i> Preguntas</h4>
+                                <div *ngIf="loading" class="form-group">
+                                    <div class="col-md-12 text-center">
+                                        <div style="width: 3rem; height: 3rem;" class="spinner-border text-default" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <table class="table table-responsive-md text-center">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Pregunta</th>
+                                                <th>Respuesta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of arrayPregunta">
+                                                <td width="10%">{{arrayPregunta.indexOf(item) + 1}}</td>
+                                                <td width="40%">{{item['strPregunta']}}</td>
+                                                <td *ngIf="item['intCantidadEstrellas'] == 5" width="50%">
+                                                    <p class="clasificacion">
+                                                        <input id="radio_{{item['intIdPregunta']}}_5" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                        <label for="radio_{{item['intIdPregunta']}}_5"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_4" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="4">
+                                                        <label for="radio_{{item['intIdPregunta']}}_4"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_3" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="3">
+                                                        <label for="radio_{{item['intIdPregunta']}}_3"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_2" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="2">
+                                                        <label for="radio_{{item['intIdPregunta']}}_2"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_1" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="1">
+                                                        <label for="radio_{{item['intIdPregunta']}}_1"
+                                                            style="font-size: 50px">★</label>
+                                                    </p>
+                                                </td>
+                                                <td *ngIf="item['intCantidadEstrellas'] == 10" width="50%">
+                                                    <p class="clasificacion">
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_10" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                        <label for="radio_{{item['intIdPregunta']}}_10"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_9" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                        <label for="radio_{{item['intIdPregunta']}}_9"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_8" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                        <label for="radio_{{item['intIdPregunta']}}_8"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_7" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                        <label for="radio_{{item['intIdPregunta']}}_7"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_6" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                        <label for="radio_{{item['intIdPregunta']}}_6"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_5" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                        <label for="radio_{{item['intIdPregunta']}}_5"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_4" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="4">
+                                                        <label for="radio_{{item['intIdPregunta']}}_4"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_3" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="3">
+                                                        <label for="radio_{{item['intIdPregunta']}}_3"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_2" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="2">
+                                                        <label for="radio_{{item['intIdPregunta']}}_2"
+                                                            style="font-size: 50px">★</label>
+
+                                                        <input id="radio_{{item['intIdPregunta']}}_1" type="radio"
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="1">
+                                                        <label for="radio_{{item['intIdPregunta']}}_1"
+                                                            style="font-size: 50px">★</label>
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="form-actions" style="text-align: center">
+                                <button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+                                    [routerLink]="['/pages/encuesta']">
+                                    <i class="ft-x"></i> Cancelar
+                                </button>
+                                <button type="button" class="btn btn-raised btn-raised btn-primary"
+                                    (click)="guardarDatos()">
+                                    <i class="fa fa-check-square-o"></i> Guardar Datos
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RestauranteService } from 'app/_services/restaurante.service';
 import { EncuestaService } from 'app/_services/encuesta.service';
 import swal from 'sweetalert2';
 

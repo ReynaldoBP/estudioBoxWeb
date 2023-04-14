@@ -4,6 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ComingSoonPageComponent } from "./coming-soon/coming-soon-page.component";
 import { ErrorPageComponent } from "./error/error-page.component";
 import { ForgotPasswordPageComponent } from "./forgot-password/forgot-password-page.component";
+import { EncuestaPageComponent } from "./encuesta/encuesta-page.component";
 import { LockScreenPageComponent } from "./lock-screen/lock-screen-page.component";
 import { LoginPageComponent } from "./login/login-page.component";
 import { MaintenancePageComponent } from "./maintenance/maintenance-page.component";
@@ -35,7 +36,13 @@ const routes: Routes = [
           title: 'Forgot Password Page'
         }
       },   
-      
+      {
+        path: 'encuesta',
+        component: EncuestaPageComponent,
+        data: {
+          title: 'Encuesta'
+        }
+      },   
       {
         path: 'lockscreen',
         component: LockScreenPageComponent,

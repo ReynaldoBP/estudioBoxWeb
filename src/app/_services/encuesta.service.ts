@@ -14,7 +14,19 @@ export class EncuestaService {
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getPregunta', datos);
     }
-
+    createRespuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdEncuesta: arrayParametros.intIdEncuesta,
+                arrayPregunta: arrayParametros.arrayPregunta,
+                strUsrSesion: arrayParametros.strUsrSesion,
+                strCorreo: arrayParametros.strCorreo,
+                strGenero: arrayParametros.strGenero,
+                strEdad: arrayParametros.strEdad
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiMovil/createRespuesta', datos);
+    }
     getEncuesta(arrayParametros: any) {
         let datos = {
             data: {
