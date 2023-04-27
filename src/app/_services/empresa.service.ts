@@ -10,7 +10,8 @@ export class EmpresaService {
         let datos = {
             data: {
                 strEstado: objParametrosEmpresa.strEstado,
-                strContador: objParametrosEmpresa.strContador
+                strContador: objParametrosEmpresa.strContador,
+                intIdUsuario: objParametrosEmpresa.intIdUsuario
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getEmpresa', datos);

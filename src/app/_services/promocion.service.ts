@@ -6,6 +6,16 @@ import { Globals } from './global.service';
 export class PromocionService {
     constructor(private http: HttpClient, private globals: Globals) { }
 
+    editPromocionHistorial(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdCltPromoHist: arrayParametros.intIdCltPromoHist,
+                intIdUsuario: arrayParametros.intIdUsuario,
+            },
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editPromocionHistorial', datos);
+    }
+
     get() {
         return this.http.get(this.globals.host + this.globals.port + '/getPromocion');
     }

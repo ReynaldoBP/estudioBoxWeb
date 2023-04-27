@@ -5,9 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NgbModal, ModalDismissReasons, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { PromocionService } from 'app/_services/promocion.service';
 import swal from 'sweetalert2';
-import { RestauranteService } from 'app/_services/restaurante.service';
 import { forkJoin } from 'rxjs';
-
+import { EmpresaService } from 'app/_services/empresa.service';
 @Component({
     selector: 'app-extended-table',
     templateUrl: './redimirCupon-list.component.html',
@@ -18,13 +17,12 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
     p: number = 1;
     rows: any
     arrayResultado: any
-    listPromociones: any
-    listPromocionesPremio: any
+    arrayPromociones: any
     user: any
     clienteSeleccionado: any
     buscaCliente: string
     listRestaurante: any
-    buscaRestaurante: string
+    strEmpresaSeleccionada: string
     permisos: any
     acciones: any
     modalPromoRef: NgbModalRef
@@ -34,16 +32,35 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
     arrayParametros: any =
         {
             strListarCltCupon: "",
-            intIdRestaurante: 0
+            intIdEmpresa: 0
+        }
+    arrayParametrosPromoPendClt: any =
+        {
+            intIdEmpresa: "",
+            intIdCliente: "",
+            strEstado: "",
+            intIdUsuario: ""
+        }
+    arrayParametrosRedimir: any =
+        {
+            intIdCltPromoHist: "",
+            intIdUsuario: ""
         }
     arrayEstados: any
     strEstadoFiltro: any
     strNombre: any
     strCupon: any
-    constructor(private clienteService: ClienteService,
+    objParametrosEmpresa: any = {
+        strEstado: "ACTIVO",
+        strContador: "NO",
+        intIdUsuario: ""
+    }
+    arrayEmpresa: any
+
+    constructor(private objClienteService: ClienteService,
         private excelService: ExcelService,
-        private promocionService: PromocionService,
-        private restauranteService: RestauranteService,
+        private objPromocionService: PromocionService,
+        private objEmpresaService: EmpresaService,
         private toastr: ToastrService,
         private modalService: NgbModal) {
         this.rows = []
@@ -51,28 +68,25 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
         toastr.toastrConfig.timeOut = 3000
         this.user = JSON.parse(localStorage.getItem('usuario'))
         this.loading = false
-        this.descripcionOrigin = "Lista de clientes con los puntos que acumulan cada vez que comen en su restaurante y utilizan la aplicación BITTE para calificar/promocionar. Clientes con puntos suficientes solicitarán en la aplicación BITTE redimir promociones vigentes que su restaurante haya publicado. Las solicitudes de redimir puntos por promociones aparecerán en esta sección para que se validen y se otorgue el plato o bebida en promoción. El cliente presentará su identificación para que con su nombre lo busque en esta sección y le otorgue la promoción seleccionada. Los puntos de la promoción elegida serán restados del puntaje total del cliente"
-        this.descripcion = "Lista de clientes con los puntos que acumulan cada vez que comen en su restaurante y utilizan la aplicación BITTE para calificar/promocionar."
+        this.descripcionOrigin = "Lista de clientes con los puntos que acumulan cada vez que comen en su restaurante y utilizan la aplicación Estudio Box para calificar/promocionar. Clientes con puntos suficientes solicitarán en la aplicación Estudio Box redimir promociones vigentes que su restaurante haya publicado. Las solicitudes de redimir puntos por promociones aparecerán en esta sección para que se validen y se otorgue el plato o bebida en promoción. El cliente presentará su identificación para que con su nombre lo busque en esta sección y le otorgue la promoción seleccionada. Los puntos de la promoción elegida serán restados del puntaje total del cliente"
+        this.descripcion = "Lista de clientes con los puntos que acumulan cada vez que comen en su restaurante y utilizan la aplicación Estudio Box para calificar/promocionar."
         this.arrayEstados = ["PENDIENTE", "COMPLETADO"]
         this.strEstadoFiltro = "PENDIENTE"
     }
 
     vermas() {
         if (this.descripcion == this.descripcionOrigin) {
-            this.descripcion = "Lista de clientes con los puntos que acumulan cada vez que comen en su restaurante y utilizan la aplicación BITTE para calificar/promocionar."
+            this.descripcion = "Lista de clientes con los puntos que acumulan cada vez que comen en su restaurante y utilizan la aplicación Estudio Box para calificar/promocionar."
         } else {
             this.descripcion = this.descripcionOrigin
         }
     }
 
     ngOnInit() {
-        if (this.user.DESCRIPCION_TIPO_ROL == "ADMINISTRADOR") {
+        if (this.user.strTipoRol == "ADMINISTRADOR") {
             this.getClientesCupon()
-            this.getRestaurantes()
-        } else {
-            this.getClientesCupon()
-            this.getRestaurantesPorUsuario(this.user.ID_USUARIO)
         }
+        this.getEmpresas()
         this.getPermisos("Prom/RedimirCupon")
     }
 
@@ -85,14 +99,20 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
         return (this.acciones.find(item => item['DESCRIPCION_ACCION'] == descAccion) != undefined)
     }
 
-    getClientesRestaurante(intIdRestaurante) {
+    getClientesRestaurante(intIdEmpresa) {
         this.rows = []
-        this.arrayParametros.intIdRestaurante = intIdRestaurante
+        this.arrayParametros.intIdEmpresa = intIdEmpresa
         this.arrayParametros.strListarCltCupon = "SI";
-        this.clienteService.getClientesCupon(this.arrayParametros)
+        this.objClienteService.getClientesCupon(this.arrayParametros)
             .subscribe(
                 data => {
-                    this.rows = data['resultado']['resultados']
+                    if (data["intStatus"] == 200) {
+                        this.arrayResultado = data["arrayData"]
+                    }
+                    else {
+                        this.arrayResultado = []
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    }
                 },
                 error => {
 
@@ -103,10 +123,16 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
     getClientesCupon() {
         this.arrayResultado = []
         this.arrayParametros.strListarCltCupon = "SI";
-        this.clienteService.getClientesCupon(this.arrayParametros)
+        this.objClienteService.getClientesCupon(this.arrayParametros)
             .subscribe(
                 data => {
-                    this.arrayResultado = data['resultado']['resultados']
+                    if (data["intStatus"] == 200) {
+                        this.arrayResultado = data["arrayData"]
+                    }
+                    else {
+                        this.arrayResultado = []
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    }
                 },
                 error => {
                 }
@@ -117,61 +143,57 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
 
     }
 
-    getPromocionesPendientes(idCliente: string, idRestaurante: string) {
-        this.listPromociones = null
-        this.clienteService.getPromocionesCliente(idCliente, idRestaurante, 'PENDIENTE', null, null, null, null)
+    getPromocionesPendientesPorClt(intIdCliente: string, intIdEmpresa: string) {
+        this.arrayPromociones = null
+        this.arrayParametrosPromoPendClt.intIdCliente = intIdCliente
+        this.arrayParametrosPromoPendClt.intIdEmpresa = intIdEmpresa
+        this.arrayParametrosPromoPendClt.strEstado = "PENDIENTE"
+        this.arrayParametrosPromoPendClt.intIdUsuario = this.user.intIdUsuario
+        this.objClienteService.getPromocionesPendientesPorClt(this.arrayParametrosPromoPendClt)
             .subscribe(
                 data => {
-                    let promociones = data['resultado']['resultados']
-                    this.listPromociones = promociones.map(item => {
-                        let promocion = {
-                            ID_CLIENTE_PUNTO_HISTORIAL: item.ID_CLIENTE_PUNTO_HISTORIAL,
-                            ESTADO_PROMOCION_HISTORIAL: item.ESTADO_PROMOCION_HISTORIAL,
-                            CLIENTE_ID: item.CLIENTE_ID,
-                            ID_PROMOCION: item.ID_PROMOCION,
-                            DESCRIPCION_TIPO_PROMOCION: item.DESCRIPCION_TIPO_PROMOCION,
-                            ESTADO_PROMOCION: item.ESTADO_PROMOCION,
-                            ID_RESTAURANTE: item.ID_RESTAURANTE,
-                            NOMBRE_COMERCIAL: item.NOMBRE_COMERCIAL,
-                            ESTADO_RESTAURANTE: item.ESTADO_RESTAURANTE,
-                            CHECKED: false
+                    if (data["intStatus"] == 200) {
+                        let promociones = data["arrayData"]
+                        this.arrayPromociones = promociones.map(item => {
+                            let promocion = {
+                                strDescPromo: item.strDescPromo,
+                                intIdCltPromoHist: item.intIdCltPromoHist,
+                                CHECKED: false
+                            }
+                            return promocion
+                        })
+                        console.log(data);
+                    }
+                    else {
+                        this.arrayResultado = []
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    }
+                },
+                error => {
+
+                }
+            )
+    }
+    getEmpresas() {
+        this.objParametrosEmpresa.intIdUsuario = (this.user.strTipoRol != "ADMINISTRADOR") ? this.user.intIdUsuario : ""
+        this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
+            .subscribe(
+                data => {
+                    if (data['intStatus'] != 200) {
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    } else {
+                        this.arrayEmpresa = data["arrayEmpresa"]
+                        if (this.user.strTipoRol != "ADMINISTRADOR") {
+                            this.strEmpresaSeleccionada = this.arrayEmpresa[0].intIdEmpresa
+                            this.getClientesRestaurante(this.strEmpresaSeleccionada)
                         }
-                        return promocion
-                    })
+                    }
                 },
                 error => {
-
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }
             )
     }
-
-
-    getRestaurantesPorUsuario(idusuario: string) {
-        this.restauranteService.getRestaurantesByUsuario(idusuario)
-            .subscribe(
-                data => {
-                    this.listRestaurante = data['resultado']['resultados']
-                    this.buscaRestaurante = this.listRestaurante[0].ID_RESTAURANTE
-                    this.getClientesRestaurante(this.buscaRestaurante)
-                },
-                error => {
-
-                }
-            )
-    }
-
-    getRestaurantes() {
-        this.restauranteService.getRestaurantes()
-            .subscribe(
-                data => {
-                    this.listRestaurante = data['resultado']['resultados']
-                },
-                error => {
-
-                }
-            )
-    }
-
     exportAsXLSX() {
         let clientes = this.arrayResultado.map(item => {
             let obj = {
@@ -185,7 +207,7 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
             }
             return obj
         })
-        this.excelService.exportAsExcelFile(clientes, 'clientes_bitte');
+        this.excelService.exportAsExcelFile(clientes, 'clientes_Estudio Box');
     }
 
     exportAsPDF() {
@@ -198,16 +220,16 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
             { title: "FECHA VIGENCIA", dataKey: "FE_VIGENCIA" },
             { title: "ESTADO", dataKey: "ESTADO" },
         ]
-        this.excelService.exportAsPdfFile(cols, this.arrayResultado, 'clientes_bitte');
+        this.excelService.exportAsPdfFile(cols, this.arrayResultado, 'clientes_Estudio Box');
     }
 
     getModalCupon(content, itemCliente) {
-        if (this.buscaRestaurante != null) {
+        if (this.strEmpresaSeleccionada != null) {
             this.clienteSeleccionado = itemCliente
-            this.getPromocionesPendientes(this.clienteSeleccionado.ID_CLIENTE, this.buscaRestaurante)
+            this.getPromocionesPendientesPorClt(this.clienteSeleccionado.ID_CLIENTE, this.strEmpresaSeleccionada)
             this.modalPromoRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: 'lg', centered: true })
         } else {
-            this.toastr.warning("Seleccione restaurante", "Error")
+            this.toastr.warning("Seleccione una Empresa", "Error")
         }
     }
 
@@ -216,14 +238,16 @@ export class redimirCuponComponent implements OnInit, OnDestroy {
     }
 
     redimirCupon() {
-        if (this.listPromociones.filter(item => item.CHECKED).length == 0) {
+        if (this.arrayPromociones.filter(item => item.CHECKED).length == 0) {
             this.toastr.warning("No hay promociones seleccionadas", "Error")
             return
         }
         this.loading = true
         let arrayOfData = [];
-        this.listPromociones.filter(item => item.CHECKED).forEach(element => {
-            arrayOfData.push(this.promocionService.updatePromoHistorial(element.ID_CLIENTE_PUNTO_HISTORIAL, this.user.ID_USUARIO))
+        this.arrayPromociones.filter(item => item.CHECKED).forEach(element => {
+            this.arrayParametrosRedimir.intIdCltPromoHist = element.intIdCltPromoHist
+            this.arrayParametrosRedimir.intIdUsuario = this.user.intIdUsuario
+            arrayOfData.push(this.objPromocionService.editPromocionHistorial(this.arrayParametrosRedimir))
         });
         forkJoin(arrayOfData).subscribe(response => {
             this.loading = false

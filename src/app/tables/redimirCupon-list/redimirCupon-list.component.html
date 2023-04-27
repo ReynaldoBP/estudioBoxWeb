@@ -34,11 +34,11 @@
 
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <ng-select [items]="listRestaurante" [multiple]="false" [closeOnSelect]="true"
-                                    [hideSelected]="false" bindLabel="NOMBRE_COMERCIAL" bindValue="ID_RESTAURANTE"
-                                    placeholder="Seleccione Restaurante" [(ngModel)]="buscaRestaurante"
-                                    [disabled]="user.DESCRIPCION_TIPO_ROL != 'ADMINISTRADOR'"
-                                    (change)="getClientesRestaurante(buscaRestaurante)" name="cmbRestaurante">
+                                <ng-select [items]="arrayEmpresa" [multiple]="false" [closeOnSelect]="true"
+                                    [hideSelected]="false" bindLabel="strNombreComercial" bindValue="intIdEmpresa"
+                                    placeholder="Seleccione Empresa" [(ngModel)]="strEmpresaSeleccionada"
+                                    [disabled]="user.strTipoRol != 'ADMINISTRADOR'"
+                                    (change)="getClientesRestaurante(strEmpresaSeleccionada)" name="cmbEmpresa">
                                 </ng-select>
                             </div>
                         </div>
@@ -59,9 +59,9 @@
                         <table id="tblrestaurantes" class="table table-responsive-md text-center">
                             <thead>
                                 <tr>
-                                    <th *ngIf="user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'">Código Cliente</th>
+                                    <th *ngIf="user.strTipoRol == 'ADMINISTRADOR'">Código Cliente</th>
                                     <th>Nombres completos</th>
-                                    <th *ngIf="user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'">Correo</th>
+                                    <th *ngIf="user.strTipoRol == 'ADMINISTRADOR'">Correo</th>
                                     <th>Cupón</th>
                                     <th>Fecha Creación</th>
                                     <th>Fecha Vigencia</th>
@@ -73,10 +73,10 @@
                             <tbody>
                                 <tr
                                     *ngFor="let item of arrayResultado | FilterRedimirCupon : buscaCliente : strEstadoFiltro | paginate: { itemsPerPage: 10, currentPage: p }">
-                                    <td *ngIf="user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'">CL-{{item['ID_CLIENTE']}}
+                                    <td *ngIf="user.strTipoRol == 'ADMINISTRADOR'">CL-{{item['ID_CLIENTE']}}
                                     </td>
                                     <td>{{item['NOMBRE_COMPLETO']}}</td>
-                                    <td *ngIf="user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'">{{item['CORREO']}}</td>
+                                    <td *ngIf="user.strTipoRol == 'ADMINISTRADOR'">{{item['CORREO']}}</td>
                                     <td>{{item['CUPON']}}</td>
                                     <td>{{item['FE_CREACION']}}</td>
                                     <td>{{item['FE_VIGENCIA']}}</td>
@@ -112,12 +112,12 @@
         <div class="form-group">
             <p class="content-sub-header">Seleccione las promociones a redimir.</p>
             <div class="col-sm-12 text-center">
-                <div *ngIf="!listPromociones || loading" style="width: 3rem; height: 3rem;"
+                <div *ngIf="!arrayPromociones || loading" style="width: 3rem; height: 3rem;"
                     class="spinner-border text-success" role="status">
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            <table *ngIf="listPromociones && listPromociones.length != 0" id="tblpromociones"
+            <table *ngIf="arrayPromociones && arrayPromociones.length != 0" id="tblpromociones"
                 class="table table-responsive-md text-center">
                 <thead>
                     <tr>
@@ -126,15 +126,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of listPromociones">
-                        <td>{{item['DESCRIPCION_TIPO_PROMOCION']}}</td>
+                    <tr *ngFor="let item of arrayPromociones">
+                        <td>{{item['strDescPromo']}}</td>
                         <td>
                             <input type="checkbox" [(ngModel)]="item.CHECKED" class="form-control">
                         </td>
                     </tr>
                 </tbody>
             </table>
-            <h5 *ngIf="listPromociones && listPromociones.length == 0">No hay promociones seleccionadas por el cliente
+            <h5 *ngIf="arrayPromociones && arrayPromociones.length == 0">No hay promociones seleccionadas por el cliente
             </h5>
         </div>
     </div>

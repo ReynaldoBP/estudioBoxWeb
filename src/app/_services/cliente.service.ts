@@ -6,6 +6,31 @@ import { Globals } from './global.service';
 export class ClienteService {
     constructor(private http: HttpClient, private globals: Globals) { }
 
+    getClientesCupon(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdEmpresa: arrayParametros.intIdEmpresa,
+                strListarCltCupon: arrayParametros.strListarCltCupon,
+                strCupoDisponible: 'SI',
+                strEstado: ['ACTIVO', 'INACTIVO']
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getClienteCriterio', datos);
+    }
+    getPromocionesPendientesPorClt(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdEmpresa: arrayParametros.intIdEmpresa,
+                intIdCliente: arrayParametros.intIdCliente,
+                strEstado: arrayParametros.strEstado,
+                intIdUsuario: arrayParametros.intIdUsuario
+            },
+            op: 'getPromocionHistorial'
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getPromocionesPendientesPorClt', datos);
+    }
+
+
     getClientes(idrestaurante: string) {
         let datos = {
             data: {
@@ -45,18 +70,6 @@ export class ClienteService {
     getClientesAdmin() {
         let datos = {
             data: {
-                strCupoDisponible: 'SI',
-                strEstado: ['ACTIVO', 'INACTIVO']
-            },
-            op: 'getCliente'
-        }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
-    }
-    getClientesCupon(arrayParametro: any) {
-        let datos = {
-            data: {
-                idRestaurante: arrayParametro.intIdRestaurante,
-                strListarCltCupon: arrayParametro.strListarCltCupon,
                 strCupoDisponible: 'SI',
                 strEstado: ['ACTIVO', 'INACTIVO']
             },

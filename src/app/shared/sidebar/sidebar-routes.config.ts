@@ -18,15 +18,15 @@ export const ROUTES: RouteInfo[] = [
             { value: "26", path: '/tables/centroComercial', title: 'Centro Comercial', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "27", path: '/tables/clienteMovil', title: 'Usuario Móvil', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
-    },
-    {
-        value: "0", path: '', title: 'Promoción', icon: 'ft-lock', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
-        submenu: [
-            { value: "28", path: '/tables/redimirCupon', title: 'Redimir Cupón', icon: 'ft-user', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "9", path: '/tables/clientes', title: 'Redimir', icon: 'ft-user', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "23", path: '/tables/puntosEstadistica', title: 'Reportes', icon: 'ft-bar-chart-2', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-        ]
     },*/
+    {
+        value: "6", path: '', title: 'Promoción', icon: 'ft-lock', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
+        submenu: [
+            { value: "7", path: '/tables/redimirCupon', title: 'Redimir Cupón', icon: 'ft-user', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            /*{ value: "9", path: '/tables/clientes', title: 'Redimir', icon: 'ft-user', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "23", path: '/tables/puntosEstadistica', title: 'Reportes', icon: 'ft-bar-chart-2', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },*/
+        ]
+    },
     { value: "5", path: '/tables/publicaciones', title: 'Data Encuestas', icon: 'ft-camera', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     {
         value: "0", path: '', title: 'Estadística', icon: 'ft-bar-chart-2', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
