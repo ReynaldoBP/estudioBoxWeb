@@ -43,7 +43,8 @@
                                 <h4 class="form-section"><i class="ft-file-text"></i> Preguntas</h4>
                                 <div *ngIf="loading" class="form-group">
                                     <div class="col-md-12 text-center">
-                                        <div style="width: 3rem; height: 3rem;" class="spinner-border text-default" role="status">
+                                        <div style="width: 3rem; height: 3rem;" class="spinner-border text-default"
+                                            role="status">
                                             <span class="sr-only">Loading...</span>
                                         </div>
                                     </div>
@@ -93,27 +94,27 @@
                                                     <p class="clasificacion">
 
                                                         <input id="radio_{{item['intIdPregunta']}}_10" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="10">
                                                         <label for="radio_{{item['intIdPregunta']}}_10"
                                                             style="font-size: 50px">★</label>
 
                                                         <input id="radio_{{item['intIdPregunta']}}_9" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="9">
                                                         <label for="radio_{{item['intIdPregunta']}}_9"
                                                             style="font-size: 50px">★</label>
 
                                                         <input id="radio_{{item['intIdPregunta']}}_8" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="8">
                                                         <label for="radio_{{item['intIdPregunta']}}_8"
                                                             style="font-size: 50px">★</label>
 
                                                         <input id="radio_{{item['intIdPregunta']}}_7" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="7">
                                                         <label for="radio_{{item['intIdPregunta']}}_7"
                                                             style="font-size: 50px">★</label>
 
                                                         <input id="radio_{{item['intIdPregunta']}}_6" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                            name="estrellas_{{item['intIdPregunta']}}" value="6">
                                                         <label for="radio_{{item['intIdPregunta']}}_6"
                                                             style="font-size: 50px">★</label>
 
@@ -141,6 +142,13 @@
                                                             name="estrellas_{{item['intIdPregunta']}}" value="1">
                                                         <label for="radio_{{item['intIdPregunta']}}_1"
                                                             style="font-size: 50px">★</label>
+                                                    </p>
+                                                </td>
+                                                <td *ngIf="item['strTipoOpcionRespuesta'] == 'ABIERTA'" width="50%">
+                                                    <p class="clasificacion">
+                                                        <input type="text" style="text-align: left;"
+                                                            id="text_{{item['intIdPregunta']}}_1" class="form-control"
+                                                            name="text_{{item['intIdPregunta']}}_1">
                                                     </p>
                                                 </td>
                                             </tr>

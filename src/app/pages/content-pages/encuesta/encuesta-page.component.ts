@@ -13,7 +13,8 @@ import swal from 'sweetalert2';
 })
 
 export class EncuestaPageComponent {
-    arrayParametrosPregunta: any = { intIdEncuesta: 9 }
+    arrayParametrosPregunta: any = { intIdEncuesta: null }
+    intIdEncuesta = ""
     objEncuesta: any = {
         strTitulo: 'Encuesta de satisfacción del cliente',
         strDescripcion: 'asd',
@@ -38,29 +39,43 @@ export class EncuestaPageComponent {
         this.arrayGenero = ["Seleccione su Género", "Masculino", "Femenino", "Otros"]
     }
     ngOnInit(): void {
+        const urlParams = new URLSearchParams(window.location.search);
+        this.intIdEncuesta = urlParams.get('intIdEncuesta')
         this.verPreguntas()
     }
     verPreguntas() {
         this.loading = true
-        this.objEncuestaService.getPregunta(this.arrayParametrosPregunta)
-            .subscribe(
-                data => {
-                    this.loading = false
-                    if (data["intStatus"] == 200) {
-                        this.arrayPregunta = data["arrayPregunta"]
-                    }
-                    else {
-                        swal({ title: "", text: data["strMensaje"], type: "error", showConfirmButton: true })
-                            .then((result) => {
-                                if (result.value)
-                                    location.reload();
-                            });
-                    }
-                },
-                error => {
+        this.arrayParametrosPregunta.intIdEncuesta = this.intIdEncuesta
+        console.log(this.intIdEncuesta)
+        if (this.intIdEncuesta.length == 0) {
+            swal({ title: "Error", text: "No se pudo cargar las preguntas con los parámetros enviados.", type: "error", showConfirmButton: true })
+                .then((result) => {
+                    if (result.value)
+                        location.reload();
+                });
+        }
+        else {
+            console.log(this.arrayParametrosPregunta)
+            this.objEncuestaService.getPregunta(this.arrayParametrosPregunta)
+                .subscribe(
+                    data => {
+                        this.loading = false
+                        if (data["intStatus"] == 200) {
+                            this.arrayPregunta = data["arrayPregunta"]
+                        }
+                        else {
+                            swal({ title: "", text: data["strMensaje"], type: "error", showConfirmButton: true })
+                                .then((result) => {
+                                    if (result.value)
+                                        location.reload();
+                                });
+                        }
+                    },
+                    error => {
 
-                }
-            )
+                    }
+                )
+        }
     }
     guardarDatos() {
         this.loading = true
@@ -76,7 +91,17 @@ export class EncuestaPageComponent {
                 Object.assign(objJsonPregunta, objJsonRespuesta);
             }
         });
-        this.objData.intIdEncuesta = 9
+        const objText = document.querySelectorAll<HTMLInputElement>('input[type="text"]');
+        let arrayTempRespuestaText = []
+        objText.forEach((arrayItemText) => {
+            if (arrayItemText.id != 'strCorreo' && arrayItemText.id != 'strEdad') {
+                arrayTempRespuestaText = arrayItemText.id.split("_")
+                console.log("intIdPregunta: " + arrayTempRespuestaText[1] + " | intRespuesta: " + arrayItemText.value)
+                let objJsonRespuesta = { [arrayTempRespuestaText[1]]: arrayItemText.value }
+                Object.assign(objJsonPregunta, objJsonRespuesta);
+            }
+        });
+        this.objData.intIdEncuesta = this.intIdEncuesta
         this.objData.arrayPregunta = objJsonPregunta
         this.objData.strUsrSesion = "anonimoEncuestaWeb"
         console.log(this.objData)

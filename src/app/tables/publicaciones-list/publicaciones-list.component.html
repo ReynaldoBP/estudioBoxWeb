@@ -151,10 +151,16 @@
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
-                                    <div class="col-md-12">
+                                    <div class="col-md-6">
                                         <button type="button" style="width: 100%"
                                             class="btn btn-raised btn-raised btn-success" (click)="getDataEncuesta()">
                                             <i class="fa fa-search"></i> Buscar
+                                        </button>
+                                    </div>
+                                    <div class="col-md-6" align="right">
+                                        <button type="button" style="width: 100%"
+                                            class="btn btn-raised btn-raised btn-danger" (click)="declinar()">
+                                            <i class="fa fa-times"></i> Eliminar
                                         </button>
                                     </div>
                                 </div>
@@ -173,8 +179,8 @@
                                     <th>Sucursal</th>
                                     <th>Promedio</th>
                                     <th>Respuestas</th>
-                                    <!--<th>Imagen</th>
-                                    <th>Selecc.</th>-->
+                                    <!--<th>Imagen</th>-->
+                                    <th>Selecc.</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -248,6 +254,9 @@
                                             (click)="verPreguntas(item)">
                                             <i class="ft-list font-medium-3 mr-2"></i>
                                         </a>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" [(ngModel)]="item['CHECKED']" class="form-control">
                                     </td>
                                 </tr>
                             </tbody>

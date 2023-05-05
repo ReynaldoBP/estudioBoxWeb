@@ -6,6 +6,16 @@ import { Globals } from './global.service';
 export class EncuestaService {
     constructor(private http: HttpClient, private globals: Globals) { }
 
+    editEncuestasRealizadas(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdCltEncuesta: arrayParametros.intIdCltEncuesta,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                strEstado:arrayParametros.strEstado
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editEncuestasRealizadas', datos);
+    }
     getPregunta(arrayParametros: any) {
         let datos = {
             data: {
@@ -141,18 +151,6 @@ export class EncuestaService {
     }
     getRespuestas(id: string, usuarioCreacion: string) {
         return this.http.get(this.globals.host + this.globals.port + '/getRespuesta?idCltEncuesta=' + id + '&usuarioCreacion=' + usuarioCreacion);
-    }
-
-    editEncuestasRealizadas(idRespuestaCab: string, usuarioCreacion: string) {
-        let datos = {
-            data: {
-                idClienteEncuesta: idRespuestaCab,
-                usuarioCreacion: usuarioCreacion
-            },
-            op: 'editClienteEncuesta',
-            user: usuarioCreacion
-        }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     }
 
     editSucursalEncuestasRealizadas(intIdClienteEncuesta: string, intIdSucursal: string, usuarioCreacion: string) {

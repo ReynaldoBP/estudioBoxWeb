@@ -60,6 +60,11 @@ export class PublicacionesListComponent implements OnInit {
         intIdCltEncuesta: "",
         intIdUsuario: ""
     }
+    arrayParametrosEstadoDataEncuesta: any = {
+        intIdCltEncuesta: "",
+        strEstado: "ACTIVO",
+        intIdUsuario: ""
+    }
     constructor(private objEncuestaService: EncuestaService,
         private excelService: ExcelService,
         private toastr: ToastrService,
@@ -286,4 +291,53 @@ export class PublicacionesListComponent implements OnInit {
                 }
             )
     }
+    declinar() {
+        if (this.rows.filter(item => item.CHECKED).length == 0) {
+            this.toastr.warning("No ha seleccionado items", "Datos insuficientes")
+            return
+        }
+        let boolValidacionEstado = false
+        this.rows.filter(item => item.CHECKED).forEach(element => {
+            if (element.ESTADO == "ELIMINADO") {
+                boolValidacionEstado = true
+            }
+        });
+        if (boolValidacionEstado) {
+            this.toastr.warning("Almenos un registro seleccionado se encuentra en estado ELIMINADO.", 'Error')
+            return
+        }
+        swal({
+            title: "Eliminar Data Encuesta",
+            text: "¿Está seguro que desea eliminar los registros seleccionados?",
+            showConfirmButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "No, cancelar",
+            type: "question"
+        }).then(result => {
+            if (result.value) {
+                this.quitarPuntos()
+            }
+        })
+    }
+
+    quitarPuntos() {
+        let arrayOfData = [];
+        this.rows.filter(item => item.CHECKED).forEach(element => {
+            this.arrayParametrosEstadoDataEncuesta.intIdCltEncuesta = element.intIdCltEncuesta
+            this.arrayParametrosEstadoDataEncuesta.intIdUsuario = element.intIdUsuario
+            this.arrayParametrosEstadoDataEncuesta.strEstado = "ELIMINADO"
+            arrayOfData.push(this.objEncuestaService.editEncuestasRealizadas(this.arrayParametrosEstadoDataEncuesta))
+        });
+        forkJoin(arrayOfData).subscribe(response => {
+            swal({ title: "Encuestas", text: "Se han eliminado las encuestas exitosamente!", type: "success", showConfirmButton: true })
+                .then((result) => {
+                    if (result.value)
+                        this.getDataEncuesta()
+                });
+        }, error => {
+            this.toastr.warning(error, "Error")
+        });
+    }
+
 }
