@@ -41,7 +41,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="projectinput5">Sucursal</label>
                             <div class="row">
@@ -50,6 +50,22 @@
                                         <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
                                             [hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
                                             placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal"
+                                            (change)="getArea();getResultadoProPregunta()">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="projectinput5">Area</label>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <ng-select [items]="arrayArea" [multiple]="false" [closeOnSelect]="true"
+                                            [hideSelected]="false" bindLabel="strArea" bindValue="intIdArea"
+                                            placeholder="Seleccione Area" [(ngModel)]="objSelectArea"
                                             (change)="getResultadoProPregunta()">
                                         </ng-select>
                                     </div>
@@ -57,7 +73,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-2">
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="projectinput5">Tiempo</label>
                             <select id="cmbRol" name="cmbRol" class="form-control"
@@ -69,7 +87,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="projectinput5">Horario</label>
                             <select id="cmbRol" name="cmbRol" class="form-control"

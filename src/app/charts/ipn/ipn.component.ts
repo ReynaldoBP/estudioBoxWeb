@@ -3,8 +3,8 @@ import * as chartsData from '../../shared/data/chartjs';
 import { ChartsService } from 'app/_services/charts.service';
 import { ParamService } from 'app/_services/param.service';
 import { ToastrService } from 'ngx-toastr';
-import { RestauranteService } from 'app/_services/restaurante.service';
 import { SucursalService } from 'app/_services/sucursal.service';
+import { AreaService } from 'app/_services/area.service';
 import { EmpresaService } from 'app/_services/empresa.service';
 @Component({
   selector: 'app-chartjs',
@@ -17,8 +17,13 @@ export class ChartIPNComponent {
     strEstado: "ACTIVO",
     intIdUsuario: ""
   }
+  arrayParametrosArea: any = {
+    strEstado: "ACTIVO",
+    intIdUsuario: "",
+    intIdSucursal: ""
+}
   arraySucursal: any
-
+  arrayArea
   arrayParametrosIpn: any = {
     strFechaInicio: "",
     strFechaFin: "",
@@ -27,7 +32,8 @@ export class ChartIPNComponent {
     strEdad: "",
     intIdSucursal: "",
     intIdEmpresa: "",
-    intIdUsuario: ""
+    intIdUsuario: "",
+    intIdArea: ""
     
   }
   arrayHorarios: any
@@ -106,12 +112,14 @@ export class ChartIPNComponent {
   objSelectEmpresa: any = null
   arrayEmpresa: any
   objSelectSucursal: any
+  objSelectArea: any = null
   objParametrosEmpresa: any = {
     strEstado: "ACTIVO",
     strContador: "NO"
 }
   constructor(private objChartsService: ChartsService,
     private objEmpresaService: EmpresaService,
+    private objAreaService: AreaService,
     private objSucursalService: SucursalService,
     private objParametroService: ParamService,
     private toastr: ToastrService) {
@@ -129,6 +137,7 @@ export class ChartIPNComponent {
     this.descripcion = "El Índice Promotor Neto permite conocer la lealtad de los clientes de una empresa basándose en las recomendaciones que se fomentan entre la clientela. "
     if (this.user.strTipoRol == "EMPRESA") {
       this.getSucursales()
+      this.getArea()
     }
   }
 
@@ -154,8 +163,12 @@ export class ChartIPNComponent {
     this.arrayParametrosIpn.intIdUsuario = this.user.intIdUsuario
     this.arrayParametrosIpn.intIdEmpresa = this.objSelectEmpresa
     this.arrayParametrosIpn.intIdSucursal = this.objSelectSucursal
+    this.arrayParametrosIpn.intIdArea     = this.objSelectArea
     if (this.objSelectSucursal != undefined) {
       this.arrayParametrosIpn.intIdSucursal = this.objSelectSucursal
+    }
+    if (this.objSelectArea != undefined) {
+      this.arrayParametrosIpn.intIdArea = this.objSelectArea
     }
     this.objChartsService.getResultadoProIPN(this.arrayParametrosIpn)
       .subscribe(
@@ -237,7 +250,21 @@ export class ChartIPNComponent {
         }
       )
   }
-
+  getArea() {
+    if (this.arraySucursal != undefined) {
+        this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
+    }
+    this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario
+    this.objAreaService.getArea(this.arrayParametrosArea)
+        .subscribe(
+            data => {
+                this.arrayArea = data["arrayArea"]
+            },
+            error => {
+                this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+            }
+        )
+}
   getHorarios() {
     this.objParametroService.getParametro('HORARIO').subscribe(
       data => {

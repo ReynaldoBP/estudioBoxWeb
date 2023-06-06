@@ -33,14 +33,26 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div *ngIf="user.strTipoRol == 'EMPRESA'" class="col-md-6">
+                    <div *ngIf="user.strTipoRol == 'EMPRESA'" class="col-md-3">
                         <div class="form-group">
                             <label for="projectinput5">Sucursal</label>
                             <div class="form-group">
                                 <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
                                     [hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
                                     placeholder="Seleccione Sucursal" name="cmbSucursalUsuarioRes"
-                                    [(ngModel)]="objSelectSucursal" (change)="getResultadoProIPN()">
+                                    [(ngModel)]="objSelectSucursal" (change)="getArea();getResultadoProIPN()">
+                                </ng-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="user.strTipoRol == 'EMPRESA'" class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Area</label>
+                            <div class="form-group">
+                                <ng-select [items]="arrayArea" [multiple]="false" [closeOnSelect]="true"
+                                    [hideSelected]="false" bindLabel="strArea" bindValue="intIdArea"
+                                    placeholder="Seleccione Area" [(ngModel)]="objSelectArea"
+                                    (change)="getResultadoProIPN()">
                                 </ng-select>
                             </div>
                         </div>

@@ -15,7 +15,8 @@ export class ChartsService {
                 strHorario: arrayParametros.strHorario,
                 strEdad: arrayParametros.strEdad,
                 intIdUsuario: arrayParametros.intIdUsuario,
-                intIdSucursal: arrayParametros.intIdSucursal
+                intIdSucursal: arrayParametros.intIdSucursal,
+                intIdArea: arrayParametros.intIdArea
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getResultadoProEncuesta', datos);
@@ -30,7 +31,8 @@ export class ChartsService {
                 intLimite: arrayParametros.intLimite,
                 intIdPregunta: arrayParametros.intIdPregunta,
                 intIdUsuario: arrayParametros.intIdUsuario,
-                intIdSucursal: arrayParametros.intIdSucursal
+                intIdSucursal: arrayParametros.intIdSucursal,
+                intIdArea:arrayParametros.intIdArea
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getResultadoProPregunta', datos);
@@ -46,7 +48,8 @@ export class ChartsService {
                 strEdad: arrayParametros.strEdad,
                 intIdUsuario: arrayParametros.intIdUsuario,
                 intIdEmpresa: arrayParametros.intIdEmpresa,
-                intIdSucursal: arrayParametros.intIdSucursal
+                intIdSucursal: arrayParametros.intIdSucursal,
+                intIdArea:arrayParametros.intIdArea
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getResultadoProIPN', datos);

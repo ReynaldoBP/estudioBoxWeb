@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import * as chartsData from '../../shared/data/chartjs';
 import { ChartsService } from 'app/_services/charts.service';
 import { ParamService } from 'app/_services/param.service';
+import { AreaService } from 'app/_services/area.service';
 import { ToastrService } from 'ngx-toastr';
 import { SucursalService } from 'app/_services/sucursal.service';
 @Component({
@@ -19,7 +20,8 @@ export class ChartEncuestaComponent implements OnInit {
     strHorario: "",
     strEdad: "",
     intIdSucursal: "",
-    intIdUsuario: ""
+    intIdUsuario: "",
+    intIdArea: ""
   }
   arrayHorarios: any
   arrayEdades: any
@@ -79,14 +81,22 @@ export class ChartEncuestaComponent implements OnInit {
   descripcionOrigin: string
   descripcion: string
   objSelectSucursal: any
+  objSelectArea: any = null
   arraySucursal
+  arrayArea
   arrayParametrosSucursal: any = {
     strEstado: "ACTIVO",
     intIdUsuario: ""
   }
+  arrayParametrosArea: any = {
+    strEstado: "ACTIVO",
+    intIdUsuario: "",
+    intIdSucursal: ""
+  }
   constructor(private objChartsService: ChartsService,
     private objParametroService: ParamService,
     private toastr: ToastrService,
+    private objAreaService: AreaService,
     private objSucursalService: SucursalService) {
     this.user = JSON.parse(localStorage.getItem('usuario'))
   }
@@ -118,6 +128,7 @@ export class ChartEncuestaComponent implements OnInit {
     this.descripcionOrigin = "Acceda a las estadísticas de la encuesta general. El gráfico presenta puntuaciones promediadas sobre todas las respuestas de sus clientes. Esta sección le permite elegir diferentes variables para visualizar data estadística según su interés y realizar comparativos. "
     this.descripcion = "Acceda a las estadísticas de la encuesta general."
     this.getSucursales()
+    this.getArea()
   }
 
   vermas() {
@@ -142,6 +153,9 @@ export class ChartEncuestaComponent implements OnInit {
     this.arrayParametrosEncuestas.intIdSucursal = ''
     if (this.arraySucursal != undefined) {
       this.arrayParametrosEncuestas.intIdSucursal = this.objSelectSucursal
+    }
+    if (this.arrayArea != undefined) {
+      this.arrayParametrosEncuestas.intIdArea = this.objSelectArea
     }
     this.objChartsService.getPreguntasEncuestaActiva(this.arrayParametrosEncuestas)
       .subscribe(
@@ -200,6 +214,21 @@ export class ChartEncuestaComponent implements OnInit {
       .subscribe(
         data => {
           this.arraySucursal = data["arraySucursal"]
+        },
+        error => {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      )
+  }
+  getArea() {
+    if (this.arraySucursal != undefined) {
+      this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
+    }
+    this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario
+    this.objAreaService.getArea(this.arrayParametrosArea)
+      .subscribe(
+        data => {
+          this.arrayArea = data["arrayArea"]
         },
         error => {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')

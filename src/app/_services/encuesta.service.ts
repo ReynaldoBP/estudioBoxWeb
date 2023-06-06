@@ -134,7 +134,8 @@ export class EncuestaService {
                 intMes: arrayParametros.intMes,
                 intAnio: arrayParametros.intAnio,
                 intIdUsuario: arrayParametros.intIdUsuario,
-                intIdSucursal: arrayParametros.intIdSucursal
+                intIdSucursal: arrayParametros.intIdSucursal,
+                intIdArea: arrayParametros.intIdArea
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getDataEncuesta', datos);

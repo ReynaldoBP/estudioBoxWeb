@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RestauranteService } from 'app/_services/restaurante.service';
 import { SucursalService } from 'app/_services/sucursal.service';
+import { AreaService } from 'app/_services/area.service';
 import { ExcelService } from 'app/_services/excel.service';
 import swal from 'sweetalert2';
 import { EncuestaService } from 'app/_services/encuesta.service';
@@ -39,21 +40,26 @@ export class PublicacionesListComponent implements OnInit {
     descripcionOrigin: string
     descripcion: string
     objSelectSucursal: any = null
+    objSelectArea: any = null
     objListSucursal: any
-    objSelectSucursalUsuarioRes: any
-    objListSucursalUsuarioRes: any
-    objSelectSucursalUsuarioAdmin: any
     arraySucursal
+    arrayArea
     estados: any
     estadoFiltro: any
     arrayParametrosSucursal: any = {
         strEstado: "ACTIVO",
         intIdUsuario: ""
     }
+    arrayParametrosArea: any = {
+        strEstado: "ACTIVO",
+        intIdUsuario: "",
+        intIdSucursal: ""
+    }
     arrayParametrosDataEncuesta: any = {
         intMes: "",
         intAnio: "",
         intIdSucursal: "",
+        intIdArea: "",
         intIdUsuario: ""
     }
     arrayParametrosRespuestas: any = {
@@ -68,16 +74,17 @@ export class PublicacionesListComponent implements OnInit {
     constructor(private objEncuestaService: EncuestaService,
         private excelService: ExcelService,
         private toastr: ToastrService,
-        private objSucursalService: SucursalService) {
+        private objSucursalService: SucursalService,
+        private objAreaService: AreaService) {
         this.rows = []
         toastr.toastrConfig.timeOut = 3000
         this.anioEncuestas = this.date.getFullYear()
         this.mesEncuestas = (this.date.getMonth() + 1)
         this.user = JSON.parse(localStorage.getItem('usuario'))
         this.getPermisos("Data")
-        this.descripcionOrigin = "Esta sección le permite ver respuestas individuales así como cada una de las fotos de los platos que sus clientes captaron en el proceso de calificación. Usted como restaurante debe confirmar que el plato o bebida pertenece a su menu. Caso contrario usted tiene la potestad de eliminar esta entrada. Al realizar esto, se elimina la data de encuesta para los cálculos estadísticos y además se eliminan los puntos que el cliente ganó por esta calificación y/o publicación en redes sociales. En caso de eliminar puntos, el cliente recibirá un correo electrónico dando a conocer la eliminación de puntos."
-        this.descripcion = "Esta sección le permite ver respuestas individuales así como cada una de las fotos de los platos que sus clientes captaron en el proceso de calificación."
-        this.estados = ["ACTIVO", "PENDIENTE", "ELIMINADO"]
+        this.descripcionOrigin = "Esta sección le permite ver respuestas individuales que sus clientes captaron en el proceso de calificación."
+        this.descripcion = "Esta sección le permite ver respuestas"
+        this.estados = ["ACTIVO", "ELIMINADO"]
         this.estadoFiltro = "ACTIVO"
     }
 
@@ -85,12 +92,13 @@ export class PublicacionesListComponent implements OnInit {
         if (this.getAccion('VER')) {
             this.getDataEncuesta()
             this.getSucursales()
+            this.getArea()
         }
     }
 
     vermas() {
         if (this.descripcion == this.descripcionOrigin) {
-            this.descripcion = "Esta sección le permite ver respuestas individuales así como cada una de las fotos de los platos que sus clientes captaron en el proceso de calificación."
+            this.descripcion = "Esta sección le permite ver respuestas"
         } else {
             this.descripcion = this.descripcionOrigin
         }
@@ -110,6 +118,9 @@ export class PublicacionesListComponent implements OnInit {
         if (this.arraySucursal != undefined) {
             this.arrayParametrosDataEncuesta.intIdSucursal = this.objSelectSucursal
         }
+        if (this.arrayArea != undefined) {
+            this.arrayParametrosDataEncuesta.intIdArea = this.objSelectArea
+        }
         this.arrayParametrosDataEncuesta.intIdUsuario = this.user.intIdUsuario
         this.arrayParametrosDataEncuesta.intMes = this.mesEncuestas.toString()
         this.arrayParametrosDataEncuesta.intAnio = this.anioEncuestas.toString()
@@ -124,12 +135,13 @@ export class PublicacionesListComponent implements OnInit {
                                 intIdCliente: item.intIdCliente,
                                 strNombreClt: item.strNombreClt,
                                 strSucursal: item.strSucursal,
+                                strArea: item.strArea,
                                 strTitulo: item.strTitulo,
                                 intIdCltEncuesta: item.intIdCltEncuesta,
                                 strEstado: item.strEstado,
                                 strPromedio: item.strPromedio,
-                                strComentario: item.strComentario,
-                                strVisto: 1,
+                                strComentario: item.strComentario!= null ? item.strComentario:'',
+                                strVisto: '0',
                                 strEsmenor3: item.strEsmenor3
                             }
                             return obj
@@ -163,11 +175,15 @@ export class PublicacionesListComponent implements OnInit {
                             listItem.className = "row"
 
                             let icons = ''
-                            for (let index = 0; index < element['RESPUESTA']; index++) {
-                                icons += "<i class='fa fa-star font-medium-3 mr-2'></i>"
-                            }
-                            for (let index = 0; index < element['VALOR'] - element['RESPUESTA']; index++) {
-                                icons += "<i class='fa fa-star-o font-medium-3 mr-2'></i>"
+                            if(element["TIPO_RESPUESTA"]=="CERRADA" && element['VALOR'] != null)
+                            {
+                                for (let index = 0; index < element['RESPUESTA']; index++) {
+                                    console.log(element['RESPUESTA'])
+                                    icons += "<i class='fa fa-star font-medium-3 mr-2'></i>"
+                                }
+                                for (let index = 0; index < element['VALOR'] - element['RESPUESTA']; index++) {
+                                    icons += "<i class='fa fa-star-o font-medium-3 mr-2'></i>"
+                                }
                             }
                             listItem.innerHTML = ("<div class='col-md-1'><strong>" +
                                 (listpreg.indexOf(element) + 1) +
@@ -285,6 +301,21 @@ export class PublicacionesListComponent implements OnInit {
             .subscribe(
                 data => {
                     this.arraySucursal = data["arraySucursal"]
+                },
+                error => {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            )
+    }
+    getArea() {
+        if (this.arraySucursal != undefined) {
+            this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
+        }
+        this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario
+        this.objAreaService.getArea(this.arrayParametrosArea)
+            .subscribe(
+                data => {
+                    this.arrayArea = data["arrayArea"]
                 },
                 error => {
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')

@@ -24,6 +24,7 @@ import { Globals } from './_services/global.service';
 import { RestauranteService } from './_services/restaurante.service';
 import { LoginService } from './_services/login.service';
 import { SucursalService } from './_services/sucursal.service';
+import { AreaService } from './_services/area.service';
 import { GeocodeService } from './_services/geocode.service';
 import { UsuarioService } from './_services/usuario.service';
 import { TipoComidaService } from './_services/tipocomida.service';
@@ -75,6 +76,7 @@ import { ChartsService } from './_services/charts.service';
         forwardRef(() => RestauranteService),
         forwardRef(() => LoginService),
         forwardRef(() => SucursalService),
+        forwardRef(() => AreaService),
         forwardRef(() => Location),
         forwardRef(() => GeocodeService),
         forwardRef(() => UsuarioService),

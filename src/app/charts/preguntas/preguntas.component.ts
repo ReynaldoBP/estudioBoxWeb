@@ -5,6 +5,7 @@ import { ParamService } from 'app/_services/param.service';
 import { ToastrService } from 'ngx-toastr';
 import { EncuestaService } from 'app/_services/encuesta.service';
 import { SucursalService } from 'app/_services/sucursal.service';
+import { AreaService } from 'app/_services/area.service';
 @Component({
   selector: 'app-chartjs',
   templateUrl: './preguntas.component.html',
@@ -133,6 +134,7 @@ export class ChartPreguntasComponent implements OnInit {
   }
   arrayParametrosEncuestas: any = {
     intIdSucursal: '',
+    intIdArea: "",
     intIdUsuario: '',
     intLimite: '',
     intIdPregunta: '',
@@ -153,15 +155,23 @@ export class ChartPreguntasComponent implements OnInit {
   arrayTotalEncuestas: any[] = [];
   arrayEncuestas: any[] = [];
   objSelectSucursal: any
+  objSelectArea: any = null
   arraySucursal: any
+  arrayArea
   arrayParametrosSucursal: any = {
     strEstado: "ACTIVO",
     intIdUsuario: ""
   }
+  arrayParametrosArea: any = {
+    strEstado: "ACTIVO",
+    intIdUsuario: "",
+    intIdSucursal: ""
+}
   constructor(private objChartsService: ChartsService,
     private objParametroService: ParamService,
     private toastr: ToastrService,
     private objEncuestaService: EncuestaService,
+    private objAreaService: AreaService,
     private objSucursalService: SucursalService) {
     this.user = JSON.parse(localStorage.getItem('usuario'))
     this.descripcionOrigin = "Acceda a las estadísticas de preguntas individuales. El gráfico presenta puntuaciones promediadas sobre todas las respuestas de sus clientes. Esta sección le permite elegir diferentes variables para visualizar data estadística según su interés y realizar comparativos."
@@ -194,6 +204,7 @@ export class ChartPreguntasComponent implements OnInit {
     this.getHorarios()
     this.getEdades()
     this.getSucursales()
+    this.getArea()
   }
 
   vermas() {
@@ -239,6 +250,9 @@ export class ChartPreguntasComponent implements OnInit {
     if (this.objSelectSucursal != undefined) {
       this.arrayParametrosEncuestas.intIdSucursal = this.objSelectSucursal
     }
+    if (this.objSelectArea != undefined) {
+      this.arrayParametrosEncuestas.intIdArea = this.objSelectArea
+    }
     this.objChartsService.getResultadoProPregunta(this.arrayParametrosEncuestas)
       .subscribe(
         data => {
@@ -282,7 +296,21 @@ export class ChartPreguntasComponent implements OnInit {
         }
       )
   }
-
+  getArea() {
+    if (this.arraySucursal != undefined) {
+        this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
+    }
+    this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario
+    this.objAreaService.getArea(this.arrayParametrosArea)
+        .subscribe(
+            data => {
+                this.arrayArea = data["arrayArea"]
+            },
+            error => {
+                this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+            }
+        )
+}
   getHorarios() {
     this.objParametroService.getParametro('HORARIO').subscribe(
       data => {

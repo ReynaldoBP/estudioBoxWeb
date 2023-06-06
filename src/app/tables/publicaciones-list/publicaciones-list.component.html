@@ -20,63 +20,35 @@
                         </div>
                     </div>
                     <div class="row" *ngIf="user.strTipoRol=='EMPRESA'">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="projectinput5">Sucursal</label>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
-                                            [hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
+                                            (change)="getArea();getDataEncuesta()" [hideSelected]="false"
+                                            bindLabel="strNombre" bindValue="intIdSucursal"
                                             placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal">
                                         </ng-select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="projectinput5">Mes</label>
+                                <label for="projectinput5">Area</label>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <select id="cmbtipocomida" [(ngModel)]="mesEncuestas" class="form-control"
-                                            name="cmbMes" (change)="getDataEncuesta()">
-                                            <option *ngFor="let item of monthNames" value="{{item.numanio}}">
-                                                {{item.anio}}
-                                            </option>
-                                        </select>
+                                        <ng-select [items]="arrayArea" [multiple]="false" [closeOnSelect]="true"
+                                            (change)="getDataEncuesta()" [hideSelected]="false" bindLabel="strArea"
+                                            bindValue="intIdArea" placeholder="Seleccione Area"
+                                            [(ngModel)]="objSelectArea">
+                                        </ng-select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="projectinput5">Año</label>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <select id="cmbtipocomida" [(ngModel)]="anioEncuestas" class="form-control"
-                                            name="cmbMes" (change)="getDataEncuesta()">
-                                            <option value="2023">2023</option>
-                                            <option value="2025">2024</option>
-                                            <option value="2024">2025</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="projectinput5">Estado</label>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <select id="cmbEstado" name="cmbEstado" class="form-control"
-                                            [(ngModel)]="estadoFiltro" #cmbRol="ngModel">
-                                            <option *ngFor="let item of estados" value="{{item}}">{{item}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
@@ -90,21 +62,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" *ngIf="user.strTipoRol=='ADMINISTRADOR'">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="projectinput5">Sucursal</label>
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
-                                            [hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
-                                            placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal">
-                                        </ng-select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
+                    <div class="row" *ngIf="user.strTipoRol=='EMPRESA'">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="projectinput5">Mes</label>
                                 <div class="row">
@@ -119,7 +78,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="projectinput5">Año</label>
                                 <div class="row">
@@ -127,14 +86,14 @@
                                         <select id="cmbtipocomida" [(ngModel)]="anioEncuestas" class="form-control"
                                             name="cmbMes" (change)="getDataEncuesta()">
                                             <option value="2023">2023</option>
-                                            <option value="2025">2024</option>
-                                            <option value="2024">2025</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="projectinput5">Estado</label>
                                 <div class="row">
@@ -143,6 +102,36 @@
                                             [(ngModel)]="estadoFiltro" #cmbRol="ngModel">
                                             <option *ngFor="let item of estados" value="{{item}}">{{item}}</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="user.strTipoRol=='ADMINISTRADOR'">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Sucursal</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
+                                            (change)="getArea();getDataEncuesta()" [hideSelected]="false"
+                                            bindLabel="strNombre" bindValue="intIdSucursal"
+                                            placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Area</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ng-select [items]="arrayArea" [multiple]="false" [closeOnSelect]="true"
+                                            (change)="getDataEncuesta()" [hideSelected]="false" bindLabel="strArea"
+                                            bindValue="intIdArea" placeholder="Seleccione Area"
+                                            [(ngModel)]="objSelectArea">
+                                        </ng-select>
                                     </div>
                                 </div>
                             </div>
@@ -167,6 +156,51 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row" *ngIf="user.strTipoRol=='ADMINISTRADOR'">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Mes</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbtipocomida" [(ngModel)]="mesEncuestas" class="form-control"
+                                            name="cmbMes" (change)="getDataEncuesta()">
+                                            <option *ngFor="let item of monthNames" value="{{item.numanio}}">
+                                                {{item.anio}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Año</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbtipocomida" [(ngModel)]="anioEncuestas" class="form-control"
+                                            name="cmbMes" (change)="getDataEncuesta()">
+                                            <option value="2023">2023</option>
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Estado</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <select id="cmbEstado" name="cmbEstado" class="form-control"
+                                            [(ngModel)]="estadoFiltro" #cmbRol="ngModel">
+                                            <option *ngFor="let item of estados" value="{{item}}">{{item}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div *ngIf="getAccion('VER')" class="card-block">
@@ -177,6 +211,7 @@
                                     <th>Fecha</th>
                                     <th>Cliente</th>
                                     <th>Sucursal</th>
+                                    <th>Area</th>
                                     <th>Promedio</th>
                                     <th>Respuestas</th>
                                     <!--<th>Imagen</th>-->
@@ -235,6 +270,18 @@
                                         </div>
                                         <div *ngIf="item['strVisto'] !='0' && item['strComentario'] !=''">
                                             {{item['strSucursal']}}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div *ngIf="item['strVisto'] =='0' && item['strComentario'] !=''"
+                                            style='font-weight:600;padding-top: 10'>
+                                            {{item['strArea']}}
+                                        </div>
+                                        <div *ngIf="item['strComentario'] ==''">
+                                            {{item['strArea']}}
+                                        </div>
+                                        <div *ngIf="item['strVisto'] !='0' && item['strComentario'] !=''">
+                                            {{item['strArea']}}
                                         </div>
                                     </td>
                                     <td>
