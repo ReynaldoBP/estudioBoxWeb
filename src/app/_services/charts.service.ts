@@ -29,10 +29,13 @@ export class ChartsService {
                 strHorario: arrayParametros.strHorario,
                 strEdad: arrayParametros.strEdad,
                 intLimite: arrayParametros.intLimite,
+                arrayPregunta: arrayParametros.arrayPregunta,
                 intIdPregunta: arrayParametros.intIdPregunta,
                 intIdUsuario: arrayParametros.intIdUsuario,
                 intIdSucursal: arrayParametros.intIdSucursal,
-                intIdArea:arrayParametros.intIdArea
+                intIdArea:arrayParametros.intIdArea,
+                intIdEncuesta:arrayParametros.intIdEncuesta,
+                arrayMes:arrayParametros.arrayMes
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getResultadoProPregunta', datos);

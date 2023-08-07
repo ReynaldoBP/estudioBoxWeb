@@ -167,7 +167,13 @@ export class ChartEncuestaComponent implements OnInit {
             this.barChartData[0].label = data['arrayData']['intNumeroEncuesta']
             this.barChartLabels = resultados.map(item => item.strDescripcion)
           } else {
-            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+            if (data["intStatus"] == 204 && data["strMensaje"].length > 0) {
+              this.toastr.warning(data["strMensaje"], 'Error')
+            }
+            else
+            {
+              this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+            }
             this.loading = false
             this.barChartData[0].data = []
             this.barChartData[0].label = ""

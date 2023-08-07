@@ -6,6 +6,8 @@ import { ToastrService } from 'ngx-toastr';
 import { EncuestaService } from 'app/_services/encuesta.service';
 import { SucursalService } from 'app/_services/sucursal.service';
 import { AreaService } from 'app/_services/area.service';
+import { Color } from 'ng2-charts';
+
 @Component({
   selector: 'app-chartjs',
   templateUrl: './preguntas.component.html',
@@ -14,7 +16,7 @@ import { AreaService } from 'app/_services/area.service';
 
 export class ChartPreguntasComponent implements OnInit {
 
-  monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+  arrayMeses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
     "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
   ];
   // lineChart
@@ -43,6 +45,7 @@ export class ChartPreguntasComponent implements OnInit {
 
   // barChart
   public barChartOptions = {
+    scaleShowVerticalLines: false,
     responsive: true,
     plugins: {
       labels: {
@@ -66,12 +69,7 @@ export class ChartPreguntasComponent implements OnInit {
     scales: {
       yAxes: [
         {
-          display: true,
-          ticks: {
-            min: 0,
-            max: 5,
-            beginAtZero: true
-          }
+          display: true
         }
       ],
       xAxes: [{
@@ -87,10 +85,14 @@ export class ChartPreguntasComponent implements OnInit {
   public barChartLabels = [];
   public barChartType = chartsData.barChartType;
   public barChartLegend = chartsData.barChartLegend;
-  _barChartDataPreguntas: any[] = [
+  /*_barChartDataPreguntas: any[] = [
     { data: [], label: 'TODAS' }
   ];
-  public barChartData = this._barChartDataPreguntas;
+    public barChartData = this._barChartDataPreguntas;*/
+  public barChartData = [
+    { data: [], label: null },
+  ];
+
   public barChartColors //= chartsData.barChartColors;
 
   // Doughnut
@@ -137,10 +139,12 @@ export class ChartPreguntasComponent implements OnInit {
     intIdArea: "",
     intIdUsuario: '',
     intLimite: '',
+    arrayPregunta: '',
     intIdPregunta: '',
     strEdad: '',
     strGenero: '',
-    strHorario: ''
+    strHorario: '',
+    intIdEncuesta: ''
   }
   arrayParametrosPreguntas: any = {
     intIdEncuesta: ""
@@ -153,7 +157,10 @@ export class ChartPreguntasComponent implements OnInit {
   descripcionOrigin: string
   descripcion: string
   arrayTotalEncuestas: any[] = [];
-  arrayEncuestas: any[] = [];
+  arrayEncuestas
+  arraySelectMes: any[] = []
+  objSelectEncuesta: any = null
+  objSelectPregunta: any = null
   objSelectSucursal: any
   objSelectArea: any = null
   arraySucursal: any
@@ -166,7 +173,7 @@ export class ChartPreguntasComponent implements OnInit {
     strEstado: "ACTIVO",
     intIdUsuario: "",
     intIdSucursal: ""
-}
+  }
   constructor(private objChartsService: ChartsService,
     private objParametroService: ParamService,
     private toastr: ToastrService,
@@ -179,6 +186,9 @@ export class ChartPreguntasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const objFecha = new Date();
+    const intMesActual = objFecha.getMonth();
+    this.arraySelectMes = [this.arrayMeses[intMesActual]]
     let canvas: any = document.getElementById("chartPreguntas");
     let ctx = canvas.getContext("2d");
     let gradient = ctx.createLinearGradient(0, 0, 0, 400);
@@ -200,13 +210,10 @@ export class ChartPreguntasComponent implements OnInit {
     this.barChartColors = _barChartColors
     this.arrayParametrosEncuestas.intLimite = "3"
     this.arrayParametrosEncuestas.intIdUsuario = this.user.intIdUsuario
-    this.getEncuesta()
     this.getHorarios()
     this.getEdades()
     this.getSucursales()
-    this.getArea()
   }
-
   vermas() {
     if (this.descripcion == this.descripcionOrigin) {
       this.descripcion = "Acceda a las estadísticas de preguntas individuales."
@@ -214,8 +221,16 @@ export class ChartPreguntasComponent implements OnInit {
       this.descripcion = this.descripcionOrigin
     }
   }
-
   getEncuesta() {
+    this.objSelectEncuesta = null
+    this.arrayParametrosEncuestas.intIdSucursal = ''
+    this.arrayParametrosEncuestas.intIdArea = ''
+    if (this.objSelectSucursal != undefined) {
+      this.arrayParametrosEncuestas.intIdSucursal = this.objSelectSucursal
+    }
+    if (this.objSelectArea != undefined) {
+      this.arrayParametrosEncuestas.intIdArea = this.objSelectArea
+    }
     this.objEncuestaService.getEncuesta(this.arrayParametrosEncuestas).subscribe(
       data => {
         if (data["intStatus"] == 200) {
@@ -230,21 +245,30 @@ export class ChartPreguntasComponent implements OnInit {
   }
 
   getPregunta() {
-    console.log(this.arrayParametrosPreguntas)
-    this.objEncuestaService.getPregunta(this.arrayParametrosPreguntas).subscribe(
-      data => {
-        if (data["intStatus"] == 200) {
-          this.arrayPreguntas = data['arrayPregunta'].filter(item => item.intCantidadEstrellas == "5")
-        } else {
-          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-        }
-      },
-      error => {
-        this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
-      });
+    this.objSelectPregunta = null
+    if (this.objSelectEncuesta != undefined) {
+      this.arrayParametrosPreguntas.intIdEncuesta = this.objSelectEncuesta
+    }
+    if (this.arrayParametrosPreguntas.intIdEncuesta != undefined) {
+      this.objEncuestaService.getPregunta(this.arrayParametrosPreguntas).subscribe(
+        data => {
+          if (data["intStatus"] == 200) {
+            console.log(data['arrayPregunta'])
+            this.arrayPreguntas = data['arrayPregunta'].filter(item => item.strTipoOpcionRespuesta != "ABIERTA" && item.intCantidadEstrellas != 10)
+          } else {
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+          }
+        },
+        error => {
+          this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+        });
+    }
   }
 
   getResultadoProPregunta() {
+    this.barChartData[0].data = []
+    this.barChartData[0].label = ""
+    this.barChartLabels = []
     this.loading = true
     this.arrayParametrosEncuestas.intIdSucursal = ''
     if (this.objSelectSucursal != undefined) {
@@ -253,28 +277,75 @@ export class ChartPreguntasComponent implements OnInit {
     if (this.objSelectArea != undefined) {
       this.arrayParametrosEncuestas.intIdArea = this.objSelectArea
     }
+    if (this.objSelectEncuesta != undefined) {
+      this.arrayParametrosEncuestas.intIdEncuesta = this.objSelectEncuesta
+    }
+    if (this.objSelectPregunta != undefined) {
+      this.arrayParametrosEncuestas.intIdPregunta = this.objSelectPregunta
+    }
+    if (this.arraySelectMes != undefined) {
+      this.arrayParametrosEncuestas.arrayMes = this.arraySelectMes
+    }
     this.objChartsService.getResultadoProPregunta(this.arrayParametrosEncuestas)
       .subscribe(
         data => {
           this.loading = false
-          console.log(data)
           if (data["intStatus"] == 200) {
-            let intNumeroEncuesta = data["arrayData"]["intNumeroEncuesta"]
-            this.barChartData[0].data = data["arrayData"].resultados.map(item => item.strPromedio)
-            if (this.arrayParametrosEncuestas.intIdPregunta == "") {
-              this.barChartData[0].label = 'Todas'
-            } else {
-              this.barChartData[0].label = this.arrayPreguntas.filter(item => item.intIdPregunta == this.arrayParametrosEncuestas.intIdPregunta)[0].strPregunta
-            }
-            this.barChartLabels = data["arrayData"].resultados.map(item => this.monthNames[Number.parseInt(item.intMes) - 1])
-            this.arrayTotalEncuestas = intNumeroEncuesta;
-
-          } else {
-            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-            this.loading = false
-            this.barChartData[0].data = []
-            this.barChartData[0].label = ""
             this.barChartLabels = []
+            var obj = {}
+            var arrayPromedio = []
+            var strPregunta = ""
+            var arrayValidador = []
+            var arrayObj: any = []
+            let intAcumulador = 0
+            data["arrayData"].forEach(arrayItemData => {
+              if (arrayItemData.length > 0) {
+                this.barChartLabels = []
+                arrayItemData.forEach(arrayItemPregunta => {
+                  intAcumulador += Number.parseInt(arrayItemPregunta.strPromedio)
+                });
+                arrayItemData.forEach(arrayItemPregunta => {
+                  let floatPorcentaje = (arrayItemPregunta.strPromedio / intAcumulador) * 100
+                  console.log((arrayItemPregunta.strPromedio / intAcumulador) * 100)
+                  arrayPromedio.push(arrayItemPregunta.strPromedio)
+                  this.barChartLabels.push(arrayItemPregunta.strLabel)
+                  strPregunta = this.arrayMeses[Number.parseInt(arrayItemPregunta.intMes) - 1]
+                  arrayValidador.push(arrayItemPregunta.strLabel + "-" + floatPorcentaje)
+                });
+                console.log("intAcumulador: " + intAcumulador)
+                //(barra.valor / total) * 100
+                obj = { data: arrayPromedio, label: strPregunta, arrayValidador: arrayValidador }
+                console.log(obj)
+                arrayObj.push(obj)
+                arrayPromedio = []
+                arrayValidador = []
+              }
+            })
+            if (arrayObj.length > 0) {
+              this.barChartData.shift()
+              this.barChartData[100]
+              let intContador = 0
+              arrayObj.forEach(arrayItemObj => {
+                console.log(arrayItemObj.data)
+
+                this.barChartData[intContador] = { data: arrayItemObj.data, label: arrayItemObj.label }
+                this.barChartColors[intContador] = this.getRandomColor();
+                intContador++
+              })
+            }
+            else {
+              this.barChartData[0].data = []
+              this.barChartData[0].label = ""
+              this.barChartLabels = []
+            }
+          } else {
+            if (data["intStatus"] == 204 && data["strMensaje"].length > 0) {
+              this.toastr.warning(data["strMensaje"], 'Error')
+            }
+            else {
+              this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+            }
+            this.loading = false
           }
         },
         error => {
@@ -283,7 +354,16 @@ export class ChartPreguntasComponent implements OnInit {
         }
       )
   }
+  getRandomColor(): Color {
+    const red = Math.floor(Math.random() * 256);
+    const green = Math.floor(Math.random() * 256);
+    const blue = Math.floor(Math.random() * 256);
+    const alpha = 1; // Valor fijo de opacidad (1 = completamente opaco)
 
+    return {
+      backgroundColor: `rgba(${red}, ${green}, ${blue}, ${alpha})`
+    };
+  }
   getSucursales() {
     this.arrayParametrosSucursal.intIdUsuario = this.user.intIdUsuario
     this.objSucursalService.getSucursal(this.arrayParametrosSucursal)
@@ -297,20 +377,21 @@ export class ChartPreguntasComponent implements OnInit {
       )
   }
   getArea() {
+    this.objSelectArea = null
     if (this.arraySucursal != undefined) {
-        this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
+      this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
     }
     this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario
     this.objAreaService.getArea(this.arrayParametrosArea)
-        .subscribe(
-            data => {
-                this.arrayArea = data["arrayArea"]
-            },
-            error => {
-                this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-            }
-        )
-}
+      .subscribe(
+        data => {
+          this.arrayArea = data["arrayArea"]
+        },
+        error => {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      )
+  }
   getHorarios() {
     this.objParametroService.getParametro('HORARIO').subscribe(
       data => {

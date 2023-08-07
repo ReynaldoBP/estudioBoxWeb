@@ -41,6 +41,8 @@ export class EncuestaService {
         let datos = {
             data: {
                 intIdUsuario: arrayParametros.intIdUsuario,
+                intIdSucursal:arrayParametros.intIdSucursal,
+                intIdArea:arrayParametros.intIdArea
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getEncuesta', datos);

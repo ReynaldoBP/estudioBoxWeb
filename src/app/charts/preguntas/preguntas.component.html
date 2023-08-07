@@ -10,31 +10,6 @@
     </div>
 </div>
 
-<div class="row text-left">
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label for="projectinput5">Encuestas Activas</label>
-            <select id="cmbRol" name="cmbRol" class="form-control" [(ngModel)]="arrayParametrosPreguntas.intIdEncuesta"
-                (change)="getPregunta()">
-                <option value="" selected="">TODAS</option>
-                <option *ngFor="let item of arrayEncuestas" value="{{item.intIdEncuesta}}">{{item.strTitulo}}
-                </option>
-            </select>
-        </div>
-    </div>
-    <div class="col-sm-6">
-        <div class="form-group">
-            <label for="projectinput5">Preguntas Activas</label>
-            <select id="cmbRol" name="cmbRol" class="form-control" [(ngModel)]="arrayParametrosEncuestas.intIdPregunta"
-                (change)="getResultadoProPregunta()">
-                <option value="" selected="">TODAS</option>
-                <option *ngFor="let item of arrayPreguntas" value="{{item.intIdPregunta}}">{{item.strPregunta}}
-                </option>
-            </select>
-        </div>
-    </div>
-</div>
-
 <!-- Bar Chart Starts -->
 <div class="row text-left">
     <div class="col-sm-12">
@@ -49,8 +24,8 @@
                                     <div class="form-group">
                                         <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
                                             [hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
-                                            placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal"
-                                            (change)="getArea();getResultadoProPregunta()">
+                                            placeholder="Seleccione" [(ngModel)]="objSelectSucursal"
+                                            (change)="getEncuesta();getArea()">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -65,7 +40,42 @@
                                     <div class="form-group">
                                         <ng-select [items]="arrayArea" [multiple]="false" [closeOnSelect]="true"
                                             [hideSelected]="false" bindLabel="strArea" bindValue="intIdArea"
-                                            placeholder="Seleccione Area" [(ngModel)]="objSelectArea"
+                                            placeholder="Seleccione" [(ngModel)]="objSelectArea"
+                                            (change)="getEncuesta()">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="projectinput5">Encuestas</label>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <ng-select [items]="arrayEncuestas" [multiple]="false" [closeOnSelect]="true"
+                                            [hideSelected]="false" bindLabel="strTitulo" bindValue="intIdEncuesta"
+                                            placeholder="Seleccione" [(ngModel)]="objSelectEncuesta"
+                                            (change)="getPregunta()">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="projectinput5">Preguntas</label>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <ng-select [items]="arrayPreguntas" [multiple]="false" [closeOnSelect]="true"
+                                            [hideSelected]="false" bindLabel="strPregunta" bindValue="intIdPregunta"
+                                            placeholder="Seleccione" [(ngModel)]="objSelectPregunta"
                                             (change)="getResultadoProPregunta()">
                                         </ng-select>
                                     </div>
@@ -78,13 +88,11 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="projectinput5">Tiempo</label>
-                            <select id="cmbRol" name="cmbRol" class="form-control"
-                                [(ngModel)]="arrayParametrosEncuestas.intLimite" (change)="getResultadoProPregunta()">
-                                <option value="1">Mes Actual</option>
-                                <option value="3">3 meses</option>
-                                <option value="6">6 meses</option>
-                                <option value="12">1 año</option>
-                            </select>
+                            <ng-select [items]="arrayMeses" [multiple]="true" [closeOnSelect]="true"
+                                [hideSelected]="false" bindLabel="arrayMeses" bindValue="arrayMeses"
+                                placeholder="Seleccione" [(ngModel)]="arraySelectMes"
+                                (change)="getResultadoProPregunta()">
+                            </ng-select>
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -139,10 +147,10 @@
                             [colors]="barChartColors" [legend]="barChartLegend" [chartType]="barChartType"
                             (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
                         <br>
-                        <h6 class="text-center"><small><strong>Número de Encuestas por mes</strong></small></h6>
+                        <!--<h6 class="text-center"><small><strong>Número de Encuestas por mes</strong></small></h6>
                         <div *ngFor="let item of arrayTotalEncuestas" class="text-center">
                             <h6> <small>{{monthNames[item['intMes']-1]}} - {{item['intNumeroEncuesta']}} </small></h6>
-                        </div>
+                        </div>-->
 
                     </div>
                 </div>
