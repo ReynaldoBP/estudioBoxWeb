@@ -33,9 +33,13 @@ export class ChartsService {
                 intIdPregunta: arrayParametros.intIdPregunta,
                 intIdUsuario: arrayParametros.intIdUsuario,
                 intIdSucursal: arrayParametros.intIdSucursal,
+                arraySucursal: arrayParametros.arrayIdSucursal,
                 intIdArea:arrayParametros.intIdArea,
                 intIdEncuesta:arrayParametros.intIdEncuesta,
-                arrayMes:arrayParametros.arrayMes
+                strEncuesta:arrayParametros.strEncuesta,
+                arrayMes:arrayParametros.arrayMes,
+                strEstadistica:arrayParametros.strEstadistica,
+                strPregunta:arrayParametros.strPregunta
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getResultadoProPregunta', datos);

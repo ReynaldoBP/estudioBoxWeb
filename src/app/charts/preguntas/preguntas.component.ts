@@ -144,7 +144,8 @@ export class ChartPreguntasComponent implements OnInit {
     strEdad: '',
     strGenero: '',
     strHorario: '',
-    intIdEncuesta: ''
+    intIdEncuesta: '',
+    strEstadistica:""
   }
   arrayParametrosPreguntas: any = {
     intIdEncuesta: ""
@@ -182,7 +183,7 @@ export class ChartPreguntasComponent implements OnInit {
     private objSucursalService: SucursalService) {
     this.user = JSON.parse(localStorage.getItem('usuario'))
     this.descripcionOrigin = "Acceda a las estadísticas de preguntas individuales. El gráfico presenta puntuaciones promediadas sobre todas las respuestas de sus clientes. Esta sección le permite elegir diferentes variables para visualizar data estadística según su interés y realizar comparativos."
-    this.descripcion = "Acceda a las estadísticas de preguntas individuales."
+    this.descripcion = "Acceda a las estadísticas de preguntas individuales. El gráfico presenta puntuaciones promediadas sobre todas las respuestas de sus clientes. Esta sección le permite elegir diferentes variables para visualizar data estadística según su interés y realizar comparativos."
   }
 
   ngOnInit(): void {
@@ -282,6 +283,7 @@ export class ChartPreguntasComponent implements OnInit {
     }
     if (this.objSelectPregunta != undefined) {
       this.arrayParametrosEncuestas.intIdPregunta = this.objSelectPregunta
+      this.arrayParametrosEncuestas.strEstadistica = "Conceptual"
     }
     if (this.arraySelectMes != undefined) {
       this.arrayParametrosEncuestas.arrayMes = this.arraySelectMes

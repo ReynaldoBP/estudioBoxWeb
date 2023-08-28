@@ -12,7 +12,9 @@ export class AreaService {
                 strEstado: objParametros.strEstado,
                 strContador: objParametros.strContador,
                 intIdUsuario: objParametros.intIdUsuario,
-                intIdSucursal: objParametros.intIdSucursal
+                intIdSucursal: objParametros.intIdSucursal,
+                arrayIdSucursal: objParametros.arrayIdSucursal,
+                boolAgrupar:objParametros.boolAgrupar
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getArea', datos);

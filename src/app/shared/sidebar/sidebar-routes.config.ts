@@ -29,10 +29,10 @@ export const ROUTES: RouteInfo[] = [
     },
     { value: "5", path: '/tables/publicaciones', title: 'Data Encuestas', icon: 'ft-camera', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     {
-        value: "0", path: '', title: 'Estadística', icon: 'ft-bar-chart-2', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
+        value: "0", path: '', title: 'Estad. Comparativa', icon: 'ft-bar-chart-2', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
         submenu: [
-            { value: "2", path: '/charts/encuesta', title: 'Encuesta', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "3", path: '/charts/preguntas', title: 'Preguntas', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "2", path: '/charts/encuesta', title: 'Por Sucursal', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "3", path: '/charts/preguntas', title: 'Por Fecha', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "4", path: '/charts/ipn', title: 'IPN', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             /*{ value: "13", path: '/charts/publicaciones', title: 'Publicaciones', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "16", path: '/charts/compara-restaurante', title: 'Industria', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

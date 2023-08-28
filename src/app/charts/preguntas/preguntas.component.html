@@ -1,11 +1,11 @@
 <!-- Line Chart Starts -->
 <div class="row text-left">
     <div class="col-sm-12">
-        <div class="content-header mt-0">Preguntas individuales</div>
+        <div class="content-header mt-0">Comparativa por Fecha</div>
         <p class="content-sub-header">{{descripcion}}
-            <a class="text-info" (click)="vermas()">
+            <!--<a class="text-info" (click)="vermas()">
                 <strong>{{descripcion == descripcionOrigin?' ... ver menos':' ... ver más'}}</strong>
-            </a>
+            </a>-->
         </p>
     </div>
 </div>
@@ -16,7 +16,7 @@
         <div class="card">
             <div class="card-header">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="projectinput5">Sucursal</label>
                             <div class="row">
@@ -32,7 +32,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="projectinput5">Area</label>
                             <div class="row">
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="projectinput5">Encuestas</label>
                             <div class="row">
@@ -67,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="projectinput5">Preguntas</label>
                             <div class="row">
@@ -95,17 +95,6 @@
                             </ng-select>
                         </div>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="projectinput5">Horario</label>
-                            <select id="cmbRol" name="cmbRol" class="form-control"
-                                [(ngModel)]="arrayParametrosEncuestas.strHorario" (change)="getResultadoProPregunta()">
-                                <option value="" selected="">TODOS</option>
-                                <option *ngFor="let item of arrayHorarios" value="{{item.strValor1}}">{{item.strValor1}}
-                                </option>
-                            </select>
-                        </div>
-                    </div>
                     <div class="col-md-2">
                         <div class="form-group">
                             <label for="projectinput5">Genero</label>
@@ -115,6 +104,17 @@
                                 <option value="MASCULINO">MASCULINO</option>
                                 <option value="FEMENINO">FEMENINO</option>
                                 <option value="SIN GENERO">SIN GENERO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="projectinput5">Horario</label>
+                            <select id="cmbRol" name="cmbRol" class="form-control"
+                                [(ngModel)]="arrayParametrosEncuestas.strHorario" (change)="getResultadoProPregunta()">
+                                <option value="" selected="">TODOS</option>
+                                <option *ngFor="let item of arrayHorarios" value="{{item.strValor1}}">{{item.strValor1}}
+                                </option>
                             </select>
                         </div>
                     </div>

@@ -83,7 +83,7 @@ export class PublicacionesListComponent implements OnInit {
         this.user = JSON.parse(localStorage.getItem('usuario'))
         this.getPermisos("Data")
         this.descripcionOrigin = "Esta sección le permite ver respuestas individuales que sus clientes captaron en el proceso de calificación."
-        this.descripcion = "Esta sección le permite ver respuestas"
+        this.descripcion = "Esta sección le permite ver respuestas individuales que sus clientes captaron en el proceso de calificación."
         this.estados = ["ACTIVO", "ELIMINADO"]
         this.estadoFiltro = "ACTIVO"
     }

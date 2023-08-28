@@ -469,6 +469,7 @@ export class Dashboard1Component implements OnInit {
         { strAnio: "2026", intIdAnio: 2026 },
         { strAnio: "2027", intIdAnio: 2027 }
     ];
+    boolMostrarGeneroEdad = "SI";
     constructor(private objSucursalService: SucursalService,
         private objEmpresaService: EmpresaService,
         private objClienteService: ClienteService,
@@ -481,6 +482,7 @@ export class Dashboard1Component implements OnInit {
         this.getDashboard(this.objSelectEmpresa)
     }
     getDashboard(objSelectEmpresa) {
+        this.boolMostrarGeneroEdad = this.user.intIdUsuario == 14 ?"NO":"SI"
         if (this.getAccion('VER')) {
             console.log(this.user)
             this.objParametrosSucursal.intIdUsuario = this.user.intIdUsuario

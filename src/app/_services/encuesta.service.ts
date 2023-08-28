@@ -19,7 +19,9 @@ export class EncuestaService {
     getPregunta(arrayParametros: any) {
         let datos = {
             data: {
-                intIdEncuesta: arrayParametros.intIdEncuesta
+                intIdEncuesta: arrayParametros.intIdEncuesta,
+                strEncuesta:arrayParametros.strEncuesta,
+                boolAgrupar:arrayParametros.boolAgrupar
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getPregunta', datos);
@@ -42,7 +44,10 @@ export class EncuestaService {
             data: {
                 intIdUsuario: arrayParametros.intIdUsuario,
                 intIdSucursal:arrayParametros.intIdSucursal,
-                intIdArea:arrayParametros.intIdArea
+                arrayIdSucursal:arrayParametros.arrayIdSucursal,
+                intIdArea:arrayParametros.intIdArea,
+                strArea:arrayParametros.strArea,
+                boolAgrupar:arrayParametros.boolAgrupar
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getEncuesta', datos);
