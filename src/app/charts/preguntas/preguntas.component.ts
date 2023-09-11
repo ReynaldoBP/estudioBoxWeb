@@ -145,7 +145,7 @@ export class ChartPreguntasComponent implements OnInit {
     strGenero: '',
     strHorario: '',
     intIdEncuesta: '',
-    strEstadistica:""
+    strEstadistica: ""
   }
   arrayParametrosPreguntas: any = {
     intIdEncuesta: ""
@@ -300,6 +300,7 @@ export class ChartPreguntasComponent implements OnInit {
             var arrayValidador = []
             var arrayObj: any = []
             let intAcumulador = 0
+            data["arrayData"] = this.completarConCeros(data)
             data["arrayData"].forEach(arrayItemData => {
               if (arrayItemData.length > 0) {
                 this.barChartLabels = []
@@ -420,6 +421,48 @@ export class ChartPreguntasComponent implements OnInit {
       error => {
         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
       });
+  }
+
+
+  completarConCeros(data) {
+    const allPreguntas: string[] = [];
+
+    // Obtener todas las etiquetas únicas en todo el conjunto de datos
+    for (const dataArray of data.arrayData) {
+      for (const item of dataArray) {
+        if (!allPreguntas.includes(item.strLabel)) {
+          allPreguntas.push(item.strLabel);
+        }
+      }
+    }
+
+    // Ordenar las etiquetas según el orden deseado
+    allPreguntas.sort((a, b) => {
+      // Define el orden deseado aquí
+      const order = ["Hospitalaria", "Emergencia", "Ambulatoria"];
+      return order.indexOf(a) - order.indexOf(b);
+    });
+
+    // Crear un nuevo array de datos con los valores completados y ordenados
+    const newDataArray = [];
+    for (const dataArray of data.arrayData) {
+      const newDataArrayItem = [...dataArray];
+      for (const label of allPreguntas) {
+        const existingItem = dataArray.find((item) => item.strLabel === label);
+        if (!existingItem) {
+          newDataArrayItem.push({
+            strPregunta: dataArray[0].strPregunta,
+            strLabel: label,
+            strSucursal: dataArray[0].strSucursal,
+            strPromedio: "0"
+          });
+        }
+      }
+      // Ordenar el subarray newDataArrayItem por strLabel
+      newDataArrayItem.sort((a, b) => a.strLabel.localeCompare(b.strLabel));
+      newDataArray.push(newDataArrayItem);
+    }
+    return newDataArray
   }
 
 }

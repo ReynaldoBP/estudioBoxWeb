@@ -9,18 +9,18 @@
         </p>
         <ul *ngIf="descripcion == descripcionOrigin" class="list-group">
             <li class="list-group-item"><strong>PROMOTORES - Calificaciones de 9 - 10:</strong> Clientes que dan
-                comentarios positivos y recomendaciones de su restaurante. </li>
+                comentarios positivos y recomendaciones de su Empresa. </li>
             <li class="list-group-item"><strong>PROMOTORES - Calificaciones de 7 - 8:</strong> Clientes que no opinan
-                sobre su restaurante.</li>
+                sobre su Empresa.</li>
             <li class="list-group-item"><strong>PROMOTORES - Calificaciones de 1 - 6:</strong> Clientes que dan malas
-                recomendaciones sobre su restaurante. </li>
+                recomendaciones sobre su Empresa. </li>
         </ul>
         <br *ngIf="descripcion == descripcionOrigin">
         <p *ngIf="descripcion == descripcionOrigin" class="content-sub-header">
             El cálculo del IPN se obtiene restando los detractores de los promotores que brinda un porcentaje
             estadístico. El resultado es un número -100 a 100. Si el resultado es positivo, se considera bueno, si es +
             50 se considera muy bueno, ya que más de la mitad de su clientela está comentando de manera positiva sobre
-            la experiencia en su restaurante. Puntuaciones mayores de 60-70 serían excelentes.
+            la experiencia en su Empresa. Puntuaciones mayores de 60-70 serían excelentes.
             <a class="text-info" (click)="vermas()">
                 <strong> ... ver menos</strong>
             </a>
@@ -137,7 +137,7 @@
             <div class="card-body">
                 <div class="card-block">
                     <h5 align="center" class="form-section" style="font-weight:600;padding-top: 10">IPN:
-                        {{porcentajeIPN}}%</h5>
+                        {{intPorcentajeIPN}}%</h5>
                     <div id="bar-doughnut" class="height-400">
                         <canvas baseChart class="chart" [data]="doughnutChartData" [labels]="doughnutChartLabels"
                             [options]="doughnutChartOptions" [chartType]="doughnutChartType"

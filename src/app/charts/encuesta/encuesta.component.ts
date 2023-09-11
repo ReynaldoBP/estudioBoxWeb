@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SucursalService } from 'app/_services/sucursal.service';
 import { EncuestaService } from 'app/_services/encuesta.service';
 import { Color } from 'ng2-charts';
+import { ExcelService } from 'app/_services/excel.service';
 @Component({
   selector: 'app-chartjs',
   templateUrl: './encuesta.component.html',
@@ -14,18 +15,19 @@ import { Color } from 'ng2-charts';
 })
 
 export class ChartEncuestaComponent implements OnInit {
+  objobjLoading: any = false;
   arrayMeses = [{ mes: "Enero", numMes: 1 },
-                { mes: "Febrero", numMes: 2 },
-                { mes: "Marzo", numMes: 3 },
-                { mes: "Abril", numMes: 4 },
-                { mes: "Mayo", numMes: 5 },
-                { mes: "Junio", numMes: 6 },
-                { mes: "Julio", numMes: 7 },
-                { mes: "Agosto", numMes: 8 },
-                { mes: "Septiembre", numMes: 9 },
-                { mes: "Octubre", numMes: 10 },
-                { mes: "Noviembre", numMes: 11 },
-                { mes: "Diciembre", numMes: 12 }];
+  { mes: "Febrero", numMes: 2 },
+  { mes: "Marzo", numMes: 3 },
+  { mes: "Abril", numMes: 4 },
+  { mes: "Mayo", numMes: 5 },
+  { mes: "Junio", numMes: 6 },
+  { mes: "Julio", numMes: 7 },
+  { mes: "Agosto", numMes: 8 },
+  { mes: "Septiembre", numMes: 9 },
+  { mes: "Octubre", numMes: 10 },
+  { mes: "Noviembre", numMes: 11 },
+  { mes: "Diciembre", numMes: 12 }];
   arrayParametrosEncuestas: any = {
     intIdSucursal: '',
     arrayIdSucursal: [],
@@ -35,23 +37,23 @@ export class ChartEncuestaComponent implements OnInit {
     intLimite: '',
     arrayPregunta: '',
     intIdPregunta: '',
-    strPregunta:'',
+    strPregunta: '',
     strEdad: '',
     strGenero: '',
     strHorario: '',
     intIdEncuesta: '',
-    strEncuesta:'',
+    strEncuesta: '',
     boolAgrupar: "NO",
-    strEstadistica:""
+    strEstadistica: ""
   }
   arrayParametrosPreguntas: any = {
     intIdEncuesta: "",
-    strEncuesta:"",
+    strEncuesta: "",
     boolAgrupar: "NO"
   }
   arrayHorarios: any
   arrayEdades: any
-  loading: any = false;
+  objLoading: any = false;
   arrayPreguntas: any
   user: any
 
@@ -105,8 +107,8 @@ export class ChartEncuestaComponent implements OnInit {
   descripcion: string
   arrayTotalEncuestas: any[] = [];
   arrayEncuestas
-  strSelectMes:any
-  objSelectMes:any
+  strSelectMes: any
+  objSelectMes: any
   objSelectEncuesta: any = null
   objSelectPregunta: any = null
   objSelectSucursal: any
@@ -126,6 +128,7 @@ export class ChartEncuestaComponent implements OnInit {
     boolAgrupar: "NO"
   }
   constructor(private objChartsService: ChartsService,
+    private objExportarDataService: ExcelService,
     private objParametroService: ParamService,
     private toastr: ToastrService,
     private objEncuestaService: EncuestaService,
@@ -228,7 +231,7 @@ export class ChartEncuestaComponent implements OnInit {
     this.barChartData[0].data = []
     this.barChartData[0].label = ""
     this.barChartLabels = []
-    this.loading = true
+    this.objLoading = true
     if (this.objSelectEncuesta != undefined) {
       this.arrayParametrosEncuestas.strEncuesta = this.objSelectEncuesta
     }
@@ -243,7 +246,7 @@ export class ChartEncuestaComponent implements OnInit {
     this.objChartsService.getResultadoProPregunta(this.arrayParametrosEncuestas)
       .subscribe(
         data => {
-          this.loading = false
+          this.objLoading = false
           if (data["intStatus"] == 200) {
             this.barChartLabels = []
             var obj = {}
@@ -254,16 +257,19 @@ export class ChartEncuestaComponent implements OnInit {
             console.log("------------")
             console.log(data["arrayData"])
             var strSucursal = ""
+            //console.log(this.completarConCeros(data))
+            data["arrayData"] = this.completarConCeros(data)
             data["arrayData"].forEach(arrayItemData => {
               if (arrayItemData.length > 0) {
                 this.barChartLabels = []
+
                 arrayItemData.forEach(arrayItemPregunta => {
                   arrayPromedio.push(arrayItemPregunta.strPromedio)
                   this.barChartLabels.push(arrayItemPregunta.strLabel)
                   strSucursal = arrayItemPregunta.strSucursal
                   arrayValidador.push(arrayItemPregunta.strLabel)
                 });
-                obj = { data: arrayPromedio, label: strSucursal}
+                obj = { data: arrayPromedio, label: strSucursal }
                 arrayObj.push(obj)
                 arrayPromedio = []
                 arrayValidador = []
@@ -291,14 +297,55 @@ export class ChartEncuestaComponent implements OnInit {
             else {
               this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
             }
-            this.loading = false
+            this.objLoading = false
           }
         },
         error => {
-          this.loading = false
+          this.objLoading = false
           this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
         }
       )
+  }
+
+  completarConCeros(data) {
+    const allPreguntas: string[] = [];
+
+    // Obtener todas las etiquetas únicas en todo el conjunto de datos
+    for (const dataArray of data.arrayData) {
+      for (const item of dataArray) {
+        if (!allPreguntas.includes(item.strLabel)) {
+          allPreguntas.push(item.strLabel);
+        }
+      }
+    }
+
+    // Ordenar las etiquetas según el orden deseado
+    allPreguntas.sort((a, b) => {
+      // Define el orden deseado aquí
+      const order = ["Hospitalaria", "Emergencia", "Ambulatoria"];
+      return order.indexOf(a) - order.indexOf(b);
+    });
+
+    // Crear un nuevo array de datos con los valores completados y ordenados
+    const newDataArray = [];
+    for (const dataArray of data.arrayData) {
+      const newDataArrayItem = [...dataArray];
+      for (const label of allPreguntas) {
+        const existingItem = dataArray.find((item) => item.strLabel === label);
+        if (!existingItem) {
+          newDataArrayItem.push({
+            strPregunta: dataArray[0].strPregunta,
+            strLabel: label,
+            strSucursal: dataArray[0].strSucursal,
+            strPromedio: "0"
+          });
+        }
+      }
+      // Ordenar el subarray newDataArrayItem por strLabel
+      newDataArrayItem.sort((a, b) => a.strLabel.localeCompare(b.strLabel));
+      newDataArray.push(newDataArrayItem);
+    }
+    return newDataArray
   }
   getRandomColor(): Color {
     const red = Math.floor(Math.random() * 256);
@@ -365,6 +412,41 @@ export class ChartEncuestaComponent implements OnInit {
       error => {
         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
       });
+  }
+
+  getExportarCsv() {
+    this.objobjLoading = true
+    console.log("getExportarCSV")
+    console.log(this.arrayParametrosEncuestas)
+    if (this.objSelectEncuesta != undefined) {
+      this.arrayParametrosEncuestas.strEncuesta = this.objSelectEncuesta
+    }
+    else {
+      this.toastr.warning("Estimado usuario por favor seleccione una encuesta.")
+    }
+    if (this.strSelectMes !== undefined) {
+      this.objSelectMes = this.arrayMeses.find(mes => mes.numMes == this.strSelectMes)
+      this.arrayParametrosEncuestas.arrayMes = [this.objSelectMes.mes]
+    }
+    this.objEncuestaService.getReporteEstPorSucursal(this.arrayParametrosEncuestas).subscribe(
+      data => {
+        this.objobjLoading = false
+        if (data["intStatus"] == 200) {
+          const combinedData: any[] = [];
+          for (const jsonData of data["arrayData"].resultados) {
+            combinedData.push(...jsonData, {}); // Agrega el objeto JSON y una fila en blanco
+          }
+          this.objExportarDataService.exportAsExcelFile(combinedData, this.arrayParametrosEncuestas.strEncuesta)
+        }
+        else {
+          this.toastr.warning("Error al Generar Reportes")
+        }
+      },
+      error => {
+        this.objLoading = false
+        this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+      }
+    )
   }
 
 }

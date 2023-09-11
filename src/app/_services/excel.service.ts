@@ -14,7 +14,7 @@ const PDF_EXTENSION = '.pdf'
 export class ExcelService {    
 
     constructor() { }
-
+    objFecha = new Date();
     public exportAsExcelFile(json: any[], excelFileName: string): void {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
         const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
@@ -23,13 +23,16 @@ export class ExcelService {
     }
 
     private saveAsExcelFile(buffer: any, fileName: string): void {
+        
         const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
-        FileSaver.saveAs(data, fileName + '_export_' + new  Date().getTime() + EXCEL_EXTENSION);
+        let strFecha = this.objFecha.getDate() + "-" + (this.objFecha.getMonth() + 1) + "-" + this.objFecha.getFullYear()
+        FileSaver.saveAs(data, fileName +"_"+ strFecha + EXCEL_EXTENSION);
     }
 
     public exportAsPdfFile(cols:any,rows: any, fileName: string){
+        let strFecha = this.objFecha.getDate() + "-" + (this.objFecha.getMonth() + 1) + "-" + this.objFecha.getFullYear()
         var doc = new jsPDF()    
         doc.autoTable(cols, rows)
-        doc.save(fileName + '_export_' + new  Date().getTime() + PDF_EXTENSION)
+        doc.save(fileName +"_"+strFecha + PDF_EXTENSION)
     }
 }

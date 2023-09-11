@@ -15,6 +15,7 @@ import { forkJoin } from 'rxjs';
 })
 
 export class PublicacionesListComponent implements OnInit {
+    objLoading: any = false;
     date = new Date();
     rows: any
     anioEncuestas: number
@@ -72,7 +73,7 @@ export class PublicacionesListComponent implements OnInit {
         intIdUsuario: ""
     }
     constructor(private objEncuestaService: EncuestaService,
-        private excelService: ExcelService,
+        private objExportarDataService: ExcelService,
         private toastr: ToastrService,
         private objSucursalService: SucursalService,
         private objAreaService: AreaService) {
@@ -114,6 +115,7 @@ export class PublicacionesListComponent implements OnInit {
     }
 
     getDataEncuesta() {
+        this.objLoading = true
         this.rows = []
         if (this.arraySucursal != undefined) {
             this.arrayParametrosDataEncuesta.intIdSucursal = this.objSelectSucursal
@@ -127,6 +129,7 @@ export class PublicacionesListComponent implements OnInit {
         this.objEncuestaService.getDataEncuesta(this.arrayParametrosDataEncuesta)
             .subscribe(
                 data => {
+                    this.objLoading = false
                     if (data["intStatus"] == 200) {
                         let datos = data["arrayData"]["resultados"]
                         this.rows = datos.map(item => {
@@ -141,7 +144,7 @@ export class PublicacionesListComponent implements OnInit {
                                 intIdCltEncuesta: item.intIdCltEncuesta,
                                 strEstado: item.strEstado,
                                 strPromedio: item.strPromedio,
-                                strComentario: item.strComentario!= null ? item.strComentario:'',
+                                strComentario: item.strComentario != null ? item.strComentario : '',
                                 strVisto: '0',
                                 strEsmenor3: item.strEsmenor3
                             }
@@ -153,32 +156,34 @@ export class PublicacionesListComponent implements OnInit {
                     }
                 },
                 error => {
+                    this.objLoading = false
                 }
             )
     }
 
     verPreguntas(objCltEncuesta: any) {
+        this.objLoading = true
         this.arrayParametrosRespuestas.intIdCltEncuesta = objCltEncuesta.intIdCltEncuesta
         this.arrayParametrosRespuestas.intIdUsuario = this.user.intIdUsuario
         this.objEncuestaService.getRespuesta(this.arrayParametrosRespuestas)
             .subscribe(
                 data => {
+                    this.objLoading = false
                     if (data['intStatus'] != 200) {
                         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                     } else {
                         let listpreg = data["arrayData"]["resultados"]
                         let list = document.createElement('UL');
                         let tablehtml = "<table class='table table-responsive-md text-center'><tbody>"
-                        +"<div class='col-md-12' align='left'><strong>Correo del cliente: "
-                        +"<a href=\"mailto:"+objCltEncuesta.strCorreoClt+"\">"+objCltEncuesta.strCorreoClt+"</a></strong></div>"
+                            + "<div class='col-md-12' align='left'><strong>Correo del cliente: "
+                            + "<a href=\"mailto:" + objCltEncuesta.strCorreoClt + "\">" + objCltEncuesta.strCorreoClt + "</a></strong></div>"
                         let tr = ""
                         listpreg.forEach(element => {
                             const listItem = document.createElement('div');
                             listItem.className = "row"
 
                             let icons = ''
-                            if(element["TIPO_RESPUESTA"]=="CERRADA" && element['VALOR'] != null)
-                            {
+                            if (element["TIPO_RESPUESTA"] == "CERRADA" && element['VALOR'] != null) {
                                 for (let index = 0; index < element['RESPUESTA']; index++) {
                                     console.log(element['RESPUESTA'])
                                     icons += "<i class='fa fa-star font-medium-3 mr-2'></i>"
@@ -215,15 +220,17 @@ export class PublicacionesListComponent implements OnInit {
                     }
                 },
                 error => {
-
+                    this.objLoading = false
                 }
             )
     }
 
     getResumenCliente(encuesta: any) {
+        this.objLoading = true
         this.objEncuestaService.getResumenCliente(encuesta.ID_CLT_ENCUESTA, this.user.intIdUsuario)
             .subscribe(
                 data => {
+                    this.objLoading = false
                     let arrayResultado = data['resultado']
                     let objUl = document.createElement('UL');
                     let objTable = "<table class='table table-responsive-md text-center'><tbody>"
@@ -293,23 +300,27 @@ export class PublicacionesListComponent implements OnInit {
                     this.getDataEncuesta()
                 },
                 error => {
-
+                    this.objLoading = false
                 }
             )
     }
     getSucursales() {
+        this.objLoading = true
         this.arrayParametrosSucursal.intIdUsuario = this.user.intIdUsuario
         this.objSucursalService.getSucursal(this.arrayParametrosSucursal)
             .subscribe(
                 data => {
+                    this.objLoading = false
                     this.arraySucursal = data["arraySucursal"]
                 },
                 error => {
+                    this.objLoading = false
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }
             )
     }
     getArea() {
+        this.objLoading = true
         if (this.arraySucursal != undefined) {
             this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
         }
@@ -317,9 +328,11 @@ export class PublicacionesListComponent implements OnInit {
         this.objAreaService.getArea(this.arrayParametrosArea)
             .subscribe(
                 data => {
+                    this.objLoading = false
                     this.arrayArea = data["arrayArea"]
                 },
                 error => {
+                    this.objLoading = false
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }
             )
@@ -372,5 +385,45 @@ export class PublicacionesListComponent implements OnInit {
             this.toastr.warning(error, "Error")
         });
     }
-
+    getExportarCsv() {
+        this.objLoading = true
+        let arrayParametrosEncuestas = { "intIdUsuario": this.user.intIdUsuario, "boolAgrupar": "SI" }
+        let arrayEncuestas = []
+        this.objEncuestaService.getEncuesta(arrayParametrosEncuestas).subscribe(
+            data => {
+                if (data["intStatus"] == 200) {
+                    arrayEncuestas = data['arrayEncuesta']
+                    if (arrayEncuestas.length > 0) {
+                        arrayEncuestas.forEach(arrayItem => {
+                            let arrayParametrosReporteEncuesta = {
+                                "intIdUsuario": this.user.intIdUsuario,
+                                "strTitulo": arrayItem.strTitulo,
+                                "intMes": this.mesEncuestas.toString(),
+                                "intAnio": this.anioEncuestas.toString()
+                            }
+                            this.objEncuestaService.getReporteDataEncuesta(arrayParametrosReporteEncuesta).subscribe(objReporteData => {
+                                this.objLoading = false
+                                if (objReporteData["intStatus"] == 200) {
+                                    this.objExportarDataService.exportAsExcelFile(objReporteData["arrayData"].resultados, arrayItem.strTitulo)
+                                }
+                                else {
+                                    this.toastr.warning("Error al Generar Reportes")
+                                }
+                            },
+                                error => {
+                                    this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+                                })
+                        })
+                    }
+                    else {
+                        this.toastr.warning('No existen encuesta para la empresa en sesión', 'Error')
+                    }
+                } else {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            },
+            error => {
+                this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+            });
+    }
 }

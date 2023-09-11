@@ -11,7 +11,7 @@ export class EncuestaService {
             data: {
                 intIdCltEncuesta: arrayParametros.intIdCltEncuesta,
                 intIdUsuario: arrayParametros.intIdUsuario,
-                strEstado:arrayParametros.strEstado
+                strEstado: arrayParametros.strEstado
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editEncuestasRealizadas', datos);
@@ -20,8 +20,8 @@ export class EncuestaService {
         let datos = {
             data: {
                 intIdEncuesta: arrayParametros.intIdEncuesta,
-                strEncuesta:arrayParametros.strEncuesta,
-                boolAgrupar:arrayParametros.boolAgrupar
+                strEncuesta: arrayParametros.strEncuesta,
+                boolAgrupar: arrayParametros.boolAgrupar
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getPregunta', datos);
@@ -43,11 +43,11 @@ export class EncuestaService {
         let datos = {
             data: {
                 intIdUsuario: arrayParametros.intIdUsuario,
-                intIdSucursal:arrayParametros.intIdSucursal,
-                arrayIdSucursal:arrayParametros.arrayIdSucursal,
-                intIdArea:arrayParametros.intIdArea,
-                strArea:arrayParametros.strArea,
-                boolAgrupar:arrayParametros.boolAgrupar
+                intIdSucursal: arrayParametros.intIdSucursal,
+                arrayIdSucursal: arrayParametros.arrayIdSucursal,
+                intIdArea: arrayParametros.intIdArea,
+                strArea: arrayParametros.strArea,
+                boolAgrupar: arrayParametros.boolAgrupar
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getEncuesta', datos);
@@ -146,6 +146,34 @@ export class EncuestaService {
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getDataEncuesta', datos);
+    }
+
+    getReporteDataEncuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intMes: arrayParametros.intMes,
+                intAnio: arrayParametros.intAnio,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                strTitulo: arrayParametros.strTitulo
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getReporteDataEncuesta', datos);
+    }
+
+    getReporteEstPorSucursal(arrayParametros: any) {
+        let datos = {
+            data: {
+                strEncuesta: arrayParametros.strEncuesta,
+                arrayMes: arrayParametros.arrayMes,
+                arraySucursal: arrayParametros.arrayIdSucursal,
+                strPregunta: arrayParametros.strPregunta,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                strGenero: arrayParametros.strGenero,
+                strHorario: arrayParametros.strHorario,
+                strEdad: arrayParametros.strEdad
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getReporteEstPorSucursal', datos);
     }
 
     getRespuesta(arrayParametros: any) {
