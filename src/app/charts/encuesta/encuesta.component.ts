@@ -424,6 +424,12 @@ export class ChartEncuestaComponent implements OnInit {
     else {
       this.toastr.warning("Estimado usuario por favor seleccione una encuesta.")
     }
+    if (this.arraySelectSucursal != undefined) {
+      this.arrayParametrosEncuestas.arrayIdSucursal = this.arraySelectSucursal
+    }
+    if (this.objSelectArea != undefined) {
+      this.arrayParametrosEncuestas.strArea = this.objSelectArea
+    }
     if (this.strSelectMes !== undefined) {
       this.objSelectMes = this.arrayMeses.find(mes => mes.numMes == this.strSelectMes)
       this.arrayParametrosEncuestas.arrayMes = [this.objSelectMes.mes]

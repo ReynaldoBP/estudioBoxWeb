@@ -91,7 +91,7 @@ export class PublicacionesListComponent implements OnInit {
 
     ngOnInit() {
         if (this.getAccion('VER')) {
-            this.getDataEncuesta()
+            //this.getDataEncuesta()
             this.getSucursales()
             this.getArea()
         }
@@ -387,7 +387,12 @@ export class PublicacionesListComponent implements OnInit {
     }
     getExportarCsv() {
         this.objLoading = true
-        let arrayParametrosEncuestas = { "intIdUsuario": this.user.intIdUsuario, "boolAgrupar": "SI" }
+        let arrayParametrosEncuestas = {
+            "intIdUsuario": this.user.intIdUsuario,
+            "boolAgrupar": "SI",
+            "intIdSucursal": this.objSelectSucursal,
+            "intIdArea": this.objSelectArea
+        }
         let arrayEncuestas = []
         this.objEncuestaService.getEncuesta(arrayParametrosEncuestas).subscribe(
             data => {
@@ -399,7 +404,9 @@ export class PublicacionesListComponent implements OnInit {
                                 "intIdUsuario": this.user.intIdUsuario,
                                 "strTitulo": arrayItem.strTitulo,
                                 "intMes": this.mesEncuestas.toString(),
-                                "intAnio": this.anioEncuestas.toString()
+                                "intAnio": this.anioEncuestas.toString(),
+                                "intIdSucursal": this.objSelectSucursal,
+                                "intIdArea": this.objSelectArea
                             }
                             this.objEncuestaService.getReporteDataEncuesta(arrayParametrosReporteEncuesta).subscribe(objReporteData => {
                                 this.objLoading = false
