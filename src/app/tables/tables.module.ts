@@ -39,6 +39,7 @@ import { FilterRedimirCupon } from 'app/_pipes/PipeRedimirCupon';
 import { FilterClienteMovil } from 'app/_pipes/PipeClienteMovil';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PipePublicidad } from 'app/_pipes/PipePublicidad';
+import { PipeReporte } from 'app/_pipes/PipeReporte';
 import { PipePromocion } from 'app/_pipes/PipePromocion';
 import { BannerListComponent } from './banner-list/banner-list.component';
 import { CuponListComponent } from './cupon-list/cupon-list.component';
@@ -97,6 +98,7 @@ import { PuntosEstadisticaListComponent } from './puntosEstadistica-list/puntosE
         FilterCliente,
         FilterAccionByModulo,
         PipePublicidad,
+        PipeReporte,
         PipePromocion,
         BannerListComponent,
         CuponListComponent,

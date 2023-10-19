@@ -24,6 +24,7 @@ import { AgmCoreModule } from '@agm/core';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { UsuarioComponent } from './layouts/usuario/usuario.component';
 import { PublicidadComponent } from './layouts/publicidad/publicidad.component';
+import { ReporteComponent } from './layouts/reporte/reporte.component';
 import { PromocionComponent } from './layouts/promocion/promocion.component';
 import { TipoComidaComponent } from './layouts/tipocomida/tipocomida.component';
 import { SharingModule } from 'app/_pipes/SharingModule';
@@ -64,6 +65,7 @@ import { ClienteMovilComponent } from './layouts/clienteMovil/clienteMovil.compo
         SucursalComponent,
         UsuarioComponent,
         PublicidadComponent,
+        ReporteComponent,
         PromocionComponent,
         TipoComidaComponent,
         InfluencerComponent,

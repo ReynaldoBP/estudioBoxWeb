@@ -32,6 +32,7 @@ import { EncuestaService } from './_services/encuesta.service';
 import { ExcelService } from './_services/excel.service';
 import { PromocionService } from './_services/promocion.service';
 import { PublicidadService } from './_services/publicidad.service';
+import { ReporteService } from './_services/reporte.service';
 import { BannerService } from './_services/banner.service';
 import { BitacoraService } from './_services/bitacora.service';
 import { CuponService } from './_services/cupon.service';
@@ -85,6 +86,7 @@ import { ChartsService } from './_services/charts.service';
         forwardRef(() => ExcelService),
         forwardRef(() => PromocionService),
         forwardRef(() => PublicidadService),
+        forwardRef(() => ReporteService),
         forwardRef(() => BannerService),
         forwardRef(() => CuponService),
         forwardRef(() => BitacoraService),

@@ -17,6 +17,7 @@ import { EncuestaComponent } from './layouts/encuesta/encuesta.component';
 import { SucursalComponent } from './layouts/sucursal/sucursal.component';
 import { UsuarioComponent } from './layouts/usuario/usuario.component';
 import { PublicidadComponent } from './layouts/publicidad/publicidad.component';
+import { ReporteComponent } from './layouts/reporte/reporte.component';
 import { PromocionComponent } from './layouts/promocion/promocion.component';
 import { TipoComidaComponent } from './layouts/tipocomida/tipocomida.component';
 import { InfluencerComponent } from './layouts/influencer/influencer.component';
@@ -138,6 +139,13 @@ const routes: Routes = [
         component: PublicidadComponent,
         data: {
           title: 'Publicidad'
+        }
+      },
+      {
+        path: 'reporte/:id',
+        component: ReporteComponent,
+        data: {
+          title: 'Reporte'
         }
       },
       {

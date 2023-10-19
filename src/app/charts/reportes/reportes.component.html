@@ -1,0 +1,99 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-12">
+        <div class="content-header mt-0">Reportes</div>
+        <p class="content-sub-header">Listado de Reportes</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label for="projectinput5">Criterios de Búsqueda</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type='text' class="form-control" [(ngModel)]="descripcionFiltro"
+                                            placeholder='Titulo' />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="projectinput5">Estado</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <select id="cmbEstado" name="cmbEstado" class="form-control"
+                                                [(ngModel)]="estadoFiltro" #cmbRol="ngModel">
+                                                <option *ngFor="let item of estados" value="{{item}}">{{item}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Acción</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <button *ngIf="getAccion('CREAR')" type="button"
+                                            class="btn btn-raised btn-raised btn-primary"
+                                            [routerLink]="['/forms/reporte/0']">
+                                            <i class="fa fa-plus"></i> Nuevo Reporte
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="getAccion('VER')" class="card-block">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th>Titulo</th>
+                                    <th>Descripción</th>
+                                    <th>Estado</th>
+                                    <th>Fecha</th>
+                                    <th>Empresa</th>
+                                    <th>Sucursal</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of rows | filtroReporte : descripcionFiltro : estadoFiltro| paginate: { itemsPerPage: 10, currentPage: p } "
+                                    [className]="item['ESTADO']=='INACTIVO'?'bg-danger':'bg-light'">
+                                    <td>{{item['TITULO']}}</td>
+                                    <td>{{item['DESCRIPCION']}}</td>
+                                    <td>{{item['ESTADO']}}</td>
+                                    <td>{{item['FE_CREACION']}}</td>
+                                    <td>{{item['NOMBRE_COMERCIAL']}}</td>
+                                    <td>{{item['NOMBRE']}}</td>
+                                    <td>
+                                        <a *ngIf="getAccion('CREAR')" class="success p-0" data-original-title=""
+                                            title="Eliminar Reporte"
+                                            (click)="eliminarReporte(item['ID_REPORTE'])">
+                                            <i class="ft-trash font-medium-3 mr-2"></i>
+                                        </a>
+                                        <a *ngIf="getAccion('VER')" class="success p-0" data-original-title=""
+                                            title="Descargar Reporte" [href]="item['UBICACION']"  [download]="item['NOMBRE_ARCHIVO']">
+                                            <i class="ft-download font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

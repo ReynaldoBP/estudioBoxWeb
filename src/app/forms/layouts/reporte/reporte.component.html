@@ -1,0 +1,97 @@
+<!-- Basic form layout section start -->
+<section id="basic-form-layouts">
+	<div class="row text-left">
+		<div class="col-sm-12">
+			<div class="content-header mt-0">Reporte</div>
+		</div>
+	</div>
+	<div class="row text-left">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title" id="basic-layout-form">{{'Nuevo reporte'}}</h4>
+					<!--
+						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
+					-->
+
+				</div>
+				<div class="card-body">
+					<div class="px-3">
+						<form class="form">
+							<div class="form-body">
+								<h4 class="form-section"><i class="ft-user"></i> Datos para el Reporte</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="txtTitulo">Titulo</label>
+											<input type="text" id="txtTitulo" [(ngModel)]="reporte.titulo"
+												class="form-control" name="ftitulo">
+                                        </div>
+                                    </div>
+                                    
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label >Empresa</label>
+                                                <ng-select name="empresa" [items]="listEmpresa" [multiple]="false" [closeOnSelect]="true"
+                                                    [hideSelected]="false" bindLabel="strNombreComercial" bindValue="intIdEmpresa"
+                                                    placeholder="Seleccione Empresas" [(ngModel)]="objSelectEmpresa"
+                                                    (change)="getSucursales()">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="cmborientacion">Sucursal</label>
+                                                <ng-select name="sucursal" [items]="listSucursal" [multiple]="false" [closeOnSelect]="true"
+                                                    [hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
+                                                    placeholder="Seleccione" [(ngModel)]="objSelectSucursal">
+                                                </ng-select>
+                                            </div>
+                                        </div>
+                                </div>
+								<div class="row">
+									<div class="col-md-9">
+										<div class="form-group">
+											<label for="txtNombres">Descripcion</label>
+											<textarea id="txtNombres" [(ngModel)]="reporte.descripcion" class="form-control" name="fname" rows="4"></textarea>
+										</div>
+									</div>
+									<div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="cmborientacion">Archivo</label>
+                                            <div id="upload-button-container">
+                                                <input type="file" id="file-input" style="display: none;" (change)="onFileSelected($event)" />
+                                                <button class="upload-button" (click)="selectFile()">
+                                                    Seleccionar Archivo
+                                                </button>
+                                                <p><span id="file-name">{{ selectedFileName }}</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+								</div>
+								
+							</div>
+
+							<div class="form-actions">
+								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+									[routerLink]="['/charts/reportes']">
+									<i class="ft-x"></i> Cancelar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-danger mr-1"
+									*ngIf="publicidad.id!=0 && user.DESCRIPCION_TIPO_ROL == 'ADMINISTRADOR'"
+									(click)="eliminarDatos()">
+									<i class="fa fa-trash-o fa-lg"></i> Eliminar
+								</button>
+								<button type="button" class="btn btn-raised btn-raised btn-primary"
+									(click)="guardarDatos()">
+									<i class="fa fa-check-square-o"></i> Guardar Datos
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- // Basic form layout section end -->

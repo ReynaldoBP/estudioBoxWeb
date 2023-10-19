@@ -18,6 +18,8 @@ import 'chartjs-plugin-labels';
 import { ChartComparaRestauranteComponent } from './compara-restaurante/compara-restaurante.component';
 import { ChartPublicidadComponent } from './publicidad/publicidad.component';
 import { ChartEncuestaComponent } from './encuesta/encuesta.component';
+import { ChartReportesComponent } from './reportes/reportes.component';
+import { PipeReporte } from 'app/_pipes/PipeReporte';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 
@@ -42,7 +44,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
         ChartLikesComponent,
         ChartComparaRestauranteComponent,
         ChartPublicidadComponent,
-        ChartEncuestaComponent
+        ChartEncuestaComponent,
+        ChartReportesComponent,
+        PipeReporte
     ],   
 })
 export class ChartsNg2Module { }

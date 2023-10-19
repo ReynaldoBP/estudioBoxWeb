@@ -11,7 +11,8 @@ export class SucursalService {
             data: {
                 strEstado: objParametros.strEstado,
                 strContador: objParametros.strContador,
-                intIdUsuario: objParametros.intIdUsuario
+                intIdUsuario: objParametros.intIdUsuario,
+                intIdEmpresa: objParametros.intIdEmpresa
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getSucursal', datos);
@@ -31,6 +32,10 @@ export class SucursalService {
 
     getSucursalesbyUsuario(idUsuario: string) {
         return this.http.get(this.globals.host + this.globals.port + '/getSucursal?idUsuario=' + idUsuario);
+    }
+
+    getSucursalesbyEmpresa(idEmpresa: string) {
+        return this.http.get(this.globals.host + this.globals.port + '/apiWeb/getSucursal?intIdEmpresa=' + idEmpresa);
     }
 
     getSucursalByIdRestaurante(id: string) {
