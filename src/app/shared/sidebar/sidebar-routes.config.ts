@@ -34,7 +34,7 @@ export const ROUTES: RouteInfo[] = [
             { value: "2", path: '/charts/encuesta', title: 'Por Sucursal', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "3", path: '/charts/preguntas', title: 'Por Fecha', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "4", path: '/charts/ipn', title: 'IPN', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "5", path: '/charts/Reportes', title: 'Reportes', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "8", path: '/charts/reportes', title: 'Reportes', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             /*{ value: "13", path: '/charts/publicaciones', title: 'Publicaciones', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "16", path: '/charts/compara-restaurante', title: 'Industria', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "17", path: '/charts/publicidades', title: 'Publicidad', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

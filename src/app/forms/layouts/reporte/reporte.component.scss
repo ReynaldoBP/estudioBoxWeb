@@ -1,0 +1,24 @@
+@import "~@ng-select/ng-select/themes/default.theme.css";
+
+.my-drop-zone { 
+    border: dotted 3px lightgray; 
+    background-color: #f5f7fa !important;
+}
+.nv-file-over { border: dotted 3px red; } /* Default class applied to drop zones on over */
+.another-file-over-class { border: dotted 3px green; }
+
+/* Estilo para el botón "Seleccionar Archivo" */
+.upload-button {
+    background-color: #007bff; /* Color de fondo */
+    color: #fff; /* Color del texto */
+    padding: 10px 20px; /* Relleno del botón */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cursor al pasar por encima */
+    border-radius: 4px; /* Bordes redondeados */
+    font-size: 16px; /* Tamaño del texto */
+  }
+  
+  /* Estilo para el botón cuando se pasa el mouse por encima */
+  .upload-button:hover {
+    background-color: #0056b3; /* Cambiar el color de fondo al pasar el mouse por encima */
+  }

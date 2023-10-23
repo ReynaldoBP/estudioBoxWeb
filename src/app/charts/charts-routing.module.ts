@@ -10,6 +10,7 @@ import { ChartLikesComponent } from './likes/likes.component';
 import { ChartComparaRestauranteComponent } from './compara-restaurante/compara-restaurante.component';
 import { ChartPublicidadComponent } from './publicidad/publicidad.component';
 import { ChartEncuestaComponent } from './encuesta/encuesta.component';
+import { ChartReportesComponent } from './reportes/reportes.component';
 import { ChartREGISTROSCLTComponent } from './registros/registrosClt.component';
 const routes: Routes = [
   {
@@ -83,6 +84,13 @@ const routes: Routes = [
         component: ChartPublicidadComponent,
         data: {
           title: 'Grafico de publicidades'
+        }
+      },
+      {
+        path: 'reportes',
+        component: ChartReportesComponent,
+        data: {
+          title: 'Reportes'
         }
       },
     ]
