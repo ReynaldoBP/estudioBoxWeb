@@ -13,6 +13,7 @@ import swal from 'sweetalert2';
 })
 
 export class EncuestaPageComponent {
+    selectedCheckboxIndices: { [key: number]: number } = {}; // Objeto para rastrear índices de checkboxes seleccionados por pregunta
     arrayParametrosPregunta: any = { intIdEncuesta: null }
     intIdEncuesta = ""
     objEncuesta: any = {
@@ -83,6 +84,7 @@ export class EncuestaPageComponent {
         let arrayTempRespuesta = []
         const objJsonPregunta = {
         }
+        //Lógica para guardar las preguntas de tipo Cerrada, como estrellas
         objRadio.forEach((arrayItemRadio) => {
             if (arrayItemRadio.checked) {
                 arrayTempRespuesta = arrayItemRadio.id.split("_")
@@ -91,6 +93,7 @@ export class EncuestaPageComponent {
                 Object.assign(objJsonPregunta, objJsonRespuesta);
             }
         });
+        //Lógica para guardar las preguntas de tipo Abierta, como comentario
         const objText = document.querySelectorAll<HTMLInputElement>('input[type="text"]');
         let arrayTempRespuestaText = []
         objText.forEach((arrayItemText) => {
@@ -100,6 +103,27 @@ export class EncuestaPageComponent {
                 let objJsonRespuesta = { [arrayTempRespuestaText[1]]: arrayItemText.value }
                 Object.assign(objJsonPregunta, objJsonRespuesta);
             }
+        });
+        //Lógica para guardar las preguntas de tipo Cerrada, combobox
+        const objCombo = document.querySelectorAll<HTMLSelectElement>('select');
+        //console.log(objCombo)
+        let arrayTempRespuestaCombo = []
+        objCombo.forEach((arrayItemCombo) => {
+            if (arrayItemCombo.id != 'cmbGenero') {
+                arrayTempRespuestaCombo = arrayItemCombo.id.split("_")
+                console.log("intIdPregunta: " + arrayTempRespuestaCombo[1] + " | intRespuesta: " + arrayItemCombo.value)
+                let objJsonRespuesta = { [arrayTempRespuestaCombo[1]]: arrayItemCombo.value }
+                Object.assign(objJsonPregunta, objJsonRespuesta);
+            }
+        });
+        //Lógica para guardar las preguntas de tipo Cerrada, Checked
+        const objCheckBox = document.querySelectorAll<HTMLSelectElement>('input[type="checkbox"]:checked');
+        let arrayTempRespuestaCheckBox = []
+        objCheckBox.forEach((arrayItemCheckBox) => {
+            arrayTempRespuestaCheckBox = arrayItemCheckBox.id.split("_")
+            console.log("intIdPregunta: " + arrayTempRespuestaCheckBox[1] + " | intRespuesta: " + arrayItemCheckBox.value)
+            let objJsonRespuesta = { [arrayTempRespuestaCheckBox[1]]: arrayItemCheckBox.value }
+            Object.assign(objJsonPregunta, objJsonRespuesta);
         });
         this.objData.intIdEncuesta = this.intIdEncuesta
         this.objData.arrayPregunta = objJsonPregunta
@@ -125,9 +149,14 @@ export class EncuestaPageComponent {
                     }
                 },
                 error => {
-
                 }
             )
+    }
 
+    getValorCheckboxClick(event: Event, preguntaId: number, indice: number) {
+        // Obtén el valor del checkbox haciendo referencia al evento
+        const checkboxValue = (event.target as HTMLInputElement).value;
+        console.log(`Checkbox con ID de pregunta ${preguntaId} y índice ${indice} fue clickeado. Valor: ${checkboxValue}`);
+        this.selectedCheckboxIndices[preguntaId] = indice;
     }
 }

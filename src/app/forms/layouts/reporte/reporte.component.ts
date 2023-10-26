@@ -84,9 +84,9 @@ export class ReporteComponent implements OnInit {
     else if (this.objSelectEmpresa == null || this.objSelectEmpresa == "") {
       this.toastr.warning('La Empresa, es un campo obligatorio', 'Error')
     }
-    else if (this.objSelectSucursal == null || this.objSelectSucursal == "") {
+    /*else if (this.objSelectSucursal == null || this.objSelectSucursal == "") {
       this.toastr.warning('La Sucursal, es un campo obligatorio', 'Error')
-    }
+    }*/
     else {
       this.reporte.empresa = this.objSelectEmpresa
       this.reporte.sucursal = this.objSelectSucursal

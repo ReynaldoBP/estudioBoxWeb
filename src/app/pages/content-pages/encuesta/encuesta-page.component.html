@@ -1,173 +1,201 @@
 <!-- Basic form layout section start -->
 <section id="basic-form-layouts">
-    <div class="row text-left">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="px-3">
-                        <form class="form">
-                            <div class="form-body">
-                                <h4 class="form-section"><i class="ft-user"></i> {{objEncuesta.strTitulo}}</h4>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="strCorreo">Correo Electrónico</label>
-                                            <input type="text" id="strCorreo" class="form-control" name="strCorreo"
-                                                [(ngModel)]="objData.strCorreo">
-                                        </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form">
+                        <div class="form-body">
+                            <h4 class="form-section"><i class="ft-user"></i> {{objEncuesta.strTitulo}}</h4>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="strCorreo">Correo Electrónico</label>
+                                        <input type="text" id="strCorreo" class="form-control" name="strCorreo"
+                                            [(ngModel)]="objData.strCorreo">
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="projectinput5">Genero</label>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <select id="cmbGenero" name="cmbGenero" class="form-control"
-                                                            [(ngModel)]="objData.strGenero" #cmbGenero="ngModel">
-                                                            <option *ngFor="let item of arrayGenero" value="{{item}}">
-                                                                {{item}}</option>
-                                                        </select>
-                                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="projectinput5">Genero</label>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <select id="cmbGenero" name="cmbGenero" class="form-control"
+                                                        [(ngModel)]="objData.strGenero" #cmbGenero="ngModel">
+                                                        <option *ngFor="let item of arrayGenero" value="{{item}}">
+                                                            {{item}}</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label for="strEdad">Año de Nacimiento</label>
-                                            <input type="text" id="strEdad" class="form-control" name="strEdad"
-                                                [(ngModel)]="objData.strEdad">
-                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="strEdad">Año de Nacimiento</label>
+                                        <input type="text" id="strEdad" class="form-control" name="strEdad"
+                                            [(ngModel)]="objData.strEdad">
                                     </div>
                                 </div>
-                                <h4 class="form-section"><i class="ft-file-text"></i> Preguntas</h4>
-                                <div *ngIf="loading" class="form-group">
-                                    <div class="col-md-12 text-center">
-                                        <div style="width: 3rem; height: 3rem;" class="spinner-border text-default"
-                                            role="status">
-                                            <span class="sr-only">Loading...</span>
-                                        </div>
+                            </div>
+                            <h4 class="form-section"><i class="ft-file-text"></i> Preguntas</h4>
+                            <div *ngIf="loading" class="form-group">
+                                <div class="col-md-12 text-left">
+                                    <div style="width: 3rem; height: 3rem;" class="spinner-border text-default"
+                                        role="status">
+                                        <span class="sr-only">Loading...</span>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <table class="table table-responsive-md text-center">
-                                        <thead>
-                                            <tr>
-                                                <th>#</th>
-                                                <th>Pregunta</th>
-                                                <th>Respuesta</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr *ngFor="let item of arrayPregunta">
-                                                <td width="10%">{{arrayPregunta.indexOf(item) + 1}}</td>
-                                                <td width="40%">{{item['strPregunta']}}</td>
-                                                <td *ngIf="item['intCantidadEstrellas'] == 5" width="50%">
-                                                    <p class="clasificacion">
-                                                        <input id="radio_{{item['intIdPregunta']}}_5" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
-                                                        <label for="radio_{{item['intIdPregunta']}}_5"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_4" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="4">
-                                                        <label for="radio_{{item['intIdPregunta']}}_4"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_3" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="3">
-                                                        <label for="radio_{{item['intIdPregunta']}}_3"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_2" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="2">
-                                                        <label for="radio_{{item['intIdPregunta']}}_2"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_1" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="1">
-                                                        <label for="radio_{{item['intIdPregunta']}}_1"
-                                                            style="font-size: 50px">★</label>
-                                                    </p>
-                                                </td>
-                                                <td *ngIf="item['intCantidadEstrellas'] == 10" width="50%">
-                                                    <p class="clasificacion">
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_10" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="10">
-                                                        <label for="radio_{{item['intIdPregunta']}}_10"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_9" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="9">
-                                                        <label for="radio_{{item['intIdPregunta']}}_9"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_8" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="8">
-                                                        <label for="radio_{{item['intIdPregunta']}}_8"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_7" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="7">
-                                                        <label for="radio_{{item['intIdPregunta']}}_7"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_6" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="6">
-                                                        <label for="radio_{{item['intIdPregunta']}}_6"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_5" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="5">
-                                                        <label for="radio_{{item['intIdPregunta']}}_5"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_4" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="4">
-                                                        <label for="radio_{{item['intIdPregunta']}}_4"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_3" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="3">
-                                                        <label for="radio_{{item['intIdPregunta']}}_3"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_2" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="2">
-                                                        <label for="radio_{{item['intIdPregunta']}}_2"
-                                                            style="font-size: 50px">★</label>
-
-                                                        <input id="radio_{{item['intIdPregunta']}}_1" type="radio"
-                                                            name="estrellas_{{item['intIdPregunta']}}" value="1">
-                                                        <label for="radio_{{item['intIdPregunta']}}_1"
-                                                            style="font-size: 50px">★</label>
-                                                    </p>
-                                                </td>
-                                                <td *ngIf="item['strTipoOpcionRespuesta'] == 'ABIERTA'" width="50%">
-                                                    <p class="clasificacion">
-                                                        <input type="text" style="text-align: left;"
-                                                            id="text_{{item['intIdPregunta']}}_1" class="form-control"
-                                                            name="text_{{item['intIdPregunta']}}_1">
-                                                    </p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
                             </div>
-                            <div class="form-actions" style="text-align: center">
-                                <button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
-                                    [routerLink]="['/pages/encuesta']">
-                                    <i class="ft-x"></i> Cancelar
-                                </button>
-                                <button type="button" class="btn btn-raised btn-raised btn-primary"
-                                    (click)="guardarDatos()">
-                                    <i class="fa fa-check-square-o"></i> Guardar Datos
-                                </button>
+                            <div class="row">
+                                <table class="table table-responsive-md text-left">
+                                    <thead>
+                                        <tr>
+                                            <!--<th>#</th>-->
+                                            <th>Preguntas</th>
+                                            <th>Respuesta</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of arrayPregunta">
+                                            <!--<td width="10%">{{arrayPregunta.indexOf(item) + 1}}</td>-->
+                                            <td width="45%" style="vertical-align: middle;">{{item['strPregunta']}}</td>
+                                            <td *ngIf="item['intCantidadEstrellas'] == 5 && item['strTipoOpcionRespuesta'] == 'CERRADA'"
+                                                width="55%" style="white-space: nowrap;vertical-align: middle;">
+                                                <p class="clasificacion">
+                                                    <input id="radio_{{item['intIdPregunta']}}_5" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                    <label for="radio_{{item['intIdPregunta']}}_5"
+                                                        style="font-size: 23px;margin-top: 6px;">★</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_4" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="4">
+                                                    <label for="radio_{{item['intIdPregunta']}}_4"
+                                                        style="font-size: 23px;margin-top: 6px;">★</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_3" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="3">
+                                                    <label for="radio_{{item['intIdPregunta']}}_3"
+                                                        style="font-size: 23px;margin-top: 6px;">★</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_2" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="2">
+                                                    <label for="radio_{{item['intIdPregunta']}}_2"
+                                                        style="font-size: 23px;margin-top: 6px;">★</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_1" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="1">
+                                                    <label for="radio_{{item['intIdPregunta']}}_1"
+                                                        style="font-size: 23px;margin-top: 6px;">★</label>
+                                                </p>
+                                            </td>
+                                            <td *ngIf="item['intCantidadEstrellas'] == 10 && item['strTipoOpcionRespuesta'] == 'CERRADA'"
+                                                width="55%" style="white-space: nowrap;vertical-align: middle;">
+                                                <p class="clasificacion">
+                                                    <input id="radio_{{item['intIdPregunta']}}_10" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="10">
+                                                    <label for="radio_{{item['intIdPregunta']}}_10"
+                                                        style="font-size: 23px;margin-top: 6px;">⑩</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_9" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="9">
+                                                    <label for="radio_{{item['intIdPregunta']}}_9"
+                                                        style="font-size: 23px;margin-top: 6px;">⑨</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_8" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="8">
+                                                    <label for="radio_{{item['intIdPregunta']}}_8"
+                                                        style="font-size: 23px;margin-top: 6px;">⑧</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_7" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="7">
+                                                    <label for="radio_{{item['intIdPregunta']}}_7"
+                                                        style="font-size: 23px;margin-top: 6px;">⑦</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_6" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="6">
+                                                    <label for="radio_{{item['intIdPregunta']}}_6"
+                                                        style="font-size: 23px;margin-top: 6px;">⑥</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_5" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="5">
+                                                    <label for="radio_{{item['intIdPregunta']}}_5"
+                                                        style="font-size: 23px;margin-top: 6px;">⑤</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_4" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="4">
+                                                    <label for="radio_{{item['intIdPregunta']}}_4"
+                                                        style="font-size: 23px;margin-top: 6px;">④</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_3" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="3">
+                                                    <label for="radio_{{item['intIdPregunta']}}_3"
+                                                        style="font-size: 23px;margin-top: 6px;">③</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_2" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="2">
+                                                    <label for="radio_{{item['intIdPregunta']}}_2"
+                                                        style="font-size: 23px;margin-top: 6px;">②</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_1" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="1">
+                                                    <label for="radio_{{item['intIdPregunta']}}_1"
+                                                        style="font-size: 23px;margin-top: 6px;">①</label>
+
+                                                    <input id="radio_{{item['intIdPregunta']}}_0" type="radio"
+                                                        name="estrellas_{{item['intIdPregunta']}}" value="0">
+                                                    <label for="radio_{{item['intIdPregunta']}}_0"
+                                                        style="font-size: 23px;margin-top: 6px;">⓪</label>
+                                                </p>
+                                            </td>
+                                            <td *ngIf="item['strTipoOpcionRespuesta'] == 'ABIERTA'" width="55%"
+                                                style="vertical-align: middle;">
+                                                <p class="clasificacion">
+                                                    <input type="text" style="text-align: left;"
+                                                        id="text_{{item['intIdPregunta']}}_1" class="form-control"
+                                                        name="text_{{item['intIdPregunta']}}_1">
+                                                </p>
+                                            </td>
+                                            <td *ngIf="item['strTipoOpcionRespuesta'] =='DESPLEGABLE' " width="55%"
+                                                style="vertical-align: middle;">
+                                                <select id="combo_{{item['intIdPregunta']}}"
+                                                    name="combo_{{item['intIdPregunta']}}" class="form-control"
+                                                    style="text-align: left !important;">
+                                                    <option
+                                                        *ngFor="let opcion of item['strValorDesplegable'].split('|')"
+                                                        [ngValue]="opcion">{{ opcion }}</option>
+                                                </select>
+                                            </td>
+                                            <td *ngIf="item['strTipoOpcionRespuesta'] =='CAJA'" width="55%"
+                                                style="vertical-align: middle;">
+                                                <ng-container
+                                                    *ngFor="let opcion of item['strValorDesplegable'].split('|'); let i = index">
+                                                    <input type="checkbox" id="checkbox_{{item['intIdPregunta']}}"
+                                                        name="checkbox_{{item['intIdPregunta']}}"
+                                                        (click)="getValorCheckboxClick($event, item['intIdPregunta'], i)"
+                                                        [checked]="selectedCheckboxIndices[item['intIdPregunta']] === i"
+                                                        value="{{ opcion }}" />
+                                                    <label [for]="'checkbox'">{{ opcion }} </label>
+                                                    <br>
+                                                </ng-container>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class=" form-actions" style="text-align: center">
+                            <button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+                                [routerLink]="['/pages/encuesta']">
+                                <i class="ft-x"></i> Cancelar
+                            </button>
+                            <button type="button" class="btn btn-raised btn-raised btn-primary"
+                                (click)="guardarDatos()">
+                                <i class="fa fa-check-square-o"></i> Guardar Datos
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
