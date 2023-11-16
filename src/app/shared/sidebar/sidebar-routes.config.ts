@@ -3,22 +3,23 @@ import { RouteInfo } from './sidebar.metadata';
 //Sidebar menu Routes and data
 export const ROUTES: RouteInfo[] = [
     { value: "1", path: '/dashboard/dashboard1', title: 'Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-    /*{
-        value: "0", path: '', title: 'Mantenimientos', icon: 'ft-edit', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false, submenu: [
-            { value: "3", path: '/tables/restaurante', title: 'Restaurantes', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+    {
+        value: "9", path: '', title: 'Mantenimientos', icon: 'ft-edit', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false, submenu: [
+            { value: "9", path: '/charts/publicidad', title: 'Publicidad', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            /*{ value: "3", path: '/tables/restaurante', title: 'Restaurantes', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "4", path: '/tables/sucursal', title: 'Sucursales', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "5", path: '/tables/tipocomida', title: 'Tipos de Comida', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "6", path: '/tables/encuesta', title: 'Encuestas', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "7", path: '/tables/promocion', title: 'Promociones', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "8", path: '/tables/publicidad', title: 'Publicidad', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            
             { value: "20", path: '/tables/influencer', title: 'Influencer', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "21", path: '/tables/banner', title: 'Banner', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "22", path: '/tables/bitacora', title: 'Bitacora', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "25", path: '/tables/cupon', title: 'Cupón', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "26", path: '/tables/centroComercial', title: 'Centro Comercial', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "27", path: '/tables/clienteMovil', title: 'Usuario Móvil', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "27", path: '/tables/clienteMovil', title: 'Usuario Móvil', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },*/
         ]
-    },*/
+    },
     {
         value: "6", path: '', title: 'Promoción', icon: 'ft-lock', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
         submenu: [

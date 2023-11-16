@@ -75,4 +75,28 @@ export class PublicidadService {
             '&usuarioCreacion=' + usuario
         );
     }
+
+    createPublicidad(publicidad: any, usuario: string) {
+        const formData = new FormData();
+        formData.append('titulo', publicidad.titulo);
+        formData.append('descripcion', publicidad.descripcion);
+        formData.append('empresa', publicidad.empresa);
+        formData.append('sucursal', publicidad.sucursal);
+        formData.append('area', publicidad.area);
+        formData.append('encuesta', publicidad.encuesta);
+        formData.append('tiempo', publicidad.tiempo);
+          // Asegúrate de que 'archivo' sea un arreglo de archivos, no un solo archivo.
+          for (let i = 0; i < publicidad.archivo.length; i++) {
+            formData.append('archivo[]', publicidad.archivo[i]);
+          }
+        formData.append('usuario', usuario);
+        return this.http.post(this.globals.host + this.globals.port + '/createPublicidad', formData);
+    }
+    deletePublicidad(id: number, usuarioCreacion: string){
+        return this.http.get(this.globals.host + this.globals.port + '/deletePublicidad?idPublicidad=' + id +
+        '&usuarioCreacion=' + usuarioCreacion );
+    }
+    getUser(idUsuario: number) {
+        return this.http.get(this.globals.host + this.globals.port + '/getPublicidad?intIdUsuario=' + idUsuario);
+    }
 }

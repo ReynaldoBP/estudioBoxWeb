@@ -80,7 +80,7 @@ const routes: Routes = [
         }
       },    
       {
-        path: 'publicidades',
+        path: 'publicidad',
         component: ChartPublicidadComponent,
         data: {
           title: 'Grafico de publicidades'

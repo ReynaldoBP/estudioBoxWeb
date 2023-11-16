@@ -1,16 +1,16 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-    name: 'filtroPublicidad',
+    name: 'filtroPublicidad1',
     pure: false
 })
-export class PipePublicidad implements PipeTransform {
+export class PipePublicidad1 implements PipeTransform {
     transform(items: any[],descripcion:string, estado: string): any {
         if (!items || !estado || !descripcion) {
             return items.filter(item => item['ESTADO'] == estado)
         }
         return items.filter(item => 
-            item['TITULO'].toUpperCase().includes(descripcion.toUpperCase()) &&
+            item['DESCRIPCION'].toUpperCase().includes(descripcion.toUpperCase()) &&
             item['ESTADO'] == estado
         );
     }

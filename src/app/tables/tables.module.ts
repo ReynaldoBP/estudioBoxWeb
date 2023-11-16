@@ -10,7 +10,6 @@ import { SucursalListComponent } from './sucursal-list/sucursal-list.component';
 import { UsuarioListComponent } from './usuario-list/usuario-list.component';
 import { EncuestaListComponent } from './encuestas-list/encuesta-list.component';
 import { PromocionListComponent } from './promocion-list/promocion-list.component';
-import { PublicidadListComponent } from './publicidad-list/publicidad-list.component';
 import { TipoComidaListComponent } from './tipocomida-list/tipocomida-list.component';
 import { ClientesListComponent } from './clientes-list/clientes-list.component';
 import { redimirCuponComponent } from './redimirCupon-list/redimirCupon-list.component';
@@ -38,8 +37,8 @@ import { FilterCentroComercial } from 'app/_pipes/PipeCentroComercial';
 import { FilterRedimirCupon } from 'app/_pipes/PipeRedimirCupon';
 import { FilterClienteMovil } from 'app/_pipes/PipeClienteMovil';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { PipePublicidad } from 'app/_pipes/PipePublicidad';
-import { PipeReporte } from 'app/_pipes/PipeReporte';
+//import { PipePublicidad } from 'app/_pipes/PipePublicidad';
+//import { PipeReporte } from 'app/_pipes/PipeReporte';
 import { PipePromocion } from 'app/_pipes/PipePromocion';
 import { BannerListComponent } from './banner-list/banner-list.component';
 import { CuponListComponent } from './cupon-list/cupon-list.component';
@@ -73,7 +72,6 @@ import { PuntosEstadisticaListComponent } from './puntosEstadistica-list/puntosE
         UsuarioListComponent,
         EncuestaListComponent,
         PromocionListComponent,
-        PublicidadListComponent,
         TipoComidaListComponent,
         ClientesListComponent,
         redimirCuponComponent,
@@ -97,8 +95,8 @@ import { PuntosEstadisticaListComponent } from './puntosEstadistica-list/puntosE
         FilterTipoComida,
         FilterCliente,
         FilterAccionByModulo,
-        PipePublicidad,
-        PipeReporte,
+        //PipePublicidad,
+        //PipeReporte,
         PipePromocion,
         BannerListComponent,
         CuponListComponent,

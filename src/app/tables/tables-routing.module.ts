@@ -8,7 +8,6 @@ import { SucursalListComponent } from './sucursal-list/sucursal-list.component';
 import { UsuarioListComponent } from './usuario-list/usuario-list.component';
 import { EncuestaListComponent } from './encuestas-list/encuesta-list.component';
 import { PromocionListComponent } from './promocion-list/promocion-list.component';
-import { PublicidadListComponent } from './publicidad-list/publicidad-list.component';
 import { TipoComidaListComponent } from './tipocomida-list/tipocomida-list.component';
 import { ClientesListComponent } from './clientes-list/clientes-list.component';
 import { redimirCuponComponent } from './redimirCupon-list/redimirCupon-list.component';
@@ -74,13 +73,6 @@ const routes: Routes = [
         component: PromocionListComponent,
         data: {
           title: 'Promociones'
-        }
-      },
-      {
-        path: 'publicidad',
-        component: PublicidadListComponent,
-        data: {
-          title: 'Publicidades'
         }
       },
       {

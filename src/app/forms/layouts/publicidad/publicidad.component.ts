@@ -5,22 +5,14 @@ import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { PublicidadService } from 'app/_services/publicidad.service';
 import { ParamService } from 'app/_services/param.service';
-import { TipoComidaService } from 'app/_services/tipocomida.service';
+import { EmpresaService } from 'app/_services/empresa.service';
+import { SucursalService } from 'app/_services/sucursal.service';
+import { AreaService } from 'app/_services/area.service';
+import { EncuestaService } from 'app/_services/encuesta.service';
 import { forkJoin } from 'rxjs';
 import { GeocodeService } from 'app/_services/geocode.service';
 const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
-export interface Person {
-  id: string;
-  isActive: boolean;
-  age: number;
-  name: string;
-  gender: string;
-  company: string;
-  email: string;
-  phone: string;
-  disabled?: boolean;
-}
 
 @Component({
   selector: 'app-basic',
@@ -29,275 +21,107 @@ export interface Person {
 })
 export class PublicidadComponent implements OnInit {
   location: Location;
+  selectedFileName: string = 'Ningún archivo seleccionado';
   uploader: FileUploader = new FileUploader({
     url: URL,
     isHTML5: true
   });
-  hasBaseDropZoneOver = false;
-  hasAnotherDropZoneOver = false;
   image: any;
-
+  selectedFileNames: string[] = [];
   listRol: any
-  listPais: any
-  listProvincia: any
-  listCiudad: any
-  listParroquia: any
-  listTipoComida: any
-  listTipoComidaSelected: any
-
-  publicidad: any = {
-    descripcion: '',
-    genero: '',
-    edadminima: '',
-    edadmaxima: '',
-    idpais: '',
-    idprovincia: '',
-    idciudad: '',
-    idparroquia: '',
-    estado: true,
-    imagen: '',
-    orientacion: 'HORIZONTAL',
-    eliminar: 'N',
+  listEmpresa: any
+  listSucursal: any
+  listArea: any
+  listEncuesta: any
+  objSelectEmpresa: any = null
+  objSelectSucursal: any = null
+  objSelectArea: any = null
+  objSelectEncuesta: any = null
+  arrayParametrosSucursal: any = {
+    strEstado: "ACTIVO",
+    intIdEmpresa: ""
   }
+  arrayParametrosArea: any = {
+    strEstado: "ACTIVO",
+    intIdSucursal: ""
+  }
+  arrayParametrosEncuesta: any = {
+    strEstado: "ACTIVO",
+    intIdArea: ""
+  }
+  publicidad: any = {
+    titulo: '',
+    descripcion: '',
+    archivo: '',
+    empresa: '',
+    sucursal: '',
+    area: '',
+    encuesta: '',
+    tiempo: '',
+  }
+
 
   user: any
-  chkTODOStipocomida: boolean
-  geocoder: any
-  geolocation: any
 
-  constructor(private publicidadService: PublicidadService,
+  constructor(
+    private PublicidadServicie: PublicidadService,
     private toastr: ToastrService,
     private router: Router,
-    private route: ActivatedRoute,
     private paramService: ParamService,
-    private tipocomidaservice: TipoComidaService,
-    private geocodeService: GeocodeService) {
+    private objEmpresaService: EmpresaService,
+    private objSucursalService: SucursalService,
+    private objAreaService: AreaService,
+    private objEncuestaService: EncuestaService,
+  ) {
     this.user = JSON.parse(localStorage.getItem('usuario'))
-    this.publicidad.id = this.route.snapshot.paramMap.get('id');
-    this.listTipoComidaSelected = []
-    this.chkTODOStipocomida = false
-  }
-
-  seleccTodoTipoComida() {
-    if (this.chkTODOStipocomida) {
-      this.listTipoComidaSelected = this.listTipoComida.map(item => item.ID_TIPO_COMIDA)
-    } else {
-      this.listTipoComidaSelected = []
-    }
-  }
-
-  verificaTodosTipoComida() {
-    if (this.listTipoComidaSelected.length != this.listTipoComida.length) {
-      this.chkTODOStipocomida = false
-    } else {
-      this.chkTODOStipocomida = true
-    }
   }
 
   ngOnInit() {
-    this.getTiposComida()
-    if (this.publicidad.id != "0") {
-      this.obtenerPublicidad()
-    }
+    this.getEmpresas()
   }
 
-  obtenerPublicidad() {
-    this.publicidadService.getById(this.publicidad.id)
-      .subscribe(
-        data => {
-          if (data['status'] == 204) {
-            swal({ title: "Publicidad no encontrada", text: data['resultado'], type: "error", showConfirmButton: true })
-              .then((result) => {
-                if (result.value)
-                  this.iraListado()
-              });
-          } else {
-            let rest: any = data['resultado']['resultados'][0]
-            this.publicidad.descripcion = rest.DESCRIPCION
-            this.publicidad.genero = rest.GENERO
-            this.publicidad.edadminima = rest.EDAD_MINIMA
-            this.publicidad.edadmaxima = rest.EDAD_MAXIMA
-            this.publicidad.idpais = rest.PAIS
-            this.publicidad.idprovincia = rest.PROVINCIA
-            this.publicidad.idciudad = rest.CIUDAD
-            this.publicidad.idparroquia = rest.PARROQUIA
-            this.publicidad.estado = rest.ESTADO == 'ACTIVO' ? true : false
-            this.publicidad.imagen = rest.IMAGEN
-            this.publicidad.orientacion = rest.ORIENTACION
-            this.getTiposComidaByPublicidad()
-          }
-        },
-        error => {
-          this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
-        }
-      )
-  }
-
-  // Angular2 File Upload
-  fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
-  }
-
-  fileOverAnother(e: any): void {
-    this.hasAnotherDropZoneOver
-  }
-  public imagePath;
-  imgURL: any;
-  public message: string;
-
-  preview(files) {
-    if (files.length === 0)
-      return;
-
-    var mimeType = files[0].type;
-    if (files[0].size > 1000000) {
-      this.message = "Solo imagenes menor a 1 MB";
-      this.toastr.warning(this.message, 'Error')
-      return;
-    }
-    if (mimeType.match(/image\/*/) == null) {
-      this.message = "Only images are supported.";
-      return;
-    }
-
-    var reader = new FileReader();
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      //this.imgURL = reader.result; 
-      this.publicidad.imagen = reader.result;
-    }
-  }
-
-  remove() {
-    //this.imgURL = null
-    this.publicidad.imagen = null
-  }
-  eliminarDatos() {/*
-    this.publicidad.estado = this.publicidad.estado ? 'ACTIVO' : 'INACTIVO'
-    swal({
-      title: '¿Está seguro de eliminar la publicidad?',
-      text: "¡No podrás revertir esto!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#0CC27E',
-      cancelButtonColor: '#FF586B',
-      confirmButtonText: 'Si, eliminar',
-      cancelButtonText: 'No, cancelar',
-      confirmButtonClass: 'btn btn-success btn-raised mr-5',
-      cancelButtonClass: 'btn btn-danger btn-raised',
-      buttonsStyling: false
-    }).then((result) => {
-      if (result.value) {
-        this.publicidadService.deletePublicidadComida(this.publicidad.id)
-          .subscribe(
-            data2 => {
-              if (data2['status'] == 204) {
-                this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
-              } else {
-                this.publicidad.eliminar = 'S'
-                this.publicidadService.edit(this.publicidad, this.user.ID_USUARIO)
-                  .subscribe(
-                    data => {
-                      if (data['status'] == 204) {
-                        this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
-                      } else {
-                        swal(
-                          '¡Eliminado!',
-                          'Publicidad eliminada de forma permanente',
-                          'success'
-                        )
-                        this.iraListado()
-                      }
-                    },
-                    error => {
-                      this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
-                    }
-                  )
-              }
-            },
-            error => {
-              this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
-            }
-          )
-      }
-      else {
-        swal(
-          'Cancelado',
-          'Publicidad no a sido eliminada',
-          'error'
-        )
-      }
-    });*/
-
-
-  }
   guardarDatos() {
-    this.publicidad.estado = this.publicidad.estado ? 'ACTIVO' : 'INACTIVO'
-    if (this.publicidad.id == 0) {
-      if (this.publicidad.imagen == null || this.publicidad.imagen == "") {
-        this.toastr.warning('La Imágen, es un campo obligatorio', 'Error')
-      }
-      else {
-        this.publicidadService.create(this.publicidad, this.user.ID_USUARIO)
-          .subscribe(
-            data => {
-              if (data['status'] == 204) {
-                this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
-              } else {
-                let arrayOfData = [];
-                this.listTipoComidaSelected.forEach(element => {
-                  arrayOfData.push(this.publicidadService.createPublicidadComida(data['resultado']['id'], element, this.user.ID_USUARIO))
-                });
-                forkJoin(arrayOfData).subscribe(response => {
-                  swal({ title: data['resultado']['descripcion'], text: 'Publicidad creada con éxito!', type: "success", showConfirmButton: true })
-                    .then((result) => {
-                      if (result.value)
-                        this.iraListado()
-                    });
-                }, error => {
-                  console.error(error);
-                });
-              }
-            },
-            error => {
-              this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
-            }
-          )
-      }
-    } else {
-      this.publicidadService.edit(this.publicidad, this.user.ID_USUARIO)
+    if (this.selectedFileNames.length == 0) {
+      this.toastr.warning('El archivo, es un campo obligatorio', 'Error')
+    }
+    else if (this.publicidad.titulo == null || this.publicidad.titulo == "") {
+      this.toastr.warning('El Título, es un campo obligatorio', 'Error')
+    }
+    else if (this.objSelectEmpresa == null || this.objSelectEmpresa == "") {
+      this.toastr.warning('La Empresa, es un campo obligatorio', 'Error')
+    }
+    else if (this.objSelectSucursal == null || this.objSelectSucursal == "") {
+      this.toastr.warning('La Sucursal, es un campo obligatorio', 'Error')
+    }
+    else if (this.objSelectArea == null || this.objSelectArea == "") {
+      this.toastr.warning('El Area, es un campo obligatorio', 'Error')
+    }
+    else if (this.objSelectEncuesta == null || this.objSelectEncuesta == "") {
+      this.toastr.warning('La Encuesta, es un campo obligatorio', 'Error')
+    }
+    else if (this.publicidad.tiempo == null || this.publicidad.tiempo == "") {
+      this.toastr.warning('El campo Tiempo, Favor agregar valor en segundos', 'Error')
+    }
+    else {
+      this.publicidad.empresa = this.objSelectEmpresa
+      this.publicidad.sucursal = this.objSelectSucursal
+      this.publicidad.area = this.objSelectArea
+      this.publicidad.encuesta = this.objSelectEncuesta
+
+      //this.reporte.archivo  = this.selectedFileName
+      this.PublicidadServicie.createPublicidad(this.publicidad, this.user.intIdUsuario)
         .subscribe(
           data => {
-            if (data['status'] == 204) {
-              this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
+            if (data['status'] === 204) {
+              this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error');
             } else {
-              this.publicidadService.deletePublicidadComida(this.publicidad.id)
-                .subscribe(
-                  data2 => {
-                    if (data2['status'] == 204) {
-                      this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
-                    } else {
-                      let arrayOfData = [];
-                      this.listTipoComidaSelected.forEach(element => {
-                        arrayOfData.push(this.publicidadService.createPublicidadComida(this.publicidad.id, element, this.user.ID_USUARIO))
-                      });
-                      forkJoin(arrayOfData).subscribe(response => {
-                        swal({ title: this.publicidad.descripcion, text: data['resultado'], type: "success", showConfirmButton: true })
-                          .then((result) => {
-                            if (result.value)
-                              this.iraListado()
-                          });
-                      }, error => {
-                        console.error(error);
-                      });
-
-                    }
-                  },
-                  error => {
-                    this.toastr.warning('Hubo un error, comuníquese con el dpto. de sistemas', 'Error')
+              // Muestra el mensaje de éxito directamente
+              swal({ title: data['resultado']['descripcion'], text: 'Publicidad creada con éxito!', type: 'success', showConfirmButton: true })
+                .then((result) => {
+                  if (result.value) {
+                    this.iraListado();
                   }
-                )
+                });
             }
           },
           error => {
@@ -307,60 +131,126 @@ export class PublicidadComponent implements OnInit {
     }
   }
 
+
   iraListado() {
-    this.router.navigate(['/tables/publicidad']);
+    this.router.navigate(['/charts/publicidad']);
   }
 
-  getLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position: Position) => {
-        if (position) {
-          this.findLocation(position.coords.latitude, position.coords.longitude)
+  selectFiles() {
+    const fileInput = document.getElementById('file-input') as HTMLInputElement;
+    fileInput.click();
+    fileInput.addEventListener('change', (event) => {
+      /*const selectedFile = (event.target as HTMLInputElement).files[0];
+      if (selectedFile) {
+          this.publicidad.archivo  = selectedFile
+      }*/
+      const selectedFiles = (event.target as HTMLInputElement).files;
+      if (selectedFiles.length > 0 && selectedFiles.length <= 3) {
+        if (!this.publicidad.archivo) {
+          this.publicidad.archivo = [];
         }
-      },
-        (error: PositionError) => console.log(error));
-    } else {
-      alert("Geolocation is not supported by this browser.");
-    }
-  }
-  findLocation(lat, lng) {
-    this.geocodeService.geocodeAddress(lat, lng)
-      .subscribe((geolocation) => {
-        console.log(geolocation)
-        this.geolocation = geolocation
-        if (this.geolocation.pais != null) {
-          let pais = this.listPais.find(item => item['PAIS_NOMBRE'].toUpperCase() == this.geolocation.pais.toUpperCase())
-          if (pais != null) {
-            this.publicidad.idpais = pais.ID_PAIS
+        if (selectedFiles) {
+          for (let i = 0; i < selectedFiles.length; i++) {
+            this.publicidad.archivo.push(selectedFiles[i]); // Agrega cada archivo al arreglo
           }
         }
+      } else {
+        // Si no se seleccionan exactamente 3 archivos, muestra un mensaje de error o realiza alguna acción adecuada.
+        this.toastr.warning('Hubo un error, por favor seleccionar de 1 a 3 imagenes.', 'Error')
+        // También puedes restablecer la entrada de archivos o tomar alguna otra medida según tus necesidades.
+        this.selectedFileNames = [];
       }
-      );
+
+
+    });
   }
-  getTiposComida() {
-    this.tipocomidaservice.getTiposComida(1)
+
+  onFileSelected(event: any) {
+    const fileInput = event.target as HTMLInputElement;
+
+    if (fileInput.files && fileInput.files.length > 0) {
+      this.selectedFileName = fileInput.files[0].name;
+    } else {
+      this.selectedFileName = 'Ningún archivo seleccionado';
+    }
+  }
+
+  onFilesSelected(event: any) {
+    const selectedFiles = event.target.files;
+
+    if (selectedFiles) {
+      this.selectedFileNames = [];
+      for (let i = 0; i < selectedFiles.length; i++) {
+        this.selectedFileNames.push(selectedFiles[i].name);
+      }
+    }
+  }
+
+  getEmpresas() {
+    this.objEmpresaService.getEmpresa('NO')
       .subscribe(
         data => {
-          this.listTipoComida = data['resultado']['tipoComida']
+          if (data['intStatus'] != 200) {
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+          } else {
+            this.listEmpresa = data["arrayEmpresa"]
+            this.listSucursal = data[""]
+          }
         },
         error => {
-
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
       )
   }
 
-  getTiposComidaByPublicidad() {
-    this.publicidadService.getTiposComidaByPublicidad(this.publicidad.id)
-      .subscribe(
-        data => {
-          let listado = data['resultado']['resultados']
-          this.listTipoComidaSelected = listado.map(item => item.ID_TIPO_COMIDA)
-          this.verificaTodosTipoComida()
-        },
-        error => {
-
-        }
-      )
+  getSucursales() {
+    this.objSelectSucursal = null
+    if (this.objSelectEmpresa != undefined) {
+      this.arrayParametrosSucursal.intIdEmpresa = this.objSelectEmpresa
+      this.objSucursalService.getSucursal(this.arrayParametrosSucursal)
+        .subscribe(
+          data => {
+            this.listSucursal = data["arraySucursal"]
+          },
+          error => {
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+          }
+        )
+    }
+  }
+  getArea() {
+    this.objSelectArea = null
+    if (this.objSelectSucursal != undefined) {
+      this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
+      this.objAreaService.getArea(this.arrayParametrosArea)
+        .subscribe(
+          data => {
+            this.listArea = data["arrayArea"]
+          },
+          error => {
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+          }
+        )
+    }
   }
 
+  getEncuesta() {
+    this.objSelectEncuesta = null
+    if (this.objSelectArea != undefined) {
+      this.arrayParametrosEncuesta.intIdArea = this.objSelectArea
+      this.objEncuestaService.getEncuesta(this.arrayParametrosEncuesta)
+        .subscribe(
+          data => {
+            this.listEncuesta = data["arrayEncuesta"]
+          },
+          error => {
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+          }
+        )
+    }
+  }
+
+  getFormattedFileNames(): string {
+    return this.selectedFileNames.map(fileName => `${fileName}<br>`).join('');
+  }
 }

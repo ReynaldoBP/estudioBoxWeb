@@ -59,7 +59,34 @@ export class ChartPreguntasComponent implements OnInit {
       }
     },
     tooltips: {
-      enabled: true
+      enabled: true,
+      callbacks: {
+        title: (tooltipItems, data) => {
+          return data.labels[tooltipItems[0].index];
+        },
+        label: (tooltipItem, data) => {
+          var intTotal = 0;
+          var porcentaje = 0;
+          for (let i = 0; i < data.datasets.length; i++) {
+            const dataset = data.datasets[i];
+            // Acceder a las propiedades de cada dataset
+            const label = dataset.label; // Etiqueta del dataset
+            const datasetData = dataset.data; // Datos del dataset
+
+            intTotal = intTotal+parseFloat(datasetData[tooltipItem.index]);
+          }
+          // Aquí puedes agregar el dato adicional que deseas mostrar
+          const dataset = data.datasets[tooltipItem.datasetIndex];
+          const value = dataset.data[tooltipItem.index];
+          const nombre = dataset.label;
+          //Calculamos porcentajes
+          porcentaje = (value/intTotal)*100;
+          porcentaje = Math.round(porcentaje * 100) / 100;
+          const datoAdicional1 = nombre+": " + value; 
+          const datoAdicional2 = "Porcentaje: " + porcentaje+'%'; 
+          return [datoAdicional1, datoAdicional2];;
+        },
+      },
     },
     title: {
       display: false,
