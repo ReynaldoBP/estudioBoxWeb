@@ -9,7 +9,7 @@
         </p>
     </div>
 </div>
-
+<canvas #canvas></canvas>
 <!-- Bar Chart Starts -->
 <div class="row text-left">
     <div class="col-sm-12">
@@ -153,7 +153,7 @@
                         <canvas id="chartEncuesta" baseChart class="chart" [datasets]="barChartData"
                             [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors"
                             [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)"
-                            (chartClick)="chartClicked($event)"></canvas>
+                            (chartClick)="chartClicked($event)" (chartLabelContent)="chartLabelContent($event)"></canvas>
                     </div>
                 </div>
             </div>

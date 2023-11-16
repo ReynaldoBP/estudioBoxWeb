@@ -68,8 +68,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of rows | filtroReporte : descripcionFiltro : estadoFiltro
-                                    " [className]="item['ESTADO']=='INACTIVO'?'bg-danger':'bg-light'">
+                                <tr *ngFor="let item of rows | filtroReporte : descripcionFiltro : estadoFiltro "
+                                    [className]="item['ESTADO']=='INACTIVO'?'bg-danger':'bg-light'">
                                     <td>{{item['TITULO']}}</td>
                                     <td>{{item['DESCRIPCION']}}</td>
                                     <td>{{item['ESTADO']}}</td>

@@ -23,6 +23,7 @@ import { SucursalComponent } from './layouts/sucursal/sucursal.component';
 import { AgmCoreModule } from '@agm/core';
 import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { UsuarioComponent } from './layouts/usuario/usuario.component';
+//import { Publicidad1Component } from './layouts/publicidad1/publicidad.component';
 import { PublicidadComponent } from './layouts/publicidad/publicidad.component';
 import { ReporteComponent } from './layouts/reporte/reporte.component';
 import { PromocionComponent } from './layouts/promocion/promocion.component';
