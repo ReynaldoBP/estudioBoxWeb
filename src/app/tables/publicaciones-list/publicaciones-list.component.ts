@@ -34,7 +34,9 @@ export class PublicacionesListComponent implements OnInit {
         { anio: "Noviembre", numanio: 11 },
         { anio: "Diciembre", numanio: 12 }
     ];
-    p: number = 1;
+    intPagina: number = 1;
+    intLimiteRegistros:number=10;
+    intTotalRegistros:number=0;
     user: any
     permisos: any
     acciones: any
@@ -61,7 +63,9 @@ export class PublicacionesListComponent implements OnInit {
         intAnio: "",
         intIdSucursal: "",
         intIdArea: "",
-        intIdUsuario: ""
+        intIdUsuario: "",
+        intPagActual:"",
+        intLimitePag:""
     }
     arrayParametrosRespuestas: any = {
         intIdCltEncuesta: "",
@@ -126,12 +130,15 @@ export class PublicacionesListComponent implements OnInit {
         this.arrayParametrosDataEncuesta.intIdUsuario = this.user.intIdUsuario
         this.arrayParametrosDataEncuesta.intMes = this.mesEncuestas.toString()
         this.arrayParametrosDataEncuesta.intAnio = this.anioEncuestas.toString()
+        this.arrayParametrosDataEncuesta.intPagActual = this.intPagina
+        this.arrayParametrosDataEncuesta.intLimitePag = this.intLimiteRegistros
         this.objEncuestaService.getDataEncuesta(this.arrayParametrosDataEncuesta)
             .subscribe(
                 data => {
                     this.objLoading = false
                     if (data["intStatus"] == 200) {
                         let datos = data["arrayData"]["resultados"]
+                        this.intTotalRegistros = data["arrayData"]["totalResultado"]
                         this.rows = datos.map(item => {
                             let obj = {
                                 strFeCreacion: item.strFeCreacion,
@@ -433,4 +440,8 @@ export class PublicacionesListComponent implements OnInit {
                 this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
             });
     }
+    onPageChange(event: number): void {
+        this.intPagina = event;
+        this.getDataEncuesta()
+      }
 }

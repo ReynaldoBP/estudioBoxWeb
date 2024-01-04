@@ -230,7 +230,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of rows | filterDataEncuesta : estadoFiltro| paginate: { itemsPerPage: 10, currentPage: p }"
+                                <tr *ngFor="let item of rows | filterDataEncuesta : estadoFiltro| paginate: { itemsPerPage: intLimiteRegistros, currentPage: intPagina,totalItems:intTotalRegistros }"
                                     [className]="item['strEstado']=='ELIMINADO'||item['strEsmenor3']=='SI'?'bg-danger':'bg-light'">
                                     <td>
                                         <div *ngIf="item['strVisto'] =='0' && item['strComentario'] !=''"
@@ -319,7 +319,7 @@
                                 </tr>
                             </tbody>
                         </table>
-                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        <pagination-controls (pageChange)="onPageChange($event)"></pagination-controls>
                     </div>
                 </div>
             </div>
