@@ -4,6 +4,7 @@ import * as XLSX from 'xlsx';
 import * as jsPDF from 'jspdf'
 //import { autoTable } from 'jspdf-autotable';
 import 'jspdf-autotable';
+import html2canvas from 'html2canvas';
 
 const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const EXCEL_EXTENSION = '.xlsx';
@@ -11,7 +12,7 @@ const PDF_TYPE = 'application/pdf'
 const PDF_EXTENSION = '.pdf'
 
 @Injectable()
-export class ExcelService {    
+export class ExcelService {
 
     constructor() { }
     objFecha = new Date();
@@ -23,16 +24,28 @@ export class ExcelService {
     }
 
     private saveAsExcelFile(buffer: any, fileName: string): void {
-        
-        const data: Blob = new Blob([buffer], {type: EXCEL_TYPE});
+
+        const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
         let strFecha = this.objFecha.getDate() + "-" + (this.objFecha.getMonth() + 1) + "-" + this.objFecha.getFullYear()
-        FileSaver.saveAs(data, fileName +"_"+ strFecha + EXCEL_EXTENSION);
+        FileSaver.saveAs(data, fileName + "_" + strFecha + EXCEL_EXTENSION);
     }
 
-    public exportAsPdfFile(cols:any,rows: any, fileName: string){
+    public exportAsPdfFile(cols: any, rows: any, fileName: string) {
         let strFecha = this.objFecha.getDate() + "-" + (this.objFecha.getMonth() + 1) + "-" + this.objFecha.getFullYear()
-        var doc = new jsPDF()    
+        var doc = new jsPDF()
         doc.autoTable(cols, rows)
-        doc.save(fileName +"_"+strFecha + PDF_EXTENSION)
+        doc.save(fileName + "_" + strFecha + PDF_EXTENSION)
     }
+    descargarPDF2(html: string): void {
+        // Crea una nueva instancia de jsPDF
+        const doc = new jsPDF();
+    
+        // Convierte el HTML a PDF
+        doc.html(html, {
+          callback: (pdf) => {
+            // Guarda o descarga el PDF
+            pdf.save('tu-archivo.pdf');
+          }
+        });
+      }
 }

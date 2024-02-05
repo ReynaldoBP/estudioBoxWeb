@@ -6,12 +6,16 @@ import { Globals } from './global.service';
 export class ReporteService {
     constructor(private http: HttpClient, private globals: Globals) { }
 
-    get() {
-        return this.http.get(this.globals.host + this.globals.port + '/getReporte');
+    getReporte(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdUsuario: arrayParametros.intIdUsuario,
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getReporte', datos);
     }
-
     getById(id: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/getReporte?idReporte=' + id );
+        return this.http.get(this.globals.host + this.globals.port + '/getReporte?idReporte=' + id);
     }
 
     createReporte(reporte: any, usuario: string) {
@@ -25,7 +29,7 @@ export class ReporteService {
         return this.http.post(this.globals.host + this.globals.port + '/createReporte', formData);
     }
 
-    deleteReporte(id: number){
-        return this.http.get(this.globals.host + this.globals.port + '/deleteReporte?idReporte=' + id );
+    deleteReporte(id: number) {
+        return this.http.get(this.globals.host + this.globals.port + '/deleteReporte?idReporte=' + id);
     }
 }
