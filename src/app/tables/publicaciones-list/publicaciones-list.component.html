@@ -307,9 +307,19 @@
                                             {{item['strPromedio']}}
                                         </div>
                                     </td>
-                                    <td>
+                                    <td *ngIf="item['strPermiteFirma'] == 'Si'">
                                         <a class="success p-0" data-original-title="" title="Ver Respuestas"
-                                            (click)="verPreguntas(item)">
+                                            (click)="getRespuesta(item)">
+                                            <i class="ft-list font-medium-3 mr-2"></i>
+                                        </a>
+                                        <a class="success p-0" data-original-title="" title="Descargar Respuestas"
+                                            (click)="descargarRespuestas(item)">
+                                            <i class="ft-download font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                    <td *ngIf="item['strPermiteFirma'] != 'Si'">
+                                        <a class="success p-0" data-original-title="" title="Ver Respuestas"
+                                            (click)="getRespuesta(item)">
                                             <i class="ft-list font-medium-3 mr-2"></i>
                                         </a>
                                     </td>

@@ -17,6 +17,7 @@ export class ChartReportesComponent implements OnInit {
     estados: any
     estadoFiltro: any
     descripcionFiltro: any
+    user: any
     constructor(
         private toastr: ToastrService,
         private reporteService: ReporteService) {
@@ -26,6 +27,7 @@ export class ChartReportesComponent implements OnInit {
         this.estadoFiltro = "ACTIVO"
     }
     ngOnInit() {
+        this.user = JSON.parse(localStorage.getItem('usuario'))
         if (this.getAccion('VER')) {
             this.getReporte()
         }
@@ -41,7 +43,10 @@ export class ChartReportesComponent implements OnInit {
         //return true;
     }
     getReporte() {
-        this.reporteService.get()
+        let arrayParametrosReporte = {
+            "intIdUsuario": this.user.intIdUsuario,
+        }
+        this.reporteService.getReporte(arrayParametrosReporte)
             .subscribe(
                 data => {
                     this.rows = data['resultado']['resultados']

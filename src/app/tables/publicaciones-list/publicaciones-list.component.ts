@@ -35,8 +35,8 @@ export class PublicacionesListComponent implements OnInit {
         { anio: "Diciembre", numanio: 12 }
     ];
     intPagina: number = 1;
-    intLimiteRegistros:number=10;
-    intTotalRegistros:number=0;
+    intLimiteRegistros: number = 10;
+    intTotalRegistros: number = 0;
     user: any
     permisos: any
     acciones: any
@@ -64,10 +64,14 @@ export class PublicacionesListComponent implements OnInit {
         intIdSucursal: "",
         intIdArea: "",
         intIdUsuario: "",
-        intPagActual:"",
-        intLimitePag:""
+        intPagActual: "",
+        intLimitePag: ""
     }
     arrayParametrosRespuestas: any = {
+        intIdCltEncuesta: "",
+        intIdUsuario: ""
+    }
+    arrayParametrosDescargarRespuestas: any = {
         intIdCltEncuesta: "",
         intIdUsuario: ""
     }
@@ -148,6 +152,7 @@ export class PublicacionesListComponent implements OnInit {
                                 strSucursal: item.strSucursal,
                                 strArea: item.strArea,
                                 strTitulo: item.strTitulo,
+                                strPermiteFirma: item.strPermiteFirma,
                                 intIdCltEncuesta: item.intIdCltEncuesta,
                                 strEstado: item.strEstado,
                                 strPromedio: item.strPromedio,
@@ -167,8 +172,27 @@ export class PublicacionesListComponent implements OnInit {
                 }
             )
     }
-
-    verPreguntas(objCltEncuesta: any) {
+    descargarRespuestas(objCltEncuesta: any) {
+        this.objLoading = true
+        this.arrayParametrosDescargarRespuestas.intIdCltEncuesta = objCltEncuesta.intIdCltEncuesta
+        this.arrayParametrosDescargarRespuestas.intIdUsuario = this.user.intIdUsuario
+        this.objEncuestaService.descargarRespuesta(this.arrayParametrosDescargarRespuestas)
+            .subscribe(
+                data => {
+                    this.objLoading = false
+                    if (data['intStatus'] != 200) {
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    } else {
+                        this.objExportarDataService.convertirHtmlaPdf(data["arrayData"])
+                    }
+                },
+                error => {
+                    this.objLoading = false
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            )
+    }
+    getRespuesta(objCltEncuesta: any) {
         this.objLoading = true
         this.arrayParametrosRespuestas.intIdCltEncuesta = objCltEncuesta.intIdCltEncuesta
         this.arrayParametrosRespuestas.intIdUsuario = this.user.intIdUsuario
@@ -443,5 +467,5 @@ export class PublicacionesListComponent implements OnInit {
     onPageChange(event: number): void {
         this.intPagina = event;
         this.getDataEncuesta()
-      }
+    }
 }

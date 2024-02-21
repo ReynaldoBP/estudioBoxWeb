@@ -181,6 +181,16 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getReporteEstPorSucursal', datos);
     }
 
+    descargarRespuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdCltEncuesta: arrayParametros.intIdCltEncuesta,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/descargarRespuesta', datos);
+    }
+
     getRespuesta(arrayParametros: any) {
         let datos = {
             data: {
