@@ -58,6 +58,35 @@ export class PublicacionesListComponent implements OnInit {
         intIdUsuario: "",
         intIdSucursal: ""
     }
+    objSelectPregunta: any = null
+    arrayEncuestas
+    objSelectEncuesta: any = null
+    arraySelectSucursal: any[] = []
+    arrayParametrosEncuestas: any = {
+        intIdSucursal: '',
+        arrayIdSucursal: [],
+        intIdArea: "",
+        strArea: "",
+        intIdUsuario: '',
+        intLimite: '',
+        arrayPregunta: '',
+        intIdPregunta: '',
+        strPregunta: '',
+        strEdad: '',
+        strGenero: '',
+        strHorario: '',
+        intIdEncuesta: '',
+        strEncuesta: '',
+        boolAgrupar: "NO",
+        strEstadistica: ""
+    }
+    arrayParametrosPreguntas: any = {
+        intIdEncuesta: "",
+        strEncuesta: "",
+        boolAgrupar: "NO"
+    }
+    arrayPreguntas: any
+    strBuscarRespuesta: any
     arrayParametrosDataEncuesta: any = {
         intMes: "",
         intAnio: "",
@@ -65,7 +94,8 @@ export class PublicacionesListComponent implements OnInit {
         intIdArea: "",
         intIdUsuario: "",
         intPagActual: "",
-        intLimitePag: ""
+        intLimitePag: "",
+        strBuscarRespuesta: ""
     }
     arrayParametrosRespuestas: any = {
         intIdCltEncuesta: "",
@@ -103,6 +133,7 @@ export class PublicacionesListComponent implements OnInit {
             this.getSucursales()
             this.getArea()
         }
+        this.arrayParametrosEncuestas.intIdUsuario = this.user.intIdUsuario
     }
 
     vermas() {
@@ -136,6 +167,10 @@ export class PublicacionesListComponent implements OnInit {
         this.arrayParametrosDataEncuesta.intAnio = this.anioEncuestas.toString()
         this.arrayParametrosDataEncuesta.intPagActual = this.intPagina
         this.arrayParametrosDataEncuesta.intLimitePag = this.intLimiteRegistros
+        if (this.arrayArea != "") {
+            this.arrayParametrosDataEncuesta.strRespuesta = this.strBuscarRespuesta
+            this.arrayParametrosDataEncuesta.strPregunta = this.objSelectPregunta
+        }
         this.objEncuestaService.getDataEncuesta(this.arrayParametrosDataEncuesta)
             .subscribe(
                 data => {
@@ -367,6 +402,55 @@ export class PublicacionesListComponent implements OnInit {
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }
             )
+    }
+    getEncuesta() {
+        this.objLoading = true
+        this.objSelectEncuesta = null
+        this.arrayParametrosEncuestas.arrayIdSucursal = []
+        this.arrayParametrosEncuestas.intIdArea = ''
+        if (this.arraySelectSucursal != undefined) {
+            this.arrayParametrosEncuestas.arrayIdSucursal = this.objSelectSucursal
+            this.arrayParametrosEncuestas.boolAgrupar = "SI"
+        }
+        if (this.objSelectArea != undefined) {
+            this.arrayParametrosEncuestas.intIdArea = this.objSelectArea
+        }
+        this.objEncuestaService.getEncuesta(this.arrayParametrosEncuestas).subscribe(
+            data => {
+                this.objLoading = false
+                if (data["intStatus"] == 200) {
+                    this.arrayEncuestas = data['arrayEncuesta']
+                } else {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            },
+            error => {
+                this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+            });
+    }
+    getPregunta() {
+        this.objLoading = true
+        this.objSelectPregunta = null
+        if (this.objSelectEncuesta != undefined) {
+            this.arrayParametrosPreguntas.strEncuesta = this.objSelectEncuesta
+            this.arrayParametrosPreguntas.boolAgrupar = "SI"
+        }
+        if (this.arrayParametrosPreguntas.strEncuesta != undefined) {
+            this.objEncuestaService.getPregunta(this.arrayParametrosPreguntas).subscribe(
+                data => {
+                    this.objLoading = false
+                    if (data["intStatus"] == 200) {
+                        console.log(data['arrayPregunta'])
+                        //this.arrayPreguntas = data['arrayPregunta'].filter(item => item.strTipoOpcionRespuesta == "DESPLEGABLE")
+                        this.arrayPreguntas = data['arrayPregunta']
+                    } else {
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    }
+                },
+                error => {
+                    this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+                });
+        }
     }
     declinar() {
         if (this.rows.filter(item => item.CHECKED).length == 0) {

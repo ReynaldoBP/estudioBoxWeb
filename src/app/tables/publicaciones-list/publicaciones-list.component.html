@@ -26,9 +26,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
-                                            (change)="getArea()" [hideSelected]="false" bindLabel="strNombre"
-                                            bindValue="intIdSucursal" placeholder="Seleccione Sucursal"
-                                            [(ngModel)]="objSelectSucursal">
+                                            (change)="getArea();getEncuesta()" [hideSelected]="false"
+                                            bindLabel="strNombre" bindValue="intIdSucursal"
+                                            placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -41,7 +41,8 @@
                                     <div class="col-md-12">
                                         <ng-select [items]="arrayArea" [multiple]="false" [closeOnSelect]="true"
                                             [hideSelected]="false" bindLabel="strArea" bindValue="intIdArea"
-                                            placeholder="Seleccione Area" [(ngModel)]="objSelectArea">
+                                            (change)="getEncuesta()" placeholder="Seleccione Area"
+                                            [(ngModel)]="objSelectArea">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -62,6 +63,51 @@
                                             (click)="getExportarCsv()">
                                             <i class="fa fa-file-excel-o"></i>
                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="user.strTipoRol=='EMPRESA'">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Encuestas</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ng-select [items]="arrayEncuestas" [multiple]="false"
+                                                [closeOnSelect]="true" [hideSelected]="false" bindLabel="strTitulo"
+                                                bindValue="strTitulo" placeholder="Seleccione"
+                                                [(ngModel)]="objSelectEncuesta" (change)="getPregunta()">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Preguntas</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ng-select [items]="arrayPreguntas" [multiple]="false"
+                                                [closeOnSelect]="true" [hideSelected]="false" bindLabel="strPregunta"
+                                                bindValue="strPregunta" placeholder="Seleccione"
+                                                [(ngModel)]="objSelectPregunta">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Respuesta a Buscar</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type='text' class="form-control" [(ngModel)]="strBuscarRespuesta"
+                                            placeholder='Ingrese una Respuesta' />
                                     </div>
                                 </div>
                             </div>
@@ -119,9 +165,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
-                                            (change)="getArea()" [hideSelected]="false" bindLabel="strNombre"
-                                            bindValue="intIdSucursal" placeholder="Seleccione Sucursal"
-                                            [(ngModel)]="objSelectSucursal">
+                                            (change)="getArea();getEncuesta()" [hideSelected]="false"
+                                            bindLabel="strNombre" bindValue="intIdSucursal"
+                                            placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -134,7 +180,8 @@
                                     <div class="col-md-12">
                                         <ng-select [items]="arrayArea" [multiple]="false" [closeOnSelect]="true"
                                             [hideSelected]="false" bindLabel="strArea" bindValue="intIdArea"
-                                            placeholder="Seleccione Area" [(ngModel)]="objSelectArea">
+                                            (change)="getEncuesta()" placeholder="Seleccione Area"
+                                            [(ngModel)]="objSelectArea">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -155,6 +202,51 @@
                                             class="btn btn-raised btn-raised btn-danger" (click)="declinar()">
                                             <i class="fa fa-times"></i> Eliminar
                                         </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="user.strTipoRol=='ADMINISTRADOR'">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Encuestas</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ng-select [items]="arrayEncuestas" [multiple]="false"
+                                                [closeOnSelect]="true" [hideSelected]="false" bindLabel="strTitulo"
+                                                bindValue="strTitulo" placeholder="Seleccione"
+                                                [(ngModel)]="objSelectEncuesta" (change)="getPregunta()">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Preguntas</label>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <ng-select [items]="arrayPreguntas" [multiple]="false"
+                                                [closeOnSelect]="true" [hideSelected]="false" bindLabel="strPregunta"
+                                                bindValue="strPregunta" placeholder="Seleccione"
+                                                [(ngModel)]="objSelectPregunta">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="projectinput5">Respuesta a Buscar</label>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <input type='text' class="form-control" [(ngModel)]="strBuscarRespuesta"
+                                            placeholder='Ingrese una Respuesta' />
                                     </div>
                                 </div>
                             </div>
