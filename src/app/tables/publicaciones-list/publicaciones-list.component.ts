@@ -259,17 +259,17 @@ export class PublicacionesListComponent implements OnInit {
                                 }
                             }
                             listItem.innerHTML = ("<div class='col-md-1'><strong>" +
-                                (listpreg.indexOf(element) + 1) +
+                                //(listpreg.indexOf(element) + 1) +
                                 "</strong></div>" +
-                                "<div class='col-md-7'>" +
+                                "<div class='col-md-7'align='left'>" +
                                 element['DESCRIPCION_PREGUNTA'] +
                                 "</div>" +
                                 "<div class='col-md-4'>" +
                                 icons +
                                 "</div>");
                             tr += "<tr>" +
-                                "<td>" + (listpreg.indexOf(element) + 1) + "</td>" +
-                                "<td>" + element['DESCRIPCION_PREGUNTA'] + "</td>" +
+                                // "<td>" + (listpreg.indexOf(element) + 1) + "</td>" +
+                                "<td align='left'>" + element['DESCRIPCION_PREGUNTA'] + "</td>" +
                                 "<td>" + (element['VALOR'] == null ? '<p style="font-size:12px">' + element['RESPUESTA'] + '</p>' : icons) + "</td>" +
                                 "</tr>"
                             list.appendChild(listItem);
@@ -282,7 +282,7 @@ export class PublicacionesListComponent implements OnInit {
                                 showConfirmButton: true,
                                 width: 900
                             })
-                        this.getDataEncuesta()
+                        //this.getDataEncuesta()
                     }
                 },
                 error => {
