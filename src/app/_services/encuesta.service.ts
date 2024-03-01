@@ -121,7 +121,7 @@ export class EncuestaService {
         return this.http.get(this.globals.host + this.globals.port + '/getOpcionRespuesta?estado=ACTIVO');
     }
 
-    getTotalEncuestaMensual(intMes: string, intAnio: string, intIdUsuario: string, intIdEmpresa: string) {
+    getTotalEncuestaMensual(intMes: string, intAnio: string, intIdUsuario: string, intIdEmpresa: string, intIdSucursal: string) {
         let datos = {
             data: {
                 intMes: intMes,
@@ -129,7 +129,8 @@ export class EncuestaService {
                 strEstado: 'ACTIVO',
                 strBanderaMensual: "SI",
                 intIdUsuario: intIdUsuario,
-                intIdEmpresa: intIdEmpresa
+                intIdEmpresa: intIdEmpresa,
+                intIdSucursal: intIdSucursal
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
@@ -143,10 +144,10 @@ export class EncuestaService {
                 intIdUsuario: arrayParametros.intIdUsuario,
                 intIdSucursal: arrayParametros.intIdSucursal,
                 intIdArea: arrayParametros.intIdArea,
-                intPagActual:arrayParametros.intPagActual,
-                intLimitePag:arrayParametros.intLimitePag,
-                strRespuesta:arrayParametros.strRespuesta,
-                strPregunta:arrayParametros.strPregunta
+                intPagActual: arrayParametros.intPagActual,
+                intLimitePag: arrayParametros.intLimitePag,
+                strRespuesta: arrayParametros.strRespuesta,
+                strPregunta: arrayParametros.strPregunta
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getDataEncuesta', datos);
@@ -229,27 +230,45 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     }
 
-    getTotalEncuestaSemestral(intIdUsuario: string, intIdEmpresa: string) {
+    getTotalEncuestaSemestral(intIdUsuario: string, intIdEmpresa: string, intIdSucursal: string) {
         let datos = {
             data: {
                 strLimite: "6",
                 strEstado: "ACTIVO",
                 strBanderaSemestral: "SI",
                 intIdUsuario: intIdUsuario,
-                intIdEmpresa: intIdEmpresa
+                intIdEmpresa: intIdEmpresa,
+                intIdSucursal: intIdSucursal
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
-    getTotalEncuestaSemanal(intIdUsuario: string, intIdEmpresa: string) {
+    getTotalEncuestaPorArea(intMes: string, intAnio: string,intIdUsuario: string, intIdEmpresa: string, intIdSucursal: string) {
+        let datos = {
+            data: {
+                intMes: intMes,
+                intAnio: intAnio,
+                strLimite: "6",
+                strEstado: "ACTIVO",
+                strBanderaArea: "SI",
+                intIdUsuario: intIdUsuario,
+                intIdEmpresa: intIdEmpresa,
+                intIdSucursal: intIdSucursal
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
+    }
+
+    getTotalEncuestaSemanal(intIdUsuario: string, intIdEmpresa: string, intIdSucursal: string) {
         let datos = {
             data: {
                 intLimite: "2",
                 strEstado: "ACTIVO",
                 strBanderaSemanal: "SI",
                 intIdUsuario: intIdUsuario,
-                intIdEmpresa: intIdEmpresa
+                intIdEmpresa: intIdEmpresa,
+                intIdSucursal: intIdSucursal
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);

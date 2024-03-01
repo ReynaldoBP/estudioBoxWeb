@@ -45,6 +45,7 @@ export class Dashboard1Component implements OnInit {
     monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
         "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
     ];
+    totalEncuestasPorArea: any
     totalEncuestasSemestral: any
     totalEncuestaSemanal: any
     clientesGeneroMensual: any
@@ -109,6 +110,56 @@ export class Dashboard1Component implements OnInit {
 
     // Stacked Bar chart configuration Starts
     Stackbarchart: Chart = {
+        type: 'Bar',
+        data: {
+            labels: [],
+            series: [[], []]
+        },
+        options: {
+            stackBars: true,
+            fullWidth: true,
+            axisX: {
+                showGrid: false,
+            },
+            axisY: {
+                showGrid: false,
+                showLabel: false,
+                offset: 0
+            },
+            chartPadding: 30
+        },
+        events: {
+            created(data: any): void {
+                var defs = data.svg.elem('defs');
+                defs.elem('linearGradient', {
+                    id: 'linear',
+                    x1: 0,
+                    y1: 1,
+                    x2: 0,
+                    y2: 0
+                }).elem('stop', {
+                    offset: 0,
+                    'stop-color': 'rgba(0, 201, 255,1)'
+                }).parent().elem('stop', {
+                    offset: 1,
+                    'stop-color': 'rgba(17,228,183, 1)'
+                });
+            },
+            draw(data: any): void {
+                if (data.type === 'bar') {
+                    data.element.attr({
+                        style: 'stroke-width: 5px',
+                        x1: data.x1 + 0.001
+                    });
+
+                }
+
+            }
+        },
+    };
+
+    // Stacked Bar chart configuration Starts
+    StackbarchartArea: Chart = {
         type: 'Bar',
         data: {
             labels: [],
@@ -470,6 +521,13 @@ export class Dashboard1Component implements OnInit {
         { strAnio: "2027", intIdAnio: 2027 }
     ];
     boolMostrarGeneroEdad = "SI";
+    objSelectSucursal: any
+    intSelectSucursal: any = null
+    arraySucursal: any
+    arrayParametrosSucursal: any = {
+        strEstado: "ACTIVO",
+        intIdUsuario: ""
+    }
     constructor(private objSucursalService: SucursalService,
         private objEmpresaService: EmpresaService,
         private objClienteService: ClienteService,
@@ -482,7 +540,7 @@ export class Dashboard1Component implements OnInit {
         this.getDashboard(this.objSelectEmpresa)
     }
     getDashboard(objSelectEmpresa) {
-        this.boolMostrarGeneroEdad = this.user.intIdUsuario == 14 ?"NO":"SI"
+        this.boolMostrarGeneroEdad = this.user.intIdUsuario == 14 ? "NO" : "SI"
         if (this.getAccion('VER')) {
             console.log(this.user)
             this.objParametrosSucursal.intIdUsuario = this.user.intIdUsuario
@@ -491,6 +549,7 @@ export class Dashboard1Component implements OnInit {
             this.getTotalEncuestaMensual()
             this.getTotalEncuestaSemanal()
             this.getTotalEncuestaSemestral()
+            this.getTotalEncuestaPorArea()
             this.getTotalCliente()
             this.getTotalClientePorEdad(intMesFiltro, intAnioFiltro)
             this.getPromedioClteGenero()
@@ -500,6 +559,7 @@ export class Dashboard1Component implements OnInit {
             }
             else if (this.user.strTipoRol == "EMPRESA") {
                 this.getTotalSucursal()
+                this.getSucursales()
             }
             else {
                 this.parametros.fechaInicio = (new Date(Date.now() - (30 * 24 * 60 * 60 * 1000))).toISOString().slice(0, 10);
@@ -538,7 +598,18 @@ export class Dashboard1Component implements OnInit {
                 }
             )
     }
-
+    getSucursales() {
+        this.arrayParametrosSucursal.intIdUsuario = this.user.intIdUsuario
+        this.objSucursalService.getSucursal(this.arrayParametrosSucursal)
+            .subscribe(
+                data => {
+                    this.arraySucursal = data["arraySucursal"]
+                },
+                error => {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            )
+    }
     getTotalEmpresas() {
         this.objParametrosEmpresa.strContador = "SI"
         this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
@@ -592,7 +663,7 @@ export class Dashboard1Component implements OnInit {
     getTotalEncuestaMensual() {
         let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
         let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
-        this.objEncuestaService.getTotalEncuestaMensual(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectEmpresa)
+        this.objEncuestaService.getTotalEncuestaMensual(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectEmpresa, this.intSelectSucursal)
             .subscribe(
                 data => {
                     if (data["intStatus"] == 200) {
@@ -608,7 +679,7 @@ export class Dashboard1Component implements OnInit {
     }
 
     getTotalEncuestaSemestral() {
-        this.objEncuestaService.getTotalEncuestaSemestral(this.user.intIdUsuario, this.objSelectEmpresa)
+        this.objEncuestaService.getTotalEncuestaSemestral(this.user.intIdUsuario, this.objSelectEmpresa, this.intSelectSucursal)
             .subscribe(
                 data => {
                     if (data["intStatus"] == 200) {
@@ -634,8 +705,37 @@ export class Dashboard1Component implements OnInit {
             )
     }
 
+    getTotalEncuestaPorArea() {
+        let intMesFiltro = (this.intMesEncuestas != undefined) ? this.intMesEncuestas : (this.date.getMonth() + 1).toString()
+        let intAnioFiltro = (this.intAnioEncuestas != undefined) ? this.intAnioEncuestas : this.date.getFullYear().toString()
+        this.objEncuestaService.getTotalEncuestaPorArea(intMesFiltro, intAnioFiltro, this.user.intIdUsuario, this.objSelectEmpresa, this.intSelectSucursal)
+            .subscribe(
+                data => {
+                    if (data["intStatus"] == 200) {
+                        this.totalEncuestasPorArea = data['arrayData']
+                        if (this.totalEncuestasPorArea != null && this.totalEncuestasPorArea != '') {
+                            let maxValue = this.totalEncuestasPorArea.reduce(function (prev, current) {
+                                return (Number.parseInt(prev.intCantidad) > Number.parseInt(current.intCantidad)) ? prev : current
+                            })
+                            this.StackbarchartArea.data = {
+                                labels:
+                                    this.totalEncuestasPorArea.map(item => item.intCantidad + "\n \n" + item.strArea),
+                                series: [this.totalEncuestasPorArea.map(item => item.intCantidad), this.totalEncuestasPorArea.map(item => maxValue.intCantidad - item.intCantidad)
+                                ]
+                            }
+                        }
+                    } else {
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    }
+                },
+                error => {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            )
+    }
+
     getTotalEncuestaSemanal() {
-        this.objEncuestaService.getTotalEncuestaSemanal(this.user.intIdUsuario, this.objSelectEmpresa)
+        this.objEncuestaService.getTotalEncuestaSemanal(this.user.intIdUsuario, this.objSelectEmpresa, this.intSelectSucursal)
             .subscribe(
                 data => {
                     if (data['intStatus'] == 200) {

@@ -45,6 +45,22 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-sm-6" *ngIf="user.strTipoRol != 'ADMINISTRADOR'">
+						<div class="form-group">
+							<label for="projectinput5">Sucursal</label>
+							<div class="row">
+								<div class="col-md-12">
+									<div class="form-group">
+										<ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
+											[hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
+											placeholder="Seleccione" [(ngModel)]="intSelectSucursal"
+											(change)="getDashboard('')">
+										</ng-select>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -129,7 +145,7 @@
 </div>
 <div *ngIf="totalEncuestasSemestral && totalEncuestaSemanal" class="row" matchHeight="card">
 	<!--Card View de Encuestas semestrales-->
-	<div class="col-xl-7 col-lg-12 col-12">
+	<div class="col-xl-7 col-lg-12 col-md-12 col-12">
 		<div class="card">
 			<div class="card-header">
 				<h4 class="card-title">Encuestas Semestrales</h4>
@@ -147,7 +163,7 @@
 		</div>
 	</div>
 	<!--Card View de Encuestas semanales-->
-	<div class="col-xl-5 col-lg-12 col-12">
+	<div class="col-xl-5 col-lg-12 col-md-12 col-12">
 		<div class="card gradient-blackberry height-490">
 			<div class="card-body">
 				<div class="card-block">
@@ -175,8 +191,28 @@
 		</div>
 	</div>
 </div>
+<div *ngIf="totalEncuestasPorArea" class="row" matchHeight="card">
+	<!--Card View de Encuestas por area-->
+	<div class="col-xl-12 col-lg-12 col-md-12 col-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Encuestas por Area</h4>
+			</div>
+			<div class="card-body">
+				<p class="font-medium-2 text-muted text-center pb-2">Total</p>
+				<div id="Stack-bar-chart" class="height-350 StackbarchartArea mb-2">
+					<x-chartist class="" [data]="StackbarchartArea.data" [type]="StackbarchartArea.type"
+						[options]="StackbarchartArea.options" [responsiveOptions]="StackbarchartArea.responsiveOptions"
+						[events]="StackbarchartArea.events">
+					</x-chartist>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
 <div *ngIf="boolMostrarGeneroEdad == 'SI' " class="row" matchHeight="card">
-<!--<div class="row" matchHeight="card">-->
+	<!--<div class="row" matchHeight="card">-->
 	<!--Diagrama de pie de género-->
 	<div class="col-xl-5 col-lg-12">
 		<div class="card">

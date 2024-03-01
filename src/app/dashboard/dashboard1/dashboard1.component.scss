@@ -43,7 +43,18 @@
         }
     }
 }
-
+:host /deep/ .StackbarchartArea{
+    .ct-series-a {
+        .ct-bar{
+            stroke: url($dashboard1-gradient-path +  #linear) !important
+        }
+    }
+    .ct-series-b {
+        .ct-bar{
+            stroke: #e9e9e9;
+        }
+    }
+}
 :host /deep/ .EdadesChart{
     .ct-series-a {
         .ct-bar{
