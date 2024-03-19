@@ -26,6 +26,7 @@ export class ReporteService {
         formData.append('sucursal', reporte.sucursal);
         formData.append('archivo', reporte.archivo);
         formData.append('usuario', usuario);
+        formData.append('correo', reporte.correo);
         return this.http.post(this.globals.host + this.globals.port + '/createReporte', formData);
     }
 

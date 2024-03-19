@@ -508,6 +508,12 @@ export class PublicacionesListComponent implements OnInit {
             "intIdSucursal": this.objSelectSucursal,
             "intIdArea": this.objSelectArea
         }
+        if(this.objSelectSucursal == null && this.user.strTipoRol == "ADMINISTRADOR")
+        {
+            this.toastr.warning("Estimado Usuario por favor su ayuda seleccioanndo una sucursal")
+            this.objLoading = false
+            return
+        }
         let arrayEncuestas = []
         this.objEncuestaService.getEncuesta(arrayParametrosEncuestas).subscribe(
             data => {

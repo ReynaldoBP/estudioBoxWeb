@@ -187,20 +187,26 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <button type="button" style="width: 100%"
                                             class="btn btn-raised btn-raised btn-success" (click)="getDataEncuesta()">
                                             <i class="fa fa-search"></i> Buscar
                                         </button>
                                     </div>
-                                    <div class="col-md-6" align="right">
+                                    <div class="col-md-5" align="right">
                                         <button type="button" style="width: 100%"
                                             class="btn btn-raised btn-raised btn-danger" (click)="declinar()">
                                             <i class="fa fa-times"></i> Eliminar
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2" align="right">
+                                        <button type="button" class="btn btn-raised btn-raised btn-success"
+                                            (click)="getExportarCsv()">
+                                            <i class="fa fa-file-excel-o"></i>
                                         </button>
                                     </div>
                                 </div>
