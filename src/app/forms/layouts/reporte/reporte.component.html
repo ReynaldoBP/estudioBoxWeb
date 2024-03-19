@@ -10,10 +10,6 @@
 			<div class="card">
 				<div class="card-header">
 					<h4 class="card-title" id="basic-layout-form">{{'Nuevo reporte'}}</h4>
-					<!--
-						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
-					-->
-
 				</div>
 				<div class="card-body">
 					<div class="px-3">
@@ -21,14 +17,13 @@
 							<div class="form-body">
 								<h4 class="form-section"><i class="ft-user"></i> Datos para el Reporte</h4>
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-3">
 										<div class="form-group">
 											<label for="txtTitulo">Titulo</label>
 											<input type="text" id="txtTitulo" [(ngModel)]="reporte.titulo"
 												class="form-control" name="ftitulo">
 										</div>
 									</div>
-
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Empresa</label>
@@ -48,6 +43,14 @@
 												bindValue="intIdSucursal" placeholder="Seleccione"
 												[(ngModel)]="objSelectSucursal">
 											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label for="txtCorreo">Correo</label>
+											<input type="email" multiple id="txtCorreo" [(ngModel)]="reporte.correo"
+												class="form-control" name="txtCorreo"
+												placeholder="ejemplo@hotmail.com,ejemplo@gmail.com">
 										</div>
 									</div>
 								</div>

@@ -54,6 +54,7 @@ export class ReporteComponent implements OnInit {
     archivo: '',
     empresa: '',
     sucursal: '',
+    correo:''
   }
 
 
