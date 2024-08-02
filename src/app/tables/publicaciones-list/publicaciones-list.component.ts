@@ -184,6 +184,8 @@ export class PublicacionesListComponent implements OnInit {
                                 intIdCliente: item.intIdCliente,
                                 strNombreClt: item.strNombreClt,
                                 strCorreoClt: item.strCorreoClt,
+                                strEdadClt: item.strEdadClt,
+                                strGeneroClt: item.strGeneroClt,
                                 strSucursal: item.strSucursal,
                                 strArea: item.strArea,
                                 strTitulo: item.strTitulo,
@@ -243,6 +245,10 @@ export class PublicacionesListComponent implements OnInit {
                         let tablehtml = "<table class='table table-responsive-md text-center'><tbody>"
                             + "<div class='col-md-12' align='left'><strong>Correo del cliente: "
                             + "<a href=\"mailto:" + objCltEncuesta.strCorreoClt + "\">" + objCltEncuesta.strCorreoClt + "</a></strong></div>"
+                            + "<div class='col-md-12' align='left'><strong>Fecha de Nacimiento del cliente: </strong>"
+                            + "" + objCltEncuesta.strEdadClt + "</div>"
+                            + "<div class='col-md-12' align='left'><strong>Genero del cliente: </strong>"
+                            + "" + objCltEncuesta.strGeneroClt + "</div>"
                         let tr = ""
                         listpreg.forEach(element => {
                             const listItem = document.createElement('div');
