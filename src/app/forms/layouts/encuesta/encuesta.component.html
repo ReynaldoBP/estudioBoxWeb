@@ -1,73 +1,108 @@
-<!-- Basic form layout section start -->
 <section id="basic-form-layouts">
 	<div class="row text-left">
-        <div class="col-sm-12">
-            <div class="content-header mt-0">Encuesta</div>
-        </div>
-    </div>
+		<div class="col-sm-12">
+			<div class="content-header mt-0">Encuesta</div>
+		</div>
+	</div>
 	<div class="row text-left">
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title" id="basic-layout-form">{{encuesta.id == '0'?'Nueva encuesta':'Editando encuesta'}}</h4>
-					<!--
-						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
-					-->
-					
+					<h4 class="card-title" id="basic-layout-form">{{objEncuesta.intIdEncuesta == '0'?'Nueva
+						encuesta':'Editando
+						encuesta'}}</h4>
 				</div>
 				<div class="card-body">
 					<div class="px-3">
 						<form class="form">
 							<div class="form-body">
-								<h4 class="form-section"><i class="ft-user"></i> Datos Cabecera</h4>
+								<h4 class="form-section"><i class="ft-user"></i> Datos Principales</h4>
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="encuestatitulo">Titulo</label>
-											<input type="text" id="encuestatitulo" class="form-control"  name="encuestatitulo" [(ngModel)]="encuesta.titulo">
+											<input type="text" id="encuestatitulo" class="form-control"
+												name="encuestatitulo" [(ngModel)]="objEncuesta.strTitulo">
 										</div>
 									</div>
 									<div class="col-md-8">
 										<div class="form-group">
 											<label for="encuestaDescr">Descripcion</label>
-											<input type="text" id="encuestaDescr" class="form-control"  name="encuestaDescr" [(ngModel)]="encuesta.descripcion">
+											<input type="text" id="encuestaDescr" class="form-control"
+												name="encuestaDescr" [(ngModel)]="objEncuesta.strDescripcion">
 										</div>
 									</div>
-									<!--
-										<div class="col-md-5">
-										<div class="form-group">
-											<label for="cmbRestaurante">Restaurante</label>
-											<select id="cmbRestaurante" name="cmbRestaurante" class="form-control" [(ngModel)]="encuesta.idrestaurante">
-												<option value="none" selected="" disabled="">Seleccione</option>
-												<option *ngFor="let item of listRestaurante" value="{{item['ID_RESTAURANTE']}}">{{item['NOMBRE_COMERCIAL']}}</option>
-											</select>
-										</div>
-										</div>
-									-->
 								</div>
 								<div class="row">
-									<div class="col-md-6">
+									<div class="col-md-3">
 										<div class="form-group">
 											<label>Estado</label>
 											<div class="input-group">
 												<div class="custom-control custom-radio display-inline-block">
-													<input type="radio" id="rdEstado" name="rdEstado" class="custom-control-input" [(ngModel)]="encuesta.estado" [value]="true">
+													<input type="radio" id="rdEstado" name="rdEstado"
+														class="custom-control-input" [(ngModel)]="objEncuesta.strEstado"
+														[value]="true">
 													<label class="custom-control-label" for="rdEstado">Activo</label>
 												</div>
 												<div class="custom-control custom-radio display-inline-block">
-													<input type="radio" id="rdEstado2" name="rdEstado2" class="custom-control-input" [(ngModel)]="encuesta.estado" [value]="false">
+													<input type="radio" id="rdEstado2" name="rdEstado2"
+														class="custom-control-input" [(ngModel)]="objEncuesta.strEstado"
+														[value]="false">
 													<label class="custom-control-label" for="rdEstado2">Inactivo</label>
 												</div>
 											</div>
 										</div>
 									</div>
-									<div class="col-md-6 mt-4" align="right" >
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Permite Firma</label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdPermiteFirmaSi" name="rdPermiteFirmaSi"
+														class="custom-control-input"
+														[(ngModel)]="objEncuesta.strPermiteFirma" [value]="true">
+													<label class="custom-control-label"
+														for="rdPermiteFirmaSi">Si</label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdPermiteFirmaNo" name="rdPermiteFirmaNo"
+														class="custom-control-input"
+														[(ngModel)]="objEncuesta.strPermiteFirma" [value]="false">
+													<label class="custom-control-label"
+														for="rdPermiteFirmaNo">No</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Permite Dato Adicional</label>
+											<div class="input-group">
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdPermiteDASi" name="rdPermiteDASi"
+														class="custom-control-input"
+														[(ngModel)]="objEncuesta.strPermiteDatoAdicional"
+														[value]="true">
+													<label class="custom-control-label" for="rdPermiteDASi">Si</label>
+												</div>
+												<div class="custom-control custom-radio display-inline-block">
+													<input type="radio" id="rdPermiteDANo" name="rdPermiteDANo"
+														class="custom-control-input"
+														[(ngModel)]="objEncuesta.strPermiteDatoAdicional"
+														[value]="false">
+													<label class="custom-control-label" for="rdPermiteDANo">No</label>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-md-3 mt-4" align="right">
 										<div class="form-group mb-0">
-											<button type="button" class="btn btn-raised btn-raised btn-primary mb-0" (click)="addPregunta()">
+											<button type="button" class="btn btn-raised btn-raised btn-primary mb-0"
+												(click)="addPregunta()">
 												<i class="fa fa-plus"></i> Agregar Pregunta
 											</button>
 										</div>
-									</div>									
+									</div>
 								</div>
 
 								<h4 class="form-section"><i class="ft-file-text"></i> Preguntas</h4>
@@ -76,55 +111,59 @@
 									<table class="table table-responsive-md text-center">
 										<thead>
 											<tr>
-												<th>#</th>
 												<th>Pregunta</th>
 												<th>Opciones</th>
+												<th>Valor</th>
 												<th>Obligatoria</th>
-												<th>C. Comercial</th>												
 												<th></th>
 											</tr>
 										</thead>
 										<tbody>
-											<tr *ngFor="let item of listPreguntas">
-												<td>{{listPreguntas.indexOf(item) + 1}}</td>
+											<tr *ngFor="let item of objListaPreguntas">
 												<td style="width: 50%">
-													<input type="text" class="form-control" [(ngModel)]="item['pregunta']" [ngModelOptions]="{standalone: true}" >
+													<input type="text" class="form-control"
+														[(ngModel)]="item['strPregunta']"
+														[ngModelOptions]="{standalone: true}">
 												<td>
-													<select class="form-control" [(ngModel)]="item['opciones']" [ngModelOptions]="{standalone: true}">
+													<select class="form-control"
+														[(ngModel)]="item['intIdTipoOpcionRespuesta']"
+														[ngModelOptions]="{standalone: true}">
 														<option value="" selected="" disabled="">Seleccione:</option>
-														<option *ngFor="let item of listOpciones" value="{{item['ID_OPCION_RESPUESTA']}}">{{item['DESCRIPCION']}}</option>
+														<option *ngFor="let item of listOpciones"
+															value="{{item['intIdTipoOpcionRespuesta']}}">
+															{{item['strDescripcion']}}</option>
 													</select>
 												</td>
 												<td>
-													<select class="form-control" [(ngModel)]="item['obligatoria']" [ngModelOptions]="{standalone: true}">
+													<input type="text" class="form-control"
+														[(ngModel)]="item['strValorDesplegable']"
+														[ngModelOptions]="{standalone: true}">
+												</td>
+												<td>
+													<select class="form-control" [(ngModel)]="item['strEsObligatoria']"
+														[ngModelOptions]="{standalone: true}">
 														<option value="SI">SI</option>
 														<option value="NO">NO</option>
 													</select>
 												</td>
 												<td>
-													<select class="form-control" [(ngModel)]="item['cc']" [ngModelOptions]="{standalone: true}">
-														<option value="SI">SI</option>
-														<option value="NO">NO</option>
-													</select>
-												</td>
-												<td>		
-													<a class="danger p-0" data-original-title="" title="" (click)="removePregunta(item)">
+													<a class="danger p-0" data-original-title="" title=""
+														(click)="removePregunta(item)">
 														<i class="ft-x font-medium-3 mr-2"></i>
 													</a>
-												</td>												
-											</tr>													
+												</td>
+											</tr>
 										</tbody>
 									</table>
-								</div>	
-
-								
+								</div>
 							</div>
-
 							<div class="form-actions">
-								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1" [routerLink]="['/tables/encuesta']">
+								<button type="button" class="btn btn-raised btn-raised btn-warning mr-1"
+									[routerLink]="['/tables/encuesta']">
 									<i class="ft-x"></i> Cancelar
 								</button>
-								<button type="button" class="btn btn-raised btn-raised btn-primary" (click)="guardarDatos()">
+								<button type="button" class="btn btn-raised btn-raised btn-primary"
+									(click)="guardarDatos()">
 									<i class="fa fa-check-square-o"></i> Guardar Datos
 								</button>
 							</div>
@@ -135,4 +174,3 @@
 		</div>
 	</div>
 </section>
-<!-- // Basic form layout section end -->

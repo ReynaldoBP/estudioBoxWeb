@@ -39,9 +39,19 @@ export class EncuestaService {
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/createRespuesta', datos);
     }
+    getTipoOpcionRespuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                strEstado: arrayParametros.strEstado
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTipoOpcionRespuesta', datos);
+    }
+
     getEncuesta(arrayParametros: any) {
         let datos = {
             data: {
+                intIdEncuesta: arrayParametros.intIdEncuesta,
                 intIdUsuario: arrayParametros.intIdUsuario,
                 intIdSucursal: arrayParametros.intIdSucursal,
                 arrayIdSucursal: arrayParametros.arrayIdSucursal,
@@ -51,24 +61,6 @@ export class EncuestaService {
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getEncuesta', datos);
-    }
-
-    getEncuestas(estado: number) {
-        switch (estado) {
-            case 1:
-                return this.http.get(this.globals.host + this.globals.port + '/getEncuesta?estado=ACTIVO');
-                break;
-            case 2:
-                return this.http.get(this.globals.host + this.globals.port + '/getEncuesta?estado=INACTIVO');
-                break;
-            default:
-                return this.http.get(this.globals.host + this.globals.port + '/getEncuesta');
-                break;
-        }
-    }
-
-    getEncuestasById(id: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/getEncuesta?idEncuesta=' + id);
     }
 
     createEncuesta(encuesta: any, usuarioCreacion: string) {
@@ -81,15 +73,20 @@ export class EncuestaService {
         );
     }
 
-    editEncuesta(encuesta: any, usuarioCreacion: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/editEncuesta?' +
-            'idEncuesta=' + encuesta.id +
-            '&descripcion=' + encuesta.descripcion +
-            '&titulo=' + encuesta.titulo +
-            '&estado=' + encuesta.estado +
-            '&idRestaurante=' + encuesta.idrestaurante +
-            '&usuarioCreacion=' + usuarioCreacion
-        );
+    editEncuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdEncuesta: arrayParametros.intIdEncuesta,
+                strTitulo: arrayParametros.strTitulo,
+                strDescripcion: arrayParametros.strDescripcion,
+                strPermiteFirma: arrayParametros.strPermiteFirma,
+                strPermiteDatoAdicional: arrayParametros.strPermiteDatoAdicional,
+                intIdArea: arrayParametros.intIdArea,
+                strEstado: arrayParametros.strEstado,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editEncuesta', datos);
     }
 
     createPregunta(pregunta: any, idencuesta: string, usuarioCreacion: string) {
@@ -104,7 +101,7 @@ export class EncuestaService {
         );
     }
 
-    editPregunta(pregunta: any, idencuesta: string, usuarioCreacion: string) {
+    editPregunta2(pregunta: any, idencuesta: string, usuarioCreacion: string) {
         return this.http.get(this.globals.host + this.globals.port + '/editPregunta?' +
             'idPregunta=' + pregunta.idpregunta +
             '&descripcion=' + pregunta.pregunta +
@@ -115,6 +112,22 @@ export class EncuestaService {
             '&usuarioCreacion=' + usuarioCreacion +
             '&centroComercial=' + pregunta.cc
         );
+    }
+
+    editPregunta(arrayParametrosPregunta: any, intIdEncuesta: any, intIdUsuario: any) {
+        let datos = {
+            data: {
+                intIdPregunta: arrayParametrosPregunta.intIdPregunta,
+                intIdEncuesta: intIdEncuesta,
+                intIdTipoOpcionRespuesta: arrayParametrosPregunta.intIdTipoOpcionRespuesta,
+                strEsObligatoria: arrayParametrosPregunta.strEsObligatoria,
+                strPregunta: arrayParametrosPregunta.strPregunta,
+                strValor: arrayParametrosPregunta.strValorDesplegable,
+                strEstado: arrayParametrosPregunta.strEstado,
+                intIdUsuario: intIdUsuario
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editPregunta', datos);
     }
 
     getOpciones() {
@@ -244,7 +257,7 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getTotalEncuesta', datos);
     }
 
-    getTotalEncuestaPorArea(intMes: string, intAnio: string,intIdUsuario: string, intIdEmpresa: string, intIdSucursal: string) {
+    getTotalEncuestaPorArea(intMes: string, intAnio: string, intIdUsuario: string, intIdEmpresa: string, intIdSucursal: string) {
         let datos = {
             data: {
                 intMes: intMes,

@@ -16,13 +16,13 @@
                                 <label for="projectinput5">Criterios de Búsqueda</label>
                                 <div class="row">
                                     <div class="col-sm-12">
-                                        <input type='text' class="form-control"
-                                            placeholder='Filtra por cualquier campo...' />
+                                        <input type='text' class="form-control" [(ngModel)]="descripcionEncuesta"
+                                            placeholder='Filtra por nombre de Empresa' />
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div *ngIf="getAccion('CREAR')" class="col-sm-6">
+                        <!--<div *ngIf="getAccion('CREAR')" class="col-sm-6">
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
@@ -34,6 +34,13 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>-->
+                    </div>
+                </div>
+                <div *ngIf="objLoading" class="form-group">
+                    <div class="col-md-12 text-center">
+                        <div style="width: 3rem; height: 3rem;" class="spinner-border text-default" role="status">
+                            <span class="sr-only">Loading...</span>
                         </div>
                     </div>
                 </div>
@@ -42,16 +49,22 @@
                         <table class="table table-responsive-md text-center">
                             <thead>
                                 <tr>
-                                    <th>Título</th>
+                                    <th>Empresa</th>
+                                    <th>Sucursal</th>
+                                    <th>Area</th>
                                     <th>Descripción</th>
                                     <th>Preguntas</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of rows">
-                                    <td>{{item['TITULO']}}</td>
-                                    <td>{{item['DESCRIPCION']}}</td>
+                                <tr
+                                    *ngFor="let item of arrayEncuestas | FilterEncuesta : descripcionEncuesta | paginate: { itemsPerPage: 10, currentPage: p }">
+                                    <td>{{item['strEmpresa']}}</td>
+                                    <td>{{item['strSucursal']}}</td>
+                                    <td>{{item['strArea']}}</td>
+                                    <td>{{item['strTitulo']}}</td>
+                                    <td>{{item['strDescripcion']}}</td>
                                     <td>
                                         <a class="success p-0" data-original-title="" title="Ver Preguntas"
                                             (click)="verPreguntas(item)">
@@ -61,13 +74,14 @@
                                     <td>
                                         <a *ngIf="getAccion('EDITAR')" class="success p-0" data-original-title=""
                                             title="Editar Encuesta"
-                                            [routerLink]="['/forms/encuesta/' + item['ID_ENCUESTA']]">
+                                            [routerLink]="['/forms/encuesta/' + item['intIdEncuesta']]">
                                             <i class="ft-edit-2 font-medium-3 mr-2"></i>
                                         </a>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
                     </div>
                 </div>
             </div>

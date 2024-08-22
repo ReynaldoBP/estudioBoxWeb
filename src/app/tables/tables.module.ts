@@ -29,6 +29,7 @@ import { FilterRestaurante } from 'app/_pipes/PipeRestaurante';
 import { FilterDataEncuesta } from 'app/_pipes/PipeDataEncuesta';
 import { FilterSucursal } from 'app/_pipes/PipeSucursal';
 import { FilterBanner } from 'app/_pipes/PipeBanner';
+import { FilterEncuesta } from 'app/_pipes/PipeEncuestas';
 import { FilterTipoComida } from 'app/_pipes/PipeTipoComida';
 import { FilterBitacora } from 'app/_pipes/PipeBitacora';
 import { FilterCliente } from 'app/_pipes/PipeCliente';
@@ -87,6 +88,7 @@ import { PuntosEstadisticaListComponent } from './puntosEstadistica-list/puntosE
         FilterDataEncuesta,
         FilterSucursal,
         FilterBanner,
+        FilterEncuesta,
         FilterCupon,
         FilterCentroComercial,
         FilterRedimirCupon,

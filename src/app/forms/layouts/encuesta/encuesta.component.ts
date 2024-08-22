@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RestauranteService } from 'app/_services/restaurante.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EncuestaService } from 'app/_services/encuesta.service';
 import { ToastrService } from 'ngx-toastr';
@@ -12,237 +11,284 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./encuesta.component.scss']
 })
 export class EncuestaComponent implements OnInit {
-  
-  listPreguntas:any
-  listPreguntasELiminadas:any
-  listRestaurante:any
-  listOpciones:any
-  encuesta:any = {
-    titulo:'',
-    descripcion:'',
-    idrestaurante:'',
-    estado:true
+
+  objListaPreguntas: any
+  listPreguntasELiminadas: any
+  listRestaurante: any
+  listOpciones: any
+  objEncuesta: any = {
+    intIdEncuesta: '',
+    strTitulo: '',
+    strDescripcion: '',
+    strPermiteFirma: '',
+    strPermiteDatoAdicional: '',
+    intIdArea: '',
+    strEstado: true
   }
   arrayParametrosPreguntas: any = {
     intIdEncuesta: ""
   }
-  user:any
+  arrayParametrosOpciones: any = {
+    strEstado: ''
+  }
+  arrayParametrosEncuestas: any = {
+    intIdEncuesta: '',
+    intIdUsuario: '',
+    boolAgrupar: "NO",
+  }
+  user: any
 
-  constructor(private restauranteService:RestauranteService,
-              private encuestaService:EncuestaService,
-              private toastr:ToastrService,
-              private router:Router,
-              private route:ActivatedRoute){
+  constructor(private encuestaService: EncuestaService,
+    private toastr: ToastrService,
+    private router: Router,
+    private route: ActivatedRoute) {
     this.user = JSON.parse(localStorage.getItem('usuario'))
-    this.encuesta.id = this.route.snapshot.paramMap.get('id');
-    this.listPreguntas = []
+    this.objEncuesta.intIdEncuesta = this.route.snapshot.paramMap.get('id');
+    this.objListaPreguntas = []
     this.listPreguntasELiminadas = []
   }
 
-  ngOnInit(){
-    //this.getRestaurantesPorUsuario()
-    this.getOpciones()
-    if(this.encuesta.id != "0"){
-      this.obtenerEncuesta()
-      this.obtenerPreguntas()
+  ngOnInit() {
+    this.getTipoOpcionRespuesta()
+    if (this.objEncuesta.intIdEncuesta != "0") {
+      this.getEncuesta()
+      this.getPregunta()
     }
   }
-
-  obtenerEncuesta(){
-    this.encuestaService.getEncuestasById(this.encuesta.id)
-    .subscribe(
-      data =>{
-        if(data['status'] == 404){
-          swal({ title: "Encuesta no encontrada", text: data['resultado'],type: "error", showConfirmButton: true })
-          .then((result) => {
-            if(result.value)
-              this.iraListado()
-          });
-        }else{
-          let rest:any = data['resultado']['resultados'][0]
-          this.encuesta.idrestaurante  = rest.RESTAURANTE_ID  
-          this.encuesta.titulo = rest.TITULO
-          this.encuesta.descripcion  =rest.DESCRIPCION
-          this.encuesta.estado = rest.ESTADO_ENCUESTA=='ACTIVO'?true:false
-        }   
-      },
-      error =>{
-          this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas','Error')
-      }
-    )
-  }/*
-  getPregunta() {
-    this.arrayParametrosPreguntas.intIdEncuesta = "2"
-    this.encuestaService.getPregunta(this.arrayParametrosPreguntas).subscribe(
-      data => {
-        if (data["intStatus"] == 200) {
-          this.arrayPreguntas = data['arrayPregunta'].filter(item => item.intCantidadEstrellas == "5")
-        } else {
+  getEncuesta() {
+    this.arrayParametrosEncuestas.intIdEncuesta = this.objEncuesta.intIdEncuesta
+    this.arrayParametrosEncuestas.intIdUsuario = this.user.intIdUsuario
+    this.encuestaService.getEncuesta(this.arrayParametrosEncuestas)
+      .subscribe(
+        data => {
+          if (data['intStatus'] != 200) {
+            swal({ title: "Encuesta no encontrada", text: data['resultado'], type: "error", showConfirmButton: true })
+              .then((result) => {
+                if (result.value)
+                  this.iraListado()
+              });
+          } else {
+            let rest: any = data['arrayEncuesta']
+            this.objEncuesta.strTitulo = rest[0].strTitulo
+            this.objEncuesta.strDescripcion = rest[0].strDescripcion
+            this.objEncuesta.strEstado = rest[0].strEstado == 'ACTIVO' ? true : false
+            this.objEncuesta.strPermiteDatoAdicional = rest[0].strPermiteDatoAdicional == 'Si' ? true : false
+            this.objEncuesta.strPermiteFirma = rest[0].strPermiteFirma == 'Si' ? true : false
+          }
+        },
+        error => {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
-      },
-      error => {
-        this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
-      });
-  }*/
-  obtenerPreguntas(){
-    //this.encuestaService.getPregunta(this.encuesta.id)
-    this.arrayParametrosPreguntas.intIdEncuesta = "2"
+      )
+  }
+  getPregunta() {
+    this.arrayParametrosPreguntas.intIdEncuesta = this.objEncuesta.intIdEncuesta
     this.encuestaService.getPregunta(this.arrayParametrosPreguntas)
-    .subscribe(
-      data =>{
-        if(data['status'] == 404){
-          swal({ title: "Preguntas no encontradas", text: data['resultado'],type: "error", showConfirmButton: true })
-          .then((result) => {
-            if(result.value)
-              this.iraListado()
-          });
-        }else{
-          let preguntas:any = data['resultado']['resultados']
-          preguntas.forEach(element => {
-            let pregunta = {
-              idpregunta:element['ID_PREGUNTA'],
-              pregunta:element['DESCRIPCION_PREGUNTA'],
-              opciones:element['ID_OPCION_RESPUESTA'],
-              obligatoria:element['OBLIGATORIA'],
-              cc:element['CENTRO_COMERCIAL'],
-              estado:element['ESTADO_PREGUNTA']
-            }
-            this.listPreguntas.push(pregunta)
-          });      
-        }   
-      },
-      error =>{
-          this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas','Error')
-      }
-    )
-  }
-
-  getRestaurantesPorUsuario(){
-    this.restauranteService.getRestaurantes()
-        .subscribe(
-            data =>{
-                this.listRestaurante = data['resultado']['resultados']
-            },
-            error =>{
-                
-            }
-        )
-  }
-
-  getOpciones(){
-    this.encuestaService.getOpciones()
-        .subscribe(
-            data =>{
-                this.listOpciones = data['resultado']['opcionRespuesta']
-            },
-            error =>{
-                
-            }
-        )
-  }
-
-  addPregunta(){
-    let pregunta = {
-      idpregunta:'0',
-      pregunta:'',
-      opciones:'',
-      obligatoria:'SI',
-      cc:'NO',
-      estado:'ACTIVO'
-    }
-    this.listPreguntas.push(pregunta)
-  }
-
-  removePregunta(item){
-    var index = this.listPreguntas.indexOf(item);        
-    if (index > -1) {
-        if(item['idpregunta'] != "0"){
-          item.estado = "INACTIVO"
-          this.listPreguntasELiminadas.push(item)
+      .subscribe(
+        data => {
+          if (data['intStatus'] != 200) {
+            swal({ title: "Preguntas no encontradas", text: 'Hubo un error, por favor comuníquese con el departamento de sistemas.', type: "error", showConfirmButton: true })
+              .then((result) => {
+                if (result.value)
+                  this.iraListado()
+              });
+          } else {
+            let preguntas: any = data['arrayPregunta']
+            preguntas.forEach(element => {
+              let pregunta = {
+                intIdPregunta: element['intIdPregunta'],
+                strPregunta: element['strPregunta'],
+                intIdTipoOpcionRespuesta: element['intIdTipoOpcionRespuesta'],
+                strValorDesplegable: element['strValorDesplegable'],
+                intCantidadEstrellas: element['intCantidadEstrellas'],
+                strEsObligatoria: element['strEsObligatoria'],
+                strEstado: element['strEstado']
+              }
+              this.objListaPreguntas.push(pregunta)
+            });
+          }
+        },
+        error => {
+          this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
         }
-        this.listPreguntas.splice(index, 1);
+      )
+  }
+
+  getTipoOpcionRespuesta() {
+    this.arrayParametrosOpciones.strEstado = 'ACTIVO'
+    this.encuestaService.getTipoOpcionRespuesta(this.arrayParametrosOpciones)
+      .subscribe(
+        data => {
+          this.listOpciones = data['arrayTipoOpcionRespuesta']
+        },
+        error => {
+
+        }
+      )
+  }
+
+  addPregunta() {
+    let pregunta = {
+      intIdPregunta: '0',
+      strPregunta: '',
+      intIdTipoOpcionRespuesta: '',
+      strEsObligatoria: 'SI',
+      strEstado: 'ACTIVO'
+    }
+    this.objListaPreguntas.push(pregunta)
+  }
+
+  removePregunta(item) {
+    var index = this.objListaPreguntas.indexOf(item);
+    if (index > -1) {
+      if (item['intIdPregunta'] != "0") {
+        item.strEstado = "INACTIVO"
+        this.listPreguntasELiminadas.push(item)
+      }
+      this.objListaPreguntas.splice(index, 1);
     }
   }
-  
-  showOpcionesModal(item){
+
+  showOpcionesModal(item) {
 
   }
 
-  guardarDatos(){    
-    if(this.listPreguntas == null || this.listPreguntas.length == 0){
-      swal({ title: "Datos incompletos", text: "Ingrese al menos una pregunta",type: "warning", showConfirmButton: true });
+  guardarDatos() {
+    if (this.objListaPreguntas == null || this.objListaPreguntas.length == 0) {
+      swal({ title: "Datos incompletos", text: "Ingrese al menos una pregunta", type: "warning", showConfirmButton: true });
       return
     }
-    this.encuesta.estado = this.encuesta.estado?'ACTIVO':'INACTIVO'
-    if(this.encuesta.id == 0){
-      this.encuestaService.createEncuesta(this.encuesta,this.user.ID_USUARIO)
-      .subscribe(
-        data =>{
-          if(data['status'] == 404){
-            this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas','Error')
-          }else{
-            let idencuesta = data['resultado']['id']
-            let arrayOfData = [];
-            this.listPreguntas.forEach(element => {
-              arrayOfData.push(this.encuestaService.createPregunta(element,idencuesta,this.user.ID_USUARIO))                        
-            });
-            forkJoin(arrayOfData).subscribe(response => {
-              console.log(response)
-              swal({ title: this.encuesta.titulo, text: data['resultado']['mensaje'],type: "success", showConfirmButton: true })
-              .then((result) => {
-                if(result.value)
-                  this.iraListado()
+    console.log(this.objEncuesta)
+    this.objEncuesta.strEstado = this.objEncuesta.strEstado ? 'ACTIVO' : 'INACTIVO'
+    this.objEncuesta.strPermiteDatoAdicional = this.objEncuesta.strPermiteDatoAdicional ? 'Si' : 'No'
+    this.objEncuesta.strPermiteFirma = this.objEncuesta.strPermiteFirma ? 'Si' : 'No'
+    if (this.objEncuesta.intIdEncuesta == 0) {
+      this.encuestaService.createEncuesta(this.objEncuesta, this.user.intIdUsuario)
+        .subscribe(
+          data => {
+            if (data['status'] == 404) {
+              this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+            } else {
+              let idencuesta = data['resultado']['id']
+              this.toastr.warning('OK', 'Error')
+            }
+          },
+          error => {
+            this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+          }
+        )
+    } else {
+      this.objEncuesta.intIdUsuario = this.user.intIdUsuario
+      this.encuestaService.editEncuesta(this.objEncuesta)
+        .subscribe(
+          data => {
+            if (data['intStatus'] != 200) {
+              this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+            } else {
+              let arrayOfData = [];
+              this.objListaPreguntas.forEach(element => {
+                console.log(element)
+                if (element['intIdPregunta'] == "0") {
+                  arrayOfData.push(this.encuestaService.createPregunta(element, this.objEncuesta.intIdEncuesta, this.user.intIdUsuario))
+                } else {
+                  arrayOfData.push(this.encuestaService.editPregunta(element, this.objEncuesta.intIdEncuesta, this.user.intIdUsuario))
+                }
               });
-            }, error => {
-              console.error(error);
-            });            
-          }        
-        },
-        error =>{
-            this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas','Error')
-        }
-      )
-    }else{
-      this.encuestaService.editEncuesta(this.encuesta,this.user.ID_USUARIO)
-      .subscribe(
-        data =>{
-          if(data['status'] == 404){
-            this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas','Error')
-          }else{
-            let arrayOfData = [];
-            this.listPreguntas.forEach(element => {
-              if(element['idpregunta'] == "0"){
-                arrayOfData.push(this.encuestaService.createPregunta(element,this.encuesta.id,this.user.ID_USUARIO))
-              }else{
-                arrayOfData.push(this.encuestaService.editPregunta(element,this.encuesta.id,this.user.ID_USUARIO))
-              }                            
-            });
-            if(this.listPreguntasELiminadas.length > 0){
-              this.listPreguntasELiminadas.forEach(element => {
-                arrayOfData.push(this.encuestaService.editPregunta(element,this.encuesta.id,this.user.ID_USUARIO))
+              if (this.listPreguntasELiminadas.length > 0) {
+                this.listPreguntasELiminadas.forEach(element => {
+                  arrayOfData.push(this.encuestaService.editPregunta(element, this.objEncuesta.intIdEncuesta, this.user.intIdUsuario))
+                });
+              }
+              forkJoin(arrayOfData).subscribe(response => {
+                swal({ title: this.objEncuesta.strTitulo, text: data['resultado'], type: "success", showConfirmButton: true })
+                  .then((result) => {
+                    if (result.value)
+                      this.iraListado()
+                  });
+              }, error => {
+                console.error(error);
               });
             }
-            forkJoin(arrayOfData).subscribe(response => {
-              console.log(response)
-              swal({ title: this.encuesta.titulo, text: data['resultado'],type: "success", showConfirmButton: true })
-              .then((result) => {
-                if(result.value)
-                  this.iraListado()
-              });
-            }, error => {
-              console.error(error);
-            });            
-          }        
-        },
-        error =>{
-            this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas','Error')
-        }
-      )
-    }    
+          },
+          error => {
+            this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+          }
+        )
+    }
   }
 
-  iraListado(){
+  /*  guardarDatos() {
+      if (this.objListaPreguntas == null || this.objListaPreguntas.length == 0) {
+        swal({ title: "Datos incompletos", text: "Ingrese al menos una pregunta", type: "warning", showConfirmButton: true });
+        return
+      }
+      this.encuesta.estado = this.encuesta.estado ? 'ACTIVO' : 'INACTIVO'
+      if (this.encuesta.id == 0) {
+        this.encuestaService.createEncuesta(this.encuesta, this.user.intIdUsuario)
+          .subscribe(
+            data => {
+              if (data['status'] == 404) {
+                this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+              } else {
+                let idencuesta = data['resultado']['id']
+                let arrayOfData = [];
+                this.objListaPreguntas.forEach(element => {
+                  arrayOfData.push(this.encuestaService.createPregunta(element, idencuesta, this.user.intIdUsuario))
+                });
+                forkJoin(arrayOfData).subscribe(response => {
+                  swal({ title: this.encuesta.titulo, text: data['resultado']['mensaje'], type: "success", showConfirmButton: true })
+                    .then((result) => {
+                      if (result.value)
+                        this.iraListado()
+                    });
+                }, error => {
+                  console.error(error);
+                });
+              }
+            },
+            error => {
+              this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+            }
+          )
+      } else {
+        this.encuestaService.editEncuesta(this.encuesta, this.user.intIdUsuario)
+          .subscribe(
+            data => {
+              if (data['intStatus'] != 200) {
+                this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+              } else {
+                let arrayOfData = [];
+                this.objListaPreguntas.forEach(element => {
+                  if (element['idpregunta'] == "0") {
+                    arrayOfData.push(this.encuestaService.createPregunta(element, this.encuesta.id, this.user.intIdUsuario))
+                  } else {
+                    arrayOfData.push(this.encuestaService.editPregunta(element, this.encuesta.id, this.user.intIdUsuario))
+                  }
+                });
+                if (this.listPreguntasELiminadas.length > 0) {
+                  this.listPreguntasELiminadas.forEach(element => {
+                    arrayOfData.push(this.encuestaService.editPregunta(element, this.encuesta.id, this.user.intIdUsuario))
+                  });
+                }
+                forkJoin(arrayOfData).subscribe(response => {
+                  swal({ title: this.encuesta.titulo, text: data['resultado'], type: "success", showConfirmButton: true })
+                    .then((result) => {
+                      if (result.value)
+                        this.iraListado()
+                    });
+                }, error => {
+                  console.error(error);
+                });
+              }
+            },
+            error => {
+              this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+            }
+          )
+      }
+    }*/
+
+  iraListado() {
     this.router.navigate(['/tables/encuesta']);
   }
 }

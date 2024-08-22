@@ -6,10 +6,10 @@ export const ROUTES: RouteInfo[] = [
     {
         value: "9", path: '', title: 'Mantenimientos', icon: 'ft-edit', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false, submenu: [
             { value: "9", path: '/charts/publicidad', title: 'Publicidad', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "10", path: '/tables/encuesta', title: 'Encuestas', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             /*{ value: "3", path: '/tables/restaurante', title: 'Restaurantes', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "4", path: '/tables/sucursal', title: 'Sucursales', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "5", path: '/tables/tipocomida', title: 'Tipos de Comida', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "6", path: '/tables/encuesta', title: 'Encuestas', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "7", path: '/tables/promocion', title: 'Promociones', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             
             { value: "20", path: '/tables/influencer', title: 'Influencer', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
