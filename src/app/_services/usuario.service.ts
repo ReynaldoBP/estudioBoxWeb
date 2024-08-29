@@ -7,9 +7,32 @@ export class UsuarioService {
     constructor(private http: HttpClient, private globals: Globals) { }
 
     getUsuarios() {
-        return this.http.get(this.globals.host + this.globals.port + '/getUsuario');
+        let datos = {
+            data: {
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getUsuario', datos);
     }
 
+    getModulos() {
+        let datos = {
+            data: {
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getModulos', datos);
+    }
+
+    getAcciones() {
+        let datos = {
+            data: {
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getAcciones', datos);
+    }
+
+    getPerfil() {
+        return this.http.get(this.globals.host + this.globals.port + '/getPerfil?estado=ACTIVO');
+    }
     getUsuariosByRestaurante(idRestaurante: string) {
         return this.http.get(this.globals.host + this.globals.port + '/getUsuario?intIdRestaurante=' + idRestaurante);
     }
@@ -73,47 +96,36 @@ export class UsuarioService {
         );
     }
 
-    getPermisos() {
-        return this.http.get(this.globals.host + this.globals.port + '/getPerfil?estado=ACTIVO');
-    }
-
     getPermisosUsuariosRestaurante(idRestaurante: string) {
         return this.http.get(this.globals.host + this.globals.port + '/getPerfil?estado=ACTIVO&intIdRestaurante=' + idRestaurante);
-    }
-
-    getAcciones() {
-        return this.http.get(this.globals.host + this.globals.port + '/getAccion?estado=ACTIVO');
     }
 
     getModuloAcciones() {
         return this.http.get(this.globals.host + this.globals.port + '/getModuloAccion');
     }
 
-    getModulos() {
-        return this.http.get(this.globals.host + this.globals.port + '/getModulo?estado=ACTIVO');
-    }
 
     getPermisosByUsuario(idUsuario: string) {
         return this.http.get(this.globals.host + this.globals.port + '/getPerfil?estado=ACTIVO&idUsuario=' + idUsuario);
     }
 
-    createPermiso(permiso: any, usuario: string) {
+    createPermiso(permiso: any, intIdUsuario: string) {
         return this.http.get(this.globals.host + this.globals.port + '/createPerfil?' +
             'idModuloAccion=' + permiso.moduloaccion +
             '&idUsuario=' + permiso.usuario +
             '&estado=' + permiso.estado +
             '&descripcion=' + permiso.moduloaccion + "-" + permiso.usuario +
-            '&usuarioCreacion=' + usuario
+            '&intIdUsuario=' + intIdUsuario
         );
     }
 
-    deletePermiso(permiso: any, usuario: string) {
+    deletePermiso(permiso: any, intIdUsuario: string) {
         return this.http.get(this.globals.host + this.globals.port + '/deletePerfil?' +
             'idModuloAccion=' + permiso.moduloaccion +
             '&idUsuario=' + permiso.usuario +
             '&estado=' + permiso.estado +
             '&descripcion=' + permiso.modulo + permiso.accion + permiso.usuario +
-            '&usuarioCreacion=' + usuario
+            '&intIdUsuario=' + intIdUsuario
         );
     }
 }

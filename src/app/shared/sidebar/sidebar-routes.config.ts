@@ -43,11 +43,11 @@ export const ROUTES: RouteInfo[] = [
             */
         ]
     },
-    /*{
+    {
         value: "0", path: '', title: 'Seguridad', icon: 'ft-lock', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
         submenu: [
-            { value: "18", path: '/tables/usuario', title: 'Usuarios', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "19", path: '/tables/permisos', title: 'Permisos', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            /*{ value: "18", path: '/tables/usuario', title: 'Usuarios', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },*/
+            { value: "11", path: '/tables/permisos', title: 'Permisos', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
-    },*/
+    },
 ];

@@ -41,8 +41,8 @@ export class FilterUsuario implements PipeTransform {
             return items;
         }
         return items.filter(item => 
-            item['NOMBRES'].toUpperCase().includes(usuario.toUpperCase()) ||
-            item['APELLIDOS'].toUpperCase().includes(usuario.toUpperCase())
+            item['strNombre'].toUpperCase().includes(usuario.toUpperCase()) ||
+            item['strApellido'].toUpperCase().includes(usuario.toUpperCase())
         );
     }
 }
