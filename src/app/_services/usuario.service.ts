@@ -53,7 +53,11 @@ export class UsuarioService {
     }
 
     getRoles() {
-        return this.http.get(this.globals.host + this.globals.port + '/getTipoRol?estado=ACTIVO');
+        let datos = {
+            data: {
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getRoles', datos);
     }
 
     getRolesById(id: string) {

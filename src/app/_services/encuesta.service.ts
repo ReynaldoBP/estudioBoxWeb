@@ -89,7 +89,7 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editEncuesta', datos);
     }
 
-    createPregunta(pregunta: any, idencuesta: string, usuarioCreacion: string) {
+    createPregunta2(pregunta: any, idencuesta: string, usuarioCreacion: string) {
         return this.http.get(this.globals.host + this.globals.port + '/createPregunta?' +
             'descripcion=' + pregunta.pregunta +
             '&obligatoria=' + pregunta.obligatoria +
@@ -100,20 +100,20 @@ export class EncuestaService {
             '&centroComercial=' + pregunta.cc
         );
     }
-
-    editPregunta2(pregunta: any, idencuesta: string, usuarioCreacion: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/editPregunta?' +
-            'idPregunta=' + pregunta.idpregunta +
-            '&descripcion=' + pregunta.pregunta +
-            '&obligatoria=' + pregunta.obligatoria +
-            '&idOpcionRespuesta=' + pregunta.opciones +
-            '&estado=' + pregunta.estado +
-            '&idEncuesta=' + idencuesta +
-            '&usuarioCreacion=' + usuarioCreacion +
-            '&centroComercial=' + pregunta.cc
-        );
+    createPregunta(arrayParametrosPregunta: any, intIdEncuesta: any, intIdUsuario: any) {
+        let datos = {
+            data: {
+                intIdEncuesta: intIdEncuesta,
+                intIdTipoOpcionRespuesta: arrayParametrosPregunta.intIdTipoOpcionRespuesta,
+                strEsObligatoria: arrayParametrosPregunta.strEsObligatoria,
+                strPregunta: arrayParametrosPregunta.strPregunta,
+                strValor: arrayParametrosPregunta.strValorDesplegable,
+                strEstado: arrayParametrosPregunta.strEstado,
+                intIdUsuario: intIdUsuario
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/createPregunta', datos);
     }
-
     editPregunta(arrayParametrosPregunta: any, intIdEncuesta: any, intIdUsuario: any) {
         let datos = {
             data: {
