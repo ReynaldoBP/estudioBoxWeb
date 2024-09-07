@@ -28,6 +28,10 @@ export interface Chart {
 })
 
 export class Dashboard1Component implements OnInit {
+    totalClientesEdadMensual: number;
+    totalBarrasEdades: number;
+    contadorBarrasEdades: number;
+    porcentajeTotal: number;
     objParametrosEmpresa: any = {
         strEstado: "ACTIVO",
         strContador: "SI"
@@ -50,6 +54,8 @@ export class Dashboard1Component implements OnInit {
     totalEncuestaSemanal: any
     clientesGeneroMensual: any
     clientesEdadMensual: any
+    objClientesEdadSinGeneracion: any
+    intClientesEdadSinGeneracion: any
     intTotalEncuesta: 0
     parametros: any = {
         fechaInicio: '',
@@ -207,34 +213,31 @@ export class Dashboard1Component implements OnInit {
             }
         },
     };
-
     EdadesChart: Chart = {
         type: 'Bar',
         data: {
-            labels: [
-            ],
+            labels: [],
             series: [
-                [
-                ],
-                [
-                ]
+                [],
+                []
             ]
         },
         options: {
             stackBars: true,
             fullWidth: true,
+            seriesBarDistance: 10,
             axisX: {
                 showGrid: false,
             },
             axisY: {
                 showGrid: false,
-                showLabel: false,
+                showLabel: true,
                 offset: 0
             },
-            chartPadding: 60
+            chartPadding: 60,
         },
         events: {
-            created(data: any): void {
+            created: (data: any) => {
                 var defs = data.svg.elem('defs');
                 defs.elem('linearGradient', {
                     id: 'gradient2',
@@ -250,23 +253,33 @@ export class Dashboard1Component implements OnInit {
                     'stop-color': 'rgb(204, 0, 0)'
                 });
             },
-            draw(data: any): void {
+            draw: (data: any) => {
                 if (data.type === 'bar') {
                     data.element.attr({
                         style: 'stroke-width: 15px',
                         x1: data.x1 + 0.001
                     });
-
-                }
-                else if (data.type === 'label') {
+                    this.contadorBarrasEdades++
+                    if (this.totalClientesEdadMensual && this.contadorBarrasEdades <= this.totalBarrasEdades) {
+                        let percentage = (data.value.y / this.totalClientesEdadMensual * 100).toFixed(2) + '%';
+                        data.group.elem('text', {
+                            dx: data.x2 - 0, // Ajusta la posición según sea necesario
+                            dy: data.y1 - 170, // Ajusta la posición según sea necesario
+                            'text-anchor': 'middle',
+                            class: 'ct-bar-label'
+                        }).text(data.value.y +" = "+percentage);
+                    }
+                } else if (data.type === 'label') {
                     data.element.attr({
                         y: 240
-                    })
+                    });
                 }
-
             }
         },
     };
+
+
+
     // Stacked Bar chart configuration Ends
 
     // Line area chart 2 configuration Starts
@@ -405,33 +418,39 @@ export class Dashboard1Component implements OnInit {
         data: {
             series: [
                 {
-                    name: "done",
+                    name: "Masculino",
                     className: "ct-done",
                     value: 23
                 },
                 {
-                    name: "progress",
+                    name: "Femenino",
                     className: "ct-progress",
                     value: 14
                 },
                 {
-                    name: "progress",
-                    className: "ct-progress",
+                    name: "Sin Género",
+                    className: "ct-outstanding",
                     value: 14
                 }
             ],
-            labels: [3, 2, 1],
+            labels: ['Masculino', 'Femenino', 'Sin Género'], // Etiquetas descriptivas
         },
         options: {
             donut: true,
             startAngle: 0,
             showAllTooltips: true,
+            chartPadding: 30, // Añadir espacio entre gráfico y bordes
+            labelOffset: 50,
+            labelDirection: 'explode',
+            showLabel: true,
             legend: {
                 position: 'left',
                 placement: 'outside'
             },
-        }
+        },
+        responsiveOptions: [], // Añade opciones responsivas si las tienes
     };
+
     // Donut chart configuration Ends
 
     //  Bar chart configuration Starts
@@ -832,35 +851,61 @@ export class Dashboard1Component implements OnInit {
             )
     }
 
+    // Guarda el total de clientes
     getTotalClientePorEdad(intMes: string, intAnio: string) {
         this.objClienteService.getTotalClientePorEdad(intMes, intAnio, this.user.intIdUsuario, this.objSelectEmpresa)
             .subscribe(
                 data => {
                     if (data["intStatus"] == 200) {
                         if (data["arrayData"] != null && data["arrayData"] != '') {
-                            this.clientesEdadMensual = data["arrayData"]
-                            let maxValue = this.clientesEdadMensual.reduce(function (prev, current) {
-                                return (Number.parseInt(prev.intCantidad) > Number.parseInt(current.intCantidad)) ? prev : current
-                            })
-                            let labels: any[] = []
-                            this.clientesEdadMensual.forEach(element => {
-                                labels.push(element['strGeneracion'])
+                            this.objClientesEdadSinGeneracion = data["arrayData"].filter(element => element.strGeneracion == null);
+                            this.intClientesEdadSinGeneracion = this.objClientesEdadSinGeneracion[0].intCantidad;
+                            this.clientesEdadMensual = data["arrayData"].filter(element => element.strGeneracion !== null);
+
+                            this.totalClientesEdadMensual = this.clientesEdadMensual.reduce((sum, item) => sum + item.intCantidad, 0) + this.intClientesEdadSinGeneracion;
+                            this.totalBarrasEdades = data["arrayData"].length - 1
+                            this.contadorBarrasEdades = 0
+                            this.porcentajeTotal = (this.intClientesEdadSinGeneracion * 100) / this.totalClientesEdadMensual
+                            this.porcentajeTotal = Number.parseInt(this.porcentajeTotal.toFixed(2))
+                            let maxValue = this.clientesEdadMensual.reduce((prev, current) => {
+                                return (Number.parseInt(prev.intCantidad) > Number.parseInt(current.intCantidad)) ? prev : current;
                             });
+
+                            let labels: any[] = [];
+                            this.clientesEdadMensual.forEach(element => {
+                                labels.push(element['strGeneracion']);
+                            });
+                            console.log("lamamos a chart--------------" + this.totalBarrasEdades)
                             this.EdadesChart.data = {
                                 labels: labels,
                                 series: [
                                     this.clientesEdadMensual.map(item => item.intCantidad),
                                     this.clientesEdadMensual.map(item => maxValue.intCantidad - item.intCantidad)
                                 ]
-                            }
+                            };
+
+                            this.EdadesChart.options.plugins = [
+                                Chartist.plugins.tooltip({
+                                    anchorToPoint: true,
+                                    appendToBody: true,
+                                    pointClass: 'ct-point'
+                                })
+                            ];
+
+                            // Aquí deberías forzar la actualización del gráfico si es necesario
+                            // Esto depende de cómo estás manejando el gráfico en tu aplicación
+                            // Por ejemplo, si estás utilizando una biblioteca específica para Chartist
                         }
                     } else {
-                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
                     }
                 },
                 error => {
-                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
                 }
             )
+
     }
+
+
 }

@@ -955,16 +955,6 @@ var EncuestaService = /** @class */ (function () {
         };
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editEncuesta', datos);
     };
-    EncuestaService.prototype.createPregunta2 = function (pregunta, idencuesta, usuarioCreacion) {
-        return this.http.get(this.globals.host + this.globals.port + '/createPregunta?' +
-            'descripcion=' + pregunta.pregunta +
-            '&obligatoria=' + pregunta.obligatoria +
-            '&idOpcionRespuesta=' + pregunta.opciones +
-            '&estado=ACTIVO' +
-            '&idEncuesta=' + idencuesta +
-            '&usuarioCreacion=' + usuarioCreacion +
-            '&centroComercial=' + pregunta.cc);
-    };
     EncuestaService.prototype.createPregunta = function (arrayParametrosPregunta, intIdEncuesta, intIdUsuario) {
         var datos = {
             data: {

@@ -215,19 +215,18 @@
 	<!--<div class="row" matchHeight="card">-->
 	<!--Diagrama de pie de género-->
 	<div class="col-xl-5 col-lg-12">
-		<div class="card">
+		<div class="card h-100"> <!-- Asegura que la tarjeta ocupe el 100% de la altura disponible -->
 			<div class="card-header">
 				<h4 class="card-title">Género</h4>
 			</div>
-			<div class="card-body">
+			<div class="card-body d-flex flex-column">
 				<p class="font-medium-2 text-muted text-center">{{monthNames[intMesEncuestas-1]}}</p>
-				<div id="donut-dashboard-chart" class="height-250 donut">
+				<div id="donut-dashboard-chart" class="height-315 donut">
 					<x-chartist class="" [data]="DonutChart.data" [type]="DonutChart.type"
 						[options]="DonutChart.options" [responsiveOptions]="DonutChart.responsiveOptions"
 						[events]="DonutChart.events">
 					</x-chartist>
 				</div>
-
 				<div class="card-block">
 					<div class="row mb-3">
 						<div class="col">
@@ -258,23 +257,27 @@
 				</div>
 			</div>
 		</div>
+
 	</div>
-	<!--Diagrama de barra de edades-->
+
+	<!-- Diagrama de barra de edades -->
 	<div class="col-xl-7 col-lg-13 col-12">
-		<div class="card">
+		<div class="card h-100">
 			<div class="card-header">
 				<h4 class="card-title">Edades</h4>
 			</div>
-			<div class="card-body">
+			<div class="card-body d-flex flex-column">
 				<p class="font-medium-2 text-muted text-center pb-2">{{monthNames[intMesEncuestas-1]}}</p>
 				<div id="Stack-bar-chart" class="height-315 EdadesChart mb-2">
-					<x-chartist class="" [data]="EdadesChart.data" [type]="EdadesChart.type"
+					<x-chartist #chartistChart [data]="EdadesChart.data" [type]="EdadesChart.type"
 						[options]="EdadesChart.options" [responsiveOptions]="EdadesChart.responsiveOptions"
 						[events]="EdadesChart.events">
 					</x-chartist>
 				</div>
-
+				<p class="font-medium-2 text-muted text-center pb-1">Ingresos sin Datos:
+					{{intClientesEdadSinGeneracion}} = {{porcentajeTotal}}%</p>
 			</div>
 		</div>
 	</div>
+
 </div>

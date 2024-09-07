@@ -89,17 +89,6 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editEncuesta', datos);
     }
 
-    createPregunta2(pregunta: any, idencuesta: string, usuarioCreacion: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/createPregunta?' +
-            'descripcion=' + pregunta.pregunta +
-            '&obligatoria=' + pregunta.obligatoria +
-            '&idOpcionRespuesta=' + pregunta.opciones +
-            '&estado=ACTIVO' +
-            '&idEncuesta=' + idencuesta +
-            '&usuarioCreacion=' + usuarioCreacion +
-            '&centroComercial=' + pregunta.cc
-        );
-    }
     createPregunta(arrayParametrosPregunta: any, intIdEncuesta: any, intIdUsuario: any) {
         let datos = {
             data: {

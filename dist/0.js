@@ -7,33 +7,28 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+function asyncGeneratorStep(n, t, e, r, o, a, c) {
   try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
+    var i = n[a](c),
+      u = i.value;
+  } catch (n) {
+    return void e(n);
   }
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
+  i.done ? t(u) : Promise.resolve(u).then(r, o);
 }
-function _asyncToGenerator(fn) {
+function _asyncToGenerator(n) {
   return function () {
-    var self = this,
-      args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+    var t = this,
+      e = arguments;
+    return new Promise(function (r, o) {
+      var a = n.apply(t, e);
+      function _next(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, "next", n);
       }
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      function _throw(n) {
+        asyncGeneratorStep(a, r, o, _next, _throw, "throw", n);
       }
-      _next(undefined);
+      _next(void 0);
     });
   };
 }
@@ -49,19 +44,13 @@ module.exports = _asyncToGenerator, module.exports.__esModule = true, module.exp
 /***/ (function(module, exports, __webpack_require__) {
 
 var toPropertyKey = __webpack_require__(/*! ./toPropertyKey.js */ "./node_modules/@babel/runtime/helpers/toPropertyKey.js");
-function _defineProperty(obj, key, value) {
-  key = toPropertyKey(key);
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-  return obj;
+function _defineProperty(e, r, t) {
+  return (r = toPropertyKey(r)) in e ? Object.defineProperty(e, r, {
+    value: t,
+    enumerable: !0,
+    configurable: !0,
+    writable: !0
+  }) : e[r] = t, e;
 }
 module.exports = _defineProperty, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
@@ -100,7 +89,7 @@ var _typeof = __webpack_require__(/*! ./typeof.js */ "./node_modules/@babel/runt
 var toPrimitive = __webpack_require__(/*! ./toPrimitive.js */ "./node_modules/@babel/runtime/helpers/toPrimitive.js");
 function toPropertyKey(t) {
   var i = toPrimitive(t, "string");
-  return "symbol" == _typeof(i) ? i : String(i);
+  return "symbol" == _typeof(i) ? i : i + "";
 }
 module.exports = toPropertyKey, module.exports.__esModule = true, module.exports["default"] = module.exports;
 
@@ -6977,6 +6966,7 @@ var createMethod = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIndexedObject($this);
     var length = lengthOfArrayLike(O);
+    if (length === 0) return !IS_INCLUDES && -1;
     var index = toAbsoluteIndex(fromIndex, length);
     var value;
     // Array#includes uses SameValueZero equality algorithm
@@ -7042,6 +7032,8 @@ var lengthOfArrayLike = __webpack_require__(/*! ../internals/length-of-array-lik
 
 var $TypeError = TypeError;
 
+var REDUCE_EMPTY = 'Reduce of empty array with no initial value';
+
 // `Array.prototype.{ reduce, reduceRight }` methods implementation
 var createMethod = function (IS_RIGHT) {
   return function (that, callbackfn, argumentsLength, memo) {
@@ -7049,6 +7041,7 @@ var createMethod = function (IS_RIGHT) {
     var self = IndexedObject(O);
     var length = lengthOfArrayLike(O);
     aCallable(callbackfn);
+    if (length === 0 && argumentsLength < 2) throw new $TypeError(REDUCE_EMPTY);
     var index = IS_RIGHT ? length - 1 : 0;
     var i = IS_RIGHT ? -1 : 1;
     if (argumentsLength < 2) while (true) {
@@ -7059,7 +7052,7 @@ var createMethod = function (IS_RIGHT) {
       }
       index += i;
       if (IS_RIGHT ? index < 0 : length <= index) {
-        throw new $TypeError('Reduce of empty array with no initial value');
+        throw new $TypeError(REDUCE_EMPTY);
       }
     }
     for (;IS_RIGHT ? index >= 0 : length > index; index += i) if (index in self) {
@@ -7423,16 +7416,16 @@ module.exports = function (O, key, value, options) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 
 // eslint-disable-next-line es/no-object-defineproperty -- safe
 var defineProperty = Object.defineProperty;
 
 module.exports = function (key, value) {
   try {
-    defineProperty(global, key, { value: value, configurable: true, writable: true });
+    defineProperty(globalThis, key, { value: value, configurable: true, writable: true });
   } catch (error) {
-    global[key] = value;
+    globalThis[key] = value;
   } return value;
 };
 
@@ -7468,10 +7461,10 @@ module.exports = !fails(function () {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var isObject = __webpack_require__(/*! ../internals/is-object */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-object.js");
 
-var document = global.document;
+var document = globalThis.document;
 // typeof document.createElement is 'object' in old IE
 var EXISTS = isObject(document) && isObject(document.createElement);
 
@@ -7550,66 +7543,55 @@ module.exports = DOMTokenListPrototype === Object.prototype ? undefined : DOMTok
 
 /***/ }),
 
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-browser.js":
-/*!**************************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-browser.js ***!
-  \**************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var IS_DENO = __webpack_require__(/*! ../internals/engine-is-deno */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-deno.js");
-var IS_NODE = __webpack_require__(/*! ../internals/engine-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-node.js");
-
-module.exports = !IS_DENO && !IS_NODE
-  && typeof window == 'object'
-  && typeof document == 'object';
-
-
-/***/ }),
-
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-deno.js":
-/*!***********************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-deno.js ***!
-  \***********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-/* global Deno -- Deno case */
-module.exports = typeof Deno == 'object' && Deno && typeof Deno.version == 'object';
-
-
-/***/ }),
-
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-ios-pebble.js":
-/*!*****************************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-ios-pebble.js ***!
-  \*****************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-var userAgent = __webpack_require__(/*! ../internals/engine-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-user-agent.js");
-
-module.exports = /ipad|iphone|ipod/i.test(userAgent) && typeof Pebble != 'undefined';
-
-
-/***/ }),
-
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-ios.js":
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/enum-bug-keys.js":
 /*!**********************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-ios.js ***!
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/enum-bug-keys.js ***!
   \**********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var userAgent = __webpack_require__(/*! ../internals/engine-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-user-agent.js");
+// IE8- don't enum bug keys
+module.exports = [
+  'constructor',
+  'hasOwnProperty',
+  'isPrototypeOf',
+  'propertyIsEnumerable',
+  'toLocaleString',
+  'toString',
+  'valueOf'
+];
+
+
+/***/ }),
+
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-ios-pebble.js":
+/*!**********************************************************************************************!*\
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-ios-pebble.js ***!
+  \**********************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var userAgent = __webpack_require__(/*! ../internals/environment-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-user-agent.js");
+
+module.exports = /ipad|iphone|ipod/i.test(userAgent) && typeof Pebble != 'undefined';
+
+
+/***/ }),
+
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-ios.js":
+/*!***************************************************************************************!*\
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-ios.js ***!
+  \***************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var userAgent = __webpack_require__(/*! ../internals/environment-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-user-agent.js");
 
 // eslint-disable-next-line redos/no-vulnerable -- safe
 module.exports = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent);
@@ -7617,67 +7599,71 @@ module.exports = /(?:ipad|iphone|ipod).*applewebkit/i.test(userAgent);
 
 /***/ }),
 
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-node.js":
-/*!***********************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-node.js ***!
-  \***********************************************************************************/
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-node.js":
+/*!****************************************************************************************!*\
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-node.js ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
-var classof = __webpack_require__(/*! ../internals/classof-raw */ "./node_modules/html2pdf.js/node_modules/core-js/internals/classof-raw.js");
+var ENVIRONMENT = __webpack_require__(/*! ../internals/environment */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment.js");
 
-module.exports = classof(global.process) === 'process';
+module.exports = ENVIRONMENT === 'NODE';
 
 
 /***/ }),
 
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-webos-webkit.js":
-/*!*******************************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-webos-webkit.js ***!
-  \*******************************************************************************************/
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-webos-webkit.js":
+/*!************************************************************************************************!*\
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-webos-webkit.js ***!
+  \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var userAgent = __webpack_require__(/*! ../internals/engine-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-user-agent.js");
+var userAgent = __webpack_require__(/*! ../internals/environment-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-user-agent.js");
 
 module.exports = /web0s(?!.*chrome)/i.test(userAgent);
 
 
 /***/ }),
 
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-user-agent.js":
-/*!**************************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/engine-user-agent.js ***!
-  \**************************************************************************************/
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-user-agent.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/environment-user-agent.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-module.exports = typeof navigator != 'undefined' && String(navigator.userAgent) || '';
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
+
+var navigator = globalThis.navigator;
+var userAgent = navigator && navigator.userAgent;
+
+module.exports = userAgent ? String(userAgent) : '';
 
 
 /***/ }),
 
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-v8-version.js":
-/*!**************************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/engine-v8-version.js ***!
-  \**************************************************************************************/
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-v8-version.js":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/environment-v8-version.js ***!
+  \*******************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
-var userAgent = __webpack_require__(/*! ../internals/engine-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-user-agent.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
+var userAgent = __webpack_require__(/*! ../internals/environment-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-user-agent.js");
 
-var process = global.process;
-var Deno = global.Deno;
+var process = globalThis.process;
+var Deno = globalThis.Deno;
 var versions = process && process.versions || Deno && Deno.version;
 var v8 = versions && versions.v8;
 var match, version;
@@ -7704,25 +7690,35 @@ module.exports = version;
 
 /***/ }),
 
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/enum-bug-keys.js":
-/*!**********************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/enum-bug-keys.js ***!
-  \**********************************************************************************/
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/environment.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
-// IE8- don't enum bug keys
-module.exports = [
-  'constructor',
-  'hasOwnProperty',
-  'isPrototypeOf',
-  'propertyIsEnumerable',
-  'toLocaleString',
-  'toString',
-  'valueOf'
-];
+/* global Bun, Deno -- detection */
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
+var userAgent = __webpack_require__(/*! ../internals/environment-user-agent */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-user-agent.js");
+var classof = __webpack_require__(/*! ../internals/classof-raw */ "./node_modules/html2pdf.js/node_modules/core-js/internals/classof-raw.js");
+
+var userAgentStartsWith = function (string) {
+  return userAgent.slice(0, string.length) === string;
+};
+
+module.exports = (function () {
+  if (userAgentStartsWith('Bun/')) return 'BUN';
+  if (userAgentStartsWith('Cloudflare-Workers')) return 'CLOUDFLARE';
+  if (userAgentStartsWith('Deno/')) return 'DENO';
+  if (userAgentStartsWith('Node.js/')) return 'NODE';
+  if (globalThis.Bun && typeof Bun.version == 'string') return 'BUN';
+  if (globalThis.Deno && typeof Deno.version == 'object') return 'DENO';
+  if (classof(globalThis.process) === 'process') return 'NODE';
+  if (globalThis.window && globalThis.document) return 'BROWSER';
+  return 'REST';
+})();
 
 
 /***/ }),
@@ -7736,7 +7732,7 @@ module.exports = [
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var getOwnPropertyDescriptor = __webpack_require__(/*! ../internals/object-get-own-property-descriptor */ "./node_modules/html2pdf.js/node_modules/core-js/internals/object-get-own-property-descriptor.js").f;
 var createNonEnumerableProperty = __webpack_require__(/*! ../internals/create-non-enumerable-property */ "./node_modules/html2pdf.js/node_modules/core-js/internals/create-non-enumerable-property.js");
 var defineBuiltIn = __webpack_require__(/*! ../internals/define-built-in */ "./node_modules/html2pdf.js/node_modules/core-js/internals/define-built-in.js");
@@ -7765,11 +7761,11 @@ module.exports = function (options, source) {
   var STATIC = options.stat;
   var FORCED, target, key, targetProperty, sourceProperty, descriptor;
   if (GLOBAL) {
-    target = global;
+    target = globalThis;
   } else if (STATIC) {
-    target = global[TARGET] || defineGlobalProperty(TARGET, {});
+    target = globalThis[TARGET] || defineGlobalProperty(TARGET, {});
   } else {
-    target = global[TARGET] && global[TARGET].prototype;
+    target = globalThis[TARGET] && globalThis[TARGET].prototype;
   }
   if (target) for (key in source) {
     sourceProperty = source[key];
@@ -8099,7 +8095,7 @@ module.exports = NATIVE_BIND ? uncurryThisWithBind : function (fn) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-callable.js");
 
 var aFunction = function (argument) {
@@ -8107,7 +8103,7 @@ var aFunction = function (argument) {
 };
 
 module.exports = function (namespace, method) {
-  return arguments.length < 2 ? aFunction(global[namespace]) : global[namespace] && global[namespace][method];
+  return arguments.length < 2 ? aFunction(globalThis[namespace]) : globalThis[namespace] && globalThis[namespace][method];
 };
 
 
@@ -8245,10 +8241,10 @@ module.exports = function (matched, str, position, captures, namedCaptures, repl
 
 /***/ }),
 
-/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js":
-/*!***************************************************************************!*\
-  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/global.js ***!
-  \***************************************************************************/
+/***/ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js":
+/*!********************************************************************************!*\
+  !*** ./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js ***!
+  \********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -8435,7 +8431,7 @@ module.exports = store.inspectSource;
 "use strict";
 
 var NATIVE_WEAK_MAP = __webpack_require__(/*! ../internals/weak-map-basic-detection */ "./node_modules/html2pdf.js/node_modules/core-js/internals/weak-map-basic-detection.js");
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var isObject = __webpack_require__(/*! ../internals/is-object */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-object.js");
 var createNonEnumerableProperty = __webpack_require__(/*! ../internals/create-non-enumerable-property */ "./node_modules/html2pdf.js/node_modules/core-js/internals/create-non-enumerable-property.js");
 var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/html2pdf.js/node_modules/core-js/internals/has-own-property.js");
@@ -8444,8 +8440,8 @@ var sharedKey = __webpack_require__(/*! ../internals/shared-key */ "./node_modul
 var hiddenKeys = __webpack_require__(/*! ../internals/hidden-keys */ "./node_modules/html2pdf.js/node_modules/core-js/internals/hidden-keys.js");
 
 var OBJECT_ALREADY_INITIALIZED = 'Object already initialized';
-var TypeError = global.TypeError;
-var WeakMap = global.WeakMap;
+var TypeError = globalThis.TypeError;
+var WeakMap = globalThis.WeakMap;
 var set, get, has;
 
 var enforce = function (it) {
@@ -9247,20 +9243,20 @@ module.exports = Math.trunc || function trunc(x) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var safeGetBuiltIn = __webpack_require__(/*! ../internals/safe-get-built-in */ "./node_modules/html2pdf.js/node_modules/core-js/internals/safe-get-built-in.js");
 var bind = __webpack_require__(/*! ../internals/function-bind-context */ "./node_modules/html2pdf.js/node_modules/core-js/internals/function-bind-context.js");
 var macrotask = __webpack_require__(/*! ../internals/task */ "./node_modules/html2pdf.js/node_modules/core-js/internals/task.js").set;
 var Queue = __webpack_require__(/*! ../internals/queue */ "./node_modules/html2pdf.js/node_modules/core-js/internals/queue.js");
-var IS_IOS = __webpack_require__(/*! ../internals/engine-is-ios */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-ios.js");
-var IS_IOS_PEBBLE = __webpack_require__(/*! ../internals/engine-is-ios-pebble */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-ios-pebble.js");
-var IS_WEBOS_WEBKIT = __webpack_require__(/*! ../internals/engine-is-webos-webkit */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-webos-webkit.js");
-var IS_NODE = __webpack_require__(/*! ../internals/engine-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-node.js");
+var IS_IOS = __webpack_require__(/*! ../internals/environment-is-ios */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-ios.js");
+var IS_IOS_PEBBLE = __webpack_require__(/*! ../internals/environment-is-ios-pebble */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-ios-pebble.js");
+var IS_WEBOS_WEBKIT = __webpack_require__(/*! ../internals/environment-is-webos-webkit */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-webos-webkit.js");
+var IS_NODE = __webpack_require__(/*! ../internals/environment-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-node.js");
 
-var MutationObserver = global.MutationObserver || global.WebKitMutationObserver;
-var document = global.document;
-var process = global.process;
-var Promise = global.Promise;
+var MutationObserver = globalThis.MutationObserver || globalThis.WebKitMutationObserver;
+var document = globalThis.document;
+var process = globalThis.process;
+var Promise = globalThis.Promise;
 var microtask = safeGetBuiltIn('queueMicrotask');
 var notify, toggle, node, promise, then;
 
@@ -9312,7 +9308,7 @@ if (!microtask) {
   // - setTimeout
   } else {
     // `webpack` dev server bug on IE global methods - use bind(fn, global)
-    macrotask = bind(macrotask, global);
+    macrotask = bind(macrotask, globalThis);
     notify = function () {
       macrotask(flush);
     };
@@ -9419,7 +9415,8 @@ var NullProtoObjectViaActiveX = function (activeXDocument) {
   activeXDocument.write(scriptTag(''));
   activeXDocument.close();
   var temp = activeXDocument.parentWindow.Object;
-  activeXDocument = null; // avoid memory leak
+  // eslint-disable-next-line no-useless-assignment -- avoid memory leak
+  activeXDocument = null;
   return temp;
 };
 
@@ -9785,7 +9782,8 @@ exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
 
 /* eslint-disable no-proto -- safe */
 var uncurryThisAccessor = __webpack_require__(/*! ../internals/function-uncurry-this-accessor */ "./node_modules/html2pdf.js/node_modules/core-js/internals/function-uncurry-this-accessor.js");
-var anObject = __webpack_require__(/*! ../internals/an-object */ "./node_modules/html2pdf.js/node_modules/core-js/internals/an-object.js");
+var isObject = __webpack_require__(/*! ../internals/is-object */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-object.js");
+var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ "./node_modules/html2pdf.js/node_modules/core-js/internals/require-object-coercible.js");
 var aPossiblePrototype = __webpack_require__(/*! ../internals/a-possible-prototype */ "./node_modules/html2pdf.js/node_modules/core-js/internals/a-possible-prototype.js");
 
 // `Object.setPrototypeOf` method
@@ -9802,8 +9800,9 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
     CORRECT_SETTER = test instanceof Array;
   } catch (error) { /* empty */ }
   return function setPrototypeOf(O, proto) {
-    anObject(O);
+    requireObjectCoercible(O);
     aPossiblePrototype(proto);
+    if (!isObject(O)) return O;
     if (CORRECT_SETTER) setter(O, proto);
     else O.__proto__ = proto;
     return O;
@@ -9897,21 +9896,20 @@ module.exports = function (exec) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var NativePromiseConstructor = __webpack_require__(/*! ../internals/promise-native-constructor */ "./node_modules/html2pdf.js/node_modules/core-js/internals/promise-native-constructor.js");
 var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-callable.js");
 var isForced = __webpack_require__(/*! ../internals/is-forced */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-forced.js");
 var inspectSource = __webpack_require__(/*! ../internals/inspect-source */ "./node_modules/html2pdf.js/node_modules/core-js/internals/inspect-source.js");
 var wellKnownSymbol = __webpack_require__(/*! ../internals/well-known-symbol */ "./node_modules/html2pdf.js/node_modules/core-js/internals/well-known-symbol.js");
-var IS_BROWSER = __webpack_require__(/*! ../internals/engine-is-browser */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-browser.js");
-var IS_DENO = __webpack_require__(/*! ../internals/engine-is-deno */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-deno.js");
+var ENVIRONMENT = __webpack_require__(/*! ../internals/environment */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment.js");
 var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-pure.js");
-var V8_VERSION = __webpack_require__(/*! ../internals/engine-v8-version */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-v8-version.js");
+var V8_VERSION = __webpack_require__(/*! ../internals/environment-v8-version */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-v8-version.js");
 
 var NativePromisePrototype = NativePromiseConstructor && NativePromiseConstructor.prototype;
 var SPECIES = wellKnownSymbol('species');
 var SUBCLASSING = false;
-var NATIVE_PROMISE_REJECTION_EVENT = isCallable(global.PromiseRejectionEvent);
+var NATIVE_PROMISE_REJECTION_EVENT = isCallable(globalThis.PromiseRejectionEvent);
 
 var FORCED_PROMISE_CONSTRUCTOR = isForced('Promise', function () {
   var PROMISE_CONSTRUCTOR_SOURCE = inspectSource(NativePromiseConstructor);
@@ -9936,7 +9934,7 @@ var FORCED_PROMISE_CONSTRUCTOR = isForced('Promise', function () {
     SUBCLASSING = promise.then(function () { /* empty */ }) instanceof FakePromise;
     if (!SUBCLASSING) return true;
   // Unhandled rejections tracking support, NodeJS Promise without it fails @@species test
-  } return !GLOBAL_CORE_JS_PROMISE && (IS_BROWSER || IS_DENO) && !NATIVE_PROMISE_REJECTION_EVENT;
+  } return !GLOBAL_CORE_JS_PROMISE && (ENVIRONMENT === 'BROWSER' || ENVIRONMENT === 'DENO') && !NATIVE_PROMISE_REJECTION_EVENT;
 });
 
 module.exports = {
@@ -9957,9 +9955,9 @@ module.exports = {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 
-module.exports = global.Promise;
+module.exports = globalThis.Promise;
 
 
 /***/ }),
@@ -10273,10 +10271,10 @@ module.exports = function (R) {
 "use strict";
 
 var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/html2pdf.js/node_modules/core-js/internals/fails.js");
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 
 // babel-minify and Closure Compiler transpiles RegExp('a', 'y') -> /a/y and it causes SyntaxError
-var $RegExp = global.RegExp;
+var $RegExp = globalThis.RegExp;
 
 var UNSUPPORTED_Y = fails(function () {
   var re = $RegExp('a', 'y');
@@ -10316,10 +10314,10 @@ module.exports = {
 "use strict";
 
 var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/html2pdf.js/node_modules/core-js/internals/fails.js");
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 
 // babel-minify and Closure Compiler transpiles RegExp('.', 's') -> /./s and it causes SyntaxError
-var $RegExp = global.RegExp;
+var $RegExp = globalThis.RegExp;
 
 module.exports = fails(function () {
   var re = $RegExp('.', 's');
@@ -10339,10 +10337,10 @@ module.exports = fails(function () {
 "use strict";
 
 var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/html2pdf.js/node_modules/core-js/internals/fails.js");
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 
 // babel-minify and Closure Compiler transpiles RegExp('(?<a>b)', 'g') -> /(?<a>b)/g and it causes SyntaxError
-var $RegExp = global.RegExp;
+var $RegExp = globalThis.RegExp;
 
 module.exports = fails(function () {
   var re = $RegExp('(?<a>b)', 'g');
@@ -10385,7 +10383,7 @@ module.exports = function (it) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ "./node_modules/html2pdf.js/node_modules/core-js/internals/descriptors.js");
 
 // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
@@ -10393,8 +10391,8 @@ var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor;
 
 // Avoid NodeJS experimental warning
 module.exports = function (name) {
-  if (!DESCRIPTORS) return global[name];
-  var descriptor = getOwnPropertyDescriptor(global, name);
+  if (!DESCRIPTORS) return globalThis[name];
+  var descriptor = getOwnPropertyDescriptor(globalThis, name);
   return descriptor && descriptor.value;
 };
 
@@ -10486,13 +10484,20 @@ module.exports = function (key) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-pure.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var defineGlobalProperty = __webpack_require__(/*! ../internals/define-global-property */ "./node_modules/html2pdf.js/node_modules/core-js/internals/define-global-property.js");
 
 var SHARED = '__core-js_shared__';
-var store = global[SHARED] || defineGlobalProperty(SHARED, {});
+var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
-module.exports = store;
+(store.versions || (store.versions = [])).push({
+  version: '3.38.1',
+  mode: IS_PURE ? 'pure' : 'global',
+  copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
+  license: 'https://github.com/zloirock/core-js/blob/v3.38.1/LICENSE',
+  source: 'https://github.com/zloirock/core-js'
+});
 
 
 /***/ }),
@@ -10506,18 +10511,11 @@ module.exports = store;
 
 "use strict";
 
-var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-pure.js");
 var store = __webpack_require__(/*! ../internals/shared-store */ "./node_modules/html2pdf.js/node_modules/core-js/internals/shared-store.js");
 
-(module.exports = function (key, value) {
-  return store[key] || (store[key] = value !== undefined ? value : {});
-})('versions', []).push({
-  version: '3.35.1',
-  mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.35.1/LICENSE',
-  source: 'https://github.com/zloirock/core-js'
-});
+module.exports = function (key, value) {
+  return store[key] || (store[key] = value || {});
+};
 
 
 /***/ }),
@@ -10679,11 +10677,11 @@ module.exports = {
 "use strict";
 
 /* eslint-disable es/no-symbol -- required for testing */
-var V8_VERSION = __webpack_require__(/*! ../internals/engine-v8-version */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-v8-version.js");
+var V8_VERSION = __webpack_require__(/*! ../internals/environment-v8-version */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-v8-version.js");
 var fails = __webpack_require__(/*! ../internals/fails */ "./node_modules/html2pdf.js/node_modules/core-js/internals/fails.js");
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 
-var $String = global.String;
+var $String = globalThis.String;
 
 // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
 module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
@@ -10709,7 +10707,7 @@ module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var apply = __webpack_require__(/*! ../internals/function-apply */ "./node_modules/html2pdf.js/node_modules/core-js/internals/function-apply.js");
 var bind = __webpack_require__(/*! ../internals/function-bind-context */ "./node_modules/html2pdf.js/node_modules/core-js/internals/function-bind-context.js");
 var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-callable.js");
@@ -10719,16 +10717,16 @@ var html = __webpack_require__(/*! ../internals/html */ "./node_modules/html2pdf
 var arraySlice = __webpack_require__(/*! ../internals/array-slice */ "./node_modules/html2pdf.js/node_modules/core-js/internals/array-slice.js");
 var createElement = __webpack_require__(/*! ../internals/document-create-element */ "./node_modules/html2pdf.js/node_modules/core-js/internals/document-create-element.js");
 var validateArgumentsLength = __webpack_require__(/*! ../internals/validate-arguments-length */ "./node_modules/html2pdf.js/node_modules/core-js/internals/validate-arguments-length.js");
-var IS_IOS = __webpack_require__(/*! ../internals/engine-is-ios */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-ios.js");
-var IS_NODE = __webpack_require__(/*! ../internals/engine-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-node.js");
+var IS_IOS = __webpack_require__(/*! ../internals/environment-is-ios */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-ios.js");
+var IS_NODE = __webpack_require__(/*! ../internals/environment-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-node.js");
 
-var set = global.setImmediate;
-var clear = global.clearImmediate;
-var process = global.process;
-var Dispatch = global.Dispatch;
-var Function = global.Function;
-var MessageChannel = global.MessageChannel;
-var String = global.String;
+var set = globalThis.setImmediate;
+var clear = globalThis.clearImmediate;
+var process = globalThis.process;
+var Dispatch = globalThis.Dispatch;
+var Function = globalThis.Function;
+var MessageChannel = globalThis.MessageChannel;
+var String = globalThis.String;
 var counter = 0;
 var queue = {};
 var ONREADYSTATECHANGE = 'onreadystatechange';
@@ -10736,7 +10734,7 @@ var $location, defer, channel, port;
 
 fails(function () {
   // Deno throws a ReferenceError on `location` access without `--location` flag
-  $location = global.location;
+  $location = globalThis.location;
 });
 
 var run = function (id) {
@@ -10759,7 +10757,7 @@ var eventListener = function (event) {
 
 var globalPostMessageDefer = function (id) {
   // old engines have not location.origin
-  global.postMessage(String(id), $location.protocol + '//' + $location.host);
+  globalThis.postMessage(String(id), $location.protocol + '//' + $location.host);
 };
 
 // Node.js 0.9+ & IE10+ has setImmediate, otherwise:
@@ -10797,14 +10795,14 @@ if (!set || !clear) {
   // Browsers with postMessage, skip WebWorkers
   // IE8 has postMessage, but it's sync & typeof its postMessage is 'object'
   } else if (
-    global.addEventListener &&
-    isCallable(global.postMessage) &&
-    !global.importScripts &&
+    globalThis.addEventListener &&
+    isCallable(globalThis.postMessage) &&
+    !globalThis.importScripts &&
     $location && $location.protocol !== 'file:' &&
     !fails(globalPostMessageDefer)
   ) {
     defer = globalPostMessageDefer;
-    global.addEventListener('message', eventListener, false);
+    globalThis.addEventListener('message', eventListener, false);
   // IE8-
   } else if (ONREADYSTATECHANGE in createElement('script')) {
     defer = function (id) {
@@ -11159,10 +11157,10 @@ module.exports = function (passed, required) {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var isCallable = __webpack_require__(/*! ../internals/is-callable */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-callable.js");
 
-var WeakMap = global.WeakMap;
+var WeakMap = globalThis.WeakMap;
 
 module.exports = isCallable(WeakMap) && /native code/.test(String(WeakMap));
 
@@ -11178,14 +11176,14 @@ module.exports = isCallable(WeakMap) && /native code/.test(String(WeakMap));
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var shared = __webpack_require__(/*! ../internals/shared */ "./node_modules/html2pdf.js/node_modules/core-js/internals/shared.js");
 var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ "./node_modules/html2pdf.js/node_modules/core-js/internals/has-own-property.js");
 var uid = __webpack_require__(/*! ../internals/uid */ "./node_modules/html2pdf.js/node_modules/core-js/internals/uid.js");
 var NATIVE_SYMBOL = __webpack_require__(/*! ../internals/symbol-constructor-detection */ "./node_modules/html2pdf.js/node_modules/core-js/internals/symbol-constructor-detection.js");
 var USE_SYMBOL_AS_UID = __webpack_require__(/*! ../internals/use-symbol-as-uid */ "./node_modules/html2pdf.js/node_modules/core-js/internals/use-symbol-as-uid.js");
 
-var Symbol = global.Symbol;
+var Symbol = globalThis.Symbol;
 var WellKnownSymbolsStore = shared('wks');
 var createWellKnownSymbol = USE_SYMBOL_AS_UID ? Symbol['for'] || Symbol : Symbol && Symbol.withoutSetter || uid;
 
@@ -11298,7 +11296,7 @@ module.exports = defineIterator(Array, 'Array', function (iterated, kind) {
   var target = state.target;
   var index = state.index++;
   if (!target || index >= target.length) {
-    state.target = undefined;
+    state.target = null;
     return createIterResultObject(undefined, true);
   }
   switch (state.kind) {
@@ -11337,8 +11335,8 @@ if (!IS_PURE && DESCRIPTORS && values.name !== 'values') try {
 var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/html2pdf.js/node_modules/core-js/internals/export.js");
 var $reduce = __webpack_require__(/*! ../internals/array-reduce */ "./node_modules/html2pdf.js/node_modules/core-js/internals/array-reduce.js").left;
 var arrayMethodIsStrict = __webpack_require__(/*! ../internals/array-method-is-strict */ "./node_modules/html2pdf.js/node_modules/core-js/internals/array-method-is-strict.js");
-var CHROME_VERSION = __webpack_require__(/*! ../internals/engine-v8-version */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-v8-version.js");
-var IS_NODE = __webpack_require__(/*! ../internals/engine-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-node.js");
+var CHROME_VERSION = __webpack_require__(/*! ../internals/environment-v8-version */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-v8-version.js");
+var IS_NODE = __webpack_require__(/*! ../internals/environment-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-node.js");
 
 // Chrome 80-82 has a critical bug
 // https://bugs.chromium.org/p/chromium/issues/detail?id=1049982
@@ -11488,8 +11486,8 @@ if (!IS_PURE && isCallable(NativePromiseConstructor)) {
 
 var $ = __webpack_require__(/*! ../internals/export */ "./node_modules/html2pdf.js/node_modules/core-js/internals/export.js");
 var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ "./node_modules/html2pdf.js/node_modules/core-js/internals/is-pure.js");
-var IS_NODE = __webpack_require__(/*! ../internals/engine-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/engine-is-node.js");
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var IS_NODE = __webpack_require__(/*! ../internals/environment-is-node */ "./node_modules/html2pdf.js/node_modules/core-js/internals/environment-is-node.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var call = __webpack_require__(/*! ../internals/function-call */ "./node_modules/html2pdf.js/node_modules/core-js/internals/function-call.js");
 var defineBuiltIn = __webpack_require__(/*! ../internals/define-built-in */ "./node_modules/html2pdf.js/node_modules/core-js/internals/define-built-in.js");
 var setPrototypeOf = __webpack_require__(/*! ../internals/object-set-prototype-of */ "./node_modules/html2pdf.js/node_modules/core-js/internals/object-set-prototype-of.js");
@@ -11519,13 +11517,13 @@ var setInternalState = InternalStateModule.set;
 var NativePromisePrototype = NativePromiseConstructor && NativePromiseConstructor.prototype;
 var PromiseConstructor = NativePromiseConstructor;
 var PromisePrototype = NativePromisePrototype;
-var TypeError = global.TypeError;
-var document = global.document;
-var process = global.process;
+var TypeError = globalThis.TypeError;
+var document = globalThis.document;
+var process = globalThis.process;
 var newPromiseCapability = newPromiseCapabilityModule.f;
 var newGenericPromiseCapability = newPromiseCapability;
 
-var DISPATCH_EVENT = !!(document && document.createEvent && global.dispatchEvent);
+var DISPATCH_EVENT = !!(document && document.createEvent && globalThis.dispatchEvent);
 var UNHANDLED_REJECTION = 'unhandledrejection';
 var REJECTION_HANDLED = 'rejectionhandled';
 var PENDING = 0;
@@ -11598,14 +11596,14 @@ var dispatchEvent = function (name, promise, reason) {
     event.promise = promise;
     event.reason = reason;
     event.initEvent(name, false, true);
-    global.dispatchEvent(event);
+    globalThis.dispatchEvent(event);
   } else event = { promise: promise, reason: reason };
-  if (!NATIVE_PROMISE_REJECTION_EVENT && (handler = global['on' + name])) handler(event);
+  if (!NATIVE_PROMISE_REJECTION_EVENT && (handler = globalThis['on' + name])) handler(event);
   else if (name === UNHANDLED_REJECTION) hostReportErrors('Unhandled promise rejection', reason);
 };
 
 var onUnhandled = function (state) {
-  call(task, global, function () {
+  call(task, globalThis, function () {
     var promise = state.facade;
     var value = state.value;
     var IS_UNHANDLED = isUnhandled(state);
@@ -11628,7 +11626,7 @@ var isUnhandled = function (state) {
 };
 
 var onHandleUnhandled = function (state) {
-  call(task, global, function () {
+  call(task, globalThis, function () {
     var promise = state.facade;
     if (IS_NODE) {
       process.emit('rejectionHandled', promise);
@@ -11707,7 +11705,7 @@ if (FORCED_PROMISE_CONSTRUCTOR) {
       reactions: new Queue(),
       rejection: false,
       state: PENDING,
-      value: undefined
+      value: null
     });
   };
 
@@ -12444,7 +12442,7 @@ $({ target: 'String', proto: true, forced: forcedStringTrimMethod('trim') }, {
 
 "use strict";
 
-var global = __webpack_require__(/*! ../internals/global */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global.js");
+var globalThis = __webpack_require__(/*! ../internals/global-this */ "./node_modules/html2pdf.js/node_modules/core-js/internals/global-this.js");
 var DOMIterables = __webpack_require__(/*! ../internals/dom-iterables */ "./node_modules/html2pdf.js/node_modules/core-js/internals/dom-iterables.js");
 var DOMTokenListPrototype = __webpack_require__(/*! ../internals/dom-token-list-prototype */ "./node_modules/html2pdf.js/node_modules/core-js/internals/dom-token-list-prototype.js");
 var ArrayIteratorMethods = __webpack_require__(/*! ../modules/es.array.iterator */ "./node_modules/html2pdf.js/node_modules/core-js/modules/es.array.iterator.js");
@@ -12476,7 +12474,7 @@ var handlePrototype = function (CollectionPrototype, COLLECTION_NAME) {
 };
 
 for (var COLLECTION_NAME in DOMIterables) {
-  handlePrototype(global[COLLECTION_NAME] && global[COLLECTION_NAME].prototype, COLLECTION_NAME);
+  handlePrototype(globalThis[COLLECTION_NAME] && globalThis[COLLECTION_NAME].prototype, COLLECTION_NAME);
 }
 
 handlePrototype(DOMTokenListPrototype, 'DOMTokenList');

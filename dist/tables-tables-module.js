@@ -919,7 +919,8 @@ var FilterUsuario = /** @class */ (function () {
         }
         return items.filter(function (item) {
             return item['strNombre'].toUpperCase().includes(usuario.toUpperCase()) ||
-                item['strApellido'].toUpperCase().includes(usuario.toUpperCase());
+                item['strApellido'].toUpperCase().includes(usuario.toUpperCase()) ||
+                item['strCorreo'].toUpperCase().includes(usuario.toUpperCase());
         });
     };
     FilterUsuario = __decorate([
