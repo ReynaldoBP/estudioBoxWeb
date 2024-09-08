@@ -11921,7 +11921,7 @@ var TipoComidaComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Basic form layout section start -->\r\n<section id=\"basic-form-layouts\">\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-sm-12\">\r\n\t\t\t<div class=\"content-header mt-0\">Usuario</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"card\">\r\n\t\t\t\t<div class=\"card-header\">\r\n\t\t\t\t\t<h4 class=\"card-title\" id=\"basic-layout-form\">{{usuario.id == '0'?'Nuevo usuario':'Editando\r\n\t\t\t\t\t\tusuario'}}</h4>\r\n\t\t\t\t\t<!--\r\n\t\t\t\t\t\t<p class=\"mb-0\">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>\r\n\t\t\t\t\t-->\r\n\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"card-body\">\r\n\t\t\t\t\t<div class=\"px-3\">\r\n\t\t\t\t\t\t<form class=\"form\">\r\n\t\t\t\t\t\t\t<div class=\"form-body\">\r\n\t\t\t\t\t\t\t\t<h4 class=\"form-section\"><i class=\"ft-user\"></i> Datos del Usuario</h4>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtNombres\">Nombres</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtNombres\" [(ngModel)]=\"usuario.nombres\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"txtnombre\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtApellidos\">Apellidos</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtApellidos\" [(ngModel)]=\"usuario.apellidos\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"txtApellido\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtIdentificacion\">Identificación</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtIdentificacion\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"usuario.identificacion\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tname=\"txtidentificacion\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtEmail\">Correo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtEmail\" [(ngModel)]=\"usuario.correo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"txtcorreo\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<!--\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtclave\">Contrase&ntilde;a</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"password\" id=\"txtclave\" [(ngModel)]=\"usuario.clave\" class=\"form-control\"  name=\"txtpassword\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t-->\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"cmbRol\">Rol</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<select id=\"cmbRol\" name=\"cmbRol\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"usuario.idtiporol\" (change)=\"verificaRol()\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t#cmbRol=\"ngModel\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"\" selected=\"\" disabled=\"\">Seleccione</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of listRol\" value=\"{{item['ID_TIPO_ROL']}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{item['DESCRIPCION_TIPO_ROL']}}</option>\r\n\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"lblRestaurante\">Restaurante - Sucursal</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ng-select [items]=\"listRestaurante\" [multiple]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[closeOnSelect]=\"true\" [hideSelected]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[maxSelectedItems]=\"1\" bindLabel=\"NOMBRE_COMERCIAL\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbindValue=\"ID_RESTAURANTE\" placeholder=\"Seleccione restaurantes\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t(change)=\"verificaTodosRestaurante();getSucursalByIdRestaurante()\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"listRestauranteSeleccionado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[disabled]=\"usuario.idtiporol != 2 && usuario.idtiporol != 6\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tname=\"cmbrestaurantes\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<ng-select [items]=\"objListSucursal\" [multiple]=\"false\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[closeOnSelect]=\"true\" [hideSelected]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tbindLabel=\"DESCRIPCION\" bindValue=\"ID_SUCURSAL\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tplaceholder=\"Seleccione Sucursal\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[disabled]=\"usuario.idtiporol != 2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tname=\"cmbSucursal\" [(ngModel)]=\"objSelectSucursal\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Recibir correo de encuesta</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdNotificacionSi\" name=\"rdNotificacionSi\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"usuario.notificacion\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tfor=\"rdNotificacionSi\">Si</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdNotificacionNo\" name=\"rdNotificacionNo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"usuario.notificacion\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tfor=\"rdNotificacionNo\">No</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Estado</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado\" name=\"rdEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"usuario.estado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado\">Activo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado2\" name=\"rdEstado2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"usuario.estado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado2\">Inactivo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t<div class=\"form-actions\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-warning mr-1\"\r\n\t\t\t\t\t\t\t\t\t[routerLink]=\"['/tables/usuario']\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"ft-x\"></i> Cancelar\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n\t\t\t\t\t\t\t\t\t(click)=\"guardarDatos()\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-check-square-o\"></i> Guardar Datos\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</form>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</section>\r\n<!-- // Basic form layout section end -->"
+module.exports = "<!-- Basic form layout section start -->\r\n<section id=\"basic-form-layouts\">\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-sm-12\">\r\n\t\t\t<div class=\"content-header mt-0\">Usuario</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"card\">\r\n\t\t\t\t<div class=\"card-header\">\r\n\t\t\t\t\t<h4 class=\"card-title\" id=\"basic-layout-form\">{{usuario.intIdUsuario == '0'?'Nuevo usuario':'Editando\r\n\t\t\t\t\t\tusuario'}}</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"card-body\">\r\n\t\t\t\t\t<div class=\"px-3\">\r\n\t\t\t\t\t\t<form class=\"form\">\r\n\t\t\t\t\t\t\t<div class=\"form-body\">\r\n\t\t\t\t\t\t\t\t<h4 class=\"form-section\"><i class=\"ft-user\"></i> Datos del Usuario</h4>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtNombres\">Nombres</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtNombres\" [(ngModel)]=\"usuario.strNombre\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"txtnombre\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtApellidos\">Apellidos</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtApellidos\" [(ngModel)]=\"usuario.strApellido\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"txtApellido\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtIdentificacion\">Identificación</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtIdentificacion\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"usuario.strIdentificacion\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tname=\"txtidentificacion\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtEmail\">Correo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtEmail\" [(ngModel)]=\"usuario.strCorreo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"txtcorreo\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"cmbRol\">Rol</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<select id=\"cmbRol\" name=\"cmbRol\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"usuario.intIdTipoRol\" #cmbRol=\"ngModel\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"\" selected=\"\" disabled=\"\">Seleccione</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of listRol\" value=\"{{item['intIdRol']}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{item['strRol']}}</option>\r\n\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\" *ngIf=\"usuario.idtiporol != 1\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\" form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"lblRestaurante\">Empresa</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<select id=\"cmbrestaurantes\" name=\"cmbrestaurantes\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"usuario.intIdEmpresa\" #cmbrestaurantes=\"ngModel\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"\" selected=\"\" disabled=\"\">Seleccione</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of arrayEmpresa\" value=\"{{item['intIdEmpresa']}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{item['strNombreComercial']}}</option>\r\n\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Recibir correo de encuesta</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdNotificacionSi\" name=\"rdNotificacionSi\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"usuario.strNotificacion\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tfor=\"rdNotificacionSi\">Si</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdNotificacionNo\" name=\"rdNotificacionNo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"usuario.strNotificacion\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tfor=\"rdNotificacionNo\">No</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Estado</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado\" name=\"rdEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"usuario.strEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado\">Activo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado2\" name=\"rdEstado2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"usuario.strEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado2\">Inactivo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t<div class=\"form-actions\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-warning mr-1\"\r\n\t\t\t\t\t\t\t\t\t[routerLink]=\"['/tables/usuario']\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"ft-x\"></i> Cancelar\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n\t\t\t\t\t\t\t\t\t(click)=\"guardarDatos()\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-check-square-o\"></i> Guardar Datos\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</form>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</section>"
 
 /***/ }),
 
@@ -11954,9 +11954,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var app_services_restaurante_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/_services/restaurante.service */ "./src/app/_services/restaurante.service.ts");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var app_services_sucursal_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! app/_services/sucursal.service */ "./src/app/_services/sucursal.service.ts");
+/* harmony import */ var app_services_empresa_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/_services/empresa.service */ "./src/app/_services/empresa.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11973,17 +11971,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
-
-
 var URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 var UsuarioComponent = /** @class */ (function () {
-    function UsuarioComponent(usuarioService, toastr, restauranteService, router, route, objSucursalService) {
+    function UsuarioComponent(usuarioService, objEmpresaService, toastr, router, route) {
         this.usuarioService = usuarioService;
+        this.objEmpresaService = objEmpresaService;
         this.toastr = toastr;
-        this.restauranteService = restauranteService;
         this.router = router;
         this.route = route;
-        this.objSucursalService = objSucursalService;
         this.uploader = new ng2_file_upload_ng2_file_upload__WEBPACK_IMPORTED_MODULE_1__["FileUploader"]({
             url: URL,
             isHTML5: true
@@ -11991,36 +11986,50 @@ var UsuarioComponent = /** @class */ (function () {
         this.hasBaseDropZoneOver = false;
         this.hasAnotherDropZoneOver = false;
         this.usuario = {
-            nombres: '',
-            apellidos: '',
-            identificacion: '',
-            correo: '',
-            clave: '',
-            idtiporol: '',
-            estado: true,
-            notificacion: false
+            strNombre: '',
+            strApellido: '',
+            strIdentificacion: '',
+            strCorreo: '',
+            intIdTipoRol: '',
+            strEstado: true,
+            strNotificacion: false,
+            intIdEmpresa: 0,
+            strUsrSesion: ""
         };
+        this.arrayParametrosSucursal = {
+            strEstado: "ACTIVO",
+            intIdEmpresa: ""
+        };
+        this.objParametrosEmpresa = {
+            strEstado: "ACTIVO",
+            strContador: "SI"
+        };
+        this.objParametrosUsuario = {
+            intIdUsuario: 0
+        };
+        this.objSelectEmpresa = null;
         this.user = JSON.parse(localStorage.getItem('usuario'));
-        this.usuario.id = this.route.snapshot.paramMap.get('id');
+        this.usuario.intIdUsuario = this.route.snapshot.paramMap.get('id');
     }
     UsuarioComponent.prototype.ngOnInit = function () {
-        if (this.user.DESCRIPCION_TIPO_ROL == "ADMINISTRADOR") {
-            this.getRoles();
-            this.getRestaurantes();
+        this.getRoles();
+        this.usuario.strUsrSesion = this.user.intIdUsuario;
+        if (this.user.strTipoRol == "ADMINISTRADOR") {
+            this.getEmpresas();
         }
         else {
-            this.getRolesById();
-            this.getRestaurantesByUsuario();
+            this.getEmpresasPorUsuario();
         }
-        if (this.usuario.id != 0) {
-            this.getUsuario();
+        if (this.usuario.intIdUsuario != 0) {
+            this.getUsuariosCriterio();
         }
     };
-    UsuarioComponent.prototype.getUsuario = function () {
+    UsuarioComponent.prototype.getUsuariosCriterio = function () {
         var _this = this;
-        this.usuarioService.getUsuarioById(this.usuario.id)
+        this.objParametrosUsuario.intIdUsuario = this.usuario.intIdUsuario;
+        this.usuarioService.getUsuariosCriterio(this.objParametrosUsuario)
             .subscribe(function (data) {
-            if (data['status'] == 404) {
+            if (data['intStatus'] != 200) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: 'Usuario no encontrado', text: data['resultado'], type: "error", showConfirmButton: true })
                     .then(function (result) {
                     if (result.value)
@@ -12028,17 +12037,17 @@ var UsuarioComponent = /** @class */ (function () {
                 });
             }
             else {
-                var rest = data['resultado']['resultados'][0];
-                _this.usuario.nombres = rest.NOMBRES;
-                _this.usuario.apellidos = rest.APELLIDOS;
-                _this.usuario.identificacion = rest.IDENTIFICACION;
-                _this.usuario.correo = rest.CORREO;
-                _this.usuario.idtiporol = rest.TIPO_ROL_ID;
-                _this.usuario.estado = rest.ESTADO == 'ACTIVO' ? true : false;
-                _this.usuario.notificacion = rest.NOTIFICACION == 'SI' ? true : false;
-                _this.usuario.clave = rest.CONTRASENIA;
-                if (_this.usuario.idtiporol == 2 || _this.usuario.idtiporol == 6) {
-                    _this.getRestaurantesUsuario();
+                var rest = data["arrayUsuario"]["resultados"][0];
+                _this.usuario.strNombre = rest.strNombre;
+                _this.usuario.strApellido = rest.strApellido;
+                _this.usuario.strIdentificacion = rest.strIdentificacion;
+                _this.usuario.strCorreo = rest.strCorreo;
+                _this.usuario.intIdTipoRol = rest.intIdTipoRol;
+                _this.usuario.strEstado = rest.strEstado == 'ACTIVO' ? true : false;
+                _this.usuario.strNotificacion = rest.strNotificacion == 'SI' ? true : false;
+                _this.usuario.intIdEmpresa = rest.intIdEmpresa;
+                if (_this.usuario.idtiporol == 2) {
+                    _this.getEmpresasPorUsuario();
                 }
             }
         }, function (error) {
@@ -12073,90 +12082,49 @@ var UsuarioComponent = /** @class */ (function () {
     };
     UsuarioComponent.prototype.guardarDatos = function () {
         var _this = this;
-        this.usuario.estado = this.usuario.estado ? 'ACTIVO' : 'INACTIVO';
-        this.usuario.notificacion = this.usuario.notificacion ? 'SI' : 'NO';
-        if (this.usuario.idtiporol == "" || this.usuario.idtiporol == undefined) {
+        this.usuario.strEstado = this.usuario.strEstado ? 'ACTIVO' : 'INACTIVO';
+        this.usuario.strNotificacion = this.usuario.strNotificacion ? 'SI' : 'NO';
+        if (this.usuario.intIdTipoRol == "" || this.usuario.intIdTipoRol == undefined) {
             this.toastr.warning('El campo Rol es obligatorio.', 'Error');
             return;
         }
-        if (this.usuario.id == 0) {
-            if ((this.usuario.idtiporol == 2) && (this.listRestauranteSeleccionado == undefined || this.objSelectSucursal == undefined)) {
-                this.toastr.warning('El campo Restaurante - Sucursal es obligatorio.', 'Error');
+        if (this.usuario.intIdUsuario == 0) {
+            if ((this.usuario.intIdTipoRol == 2) && (this.usuario.intIdEmpresa == undefined)) {
+                this.toastr.warning('El campo Empresa es obligatorio.', 'Error');
                 return;
             }
-            this.usuarioService.createUsuario(this.usuario, this.user.ID_USUARIO)
+            this.usuarioService.createUsuario(this.usuario)
                 .subscribe(function (data) {
-                if (data['status'] == 204) {
-                    _this.toastr.warning(data['resultado']['mensaje'], 'Error');
+                if (data['intStatus'] != 200) {
+                    _this.toastr.warning(data['strMensaje'], 'Error');
                 }
                 else {
-                    if (_this.usuario.idtiporol == 2 || _this.usuario.idtiporol == 6) {
-                        var arrayOfData_1 = [];
-                        _this.listRestauranteSeleccionado.forEach(function (element) {
-                            _this.objSelectSucursal = (_this.objSelectSucursal == undefined) ? "" : _this.objSelectSucursal;
-                            arrayOfData_1.push(_this.restauranteService.createUsuarioRestaurante(data['resultado']['id'], element, _this.objSelectSucursal, _this.user.ID_USUARIO));
-                        });
-                        Object(rxjs__WEBPACK_IMPORTED_MODULE_7__["forkJoin"])(arrayOfData_1).subscribe(function (response) {
-                            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: _this.usuario.nombres, text: data['resultado']['mensaje'], type: "success", showConfirmButton: true })
-                                .then(function (result) {
-                                if (result.value)
-                                    _this.iraListado();
-                            });
-                        }, function (error) {
-                            console.error(error);
-                        });
-                    }
-                    else {
-                        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: _this.usuario.nombres, text: data['resultado']['mensaje'], type: "success", showConfirmButton: true })
-                            .then(function (result) {
-                            if (result.value)
-                                _this.iraListado();
-                        });
-                    }
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: _this.usuario.nombres, text: data['strMensaje'], type: "success", showConfirmButton: true })
+                        .then(function (result) {
+                        if (result.value)
+                            _this.iraListado();
+                    });
                 }
             }, function (error) {
                 _this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error');
             });
         }
         else {
-            if ((this.usuario.idtiporol == 2) && (this.listRestauranteSeleccionado == undefined || this.objSelectSucursal == undefined)) {
-                this.toastr.warning('El campo Restaurante - Sucursal es obligatorio.', 'Error');
+            if ((this.usuario.intIdTipoRol == 2) && (this.usuario.intIdEmpresa == undefined)) {
+                this.toastr.warning('El campo Empresa es obligatorio.', 'Error');
                 return;
             }
-            this.usuarioService.editUsuario(this.usuario, this.user.ID_USUARIO)
+            this.usuarioService.editUsuario(this.usuario)
                 .subscribe(function (data) {
-                if (data['status'] == 404) {
-                    _this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error');
+                if (data['intStatus'] != 200) {
+                    _this.toastr.warning(data['strMensaje'], 'Error');
                 }
                 else {
-                    if (_this.usuario.idtiporol == 2 || _this.usuario.idtiporol == 6) {
-                        _this.restauranteService.deleteUsuarioRestaurante(_this.usuario.id)
-                            .subscribe(function (data2) {
-                            var arrayOfData = [];
-                            _this.listRestauranteSeleccionado.forEach(function (element) {
-                                _this.objSelectSucursal = (_this.objSelectSucursal == undefined) ? "" : _this.objSelectSucursal;
-                                arrayOfData.push(_this.restauranteService.createUsuarioRestaurante(_this.usuario.id, element, _this.objSelectSucursal, _this.user.ID_USUARIO));
-                            });
-                            Object(rxjs__WEBPACK_IMPORTED_MODULE_7__["forkJoin"])(arrayOfData).subscribe(function (response) {
-                                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: _this.usuario.nombres, text: data['resultado'], type: "success", showConfirmButton: true })
-                                    .then(function (result) {
-                                    if (result.value)
-                                        _this.iraListado();
-                                });
-                            }, function (error) {
-                                console.error(error);
-                            });
-                        }, function (error) {
-                            _this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error');
-                        });
-                    }
-                    else {
-                        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: _this.usuario.nombres, text: data['resultado'], type: "success", showConfirmButton: true })
-                            .then(function (result) {
-                            if (result.value)
-                                _this.iraListado();
-                        });
-                    }
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: _this.usuario.nombres, text: data['strMensaje'], type: "success", showConfirmButton: true })
+                        .then(function (result) {
+                        if (result.value)
+                            _this.iraListado();
+                    });
                 }
             }, function (error) {
                 _this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error');
@@ -12167,93 +12135,45 @@ var UsuarioComponent = /** @class */ (function () {
         var _this = this;
         this.usuarioService.getRoles()
             .subscribe(function (data) {
-            _this.listRol = data['resultado']['tipoRol'];
-        }, function (error) {
-        });
-    };
-    UsuarioComponent.prototype.getRolesById = function () {
-        var _this = this;
-        this.usuarioService.getRolesById(this.user.ID_TIPO_ROL)
-            .subscribe(function (data) {
-            _this.listRol = data['resultado']['tipoRol'];
+            _this.listRol = data['arrayRoles'];
         }, function (error) {
         });
     };
     UsuarioComponent.prototype.iraListado = function () {
         this.router.navigate(['/tables/usuario']);
     };
-    UsuarioComponent.prototype.getRestaurantes = function () {
+    UsuarioComponent.prototype.getEmpresas = function () {
         var _this = this;
-        this.restauranteService.getRestaurantesACTIVOS()
+        this.objParametrosEmpresa.strContador = "NO";
+        this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
             .subscribe(function (data) {
-            _this.listRestaurante = data['resultado']['resultados'];
+            if (data['intStatus'] != 200) {
+                _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+            }
+            else {
+                _this.arrayEmpresa = data["arrayEmpresa"];
+            }
         }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
     };
     //para edit
-    UsuarioComponent.prototype.getRestaurantesUsuario = function () {
+    UsuarioComponent.prototype.getEmpresasPorUsuario = function () {
         var _this = this;
-        this.restauranteService.getRestauranteUsuario(this.usuario.id)
+        this.objParametrosEmpresa.strContador = "NO";
+        this.objParametrosEmpresa.intIdUsuario = this.usuario.intIdUsuario;
+        this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
             .subscribe(function (data) {
-            var listado = data['resultado']['resultados'];
-            _this.listRestauranteSeleccionado = listado.map(function (item) { return item.ID_RESTAURANTE; });
-            if (_this.usuario.idtiporol == 2) {
-                _this.getSucursalByIdRestaurante();
-                _this.objSelectSucursal = listado.map(function (item) { return item.SUCURSAL_ID; })[0];
+            if (data['intStatus'] != 200) {
+                _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+            }
+            else {
+                _this.arrayEmpresa = data["arrayEmpresa"];
+                _this.usuario.intIdEmpresa = _this.arrayEmpresa.map(function (item) { return item.intIdEmpresa; });
             }
         }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
-    };
-    UsuarioComponent.prototype.getRestaurantesByUsuario = function () {
-        var _this = this;
-        this.restauranteService.getRestaurantesByUsuario(this.user.ID_USUARIO)
-            .subscribe(function (data) {
-            _this.listRestaurante = data['resultado']['resultados'];
-            _this.listRestauranteSeleccionado = data['resultado']['resultados'];
-        }, function (error) {
-        });
-    };
-    UsuarioComponent.prototype.verificaTodosRestaurante = function () {
-        if (this.listRestaurante.length != this.listRestauranteSeleccionado.length) {
-            this.chkTODOSrestaurante = false;
-            this.objListSucursal = undefined;
-            this.objSelectSucursal = undefined;
-        }
-        else {
-            this.chkTODOSrestaurante = true;
-        }
-    };
-    UsuarioComponent.prototype.verificaRol = function () {
-        if (this.usuario.idtiporol != 2) {
-            this.listRestauranteSeleccionado = [];
-            this.objListSucursal = undefined;
-            this.objSelectSucursal = undefined;
-        }
-    };
-    UsuarioComponent.prototype.seleccTodoRestaurante = function () {
-        if (this.chkTODOSrestaurante) {
-            this.listRestauranteSeleccionado = this.listRestaurante.map(function (item) { return item.ID_RESTAURANTE; });
-        }
-        else {
-            this.listRestauranteSeleccionado = [];
-        }
-    };
-    UsuarioComponent.prototype.getSucursalByIdRestaurante = function () {
-        var _this = this;
-        this.objListSucursal = undefined;
-        if (this.listRestauranteSeleccionado[0] != undefined) {
-            this.objSucursalService.getSucursalByIdRestaurante(this.listRestauranteSeleccionado[0])
-                .subscribe(function (data) {
-                if (data['status'] == 200) {
-                    _this.objListSucursal = data['resultado']['resultados'];
-                }
-                else {
-                    _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
-                }
-            }, function (error) {
-                _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
-            });
-        }
     };
     UsuarioComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -12262,11 +12182,10 @@ var UsuarioComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./usuario.component.scss */ "./src/app/forms/layouts/usuario/usuario.component.scss")]
         }),
         __metadata("design:paramtypes", [app_services_usuario_service__WEBPACK_IMPORTED_MODULE_2__["UsuarioService"],
+            app_services_empresa_service__WEBPACK_IMPORTED_MODULE_6__["EmpresaService"],
             ngx_toastr__WEBPACK_IMPORTED_MODULE_3__["ToastrService"],
-            app_services_restaurante_service__WEBPACK_IMPORTED_MODULE_6__["RestauranteService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"],
-            _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"],
-            app_services_sucursal_service__WEBPACK_IMPORTED_MODULE_8__["SucursalService"]])
+            _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"]])
     ], UsuarioComponent);
     return UsuarioComponent;
 }());

@@ -4,9 +4,8 @@ import { UsuarioService } from 'app/_services/usuario.service';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
-import { RestauranteService } from 'app/_services/restaurante.service';
 import { forkJoin } from 'rxjs';
-import { SucursalService } from 'app/_services/sucursal.service';
+import { EmpresaService } from 'app/_services/empresa.service';
 const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 
 @Component({
@@ -24,71 +23,83 @@ export class UsuarioComponent implements OnInit {
   image: any;
 
   listRol: any
-  listRestaurante: any
-  listRestauranteSeleccionado: any
-
+  arrayEmpresa: any
   usuario: any = {
-    nombres: '',
-    apellidos: '',
-    identificacion: '',
-    correo: '',
-    clave: '',
-    idtiporol: '',
-    estado: true,
-    notificacion: false
+    strNombre: '',
+    strApellido: '',
+    strIdentificacion: '',
+    strCorreo: '',
+    intIdTipoRol: '',
+    strEstado: true,
+    strNotificacion: false,
+    intIdEmpresa: 0,
+    strUsrSesion: ""
   }
-
+  arrayParametrosSucursal: any = {
+    strEstado: "ACTIVO",
+    intIdEmpresa: ""
+  }
+  objParametrosEmpresa: any = {
+    strEstado: "ACTIVO",
+    strContador: "SI"
+  }
+  objParametrosUsuario: any = {
+    intIdUsuario: 0
+  }
+  objSelectEmpresa: any = null
+  arrayRestaurante: any
   user: any
   chkTODOSrestaurante: boolean
   objSelectSucursal: any
   objListSucursal: any
   objChkTodaSucursal: boolean
   constructor(private usuarioService: UsuarioService,
+    private objEmpresaService: EmpresaService,
     private toastr: ToastrService,
-    private restauranteService: RestauranteService,
     private router: Router,
-    private route: ActivatedRoute,
-    private objSucursalService: SucursalService,) {
+    private route: ActivatedRoute) {
     this.user = JSON.parse(localStorage.getItem('usuario'))
-    this.usuario.id = this.route.snapshot.paramMap.get('id');
+    this.usuario.intIdUsuario = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
-    if (this.user.DESCRIPCION_TIPO_ROL == "ADMINISTRADOR") {
-      this.getRoles()
-      this.getRestaurantes()
+    this.getRoles()
+    this.usuario.strUsrSesion = this.user.intIdUsuario
+    if (this.user.strTipoRol == "ADMINISTRADOR") {
+      this.getEmpresas()
     } else {
-      this.getRolesById()
-      this.getRestaurantesByUsuario()
+      this.getEmpresasPorUsuario()
     }
-    if (this.usuario.id != 0) {
-      this.getUsuario()
+    if (this.usuario.intIdUsuario != 0) {
+      this.getUsuariosCriterio()
     }
   }
 
-  getUsuario() {
-    this.usuarioService.getUsuarioById(this.usuario.id)
+  getUsuariosCriterio() {
+    this.objParametrosUsuario.intIdUsuario = this.usuario.intIdUsuario
+    this.usuarioService.getUsuariosCriterio(this.objParametrosUsuario)
       .subscribe(
         data => {
-          if (data['status'] == 404) {
+          if (data['intStatus'] != 200) {
             swal({ title: 'Usuario no encontrado', text: data['resultado'], type: "error", showConfirmButton: true })
               .then((result) => {
                 if (result.value)
                   this.iraListado()
               });
           } else {
-            let rest: any = data['resultado']['resultados'][0]
-            this.usuario.nombres = rest.NOMBRES
-            this.usuario.apellidos = rest.APELLIDOS
-            this.usuario.identificacion = rest.IDENTIFICACION
-            this.usuario.correo = rest.CORREO
-            this.usuario.idtiporol = rest.TIPO_ROL_ID
-            this.usuario.estado = rest.ESTADO == 'ACTIVO' ? true : false
-            this.usuario.notificacion = rest.NOTIFICACION == 'SI' ? true : false
-            this.usuario.clave = rest.CONTRASENIA
-            if (this.usuario.idtiporol == 2 || this.usuario.idtiporol == 6) {
-              this.getRestaurantesUsuario()
+            let rest: any = data["arrayUsuario"]["resultados"][0]
+            this.usuario.strNombre = rest.strNombre
+            this.usuario.strApellido = rest.strApellido
+            this.usuario.strIdentificacion = rest.strIdentificacion
+            this.usuario.strCorreo = rest.strCorreo
+            this.usuario.intIdTipoRol = rest.intIdTipoRol
+            this.usuario.strEstado = rest.strEstado == 'ACTIVO' ? true : false
+            this.usuario.strNotificacion = rest.strNotificacion == 'SI' ? true : false
+            this.usuario.intIdEmpresa = rest.intIdEmpresa
+            if (this.usuario.idtiporol == 2) {
+              this.getEmpresasPorUsuario()
             }
+            
           }
         },
         error => {
@@ -132,45 +143,29 @@ export class UsuarioComponent implements OnInit {
   }
 
   guardarDatos() {
-    this.usuario.estado = this.usuario.estado ? 'ACTIVO' : 'INACTIVO'
-    this.usuario.notificacion = this.usuario.notificacion ? 'SI' : 'NO'
-    if (this.usuario.idtiporol == "" || this.usuario.idtiporol == undefined) {
+    this.usuario.strEstado = this.usuario.strEstado ? 'ACTIVO' : 'INACTIVO'
+    this.usuario.strNotificacion = this.usuario.strNotificacion ? 'SI' : 'NO'
+
+    if (this.usuario.intIdTipoRol == "" || this.usuario.intIdTipoRol == undefined) {
       this.toastr.warning('El campo Rol es obligatorio.', 'Error')
       return
     }
-    if (this.usuario.id == 0) {
-      if ((this.usuario.idtiporol == 2) && (this.listRestauranteSeleccionado == undefined || this.objSelectSucursal == undefined)) {
-        this.toastr.warning('El campo Restaurante - Sucursal es obligatorio.', 'Error')
+    if (this.usuario.intIdUsuario == 0) {
+      if ((this.usuario.intIdTipoRol == 2) && (this.usuario.intIdEmpresa == undefined)) {
+        this.toastr.warning('El campo Empresa es obligatorio.', 'Error')
         return
       }
-      this.usuarioService.createUsuario(this.usuario, this.user.ID_USUARIO)
+      this.usuarioService.createUsuario(this.usuario)
         .subscribe(
           data => {
-            if (data['status'] == 204) {
-              this.toastr.warning(data['resultado']['mensaje'], 'Error')
+            if (data['intStatus'] != 200) {
+              this.toastr.warning(data['strMensaje'], 'Error')
             } else {
-              if (this.usuario.idtiporol == 2 || this.usuario.idtiporol == 6) {
-                let arrayOfData = [];
-                this.listRestauranteSeleccionado.forEach(element => {
-                  this.objSelectSucursal = (this.objSelectSucursal == undefined) ? "" : this.objSelectSucursal
-                  arrayOfData.push(this.restauranteService.createUsuarioRestaurante(data['resultado']['id'], element, this.objSelectSucursal, this.user.ID_USUARIO))
+              swal({ title: this.usuario.nombres, text: data['strMensaje'], type: "success", showConfirmButton: true })
+                .then((result) => {
+                  if (result.value)
+                    this.iraListado()
                 });
-                forkJoin(arrayOfData).subscribe(response => {
-                  swal({ title: this.usuario.nombres, text: data['resultado']['mensaje'], type: "success", showConfirmButton: true })
-                    .then((result) => {
-                      if (result.value)
-                        this.iraListado()
-                    });
-                }, error => {
-                  console.error(error);
-                });
-              } else {
-                swal({ title: this.usuario.nombres, text: data['resultado']['mensaje'], type: "success", showConfirmButton: true })
-                  .then((result) => {
-                    if (result.value)
-                      this.iraListado()
-                  });
-              }
             }
           },
           error => {
@@ -178,45 +173,21 @@ export class UsuarioComponent implements OnInit {
           }
         )
     } else {
-      if ((this.usuario.idtiporol == 2) && (this.listRestauranteSeleccionado == undefined || this.objSelectSucursal == undefined)) {
-        this.toastr.warning('El campo Restaurante - Sucursal es obligatorio.', 'Error')
+      if ((this.usuario.intIdTipoRol == 2) && (this.usuario.intIdEmpresa == undefined)) {
+        this.toastr.warning('El campo Empresa es obligatorio.', 'Error')
         return
       }
-      this.usuarioService.editUsuario(this.usuario, this.user.ID_USUARIO)
+      this.usuarioService.editUsuario(this.usuario)
         .subscribe(
           data => {
-            if (data['status'] == 404) {
-              this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
+            if (data['intStatus'] != 200) {
+              this.toastr.warning(data['strMensaje'], 'Error')
             } else {
-              if (this.usuario.idtiporol == 2 || this.usuario.idtiporol == 6) {
-                this.restauranteService.deleteUsuarioRestaurante(this.usuario.id)
-                  .subscribe(
-                    data2 => {
-                      let arrayOfData = [];
-                      this.listRestauranteSeleccionado.forEach(element => {
-                        this.objSelectSucursal = (this.objSelectSucursal == undefined) ? "" : this.objSelectSucursal
-                        arrayOfData.push(this.restauranteService.createUsuarioRestaurante(this.usuario.id, element, this.objSelectSucursal, this.user.ID_USUARIO))
-                      });
-                      forkJoin(arrayOfData).subscribe(response => {
-                        swal({ title: this.usuario.nombres, text: data['resultado'], type: "success", showConfirmButton: true })
-                          .then((result) => {
-                            if (result.value)
-                              this.iraListado()
-                          });
-                      }, error => {
-                        console.error(error);
-                      });
-                    },
-                    error => {
-                      this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
-                    })
-              } else {
-                swal({ title: this.usuario.nombres, text: data['resultado'], type: "success", showConfirmButton: true })
-                  .then((result) => {
-                    if (result.value)
-                      this.iraListado()
-                  });
-              }
+              swal({ title: this.usuario.nombres, text: data['strMensaje'], type: "success", showConfirmButton: true })
+                .then((result) => {
+                  if (result.value)
+                    this.iraListado()
+                });
             }
           },
           error => {
@@ -230,19 +201,7 @@ export class UsuarioComponent implements OnInit {
     this.usuarioService.getRoles()
       .subscribe(
         data => {
-          this.listRol = data['resultado']['tipoRol']
-        },
-        error => {
-
-        }
-      )
-  }
-
-  getRolesById() {
-    this.usuarioService.getRolesById(this.user.ID_TIPO_ROL)
-      .subscribe(
-        data => {
-          this.listRol = data['resultado']['tipoRol']
+          this.listRol = data['arrayRoles']
         },
         error => {
 
@@ -254,91 +213,41 @@ export class UsuarioComponent implements OnInit {
     this.router.navigate(['/tables/usuario']);
   }
 
-  getRestaurantes() {
-    this.restauranteService.getRestaurantesACTIVOS()
+  getEmpresas() {
+    this.objParametrosEmpresa.strContador = "NO"
+    this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
       .subscribe(
         data => {
-          this.listRestaurante = data['resultado']['resultados']
+          if (data['intStatus'] != 200) {
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+          } else {
+            this.arrayEmpresa = data["arrayEmpresa"]
+          }
         },
         error => {
-
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
       )
   }
 
   //para edit
-  getRestaurantesUsuario() {
-    this.restauranteService.getRestauranteUsuario(this.usuario.id)
+  getEmpresasPorUsuario() {
+    this.objParametrosEmpresa.strContador = "NO"
+    this.objParametrosEmpresa.intIdUsuario = this.usuario.intIdUsuario
+    this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
       .subscribe(
         data => {
-          let listado = data['resultado']['resultados']
-          this.listRestauranteSeleccionado = listado.map(item => item.ID_RESTAURANTE)
-          if (this.usuario.idtiporol == 2) {
-            this.getSucursalByIdRestaurante()
-            this.objSelectSucursal = listado.map(item => item.SUCURSAL_ID)[0]
-          }
-        },
-        error => {
-
-        }
-      )
-  }
-
-  getRestaurantesByUsuario() {
-    this.restauranteService.getRestaurantesByUsuario(this.user.ID_USUARIO)
-      .subscribe(
-        data => {
-          this.listRestaurante = data['resultado']['resultados']
-          this.listRestauranteSeleccionado = data['resultado']['resultados']
-        },
-        error => {
-
-        }
-      )
-  }
-
-  verificaTodosRestaurante() {
-    if (this.listRestaurante.length != this.listRestauranteSeleccionado.length) {
-      this.chkTODOSrestaurante = false
-      this.objListSucursal = undefined
-      this.objSelectSucursal = undefined
-    } else {
-      this.chkTODOSrestaurante = true
-    }
-  }
-
-  verificaRol() {
-    if (this.usuario.idtiporol != 2) {
-      this.listRestauranteSeleccionado = []
-      this.objListSucursal = undefined
-      this.objSelectSucursal = undefined
-    }
-  }
-
-  seleccTodoRestaurante() {
-    if (this.chkTODOSrestaurante) {
-      this.listRestauranteSeleccionado = this.listRestaurante.map(item => item.ID_RESTAURANTE)
-    } else {
-      this.listRestauranteSeleccionado = []
-    }
-  }
-
-  getSucursalByIdRestaurante() {
-    this.objListSucursal = undefined
-    if (this.listRestauranteSeleccionado[0] != undefined) {
-      this.objSucursalService.getSucursalByIdRestaurante(this.listRestauranteSeleccionado[0])
-        .subscribe(
-          data => {
-            if (data['status'] == 200) {
-              this.objListSucursal = data['resultado']['resultados']
-            } else {
-              this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
-            }
-          },
-          error => {
+          if (data['intStatus'] != 200) {
             this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+          } else {
+            this.arrayEmpresa = data["arrayEmpresa"]
+            this.usuario.intIdEmpresa = this.arrayEmpresa.map(item => item.intIdEmpresa)
           }
-        )
-    }
+        },
+        error => {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      )
   }
+
 }

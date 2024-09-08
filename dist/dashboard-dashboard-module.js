@@ -992,7 +992,6 @@ var Dashboard1Component = /** @class */ (function () {
                     _this.clientesEdadMensual.forEach(function (element) {
                         labels_1.push(element['strGeneracion']);
                     });
-                    console.log("lamamos a chart--------------" + _this.totalBarrasEdades);
                     _this.EdadesChart.data = {
                         labels: labels_1,
                         series: [
@@ -1000,16 +999,6 @@ var Dashboard1Component = /** @class */ (function () {
                             _this.clientesEdadMensual.map(function (item) { return maxValue_3.intCantidad - item.intCantidad; })
                         ]
                     };
-                    _this.EdadesChart.options.plugins = [
-                        chartist__WEBPACK_IMPORTED_MODULE_1__["plugins"].tooltip({
-                            anchorToPoint: true,
-                            appendToBody: true,
-                            pointClass: 'ct-point'
-                        })
-                    ];
-                    // Aquí deberías forzar la actualización del gráfico si es necesario
-                    // Esto depende de cómo estás manejando el gráfico en tu aplicación
-                    // Por ejemplo, si estás utilizando una biblioteca específica para Chartist
                 }
             }
             else {

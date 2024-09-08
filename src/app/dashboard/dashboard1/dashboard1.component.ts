@@ -875,7 +875,6 @@ export class Dashboard1Component implements OnInit {
                             this.clientesEdadMensual.forEach(element => {
                                 labels.push(element['strGeneracion']);
                             });
-                            console.log("lamamos a chart--------------" + this.totalBarrasEdades)
                             this.EdadesChart.data = {
                                 labels: labels,
                                 series: [
@@ -883,18 +882,6 @@ export class Dashboard1Component implements OnInit {
                                     this.clientesEdadMensual.map(item => maxValue.intCantidad - item.intCantidad)
                                 ]
                             };
-
-                            this.EdadesChart.options.plugins = [
-                                Chartist.plugins.tooltip({
-                                    anchorToPoint: true,
-                                    appendToBody: true,
-                                    pointClass: 'ct-point'
-                                })
-                            ];
-
-                            // Aquí deberías forzar la actualización del gráfico si es necesario
-                            // Esto depende de cómo estás manejando el gráfico en tu aplicación
-                            // Por ejemplo, si estás utilizando una biblioteca específica para Chartist
                         }
                     } else {
                         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');

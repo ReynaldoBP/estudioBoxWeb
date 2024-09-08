@@ -19,6 +19,9 @@ export class UsuarioListComponent implements OnInit {
     usuariobuscar: any
     listRol: any
     idtiporol: any = ''
+    objParametrosUsuario: any = {
+        intIdEmpresaPorUsuario: 0
+    }
     constructor(private usuarioService: UsuarioService,
         private excelService: ExcelService,
         private restauranteService: RestauranteService,
@@ -31,17 +34,31 @@ export class UsuarioListComponent implements OnInit {
 
     ngOnInit() {
         if (this.getAccion('VER')) {
+            console.log(this.usuario)
             if (this.usuario.strTipoRol == 'ADMINISTRADOR') {
                 this.getUsuarios()
                 this.getRoles()
-            }/*else{
-                this.getRestauranteUsuario(this.usuario.ID_USUARIO)
-            }*/
+            } else {
+                this.getUsuariosCriterio()
+            }
         }
     }
 
     getUsuarios() {
         this.usuarioService.getUsuarios()
+            .subscribe(
+                data => {
+                    this.rows = data['arrayUsuario']['resultados']
+                },
+                error => {
+
+                }
+            )
+    }
+
+    getUsuariosCriterio() {
+        this.objParametrosUsuario.intIdEmpresaPorUsuario = this.usuario.intIdUsuario
+        this.usuarioService.getUsuariosCriterio(this.objParametrosUsuario)
             .subscribe(
                 data => {
                     this.rows = data['arrayUsuario']['resultados']
@@ -65,7 +82,6 @@ export class UsuarioListComponent implements OnInit {
     }
 
     getRoles() {
-        console.log("get roles");
         this.usuarioService.getRoles()
             .subscribe(
                 data => {
@@ -73,21 +89,6 @@ export class UsuarioListComponent implements OnInit {
                 },
                 error => {
 
-                }
-            )
-    }
-
-    getRestauranteUsuario(usuario: string) {
-        this.restauranteService.getRestaurantesByUsuario(usuario)
-            .subscribe(
-                data => {
-                    if (data['resultado']['resultados'] != null) {
-                        this.usuario.ID_RESTAURANTE = data['resultado']['resultados'][0].ID_RESTAURANTE
-                        this.getUsuariosByRestaurante(this.usuario.ID_RESTAURANTE)
-                    }
-                },
-                error => {
-                    this.toastr.warning("Ha ocurrido un error, comuniquese con el dpto. de sistemas", "Error")
                 }
             )
     }
@@ -104,28 +105,28 @@ export class UsuarioListComponent implements OnInit {
     exportAsXLSX() {
         let users = this.rows.map(item => {
             let obj = {
-                IDENTIFICACION: item.IDENTIFICACION,
-                NOMBRES: item.NOMBRES,
-                APELLIDOS: item.APELLIDOS,
-                CORREO: item.CORREO,
-                ROL: item.DESCRIPCION_TIPO_ROL,
-                ESTADO: item.ESTADO
+                Identificacion: item.strIdentificacion,
+                Nombres: item.strNombre,
+                Apellidos: item.strApellido,
+                Correo: item.strCorreo,
+                Rol: item.strDescripcionRol,
+                Estado: item.strEstado
             }
             return obj
         })
-        this.excelService.exportAsExcelFile(users, 'users_bitte');
+        this.excelService.exportAsExcelFile(users, 'usuarios');
     }
 
     exportAsPDF() {
         var cols = [
-            { title: "IDENTIFICACION", dataKey: "IDENTIFICACION" },
-            { title: "NOMBRES", dataKey: "NOMBRE" },
-            { title: "APELLIDOS", dataKey: "APELLIDOS" },
-            { title: "CORREO", dataKey: "CORREO" },
-            { title: "ROL", dataKey: "DESCRIPCION_TIPO_ROL" },
-            { title: "ESTADO", dataKey: "ESTADO" },
+            { title: "Identificacion", dataKey: "strIdentificacion" },
+            { title: "Nombres", dataKey: "strNombre" },
+            { title: "Apellidos", dataKey: "strApellido" },
+            { title: "Correo", dataKey: "strCorreo" },
+            { title: "Rol", dataKey: "strDescripcionRol" },
+            { title: "Estado", dataKey: "strEstado" },
         ]
-        this.excelService.exportAsPdfFile(cols, this.rows, 'clientes_bitte');
+        this.excelService.exportAsPdfFile(cols, this.rows, 'usuarios');
     }
 
 

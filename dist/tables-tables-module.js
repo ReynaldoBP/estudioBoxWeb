@@ -898,7 +898,7 @@ var FilterRol = /** @class */ (function () {
             return items;
         }
         return items.filter(function (item) {
-            return item['TIPO_ROL_ID'] == idrol;
+            return item['intTipoRolId'] == idrol;
         });
     };
     FilterRol = __decorate([
@@ -4523,7 +4523,7 @@ var TipoComidaListComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--Extended Table starts-->\r\n<div class=\"row text-left\">\r\n    <div class=\"col-12\">\r\n        <div class=\"content-header mt-0\">Usuarios</div>\r\n        <p class=\"content-sub-header\">Esta sección le permite crear usuarios adicionales para que puedan acceder al\r\n            sistema. </p>\r\n    </div>\r\n</div>\r\n<section id=\"extended\">\r\n    <div class=\"row text-left\">\r\n        <div class=\"col-sm-12\">\r\n            <div class=\"card\">\r\n                <div class=\"card-header\">\r\n                    <div class=\"row\">\r\n                        <div class=\"col-sm-5\">\r\n                            <input type='text' class=\"form-control\" [(ngModel)]=\"usuariobuscar\"\r\n                                placeholder='Filtra por nombres o apelllidos' />\r\n                        </div>\r\n                        <div class=\"col-md-2\">\r\n                            <div class=\"form-group\">\r\n                                <select id=\"cmbRol\" name=\"cmbRol\" class=\"form-control\" [(ngModel)]=\"idtiporol\"\r\n                                    #cmbRol=\"ngModel\">\r\n                                    <option value=\"\" selected=\"\">TODOS</option>\r\n                                    <option *ngFor=\"let item of listRol\" value=\"{{item['ID_TIPO_ROL']}}\">\r\n                                        {{item['strRol']}}</option>\r\n                                </select>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-sm-2\" align=\"left\">\r\n                            <button *ngIf=\"getAccion('EXCEL')\" type=\"button\"\r\n                                class=\"btn btn-raised btn-raised btn-success\" (click)=\"exportAsXLSX()\">\r\n                                <i class=\"fa fa-file-excel-o\"></i>\r\n                            </button>\r\n                            <button *ngIf=\"getAccion('PDF')\" type=\"button\" style=\"margin-left:0.7rem\"\r\n                                class=\"btn btn-raised btn-raised btn-danger\" (click)=\"exportAsPDF()\">\r\n                                <i class=\"fa fa-file-pdf-o\"></i>\r\n                            </button>\r\n                        </div>\r\n                        <div *ngIf=\"getAccion('CREAR')\" class=\"col-sm-3\" align=\"right\">\r\n                            <button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n                                [routerLink]=\"['/forms/usuario/0']\">\r\n                                <i class=\"fa fa-plus\"></i> Nuevo Usuario\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"card-body\">\r\n                    <div *ngIf=\"getAccion('VER')\" class=\"card-block\">\r\n                        <table class=\"table table-responsive-md text-center\">\r\n                            <thead>\r\n                                <tr>\r\n                                    <th>Identificación</th>\r\n                                    <th>Nombres</th>\r\n                                    <th>Correo</th>\r\n                                    <th>Rol</th>\r\n                                    <th>Restaurante</th>\r\n                                    <th>Acciones</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody>\r\n                                <tr\r\n                                    *ngFor=\"let item of rows | byRol: idtiporol | byUsuario: usuariobuscar | paginate: { itemsPerPage: 10, currentPage: p }\">\r\n                                    <td>{{item['strIdentificacion']}}</td>\r\n                                    <td>{{item['strNombre'] + ' ' + item['strApellido']}}</td>\r\n                                    <td>{{item['strCorreo']}}</td>\r\n                                    <td>{{item['strDescripcionRol']}}</td>\r\n                                    <td>{{item['strNombreEmpresa']}}</td>\r\n                                    <td>\r\n                                        <a *ngIf=\"getAccion('EDITAR')\" class=\"success p-0\" data-original-title=\"\"\r\n                                            title=\"Editar usuario\"\r\n                                            [routerLink]=\"['/forms/usuario/' + item['ID_USUARIO']]\">\r\n                                            <i class=\"ft-edit-2 font-medium-3 mr-2\"></i>\r\n                                        </a>\r\n                                    </td>\r\n                                </tr>\r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                    <pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n<!--Extended Table Ends-->"
+module.exports = "<!--Extended Table starts-->\r\n<div class=\"row text-left\">\r\n    <div class=\"col-12\">\r\n        <div class=\"content-header mt-0\">Usuarios</div>\r\n        <p class=\"content-sub-header\">Esta sección le permite crear usuarios adicionales para que puedan acceder al\r\n            sistema. </p>\r\n    </div>\r\n</div>\r\n<section id=\"extended\">\r\n    <div class=\"row text-left\">\r\n        <div class=\"col-sm-12\">\r\n            <div class=\"card\">\r\n                <div class=\"card-header\">\r\n                    <div class=\"row\">\r\n                        <div class=\"col-sm-5\">\r\n                            <input type='text' class=\"form-control\" [(ngModel)]=\"usuariobuscar\"\r\n                                placeholder='Filtra por nombres o apelllidos' />\r\n                        </div>\r\n                        <div class=\"col-md-2\">\r\n                            <div class=\"form-group\">\r\n                                <select id=\"cmbRol\" name=\"cmbRol\" class=\"form-control\" [(ngModel)]=\"idtiporol\"\r\n                                    #cmbRol=\"ngModel\">\r\n                                    <option value=\"\" selected=\"\">TODOS</option>\r\n                                    <option *ngFor=\"let item of listRol\" value=\"{{item['intIdRol']}}\">\r\n                                        {{item['strRol']}}</option>\r\n                                </select>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-sm-2\" align=\"left\">\r\n                            <button *ngIf=\"getAccion('EXCEL')\" type=\"button\"\r\n                                class=\"btn btn-raised btn-raised btn-success\" (click)=\"exportAsXLSX()\">\r\n                                <i class=\"fa fa-file-excel-o\"></i>\r\n                            </button>\r\n                            <button *ngIf=\"getAccion('PDF')\" type=\"button\" style=\"margin-left:0.7rem\"\r\n                                class=\"btn btn-raised btn-raised btn-danger\" (click)=\"exportAsPDF()\">\r\n                                <i class=\"fa fa-file-pdf-o\"></i>\r\n                            </button>\r\n                        </div>\r\n                        <div *ngIf=\"getAccion('CREAR')\" class=\"col-sm-3\" align=\"right\">\r\n                            <button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n                                [routerLink]=\"['/forms/usuario/0']\">\r\n                                <i class=\"fa fa-plus\"></i> Nuevo Usuario\r\n                            </button>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"card-body\">\r\n                    <div *ngIf=\"getAccion('VER')\" class=\"card-block\">\r\n                        <table class=\"table table-responsive-md text-center\">\r\n                            <thead>\r\n                                <tr>\r\n                                    <th>Identificación</th>\r\n                                    <th>Nombres</th>\r\n                                    <th>Correo</th>\r\n                                    <th>Rol</th>\r\n                                    <th>Empresa</th>\r\n                                    <th>Acciones</th>\r\n                                </tr>\r\n                            </thead>\r\n                            <tbody>\r\n                                <tr\r\n                                    *ngFor=\"let item of rows | byRol: idtiporol | byUsuario: usuariobuscar | paginate: { itemsPerPage: 10, currentPage: p }\">\r\n                                    <td>{{item['strIdentificacion']}}</td>\r\n                                    <td>{{item['strNombre'] + ' ' + item['strApellido']}}</td>\r\n                                    <td>{{item['strCorreo']}}</td>\r\n                                    <td>{{item['strDescripcionRol']}}</td>\r\n                                    <td>{{item['strNombreEmpresa']}}</td>\r\n                                    <td>\r\n                                        <a *ngIf=\"getAccion('EDITAR')\" class=\"success p-0\" data-original-title=\"\"\r\n                                            title=\"Editar usuario\"\r\n                                            [routerLink]=\"['/forms/usuario/' + item['intIdUsuario']]\">\r\n                                            <i class=\"ft-edit-2 font-medium-3 mr-2\"></i>\r\n                                        </a>\r\n                                    </td>\r\n                                </tr>\r\n                            </tbody>\r\n                        </table>\r\n                    </div>\r\n                    <pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n<!--Extended Table Ends-->"
 
 /***/ }),
 
@@ -4575,6 +4575,9 @@ var UsuarioListComponent = /** @class */ (function () {
         this.toastr = toastr;
         this.p = 1;
         this.idtiporol = '';
+        this.objParametrosUsuario = {
+            intIdEmpresaPorUsuario: 0
+        };
         this.rows = [];
         this.usuario = JSON.parse(localStorage.getItem('usuario'));
         console.log(this.usuario);
@@ -4582,17 +4585,28 @@ var UsuarioListComponent = /** @class */ (function () {
     }
     UsuarioListComponent.prototype.ngOnInit = function () {
         if (this.getAccion('VER')) {
+            console.log(this.usuario);
             if (this.usuario.strTipoRol == 'ADMINISTRADOR') {
                 this.getUsuarios();
                 this.getRoles();
-            } /*else{
-                this.getRestauranteUsuario(this.usuario.ID_USUARIO)
-            }*/
+            }
+            else {
+                this.getUsuariosCriterio();
+            }
         }
     };
     UsuarioListComponent.prototype.getUsuarios = function () {
         var _this = this;
         this.usuarioService.getUsuarios()
+            .subscribe(function (data) {
+            _this.rows = data['arrayUsuario']['resultados'];
+        }, function (error) {
+        });
+    };
+    UsuarioListComponent.prototype.getUsuariosCriterio = function () {
+        var _this = this;
+        this.objParametrosUsuario.intIdEmpresaPorUsuario = this.usuario.intIdUsuario;
+        this.usuarioService.getUsuariosCriterio(this.objParametrosUsuario)
             .subscribe(function (data) {
             _this.rows = data['arrayUsuario']['resultados'];
         }, function (error) {
@@ -4608,23 +4622,10 @@ var UsuarioListComponent = /** @class */ (function () {
     };
     UsuarioListComponent.prototype.getRoles = function () {
         var _this = this;
-        console.log("get roles");
         this.usuarioService.getRoles()
             .subscribe(function (data) {
             _this.listRol = data['arrayRoles'];
         }, function (error) {
-        });
-    };
-    UsuarioListComponent.prototype.getRestauranteUsuario = function (usuario) {
-        var _this = this;
-        this.restauranteService.getRestaurantesByUsuario(usuario)
-            .subscribe(function (data) {
-            if (data['resultado']['resultados'] != null) {
-                _this.usuario.ID_RESTAURANTE = data['resultado']['resultados'][0].ID_RESTAURANTE;
-                _this.getUsuariosByRestaurante(_this.usuario.ID_RESTAURANTE);
-            }
-        }, function (error) {
-            _this.toastr.warning("Ha ocurrido un error, comuniquese con el dpto. de sistemas", "Error");
         });
     };
     UsuarioListComponent.prototype.getPermisos = function (descModulo) {
@@ -4637,27 +4638,27 @@ var UsuarioListComponent = /** @class */ (function () {
     UsuarioListComponent.prototype.exportAsXLSX = function () {
         var users = this.rows.map(function (item) {
             var obj = {
-                IDENTIFICACION: item.IDENTIFICACION,
-                NOMBRES: item.NOMBRES,
-                APELLIDOS: item.APELLIDOS,
-                CORREO: item.CORREO,
-                ROL: item.DESCRIPCION_TIPO_ROL,
-                ESTADO: item.ESTADO
+                Identificacion: item.strIdentificacion,
+                Nombres: item.strNombre,
+                Apellidos: item.strApellido,
+                Correo: item.strCorreo,
+                Rol: item.strDescripcionRol,
+                Estado: item.strEstado
             };
             return obj;
         });
-        this.excelService.exportAsExcelFile(users, 'users_bitte');
+        this.excelService.exportAsExcelFile(users, 'usuarios');
     };
     UsuarioListComponent.prototype.exportAsPDF = function () {
         var cols = [
-            { title: "IDENTIFICACION", dataKey: "IDENTIFICACION" },
-            { title: "NOMBRES", dataKey: "NOMBRE" },
-            { title: "APELLIDOS", dataKey: "APELLIDOS" },
-            { title: "CORREO", dataKey: "CORREO" },
-            { title: "ROL", dataKey: "DESCRIPCION_TIPO_ROL" },
-            { title: "ESTADO", dataKey: "ESTADO" },
+            { title: "Identificacion", dataKey: "strIdentificacion" },
+            { title: "Nombres", dataKey: "strNombre" },
+            { title: "Apellidos", dataKey: "strApellido" },
+            { title: "Correo", dataKey: "strCorreo" },
+            { title: "Rol", dataKey: "strDescripcionRol" },
+            { title: "Estado", dataKey: "strEstado" },
         ];
-        this.excelService.exportAsPdfFile(cols, this.rows, 'clientes_bitte');
+        this.excelService.exportAsPdfFile(cols, this.rows, 'usuarios');
     };
     UsuarioListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({

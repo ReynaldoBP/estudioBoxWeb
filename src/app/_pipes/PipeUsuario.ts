@@ -5,12 +5,12 @@ import { Pipe, PipeTransform } from '@angular/core';
     pure: false
 })
 export class FilterUsuarioModulo implements PipeTransform {
-    transform(items: any[], idmoduloaccion: string,idusuario:string): any {
+    transform(items: any[], idmoduloaccion: string, idusuario: string): any {
         if (!items || !idmoduloaccion || !idusuario) {
             return items;
         }
-        return items.filter(item => 
-            item['ID_MODULO_ACCION'] == idmoduloaccion && 
+        return items.filter(item =>
+            item['ID_MODULO_ACCION'] == idmoduloaccion &&
             item['ID_USUARIO'] == idusuario
         );
     }
@@ -25,8 +25,8 @@ export class FilterRol implements PipeTransform {
         if (!items || !idrol) {
             return items;
         }
-        return items.filter(item => 
-            item['TIPO_ROL_ID'] == idrol 
+        return items.filter(item =>
+            item['intTipoRolId'] == idrol
         );
     }
 }
@@ -40,9 +40,9 @@ export class FilterUsuario implements PipeTransform {
         if (!items || !usuario) {
             return items;
         }
-        return items.filter(item => 
+        return items.filter(item =>
             item['strNombre'].toUpperCase().includes(usuario.toUpperCase()) ||
-            item['strApellido'].toUpperCase().includes(usuario.toUpperCase())||
+            item['strApellido'].toUpperCase().includes(usuario.toUpperCase()) ||
             item['strCorreo'].toUpperCase().includes(usuario.toUpperCase())
         );
     }

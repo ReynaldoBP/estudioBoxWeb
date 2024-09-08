@@ -9,12 +9,8 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title" id="basic-layout-form">{{usuario.id == '0'?'Nuevo usuario':'Editando
+					<h4 class="card-title" id="basic-layout-form">{{usuario.intIdUsuario == '0'?'Nuevo usuario':'Editando
 						usuario'}}</h4>
-					<!--
-						<p class="mb-0">This is the most basic and default form having form sections. To add form section use <code>.form-section</code> class with any heading tags. This form has the buttons on the bottom left corner which is the default position.</p>
-					-->
-
 				</div>
 				<div class="card-body">
 					<div class="px-3">
@@ -25,14 +21,14 @@
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="txtNombres">Nombres</label>
-											<input type="text" id="txtNombres" [(ngModel)]="usuario.nombres"
+											<input type="text" id="txtNombres" [(ngModel)]="usuario.strNombre"
 												class="form-control" name="txtnombre">
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
 											<label for="txtApellidos">Apellidos</label>
-											<input type="text" id="txtApellidos" [(ngModel)]="usuario.apellidos"
+											<input type="text" id="txtApellidos" [(ngModel)]="usuario.strApellido"
 												class="form-control" name="txtApellido">
 										</div>
 									</div>
@@ -40,83 +36,60 @@
 										<div class="form-group">
 											<label for="txtIdentificacion">Identificación</label>
 											<input type="text" id="txtIdentificacion"
-												[(ngModel)]="usuario.identificacion" class="form-control"
+												[(ngModel)]="usuario.strIdentificacion" class="form-control"
 												name="txtidentificacion">
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-4">
-										<div class="form-group">
-											<label for="txtEmail">Correo</label>
-											<input type="text" id="txtEmail" [(ngModel)]="usuario.correo"
-												class="form-control" name="txtcorreo">
-										</div>
-									</div>
-									<!--
-										<div class="col-md-4">
-										<div class="form-group">
-											<label for="txtclave">Contrase&ntilde;a</label>
-											<input type="password" id="txtclave" [(ngModel)]="usuario.clave" class="form-control"  name="txtpassword">
-										</div>
-										</div>
-									-->
-									<div class="col-md-4">
-										<div class="form-group">
-											<label for="cmbRol">Rol</label>
-											<select id="cmbRol" name="cmbRol" class="form-control"
-												[(ngModel)]="usuario.idtiporol" (change)="verificaRol()"
-												#cmbRol="ngModel">
-												<option value="" selected="" disabled="">Seleccione</option>
-												<option *ngFor="let item of listRol" value="{{item['ID_TIPO_ROL']}}">
-													{{item['DESCRIPCION_TIPO_ROL']}}</option>
-											</select>
-										</div>
-									</div>
-									<div class="col-md-4">
-										<div class="form-group">
-											<label for="lblRestaurante">Restaurante - Sucursal</label>
-											<div class="row">
-												<div class="col-md-6">
-													<ng-select [items]="listRestaurante" [multiple]="true"
-														[closeOnSelect]="true" [hideSelected]="true"
-														[maxSelectedItems]="1" bindLabel="NOMBRE_COMERCIAL"
-														bindValue="ID_RESTAURANTE" placeholder="Seleccione restaurantes"
-														(change)="verificaTodosRestaurante();getSucursalByIdRestaurante()"
-														[(ngModel)]="listRestauranteSeleccionado"
-														[disabled]="usuario.idtiporol != 2 && usuario.idtiporol != 6"
-														name="cmbrestaurantes">
-													</ng-select>
-												</div>
-												<div class="col-md-6">
-													<ng-select [items]="objListSucursal" [multiple]="false"
-														[closeOnSelect]="true" [hideSelected]="true"
-														bindLabel="DESCRIPCION" bindValue="ID_SUCURSAL"
-														placeholder="Seleccione Sucursal"
-														[disabled]="usuario.idtiporol != 2"
-														name="cmbSucursal" [(ngModel)]="objSelectSucursal">
-													</ng-select>
-												</div>
-											</div>
 										</div>
 									</div>
 								</div>
 
 								<div class="row">
-									<div class="col-md-3">
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="txtEmail">Correo</label>
+											<input type="text" id="txtEmail" [(ngModel)]="usuario.strCorreo"
+												class="form-control" name="txtcorreo">
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="cmbRol">Rol</label>
+											<select id="cmbRol" name="cmbRol" class="form-control"
+												[(ngModel)]="usuario.intIdTipoRol" #cmbRol="ngModel">
+												<option value="" selected="" disabled="">Seleccione</option>
+												<option *ngFor="let item of listRol" value="{{item['intIdRol']}}">
+													{{item['strRol']}}</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="col-md-4" *ngIf="usuario.idtiporol != 1">
+										<div class=" form-group">
+											<label for="lblRestaurante">Empresa</label>
+											<select id="cmbrestaurantes" name="cmbrestaurantes" class="form-control"
+												[(ngModel)]="usuario.intIdEmpresa" #cmbrestaurantes="ngModel">
+												<option value="" selected="" disabled="">Seleccione</option>
+												<option *ngFor="let item of arrayEmpresa" value="{{item['intIdEmpresa']}}">
+													{{item['strNombreComercial']}}</option>
+											</select>
+										</div>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="col-md-4">
 										<div class="form-group">
 											<label>Recibir correo de encuesta</label>
 											<div class="input-group">
 												<div class="custom-control custom-radio display-inline-block">
 													<input type="radio" id="rdNotificacionSi" name="rdNotificacionSi"
-														class="custom-control-input" [(ngModel)]="usuario.notificacion"
+														class="custom-control-input" [(ngModel)]="usuario.strNotificacion"
 														[value]="true">
 													<label class="custom-control-label"
 														for="rdNotificacionSi">Si</label>
 												</div>
 												<div class="custom-control custom-radio display-inline-block">
 													<input type="radio" id="rdNotificacionNo" name="rdNotificacionNo"
-														class="custom-control-input" [(ngModel)]="usuario.notificacion"
+														class="custom-control-input" [(ngModel)]="usuario.strNotificacion"
 														[value]="false">
 													<label class="custom-control-label"
 														for="rdNotificacionNo">No</label>
@@ -124,19 +97,19 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-md-3">
+									<div class="col-md-4">
 										<div class="form-group">
 											<label>Estado</label>
 											<div class="input-group">
 												<div class="custom-control custom-radio display-inline-block">
 													<input type="radio" id="rdEstado" name="rdEstado"
-														class="custom-control-input" [(ngModel)]="usuario.estado"
+														class="custom-control-input" [(ngModel)]="usuario.strEstado"
 														[value]="true">
 													<label class="custom-control-label" for="rdEstado">Activo</label>
 												</div>
 												<div class="custom-control custom-radio display-inline-block">
 													<input type="radio" id="rdEstado2" name="rdEstado2"
-														class="custom-control-input" [(ngModel)]="usuario.estado"
+														class="custom-control-input" [(ngModel)]="usuario.strEstado"
 														[value]="false">
 													<label class="custom-control-label" for="rdEstado2">Inactivo</label>
 												</div>
@@ -163,4 +136,3 @@
 		</div>
 	</div>
 </section>
-<!-- // Basic form layout section end -->

@@ -13,7 +13,16 @@ export class UsuarioService {
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getUsuario', datos);
     }
+    getUsuariosCriterio(objParametros: any) {
+        let datos = {
+            data: {
+                intIdEmpresaPorUsuario: objParametros.intIdEmpresaPorUsuario,
+                intIdUsuario: objParametros.intIdUsuario
 
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getUsuario', datos);
+    }
     getModulos() {
         let datos = {
             data: {
@@ -64,32 +73,36 @@ export class UsuarioService {
         return this.http.get(this.globals.host + this.globals.port + '/getTipoRol?estado=ACTIVO&idTipoRol=' + id);
     }
 
-    createUsuario(usuario: any, usuarioCreacion: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/createUsuario?estado=ACTIVO' +
-            '&idRol=' + usuario.idtiporol +
-            '&identificacion=' + usuario.identificacion +
-            '&nombres=' + usuario.nombres +
-            '&apellidos=' + usuario.apellidos +
-            //'&contrasenia='+ usuario.clave +
-            '&correo=' + usuario.correo +
-            '&estado=' + usuario.estado +
-            '&usuarioCreacion=' + usuarioCreacion
-        );
+    createUsuario(objParametros: any) {
+        let datos = {
+            data: {
+                strIdentificacion: objParametros.strIdentificacion,
+                strNombre: objParametros.strNombre,
+                strApellido: objParametros.strApellido,
+                strCorreo: objParametros.strCorreo,
+                intIdTipoRol: objParametros.intIdTipoRol,
+                intIdEmpresa: objParametros.intIdEmpresa,
+                strEstado: objParametros.strEstado,
+                strUsrSesion: objParametros.strUsrSesion
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/createUsuario', datos);
     }
-
-    editUsuario(usuario: any, usuarioCreacion: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/editUsuario?' +
-            'idUsuario=' + usuario.id +
-            '&idRol=' + usuario.idtiporol +
-            '&identificacion=' + usuario.identificacion +
-            '&nombres=' + usuario.nombres +
-            '&apellidos=' + usuario.apellidos +
-            //'&contrasenia='+ usuario.clave +
-            '&correo=' + usuario.correo +
-            '&estado=' + usuario.estado +
-            '&notificacion=' + usuario.notificacion +
-            '&usuarioCreacion=' + usuarioCreacion
-        );
+    editUsuario(objParametros: any) {
+        let datos = {
+            data: {
+                intIdUsuario: objParametros.intIdUsuario,
+                strIdentificacion: objParametros.strIdentificacion,
+                strNombre: objParametros.strNombre,
+                strApellido: objParametros.strApellido,
+                strCorreo: objParametros.strCorreo,
+                intIdTipoRol: objParametros.intIdTipoRol,
+                intIdEmpresa: objParametros.intIdEmpresa,
+                strEstado: objParametros.strEstado,
+                strUsrSesion: objParametros.strUsrSesion
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editUsuario', datos);
     }
 
     cambiarPwd(id: any, clave: string) {

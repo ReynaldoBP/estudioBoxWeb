@@ -2348,6 +2348,15 @@ var UsuarioService = /** @class */ (function () {
         };
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getUsuario', datos);
     };
+    UsuarioService.prototype.getUsuariosCriterio = function (objParametros) {
+        var datos = {
+            data: {
+                intIdEmpresaPorUsuario: objParametros.intIdEmpresaPorUsuario,
+                intIdUsuario: objParametros.intIdUsuario
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getUsuario', datos);
+    };
     UsuarioService.prototype.getModulos = function () {
         var datos = {
             data: {}
@@ -2388,29 +2397,36 @@ var UsuarioService = /** @class */ (function () {
     UsuarioService.prototype.getRolesById = function (id) {
         return this.http.get(this.globals.host + this.globals.port + '/getTipoRol?estado=ACTIVO&idTipoRol=' + id);
     };
-    UsuarioService.prototype.createUsuario = function (usuario, usuarioCreacion) {
-        return this.http.get(this.globals.host + this.globals.port + '/createUsuario?estado=ACTIVO' +
-            '&idRol=' + usuario.idtiporol +
-            '&identificacion=' + usuario.identificacion +
-            '&nombres=' + usuario.nombres +
-            '&apellidos=' + usuario.apellidos +
-            //'&contrasenia='+ usuario.clave +
-            '&correo=' + usuario.correo +
-            '&estado=' + usuario.estado +
-            '&usuarioCreacion=' + usuarioCreacion);
+    UsuarioService.prototype.createUsuario = function (objParametros) {
+        var datos = {
+            data: {
+                strIdentificacion: objParametros.strIdentificacion,
+                strNombre: objParametros.strNombre,
+                strApellido: objParametros.strApellido,
+                strCorreo: objParametros.strCorreo,
+                intIdTipoRol: objParametros.intIdTipoRol,
+                intIdEmpresa: objParametros.intIdEmpresa,
+                strEstado: objParametros.strEstado,
+                strUsrSesion: objParametros.strUsrSesion
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/createUsuario', datos);
     };
-    UsuarioService.prototype.editUsuario = function (usuario, usuarioCreacion) {
-        return this.http.get(this.globals.host + this.globals.port + '/editUsuario?' +
-            'idUsuario=' + usuario.id +
-            '&idRol=' + usuario.idtiporol +
-            '&identificacion=' + usuario.identificacion +
-            '&nombres=' + usuario.nombres +
-            '&apellidos=' + usuario.apellidos +
-            //'&contrasenia='+ usuario.clave +
-            '&correo=' + usuario.correo +
-            '&estado=' + usuario.estado +
-            '&notificacion=' + usuario.notificacion +
-            '&usuarioCreacion=' + usuarioCreacion);
+    UsuarioService.prototype.editUsuario = function (objParametros) {
+        var datos = {
+            data: {
+                intIdUsuario: objParametros.intIdUsuario,
+                strIdentificacion: objParametros.strIdentificacion,
+                strNombre: objParametros.strNombre,
+                strApellido: objParametros.strApellido,
+                strCorreo: objParametros.strCorreo,
+                intIdTipoRol: objParametros.intIdTipoRol,
+                intIdEmpresa: objParametros.intIdEmpresa,
+                strEstado: objParametros.strEstado,
+                strUsrSesion: objParametros.strUsrSesion
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editUsuario', datos);
     };
     UsuarioService.prototype.cambiarPwd = function (id, clave) {
         return this.http.get(this.globals.host + this.globals.port + '/editUsuario?' +
