@@ -9280,7 +9280,7 @@ var CuponComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<section id=\"basic-form-layouts\">\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-sm-12\">\r\n\t\t\t<div class=\"content-header mt-0\">Encuesta</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"card\">\r\n\t\t\t\t<div class=\"card-header\">\r\n\t\t\t\t\t<h4 class=\"card-title\" id=\"basic-layout-form\">{{objEncuesta.intIdEncuesta == '0'?'Nueva\r\n\t\t\t\t\t\tencuesta':'Editando\r\n\t\t\t\t\t\tencuesta'}}</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"card-body\">\r\n\t\t\t\t\t<div class=\"px-3\">\r\n\t\t\t\t\t\t<form class=\"form\">\r\n\t\t\t\t\t\t\t<div class=\"form-body\">\r\n\t\t\t\t\t\t\t\t<h4 class=\"form-section\"><i class=\"ft-user\"></i> Datos Principales</h4>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"encuestatitulo\">Titulo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"encuestatitulo\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tname=\"encuestatitulo\" [(ngModel)]=\"objEncuesta.strTitulo\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-8\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"encuestaDescr\">Descripcion</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"encuestaDescr\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tname=\"encuestaDescr\" [(ngModel)]=\"objEncuesta.strDescripcion\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Estado</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado\" name=\"rdEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"objEncuesta.strEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado\">Activo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado2\" name=\"rdEstado2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"objEncuesta.strEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado2\">Inactivo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Permite Firma</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdPermiteFirmaSi\" name=\"rdPermiteFirmaSi\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objEncuesta.strPermiteFirma\" [value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tfor=\"rdPermiteFirmaSi\">Si</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdPermiteFirmaNo\" name=\"rdPermiteFirmaNo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objEncuesta.strPermiteFirma\" [value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tfor=\"rdPermiteFirmaNo\">No</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Permite Dato Adicional</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdPermiteDASi\" name=\"rdPermiteDASi\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objEncuesta.strPermiteDatoAdicional\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdPermiteDASi\">Si</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdPermiteDANo\" name=\"rdPermiteDANo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objEncuesta.strPermiteDatoAdicional\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdPermiteDANo\">No</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3 mt-4\" align=\"right\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group mb-0\">\r\n\t\t\t\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-primary mb-0\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t(click)=\"addPregunta()\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-plus\"></i> Agregar Pregunta\r\n\t\t\t\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t\t<h4 class=\"form-section\"><i class=\"ft-file-text\"></i> Preguntas</h4>\r\n\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<table class=\"table table-responsive-md text-center\">\r\n\t\t\t\t\t\t\t\t\t\t<thead>\r\n\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th>Pregunta</th>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th>Opciones</th>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th>Valor</th>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th>Obligatoria</th>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th></th>\r\n\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t\t\t\t\t\t</thead>\r\n\t\t\t\t\t\t\t\t\t\t<tbody>\r\n\t\t\t\t\t\t\t\t\t\t\t<tr *ngFor=\"let item of objListaPreguntas\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td style=\"width: 50%\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"item['strPregunta']\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{standalone: true}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"item['intIdTipoOpcionRespuesta']\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{standalone: true}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"\" selected=\"\" disabled=\"\">Seleccione:</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of listOpciones\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue=\"{{item['intIdTipoOpcionRespuesta']}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{item['strDescripcion']}}</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"item['strValorDesplegable']\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{standalone: true}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\" [(ngModel)]=\"item['strEsObligatoria']\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{standalone: true}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"SI\">SI</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"NO\">NO</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<a class=\"danger p-0\" data-original-title=\"\" title=\"\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t(click)=\"removePregunta(item)\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"ft-x font-medium-3 mr-2\"></i>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t\t\t\t\t\t</tbody>\r\n\t\t\t\t\t\t\t\t\t</table>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class=\"form-actions\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-warning mr-1\"\r\n\t\t\t\t\t\t\t\t\t[routerLink]=\"['/tables/encuesta']\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"ft-x\"></i> Cancelar\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n\t\t\t\t\t\t\t\t\t(click)=\"guardarDatos()\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-check-square-o\"></i> Guardar Datos\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</form>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</section>"
+module.exports = "<section id=\"basic-form-layouts\">\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-sm-12\">\r\n\t\t\t<div class=\"content-header mt-0\">Encuesta</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"card\">\r\n\t\t\t\t<div class=\"card-header\">\r\n\t\t\t\t\t<h4 class=\"card-title\" id=\"basic-layout-form\">{{objEncuesta.intIdEncuesta == '0'?'Nueva\r\n\t\t\t\t\t\tencuesta':'Editando\r\n\t\t\t\t\t\tencuesta'}}</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"card-body\">\r\n\t\t\t\t\t<div class=\"px-3\">\r\n\t\t\t\t\t\t<form class=\"form\">\r\n\t\t\t\t\t\t\t<div class=\"form-body\">\r\n\t\t\t\t\t\t\t\t<h4 class=\"form-section\"><i class=\"ft-user\"></i> Datos Principales</h4>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"encuestatitulo\">Titulo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"encuestatitulo\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tname=\"encuestatitulo\" [(ngModel)]=\"objEncuesta.strTitulo\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-8\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"encuestaDescr\">Descripcion</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"encuestaDescr\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tname=\"encuestaDescr\" [(ngModel)]=\"objEncuesta.strDescripcion\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<ng-select [items]=\"arrayEmpresa\" [multiple]=\"false\" [closeOnSelect]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[hideSelected]=\"false\" bindLabel=\"strNombreComercial\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tbindValue=\"intIdEmpresa\" placeholder=\"Seleccione Empresa\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{ standalone: true }\" [(ngModel)]=\"objSelectEmpresa\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t(change)=\"getSucursales()\">\r\n\t\t\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<ng-select [items]=\"arraySucursal\" [multiple]=\"false\" [closeOnSelect]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[hideSelected]=\"false\" bindLabel=\"strNombre\" bindValue=\"intIdSucursal\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{ standalone: true }\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tplaceholder=\"Seleccione Sucursal\" [(ngModel)]=\"objSelectSucursal\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t(change)=\"getArea()\">\r\n\t\t\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<ng-select [items]=\"arrayArea\" [multiple]=\"false\" [closeOnSelect]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[hideSelected]=\"false\" bindLabel=\"strArea\" bindValue=\"intIdArea\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{ standalone: true }\" placeholder=\"Seleccione Area\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objSelectArea\">\r\n\t\t\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Estado</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado\" name=\"rdEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"objEncuesta.strEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado\">Activo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado2\" name=\"rdEstado2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"objEncuesta.strEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado2\">Inactivo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Permite Firma</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdPermiteFirmaSi\" name=\"rdPermiteFirmaSi\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objEncuesta.strPermiteFirma\" [value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tfor=\"rdPermiteFirmaSi\">Si</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdPermiteFirmaNo\" name=\"rdPermiteFirmaNo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objEncuesta.strPermiteFirma\" [value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tfor=\"rdPermiteFirmaNo\">No</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Permite Dato Adicional</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdPermiteDASi\" name=\"rdPermiteDASi\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objEncuesta.strPermiteDatoAdicional\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdPermiteDASi\">Si</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdPermiteDANo\" name=\"rdPermiteDANo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objEncuesta.strPermiteDatoAdicional\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdPermiteDANo\">No</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-3 mt-4\" align=\"right\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group mb-0\">\r\n\t\t\t\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-primary mb-0\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t(click)=\"addPregunta()\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-plus\"></i> Agregar Pregunta\r\n\t\t\t\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t\t<h4 class=\"form-section\"><i class=\"ft-file-text\"></i> Preguntas</h4>\r\n\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<table class=\"table table-responsive-md text-center\">\r\n\t\t\t\t\t\t\t\t\t\t<thead>\r\n\t\t\t\t\t\t\t\t\t\t\t<tr>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th>Pregunta</th>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th>Opciones</th>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th>Valor</th>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th>Obligatoria</th>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<th></th>\r\n\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t\t\t\t\t\t</thead>\r\n\t\t\t\t\t\t\t\t\t\t<tbody>\r\n\t\t\t\t\t\t\t\t\t\t\t<tr *ngFor=\"let item of objListaPreguntas\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td style=\"width: 50%\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"item['strPregunta']\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{standalone: true}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"item['intIdTipoOpcionRespuesta']\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{standalone: true}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"\" selected=\"\" disabled=\"\">Seleccione:</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of listOpciones\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue=\"{{item['intIdTipoOpcionRespuesta']}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{item['strDescripcion']}}</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"item['strValorDesplegable']\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{standalone: true}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<select class=\"form-control\" [(ngModel)]=\"item['strEsObligatoria']\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{standalone: true}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"SI\">SI</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"NO\">NO</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<td>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<a class=\"danger p-0\" data-original-title=\"\" title=\"\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t(click)=\"removePregunta(item)\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"ft-x font-medium-3 mr-2\"></i>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</a>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</td>\r\n\t\t\t\t\t\t\t\t\t\t\t</tr>\r\n\t\t\t\t\t\t\t\t\t\t</tbody>\r\n\t\t\t\t\t\t\t\t\t</table>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class=\"form-actions\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-warning mr-1\"\r\n\t\t\t\t\t\t\t\t\t[routerLink]=\"['/tables/encuesta']\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"ft-x\"></i> Cancelar\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n\t\t\t\t\t\t\t\t\t(click)=\"guardarDatos()\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-check-square-o\"></i> Guardar Datos\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</form>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</section>"
 
 /***/ }),
 
@@ -9308,10 +9308,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var app_services_encuesta_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/_services/encuesta.service */ "./src/app/_services/encuesta.service.ts");
-/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
-/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var app_services_empresa_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! app/_services/empresa.service */ "./src/app/_services/empresa.service.ts");
+/* harmony import */ var app_services_sucursal_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/_services/sucursal.service */ "./src/app/_services/sucursal.service.ts");
+/* harmony import */ var app_services_area_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/_services/area.service */ "./src/app/_services/area.service.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9327,9 +9330,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+
 var EncuestaComponent = /** @class */ (function () {
-    function EncuestaComponent(encuestaService, toastr, router, route) {
+    function EncuestaComponent(encuestaService, objEmpresaService, objSucursalService, objAreaService, toastr, router, route) {
         this.encuestaService = encuestaService;
+        this.objEmpresaService = objEmpresaService;
+        this.objSucursalService = objSucursalService;
+        this.objAreaService = objAreaService;
         this.toastr = toastr;
         this.router = router;
         this.route = route;
@@ -9353,6 +9362,24 @@ var EncuestaComponent = /** @class */ (function () {
             intIdUsuario: '',
             boolAgrupar: "NO",
         };
+        this.objSelectEmpresa = null;
+        this.objParametrosEmpresa = {
+            strEstado: "ACTIVO",
+            strContador: "NO"
+        };
+        this.intSelectSucursal = null;
+        this.objParametrosSucursal = {
+            strEstado: "ACTIVO",
+            strContador: "NO",
+            intIdUsuario: "",
+            intIdEmpresa: ""
+        };
+        this.objSelectArea = null;
+        this.arrayParametrosArea = {
+            strEstado: "ACTIVO",
+            intIdUsuario: "",
+            intIdSucursal: ""
+        };
         this.user = JSON.parse(localStorage.getItem('usuario'));
         this.objEncuesta.intIdEncuesta = this.route.snapshot.paramMap.get('id');
         this.objListaPreguntas = [];
@@ -9364,6 +9391,50 @@ var EncuestaComponent = /** @class */ (function () {
             this.getEncuesta();
             this.getPregunta();
         }
+        else {
+            this.getEmpresas();
+        }
+    };
+    EncuestaComponent.prototype.getEmpresas = function () {
+        var _this = this;
+        this.objParametrosEmpresa.strContador = "NO";
+        this.objParametrosEmpresa.strEstado = "ACTIVO";
+        if (this.user.strTipoRol == "EMPRESA") {
+            this.objParametrosEmpresa.intIdUsuario = this.user.intIdUsuario;
+        }
+        this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
+            .subscribe(function (data) {
+            if (data['intStatus'] != 200) {
+                _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+            }
+            else {
+                _this.arrayEmpresa = data["arrayEmpresa"];
+            }
+        }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+        });
+    };
+    EncuestaComponent.prototype.getSucursales = function () {
+        var _this = this;
+        this.objParametrosSucursal.intIdUsuario = this.user.intIdUsuario;
+        this.objParametrosSucursal.intIdEmpresa = this.objSelectEmpresa;
+        this.objSucursalService.getSucursal(this.objParametrosSucursal)
+            .subscribe(function (data) {
+            _this.arraySucursal = data["arraySucursal"];
+        }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+        });
+    };
+    EncuestaComponent.prototype.getArea = function () {
+        var _this = this;
+        this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal;
+        this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario;
+        this.objAreaService.getArea(this.arrayParametrosArea)
+            .subscribe(function (data) {
+            _this.arrayArea = data["arrayArea"];
+        }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+        });
     };
     EncuestaComponent.prototype.getEncuesta = function () {
         var _this = this;
@@ -9372,7 +9443,7 @@ var EncuestaComponent = /** @class */ (function () {
         this.encuestaService.getEncuesta(this.arrayParametrosEncuestas)
             .subscribe(function (data) {
             if (data['intStatus'] != 200) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: "Encuesta no encontrada", text: data['resultado'], type: "error", showConfirmButton: true })
+                sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({ title: "Encuesta no encontrada", text: data['resultado'], type: "error", showConfirmButton: true })
                     .then(function (result) {
                     if (result.value)
                         _this.iraListado();
@@ -9385,6 +9456,12 @@ var EncuestaComponent = /** @class */ (function () {
                 _this.objEncuesta.strEstado = rest[0].strEstado == 'ACTIVO' ? true : false;
                 _this.objEncuesta.strPermiteDatoAdicional = rest[0].strPermiteDatoAdicional == 'Si' ? true : false;
                 _this.objEncuesta.strPermiteFirma = rest[0].strPermiteFirma == 'Si' ? true : false;
+                _this.objSelectEmpresa = rest[0].intIdEmpresa;
+                _this.objSelectSucursal = rest[0].intIdSucursal;
+                _this.objSelectArea = rest[0].intIdArea;
+                _this.getEmpresas();
+                _this.getSucursales();
+                _this.getArea();
             }
         }, function (error) {
             _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
@@ -9396,7 +9473,7 @@ var EncuestaComponent = /** @class */ (function () {
         this.encuestaService.getPregunta(this.arrayParametrosPreguntas)
             .subscribe(function (data) {
             if (data['intStatus'] != 200) {
-                sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: "Preguntas no encontradas", text: 'Hubo un error, por favor comuníquese con el departamento de sistemas.', type: "error", showConfirmButton: true })
+                sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({ title: "Preguntas no encontradas", text: 'Hubo un error, por favor comuníquese con el departamento de sistemas.', type: "error", showConfirmButton: true })
                     .then(function (result) {
                     if (result.value)
                         _this.iraListado();
@@ -9455,22 +9532,49 @@ var EncuestaComponent = /** @class */ (function () {
     EncuestaComponent.prototype.guardarDatos = function () {
         var _this = this;
         if (this.objListaPreguntas == null || this.objListaPreguntas.length == 0) {
-            sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: "Datos incompletos", text: "Ingrese al menos una pregunta", type: "warning", showConfirmButton: true });
+            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({ title: "Datos incompletos", text: "Ingrese al menos una pregunta", type: "warning", showConfirmButton: true });
             return;
         }
-        console.log(this.objEncuesta);
+        if (this.objSelectArea == null) {
+            sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({ title: "Datos incompletos", text: "Debe seleccionar un Area", type: "warning", showConfirmButton: true });
+            return;
+        }
         this.objEncuesta.strEstado = this.objEncuesta.strEstado ? 'ACTIVO' : 'INACTIVO';
         this.objEncuesta.strPermiteDatoAdicional = this.objEncuesta.strPermiteDatoAdicional ? 'Si' : 'No';
         this.objEncuesta.strPermiteFirma = this.objEncuesta.strPermiteFirma ? 'Si' : 'No';
+        this.objEncuesta.intIdArea = this.objSelectArea;
         if (this.objEncuesta.intIdEncuesta == 0) {
-            this.encuestaService.createEncuesta(this.objEncuesta, this.user.intIdUsuario)
+            this.encuestaService.createEncuesta(this.objEncuesta)
                 .subscribe(function (data) {
-                if (data['status'] == 404) {
+                if (data["intStatus"] != 200) {
                     _this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error');
                 }
                 else {
-                    var idencuesta = data['resultado']['id'];
-                    _this.toastr.warning('OK', 'Error');
+                    var intIdEncuesta_1 = data["intIdEncuesta"];
+                    var arrayOfData_1 = [];
+                    _this.objListaPreguntas.forEach(function (element) {
+                        console.log(element);
+                        if (element['intIdPregunta'] == "0") {
+                            arrayOfData_1.push(_this.encuestaService.createPregunta(element, intIdEncuesta_1, _this.user.intIdUsuario));
+                        }
+                        else {
+                            arrayOfData_1.push(_this.encuestaService.editPregunta(element, intIdEncuesta_1, _this.user.intIdUsuario));
+                        }
+                    });
+                    if (_this.listPreguntasELiminadas.length > 0) {
+                        _this.listPreguntasELiminadas.forEach(function (element) {
+                            arrayOfData_1.push(_this.encuestaService.editPregunta(element, intIdEncuesta_1, _this.user.intIdUsuario));
+                        });
+                    }
+                    Object(rxjs__WEBPACK_IMPORTED_MODULE_8__["forkJoin"])(arrayOfData_1).subscribe(function (response) {
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({ title: _this.objEncuesta.strTitulo, text: data['resultado'], type: "success", showConfirmButton: true })
+                            .then(function (result) {
+                            if (result.value)
+                                _this.iraListado();
+                        });
+                    }, function (error) {
+                        console.error(error);
+                    });
                 }
             }, function (error) {
                 _this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error');
@@ -9484,23 +9588,23 @@ var EncuestaComponent = /** @class */ (function () {
                     _this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error');
                 }
                 else {
-                    var arrayOfData_1 = [];
+                    var arrayOfData_2 = [];
                     _this.objListaPreguntas.forEach(function (element) {
                         console.log(element);
                         if (element['intIdPregunta'] == "0") {
-                            arrayOfData_1.push(_this.encuestaService.createPregunta(element, _this.objEncuesta.intIdEncuesta, _this.user.intIdUsuario));
+                            arrayOfData_2.push(_this.encuestaService.createPregunta(element, _this.objEncuesta.intIdEncuesta, _this.user.intIdUsuario));
                         }
                         else {
-                            arrayOfData_1.push(_this.encuestaService.editPregunta(element, _this.objEncuesta.intIdEncuesta, _this.user.intIdUsuario));
+                            arrayOfData_2.push(_this.encuestaService.editPregunta(element, _this.objEncuesta.intIdEncuesta, _this.user.intIdUsuario));
                         }
                     });
                     if (_this.listPreguntasELiminadas.length > 0) {
                         _this.listPreguntasELiminadas.forEach(function (element) {
-                            arrayOfData_1.push(_this.encuestaService.editPregunta(element, _this.objEncuesta.intIdEncuesta, _this.user.intIdUsuario));
+                            arrayOfData_2.push(_this.encuestaService.editPregunta(element, _this.objEncuesta.intIdEncuesta, _this.user.intIdUsuario));
                         });
                     }
-                    Object(rxjs__WEBPACK_IMPORTED_MODULE_5__["forkJoin"])(arrayOfData_1).subscribe(function (response) {
-                        sweetalert2__WEBPACK_IMPORTED_MODULE_4___default()({ title: _this.objEncuesta.strTitulo, text: data['resultado'], type: "success", showConfirmButton: true })
+                    Object(rxjs__WEBPACK_IMPORTED_MODULE_8__["forkJoin"])(arrayOfData_2).subscribe(function (response) {
+                        sweetalert2__WEBPACK_IMPORTED_MODULE_7___default()({ title: _this.objEncuesta.strTitulo, text: data['resultado'], type: "success", showConfirmButton: true })
                             .then(function (result) {
                             if (result.value)
                                 _this.iraListado();
@@ -9594,7 +9698,10 @@ var EncuestaComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./encuesta.component.scss */ "./src/app/forms/layouts/encuesta/encuesta.component.scss")]
         }),
         __metadata("design:paramtypes", [app_services_encuesta_service__WEBPACK_IMPORTED_MODULE_2__["EncuestaService"],
-            ngx_toastr__WEBPACK_IMPORTED_MODULE_3__["ToastrService"],
+            app_services_empresa_service__WEBPACK_IMPORTED_MODULE_3__["EmpresaService"],
+            app_services_sucursal_service__WEBPACK_IMPORTED_MODULE_4__["SucursalService"],
+            app_services_area_service__WEBPACK_IMPORTED_MODULE_5__["AreaService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_6__["ToastrService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
             _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]])
     ], EncuestaComponent);

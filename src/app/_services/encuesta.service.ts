@@ -63,14 +63,19 @@ export class EncuestaService {
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getEncuesta', datos);
     }
 
-    createEncuesta(encuesta: any, usuarioCreacion: string) {
-        return this.http.get(this.globals.host + this.globals.port + '/createEncuesta?' +
-            'descripcion=' + encuesta.descripcion +
-            '&titulo=' + encuesta.titulo +
-            '&estado=' + encuesta.estado +
-            '&idRestaurante=' + encuesta.idrestaurante +
-            '&usuarioCreacion=' + usuarioCreacion
-        );
+    createEncuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                strTitulo: arrayParametros.strTitulo,
+                strDescripcion: arrayParametros.strDescripcion,
+                strPermiteFirma: arrayParametros.strPermiteFirma,
+                strPermiteDatoAdicional: arrayParametros.strPermiteDatoAdicional,
+                intIdArea: arrayParametros.intIdArea,
+                strEstado: arrayParametros.strEstado,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/createEncuesta', datos);
     }
 
     editEncuesta(arrayParametros: any) {

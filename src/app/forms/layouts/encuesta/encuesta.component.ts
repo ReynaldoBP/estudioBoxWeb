@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { EncuestaService } from 'app/_services/encuesta.service';
+import { EmpresaService } from 'app/_services/empresa.service';
+import { SucursalService } from 'app/_services/sucursal.service';
+import { AreaService } from 'app/_services/area.service';
 import { ToastrService } from 'ngx-toastr';
 import swal from 'sweetalert2';
 import { forkJoin } from 'rxjs';
@@ -37,8 +40,32 @@ export class EncuestaComponent implements OnInit {
     boolAgrupar: "NO",
   }
   user: any
-
+  objSelectEmpresa: any = null
+  arrayEmpresa: any
+  objParametrosEmpresa: any = {
+    strEstado: "ACTIVO",
+    strContador: "NO"
+  }
+  objSelectSucursal: any
+  intSelectSucursal: any = null
+  arraySucursal: any
+  objParametrosSucursal: any = {
+    strEstado: "ACTIVO",
+    strContador: "NO",
+    intIdUsuario: "",
+    intIdEmpresa: ""
+  }
+  arrayArea: any
+  objSelectArea: any = null
+  arrayParametrosArea: any = {
+    strEstado: "ACTIVO",
+    intIdUsuario: "",
+    intIdSucursal: ""
+  }
   constructor(private encuestaService: EncuestaService,
+    private objEmpresaService: EmpresaService,
+    private objSucursalService: SucursalService,
+    private objAreaService: AreaService,
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute) {
@@ -54,7 +81,57 @@ export class EncuestaComponent implements OnInit {
       this.getEncuesta()
       this.getPregunta()
     }
+    else {
+      this.getEmpresas()
+    }
   }
+  getEmpresas() {
+    this.objParametrosEmpresa.strContador = "NO"
+    this.objParametrosEmpresa.strEstado = "ACTIVO"
+    if (this.user.strTipoRol == "EMPRESA") {
+      this.objParametrosEmpresa.intIdUsuario = this.user.intIdUsuario
+    }
+    this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
+      .subscribe(
+        data => {
+          if (data['intStatus'] != 200) {
+            this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+          } else {
+            this.arrayEmpresa = data["arrayEmpresa"]
+          }
+        },
+        error => {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      )
+  }
+  getSucursales() {
+    this.objParametrosSucursal.intIdUsuario = this.user.intIdUsuario
+    this.objParametrosSucursal.intIdEmpresa = this.objSelectEmpresa
+    this.objSucursalService.getSucursal(this.objParametrosSucursal)
+      .subscribe(
+        data => {
+          this.arraySucursal = data["arraySucursal"]
+        },
+        error => {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      )
+  }
+  getArea() {
+    this.arrayParametrosArea.intIdSucursal = this.objSelectSucursal
+    this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario
+    this.objAreaService.getArea(this.arrayParametrosArea)
+      .subscribe(
+        data => {
+          this.arrayArea = data["arrayArea"]
+        },
+        error => {
+          this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+        }
+      )
+  }
+
   getEncuesta() {
     this.arrayParametrosEncuestas.intIdEncuesta = this.objEncuesta.intIdEncuesta
     this.arrayParametrosEncuestas.intIdUsuario = this.user.intIdUsuario
@@ -74,6 +151,12 @@ export class EncuestaComponent implements OnInit {
             this.objEncuesta.strEstado = rest[0].strEstado == 'ACTIVO' ? true : false
             this.objEncuesta.strPermiteDatoAdicional = rest[0].strPermiteDatoAdicional == 'Si' ? true : false
             this.objEncuesta.strPermiteFirma = rest[0].strPermiteFirma == 'Si' ? true : false
+            this.objSelectEmpresa = rest[0].intIdEmpresa
+            this.objSelectSucursal = rest[0].intIdSucursal
+            this.objSelectArea = rest[0].intIdArea
+            this.getEmpresas()
+            this.getSucursales()
+            this.getArea()
           }
         },
         error => {
@@ -158,19 +241,45 @@ export class EncuestaComponent implements OnInit {
       swal({ title: "Datos incompletos", text: "Ingrese al menos una pregunta", type: "warning", showConfirmButton: true });
       return
     }
-    console.log(this.objEncuesta)
+    if (this.objSelectArea == null) {
+      swal({ title: "Datos incompletos", text: "Debe seleccionar un Area", type: "warning", showConfirmButton: true });
+      return
+    }
     this.objEncuesta.strEstado = this.objEncuesta.strEstado ? 'ACTIVO' : 'INACTIVO'
     this.objEncuesta.strPermiteDatoAdicional = this.objEncuesta.strPermiteDatoAdicional ? 'Si' : 'No'
     this.objEncuesta.strPermiteFirma = this.objEncuesta.strPermiteFirma ? 'Si' : 'No'
+    this.objEncuesta.intIdArea = this.objSelectArea
     if (this.objEncuesta.intIdEncuesta == 0) {
-      this.encuestaService.createEncuesta(this.objEncuesta, this.user.intIdUsuario)
+      this.encuestaService.createEncuesta(this.objEncuesta)
         .subscribe(
           data => {
-            if (data['status'] == 404) {
+            if (data["intStatus"] != 200) {
               this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
             } else {
-              let idencuesta = data['resultado']['id']
-              this.toastr.warning('OK', 'Error')
+              let intIdEncuesta = data["intIdEncuesta"]
+              let arrayOfData = [];
+              this.objListaPreguntas.forEach(element => {
+                console.log(element)
+                if (element['intIdPregunta'] == "0") {
+                  arrayOfData.push(this.encuestaService.createPregunta(element, intIdEncuesta, this.user.intIdUsuario))
+                } else {
+                  arrayOfData.push(this.encuestaService.editPregunta(element, intIdEncuesta, this.user.intIdUsuario))
+                }
+              });
+              if (this.listPreguntasELiminadas.length > 0) {
+                this.listPreguntasELiminadas.forEach(element => {
+                  arrayOfData.push(this.encuestaService.editPregunta(element, intIdEncuesta, this.user.intIdUsuario))
+                });
+              }
+              forkJoin(arrayOfData).subscribe(response => {
+                swal({ title: this.objEncuesta.strTitulo, text: data['resultado'], type: "success", showConfirmButton: true })
+                  .then((result) => {
+                    if (result.value)
+                      this.iraListado()
+                  });
+              }, error => {
+                console.error(error);
+              });
             }
           },
           error => {

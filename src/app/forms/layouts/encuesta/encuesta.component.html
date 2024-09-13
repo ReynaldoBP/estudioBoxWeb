@@ -34,6 +34,37 @@
 									</div>
 								</div>
 								<div class="row">
+									<div class="col-md-4">
+										<div class="form-group">
+											<ng-select [items]="arrayEmpresa" [multiple]="false" [closeOnSelect]="true"
+												[hideSelected]="false" bindLabel="strNombreComercial"
+												bindValue="intIdEmpresa" placeholder="Seleccione Empresa"
+												[ngModelOptions]="{ standalone: true }" [(ngModel)]="objSelectEmpresa"
+												(change)="getSucursales()">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
+												[hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
+												[ngModelOptions]="{ standalone: true }"
+												placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal"
+												(change)="getArea()">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<ng-select [items]="arrayArea" [multiple]="false" [closeOnSelect]="true"
+												[hideSelected]="false" bindLabel="strArea" bindValue="intIdArea"
+												[ngModelOptions]="{ standalone: true }" placeholder="Seleccione Area"
+												[(ngModel)]="objSelectArea">
+											</ng-select>
+										</div>
+									</div>
+								</div>
+								<div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
 											<label>Estado</label>

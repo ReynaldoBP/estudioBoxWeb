@@ -932,13 +932,19 @@ var EncuestaService = /** @class */ (function () {
         };
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getEncuesta', datos);
     };
-    EncuestaService.prototype.createEncuesta = function (encuesta, usuarioCreacion) {
-        return this.http.get(this.globals.host + this.globals.port + '/createEncuesta?' +
-            'descripcion=' + encuesta.descripcion +
-            '&titulo=' + encuesta.titulo +
-            '&estado=' + encuesta.estado +
-            '&idRestaurante=' + encuesta.idrestaurante +
-            '&usuarioCreacion=' + usuarioCreacion);
+    EncuestaService.prototype.createEncuesta = function (arrayParametros) {
+        var datos = {
+            data: {
+                strTitulo: arrayParametros.strTitulo,
+                strDescripcion: arrayParametros.strDescripcion,
+                strPermiteFirma: arrayParametros.strPermiteFirma,
+                strPermiteDatoAdicional: arrayParametros.strPermiteDatoAdicional,
+                intIdArea: arrayParametros.intIdArea,
+                strEstado: arrayParametros.strEstado,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/createEncuesta', datos);
     };
     EncuestaService.prototype.editEncuesta = function (arrayParametros) {
         var datos = {
