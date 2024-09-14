@@ -418,7 +418,7 @@
                                             {{item['strPromedio']}}
                                         </div>
                                     </td>
-                                    <td *ngIf="item['strPermiteFirma'] == 'Si'">
+                                    <td *ngIf="item['strPermiteFirma'] == 'Si' && item['strArea'] == 'MSP'">
                                         <a class="success p-0" data-original-title="" title="Ver Respuestas"
                                             (click)="getRespuesta(item)">
                                             <i class="ft-list font-medium-3 mr-2"></i>
@@ -426,6 +426,12 @@
                                         <a class="success p-0" data-original-title="" title="Descargar Respuestas"
                                             (click)="descargarRespuestas(item)">
                                             <i class="ft-download font-medium-3 mr-2"></i>
+                                        </a>
+                                    </td>
+                                    <td *ngIf="item['strPermiteFirma'] == 'Si' && item['strArea'] != 'MSP'">
+                                        <a class="success p-0" data-original-title="" title="Ver Respuestas"
+                                            (click)="getRespuesta(item)">
+                                            <i class="ft-list font-medium-3 mr-2"></i>
                                         </a>
                                     </td>
                                     <td *ngIf="item['strPermiteFirma'] != 'Si'">

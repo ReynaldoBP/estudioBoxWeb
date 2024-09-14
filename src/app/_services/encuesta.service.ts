@@ -99,6 +99,7 @@ export class EncuestaService {
             data: {
                 intIdEncuesta: intIdEncuesta,
                 intIdTipoOpcionRespuesta: arrayParametrosPregunta.intIdTipoOpcionRespuesta,
+                intOrden: arrayParametrosPregunta.intOrden,
                 strEsObligatoria: arrayParametrosPregunta.strEsObligatoria,
                 strPregunta: arrayParametrosPregunta.strPregunta,
                 strValor: arrayParametrosPregunta.strValorDesplegable,
@@ -114,6 +115,7 @@ export class EncuestaService {
                 intIdPregunta: arrayParametrosPregunta.intIdPregunta,
                 intIdEncuesta: intIdEncuesta,
                 intIdTipoOpcionRespuesta: arrayParametrosPregunta.intIdTipoOpcionRespuesta,
+                intOrden: arrayParametrosPregunta.intOrden,
                 strEsObligatoria: arrayParametrosPregunta.strEsObligatoria,
                 strPregunta: arrayParametrosPregunta.strPregunta,
                 strValor: arrayParametrosPregunta.strValorDesplegable,

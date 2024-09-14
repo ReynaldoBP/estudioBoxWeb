@@ -4,7 +4,7 @@ import { RouteInfo } from './sidebar.metadata';
 export const ROUTES: RouteInfo[] = [
     { value: "1", path: '/dashboard/dashboard1', title: 'Dashboard', icon: 'ft-home', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
     {
-        value: "9", path: '', title: 'Mantenimientos', icon: 'ft-edit', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false, submenu: [
+        value: "0", path: '', title: 'Mantenimientos', icon: 'ft-edit', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false, submenu: [
             { value: "9", path: '/charts/publicidad', title: 'Publicidad', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "10", path: '/tables/encuesta', title: 'Encuestas', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             /*{ value: "3", path: '/tables/restaurante', title: 'Restaurantes', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
@@ -21,7 +21,7 @@ export const ROUTES: RouteInfo[] = [
         ]
     },
     {
-        value: "6", path: '', title: 'Promoción', icon: 'ft-lock', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
+        value: "0", path: '', title: 'Promoción', icon: 'ft-lock', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
         submenu: [
             { value: "7", path: '/tables/redimirCupon', title: 'Redimir Cupón', icon: 'ft-user', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             /*{ value: "9", path: '/tables/clientes', title: 'Redimir', icon: 'ft-user', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },

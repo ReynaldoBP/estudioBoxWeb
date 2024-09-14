@@ -83,9 +83,20 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-1">
                         <div class="form-group">
-                            <label for="projectinput5">Tiempo</label>
+                            <label for="projectinput5">Año</label>
+                            <select id="cmbMes" [(ngModel)]="intAnio" class="form-control" name="cmbMes"
+                                (change)="getResultadoProPregunta()">
+                                <option *ngFor="let item of arrayAnio" value="{{item.intIdAnio}}">
+                                    {{item.strAnio}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput5">Mes</label>
                             <select id="idStrSelectMes" [(ngModel)]="strSelectMes" class="form-control"
                                 name="idStrSelectMes" (change)="getResultadoProPregunta()">
                                 <option *ngFor="let item of arrayMeses" value="{{item.numMes}}">
@@ -152,7 +163,8 @@
                         <canvas id="chartEncuesta" baseChart class="chart" [datasets]="barChartData"
                             [labels]="barChartLabels" [options]="barChartOptions" [colors]="barChartColors"
                             [legend]="barChartLegend" [chartType]="barChartType" (chartHover)="chartHovered($event)"
-                            (chartClick)="chartClicked($event)" (chartLabelContent)="chartLabelContent($event)"></canvas>
+                            (chartClick)="chartClicked($event)"
+                            (chartLabelContent)="chartLabelContent($event)"></canvas>
                     </div>
                 </div>
             </div>

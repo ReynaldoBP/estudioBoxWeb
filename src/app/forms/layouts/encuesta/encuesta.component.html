@@ -144,6 +144,7 @@
 											<tr>
 												<th>Pregunta</th>
 												<th>Opciones</th>
+												<th>Orden</th>
 												<th>Valor</th>
 												<th>Obligatoria</th>
 												<th></th>
@@ -158,6 +159,7 @@
 												<td>
 													<select class="form-control"
 														[(ngModel)]="item['intIdTipoOpcionRespuesta']"
+														(change)="onTipoOpcionRespuestaChange(item)"
 														[ngModelOptions]="{standalone: true}">
 														<option value="" selected="" disabled="">Seleccione:</option>
 														<option *ngFor="let item of listOpciones"
@@ -167,8 +169,16 @@
 												</td>
 												<td>
 													<input type="text" class="form-control"
-														[(ngModel)]="item['strValorDesplegable']"
+														[(ngModel)]="item['intOrden']"
 														[ngModelOptions]="{standalone: true}">
+												</td>
+												<td>
+													<ng-select [items]="item['strValorDesplegable']" bindLabel="name"
+														multiple="true" [addTag]="true"
+														[(ngModel)]="item['strValorDesplegable']"
+														[disabled]="isDisabled(item['intIdTipoOpcionRespuesta'])"
+														[ngModelOptions]="{standalone: true}" placeholder="">
+													</ng-select>
 												</td>
 												<td>
 													<select class="form-control" [(ngModel)]="item['strEsObligatoria']"

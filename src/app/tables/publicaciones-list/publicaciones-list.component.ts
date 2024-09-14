@@ -426,6 +426,7 @@ export class PublicacionesListComponent implements OnInit {
                 this.objLoading = false
                 if (data["intStatus"] == 200) {
                     this.arrayEncuestas = data['arrayEncuesta']
+                    this.objSelectEncuesta = this.arrayEncuestas[0].strTitulo
                 } else {
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }

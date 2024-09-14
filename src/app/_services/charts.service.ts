@@ -38,6 +38,7 @@ export class ChartsService {
                 intIdEncuesta:arrayParametros.intIdEncuesta,
                 strEncuesta:arrayParametros.strEncuesta,
                 arrayMes:arrayParametros.arrayMes,
+                intAnio:arrayParametros.intAnio,
                 strEstadistica:arrayParametros.strEstadistica,
                 strPregunta:arrayParametros.strPregunta
             }

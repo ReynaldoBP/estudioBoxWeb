@@ -15,6 +15,15 @@ import { ExcelService } from 'app/_services/excel.service';
 })
 
 export class ChartEncuestaComponent implements OnInit {
+  date: any = new Date();
+  intAnio: number = this.date.getFullYear()
+  arrayAnio = [
+    { strAnio: "2023", intIdAnio: 2023 },
+    { strAnio: "2024", intIdAnio: 2024 },
+    { strAnio: "2025", intIdAnio: 2025 },
+    { strAnio: "2026", intIdAnio: 2026 },
+    { strAnio: "2027", intIdAnio: 2027 }
+  ];
   objobjLoading: any = false;
   arrayMeses = [{ mes: "Enero", numMes: 1 },
   { mes: "Febrero", numMes: 2 },
@@ -87,17 +96,17 @@ export class ChartEncuestaComponent implements OnInit {
             const label = dataset.label; // Etiqueta del dataset
             const datasetData = dataset.data; // Datos del dataset
 
-            intTotal = intTotal+parseFloat(datasetData[tooltipItem.index]);
+            intTotal = intTotal + parseFloat(datasetData[tooltipItem.index]);
           }
           // Aquí puedes agregar el dato adicional que deseas mostrar
           const dataset = data.datasets[tooltipItem.datasetIndex];
           const value = dataset.data[tooltipItem.index];
           const nombre = dataset.label;
           //Calculamos porcentajes
-          porcentaje = (value/intTotal)*100;
+          porcentaje = (value / intTotal) * 100;
           porcentaje = Math.round(porcentaje * 100) / 100;
-          const datoAdicional1 = nombre+": " + value; 
-          const datoAdicional2 = "Porcentaje: " + porcentaje+'%'; 
+          const datoAdicional1 = nombre + ": " + value;
+          const datoAdicional2 = "Porcentaje: " + porcentaje + '%';
           return [datoAdicional1, datoAdicional2];;
         },
       },
@@ -131,7 +140,7 @@ export class ChartEncuestaComponent implements OnInit {
   ];
   public barChartColors = chartsData.barChartColorsEncuesta;
   descripcionOrigin: string
-  descripcion: string 
+  descripcion: string
   arrayTotalEncuestas: any[] = [];
   arrayEncuestas
   strSelectMes: any
@@ -224,6 +233,7 @@ export class ChartEncuestaComponent implements OnInit {
       data => {
         if (data["intStatus"] == 200) {
           this.arrayEncuestas = data['arrayEncuesta']
+          this.objSelectEncuesta = this.arrayEncuestas[0].strTitulo
         } else {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
@@ -255,6 +265,7 @@ export class ChartEncuestaComponent implements OnInit {
     }
   }
   getResultadoProPregunta() {
+    this.arrayParametrosEncuestas.intAnio = (this.intAnio != undefined) ? this.intAnio : this.date.getFullYear().toString()
     this.barChartData[0].data = []
     this.barChartData[0].label = ""
     this.barChartLabels = []

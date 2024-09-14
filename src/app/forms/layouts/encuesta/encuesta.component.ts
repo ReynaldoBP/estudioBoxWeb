@@ -181,13 +181,18 @@ export class EncuestaComponent implements OnInit {
               let pregunta = {
                 intIdPregunta: element['intIdPregunta'],
                 strPregunta: element['strPregunta'],
+                intOrden: element['intOrden'],
                 intIdTipoOpcionRespuesta: element['intIdTipoOpcionRespuesta'],
-                strValorDesplegable: element['strValorDesplegable'],
+                // Validación para intIdTipoOpcionRespuesta 4 o 5
+                strValorDesplegable: ((element['intIdTipoOpcionRespuesta'] == 4 || element['intIdTipoOpcionRespuesta'] == 5) && (element['strValorDesplegable'] != null))
+                  ? element['strValorDesplegable'].split('|') // Realiza el split en un array
+                  : element['strValorDesplegable'], // Deja el valor como está si no es 4 o 5
                 intCantidadEstrellas: element['intCantidadEstrellas'],
                 strEsObligatoria: element['strEsObligatoria'],
                 strEstado: element['strEstado']
               }
               this.objListaPreguntas.push(pregunta)
+              console.log(this.objListaPreguntas)
             });
           }
         },
@@ -214,6 +219,7 @@ export class EncuestaComponent implements OnInit {
     let pregunta = {
       intIdPregunta: '0',
       strPregunta: '',
+      intOrden: '',
       intIdTipoOpcionRespuesta: '',
       strEsObligatoria: 'SI',
       strEstado: 'ACTIVO'
@@ -259,6 +265,14 @@ export class EncuestaComponent implements OnInit {
               let intIdEncuesta = data["intIdEncuesta"]
               let arrayOfData = [];
               this.objListaPreguntas.forEach(element => {
+                if (Array.isArray(element.strValorDesplegable) && element.strValorDesplegable.length > 0) {
+                  if (typeof element.strValorDesplegable[0] === 'string') {
+                    element.strValorDesplegable = element.strValorDesplegable.join('|');
+                  } else if (typeof element.strValorDesplegable[0] === 'object' && 'name' in element.strValorDesplegable[0]) {
+                    element.strValorDesplegable = element.strValorDesplegable.map(item => item.name).join('|');
+                  }
+                }
+                console.log("Preguntas")
                 console.log(element)
                 if (element['intIdPregunta'] == "0") {
                   arrayOfData.push(this.encuestaService.createPregunta(element, intIdEncuesta, this.user.intIdUsuario))
@@ -296,6 +310,14 @@ export class EncuestaComponent implements OnInit {
             } else {
               let arrayOfData = [];
               this.objListaPreguntas.forEach(element => {
+                if (Array.isArray(element.strValorDesplegable) && element.strValorDesplegable.length > 0) {
+                  if (typeof element.strValorDesplegable[0] === 'string') {
+                    element.strValorDesplegable = element.strValorDesplegable.join('|');
+                  } else if (typeof element.strValorDesplegable[0] === 'object' && 'name' in element.strValorDesplegable[0]) {
+                    element.strValorDesplegable = element.strValorDesplegable.map(item => item.name).join('|');
+                  }
+                }
+                console.log("Preguntas")
                 console.log(element)
                 if (element['intIdPregunta'] == "0") {
                   arrayOfData.push(this.encuestaService.createPregunta(element, this.objEncuesta.intIdEncuesta, this.user.intIdUsuario))
@@ -325,78 +347,18 @@ export class EncuestaComponent implements OnInit {
         )
     }
   }
-
-  /*  guardarDatos() {
-      if (this.objListaPreguntas == null || this.objListaPreguntas.length == 0) {
-        swal({ title: "Datos incompletos", text: "Ingrese al menos una pregunta", type: "warning", showConfirmButton: true });
-        return
-      }
-      this.encuesta.estado = this.encuesta.estado ? 'ACTIVO' : 'INACTIVO'
-      if (this.encuesta.id == 0) {
-        this.encuestaService.createEncuesta(this.encuesta, this.user.intIdUsuario)
-          .subscribe(
-            data => {
-              if (data['status'] == 404) {
-                this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
-              } else {
-                let idencuesta = data['resultado']['id']
-                let arrayOfData = [];
-                this.objListaPreguntas.forEach(element => {
-                  arrayOfData.push(this.encuestaService.createPregunta(element, idencuesta, this.user.intIdUsuario))
-                });
-                forkJoin(arrayOfData).subscribe(response => {
-                  swal({ title: this.encuesta.titulo, text: data['resultado']['mensaje'], type: "success", showConfirmButton: true })
-                    .then((result) => {
-                      if (result.value)
-                        this.iraListado()
-                    });
-                }, error => {
-                  console.error(error);
-                });
-              }
-            },
-            error => {
-              this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
-            }
-          )
-      } else {
-        this.encuestaService.editEncuesta(this.encuesta, this.user.intIdUsuario)
-          .subscribe(
-            data => {
-              if (data['intStatus'] != 200) {
-                this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
-              } else {
-                let arrayOfData = [];
-                this.objListaPreguntas.forEach(element => {
-                  if (element['idpregunta'] == "0") {
-                    arrayOfData.push(this.encuestaService.createPregunta(element, this.encuesta.id, this.user.intIdUsuario))
-                  } else {
-                    arrayOfData.push(this.encuestaService.editPregunta(element, this.encuesta.id, this.user.intIdUsuario))
-                  }
-                });
-                if (this.listPreguntasELiminadas.length > 0) {
-                  this.listPreguntasELiminadas.forEach(element => {
-                    arrayOfData.push(this.encuestaService.editPregunta(element, this.encuesta.id, this.user.intIdUsuario))
-                  });
-                }
-                forkJoin(arrayOfData).subscribe(response => {
-                  swal({ title: this.encuesta.titulo, text: data['resultado'], type: "success", showConfirmButton: true })
-                    .then((result) => {
-                      if (result.value)
-                        this.iraListado()
-                    });
-                }, error => {
-                  console.error(error);
-                });
-              }
-            },
-            error => {
-              this.toastr.warning('Hubo un error, comuniquese con el dpto de sistemas', 'Error')
-            }
-          )
-      }
-    }*/
-
+  onTipoOpcionRespuestaChange(item: any) {
+    if (this.isDisabled(item.intIdTipoOpcionRespuesta)) {
+      item.strValorDesplegable = ''; // Limpiar el campo si es necesario
+    }
+  }
+  isDisabled(intIdTipoOpcionRespuesta: number): boolean {
+    let bool = true
+    if (intIdTipoOpcionRespuesta == 4 || intIdTipoOpcionRespuesta == 5) {
+      bool = false
+    }
+    return bool;
+  }
   iraListado() {
     this.router.navigate(['/tables/encuesta']);
   }
