@@ -33,4 +33,19 @@ export class ReporteService {
     deleteReporte(id: number) {
         return this.http.get(this.globals.host + this.globals.port + '/deleteReporte?idReporte=' + id);
     }
+
+    getReporteDataEncuesta(arrayParametros: any) {
+        let datos = {
+            data: {
+                intMes: arrayParametros.intMes,
+                intAnio: arrayParametros.intAnio,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                strTitulo: arrayParametros.strTitulo,
+                intIdSucursal: arrayParametros.intIdSucursal,
+                intIdArea: arrayParametros.intIdArea,
+                strReporteP:  arrayParametros.strReporteP
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getReporteDataEncuesta', datos);
+    }
 }

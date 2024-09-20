@@ -1260,6 +1260,122 @@ var ExcelService = /** @class */ (function () {
             document.body.removeChild(link);
         });
     };
+    ExcelService.prototype.exportAsExcelFilePersonalized = function (json, excelFileName) {
+        // Paso 1: Agrupar los datos por el campo 'area'
+        var groupedData = json.reduce(function (groups, item) {
+            var area = item.area;
+            if (!groups[area]) {
+                groups[area] = [];
+            }
+            groups[area].push(item);
+            return groups;
+        }, {});
+        // Crear el libro de trabajo de Excel
+        var workbook = { Sheets: {}, SheetNames: [] };
+        // Lista de claves que quieres excluir
+        var excludedKeys = ['id', 'sucursal', 'Nombre del socio', 'Quien lo atendió', 'Indíquenos sus comentarios y sugerencias'];
+        // Paso 2: Combinar los datos de todas las áreas en una sola hoja sin repetir encabezados
+        var combinedData = [];
+        var headersAdded = false;
+        Object.keys(groupedData).forEach(function (area) {
+            if (!headersAdded) {
+                // Filtrar las claves para excluir las no deseadas
+                var headerRow = Object.keys(groupedData[area][0]).filter(function (key) { return !excludedKeys.includes(key); });
+                combinedData.push(headerRow); // Agregar encabezados solo una vez
+                headersAdded = true;
+            }
+            // Agregar datos de cada área, excluyendo las claves no deseadas
+            groupedData[area].forEach(function (item) {
+                var row = Object.keys(item).filter(function (key) { return !excludedKeys.includes(key); }).map(function (key) { return item[key]; });
+                combinedData.push(row);
+            });
+        });
+        // Crear la hoja combinada
+        var combinedWorksheet = xlsx__WEBPACK_IMPORTED_MODULE_2__["utils"].aoa_to_sheet(combinedData);
+        workbook.Sheets['Datos Combinados'] = combinedWorksheet; // Nombre de la hoja combinada
+        workbook.SheetNames.push('Datos Combinados');
+        // Paso 3: Crear la hoja de Excel con las áreas dispuestas horizontalmente
+        var horizontalData = [];
+        var areas = Object.keys(groupedData);
+        var maxLength = Math.max.apply(Math, areas.map(function (area) { return groupedData[area].length; }));
+        // Preparar los encabezados de la hoja horizontal
+        var headers = [];
+        areas.forEach(function (area) {
+            headers.push.apply(headers, Object.keys(groupedData[area][0]).filter(function (key) { return !excludedKeys.includes(key); })); // Agregar encabezados de cada área
+            headers.push(''); // Agregar una columna en blanco entre áreas
+        });
+        horizontalData.push(headers); // Agregar los encabezados al inicio de la hoja
+        var _loop_1 = function (i) {
+            var row = [];
+            areas.forEach(function (area) {
+                var item = groupedData[area][i];
+                if (item) {
+                    Object.keys(item).filter(function (key) { return !excludedKeys.includes(key); }).forEach(function (key) { return row.push(item[key]); });
+                }
+                else {
+                    Object.keys(groupedData[area][0]).filter(function (key) { return !excludedKeys.includes(key); }).forEach(function () { return row.push(''); }); // Rellenar espacios vacíos si no hay datos
+                }
+                row.push(''); // Agregar una celda en blanco entre bloques de área
+            });
+            horizontalData.push(row);
+        };
+        // Añadir los datos de cada área de manera horizontal
+        for (var i = 0; i < maxLength; i++) {
+            _loop_1(i);
+        }
+        // Crear la hoja horizontal con delimitaciones
+        var horizontalWorksheet = xlsx__WEBPACK_IMPORTED_MODULE_2__["utils"].aoa_to_sheet(horizontalData);
+        // Aplicar bordes para delimitar las áreas y rotar los encabezados
+        this.applyBordersAndStyleToWorksheet(horizontalWorksheet, areas, maxLength + 1, headers.length);
+        workbook.Sheets['Resumen Horizontal'] = horizontalWorksheet; // Nombre de la hoja adicional
+        workbook.SheetNames.push('Resumen Horizontal');
+        // Convertir el libro de trabajo a un buffer
+        var excelBuffer = xlsx__WEBPACK_IMPORTED_MODULE_2__["write"](workbook, { bookType: 'xlsx', type: 'array' });
+        // Guardar el archivo Excel
+        this.saveAsExcelFile(excelBuffer, excelFileName);
+    };
+    // Método para aplicar bordes a las celdas de la hoja y rotar los encabezados
+    ExcelService.prototype.applyBordersAndStyleToWorksheet = function (worksheet, areas, maxLength, headerLength) {
+        var startColumn = 0;
+        areas.forEach(function () {
+            for (var R = 0; R <= maxLength; R++) {
+                for (var C = startColumn; C < startColumn + headerLength - 1; C++) { // Ajustar para la columna en blanco
+                    var cellAddress = { c: C, r: R };
+                    var cellRef = xlsx__WEBPACK_IMPORTED_MODULE_2__["utils"].encode_cell(cellAddress);
+                    if (!worksheet[cellRef])
+                        worksheet[cellRef] = {}; // Crear la celda si no existe
+                    // Establecer estilo para la rotación de texto en encabezados
+                    if (R === 0) { // Encabezados en la primera fila
+                        worksheet[cellRef].s = {
+                            alignment: {
+                                textRotation: 90,
+                                vertical: 'center',
+                                horizontal: 'center'
+                            },
+                            border: {
+                                top: { style: 'medium', color: { rgb: '000000' } },
+                                bottom: { style: 'medium', color: { rgb: '000000' } },
+                                left: { style: 'medium', color: { rgb: '000000' } },
+                                right: { style: 'medium', color: { rgb: '000000' } }
+                            }
+                        };
+                    }
+                    else {
+                        // Establecer bordes normales
+                        worksheet[cellRef].s = {
+                            border: {
+                                top: { style: 'thin', color: { rgb: '000000' } },
+                                bottom: { style: 'thin', color: { rgb: '000000' } },
+                                left: { style: 'thin', color: { rgb: '000000' } },
+                                right: { style: 'thin', color: { rgb: '000000' } }
+                            }
+                        };
+                    }
+                }
+            }
+            startColumn += headerLength; // Mover al siguiente bloque de área
+        });
+    };
     ExcelService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
         __metadata("design:paramtypes", [])
@@ -1927,6 +2043,20 @@ var ReporteService = /** @class */ (function () {
     };
     ReporteService.prototype.deleteReporte = function (id) {
         return this.http.get(this.globals.host + this.globals.port + '/deleteReporte?idReporte=' + id);
+    };
+    ReporteService.prototype.getReporteDataEncuesta = function (arrayParametros) {
+        var datos = {
+            data: {
+                intMes: arrayParametros.intMes,
+                intAnio: arrayParametros.intAnio,
+                intIdUsuario: arrayParametros.intIdUsuario,
+                strTitulo: arrayParametros.strTitulo,
+                intIdSucursal: arrayParametros.intIdSucursal,
+                intIdArea: arrayParametros.intIdArea,
+                strReporteP: arrayParametros.strReporteP
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getReporteDataEncuesta', datos);
     };
     ReporteService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),

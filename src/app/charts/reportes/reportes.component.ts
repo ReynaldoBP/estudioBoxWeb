@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { PublicidadService } from 'app/_services/publicidad.service';
 import { ReporteService } from 'app/_services/reporte.service';
 import { ToastrService } from 'ngx-toastr';
+import { EncuestaService } from 'app/_services/encuesta.service';
+import { ExcelService } from 'app/_services/excel.service';
 
 @Component({
     selector: 'app-extended-table',
@@ -10,7 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 
 export class ChartReportesComponent implements OnInit {
-
+    objLoading: any = false;
     rows: any
     permisos: any
     acciones: any
@@ -18,13 +20,21 @@ export class ChartReportesComponent implements OnInit {
     estadoFiltro: any
     descripcionFiltro: any
     user: any
+    intSucursal: any
+    mesActual: any
+    anioActual: any
     constructor(
+        private objExportarDataService: ExcelService,
+        private objEncuestaService: EncuestaService,
         private toastr: ToastrService,
         private reporteService: ReporteService) {
         this.getPermisos("Mant/Reporte")
         this.rows = []
         this.estados = ["ACTIVO", "INACTIVO"]
         this.estadoFiltro = "ACTIVO"
+        const fechaActual = new Date();
+        this.mesActual = fechaActual.getMonth() + 1; // Obtiene el mes actual (0 = Enero, por eso se suma 1)
+        this.anioActual = fechaActual.getFullYear();
     }
     ngOnInit() {
         this.user = JSON.parse(localStorage.getItem('usuario'))
@@ -75,5 +85,31 @@ export class ChartReportesComponent implements OnInit {
     }
     descargarReporte(url: string) {
         window.open(url, '_blank');
+    }
+
+    getExportarCsv() {
+        this.objLoading = true
+
+        let arrayParametrosReporteEncuesta = {
+            "intIdUsuario": this.user.intIdUsuario,
+            "strTitulo": 'Califique su experiencia gastronómica',
+            "intMes": this.mesActual,
+            "intAnio": this.anioActual,
+            "strReporteP": 'S'
+        }
+        this.reporteService.getReporteDataEncuesta(arrayParametrosReporteEncuesta).subscribe(objReporteData => {
+            this.objLoading = false
+            if (objReporteData["intStatus"] == 200) {
+                //this.objExportarDataService.exportAsExcelFile(objReporteData["arrayData"].resultados, 'Califique su experiencia gastronómica')
+                this.objExportarDataService.exportAsExcelFilePersonalized(objReporteData["arrayData"].resultados, 'Reporte')
+            }
+            else {
+                this.toastr.warning("Error al Generar Reportes")
+            }
+        },
+            error => {
+                this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+            });
+
     }
 }
