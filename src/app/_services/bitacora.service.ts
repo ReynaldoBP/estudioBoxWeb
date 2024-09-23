@@ -10,19 +10,18 @@ export class BitacoraService {
         let datos = {
             data: {
                 intIdBitacora: intIdBitacora
-            },
-            op: 'getBitacoraDetalle'
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getBitacoraDetalle', datos);
     }
-    getBitacora(strFechaIni:string,strFechaFin:string) {
+    getBitacora(intIdUsuario,strFechaIni:string,strFechaFin:string) {
         let datos = {
             data: {
+                "intIdUsuario":intIdUsuario,
                 "strFechaIni":strFechaIni,
                 "strFechaFin":strFechaFin,
-            },
-            op: 'getBitacora'
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getBitacora', datos);
     }
 }

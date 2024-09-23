@@ -1110,7 +1110,7 @@ var BitacoraListComponent = /** @class */ (function () {
     };
     BitacoraListComponent.prototype.getBitacora = function () {
         var _this = this;
-        this.bitacoraService.getBitacora(this.strFechaIni, this.strFechaFin)
+        this.bitacoraService.getBitacora(this.objUsuario.intIdUsuario, this.strFechaIni, this.strFechaFin)
             .subscribe(function (data) {
             _this.rows = data['resultado']['resultados'];
         }, function (error) {

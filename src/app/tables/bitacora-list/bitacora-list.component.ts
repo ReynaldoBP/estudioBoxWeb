@@ -40,7 +40,8 @@ export class BitacoraListComponent implements OnInit {
     }
 
     getBitacora() {
-        this.bitacoraService.getBitacora(this.strFechaIni, this.strFechaFin)
+
+        this.bitacoraService.getBitacora(this.objUsuario.intIdUsuario, this.strFechaIni, this.strFechaFin)
             .subscribe(
                 data => {
                     this.rows = data['resultado']['resultados']

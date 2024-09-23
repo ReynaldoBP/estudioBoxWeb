@@ -230,20 +230,19 @@ var BitacoraService = /** @class */ (function () {
         var datos = {
             data: {
                 intIdBitacora: intIdBitacora
-            },
-            op: 'getBitacoraDetalle'
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getBitacoraDetalle', datos);
     };
-    BitacoraService.prototype.getBitacora = function (strFechaIni, strFechaFin) {
+    BitacoraService.prototype.getBitacora = function (intIdUsuario, strFechaIni, strFechaFin) {
         var datos = {
             data: {
+                "intIdUsuario": intIdUsuario,
                 "strFechaIni": strFechaIni,
                 "strFechaFin": strFechaFin,
-            },
-            op: 'getBitacora'
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getBitacora', datos);
     };
     BitacoraService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
@@ -3609,6 +3608,7 @@ var ROUTES = [
         value: "0", path: '', title: 'Mantenimientos', icon: 'ft-edit', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false, submenu: [
             { value: "9", path: '/charts/publicidad', title: 'Publicidad', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "10", path: '/tables/encuesta', title: 'Encuestas', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "13", path: '/tables/bitacora', title: 'Bitacora', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
     },
     {
