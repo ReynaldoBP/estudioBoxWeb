@@ -70526,7 +70526,8 @@ var ChartEncuestaComponent = /** @class */ (function () {
         this.arrayParametrosPreguntas = {
             intIdEncuesta: "",
             strEncuesta: "",
-            boolAgrupar: "NO"
+            boolAgrupar: "NO",
+            intIdUsuario: ""
         };
         this.objLoading = false;
         // barChart
@@ -70677,6 +70678,7 @@ var ChartEncuestaComponent = /** @class */ (function () {
             if (data["intStatus"] == 200) {
                 _this.arrayEncuestas = data['arrayEncuesta'];
                 _this.objSelectEncuesta = _this.arrayEncuestas[0].strTitulo;
+                _this.getPregunta();
             }
             else {
                 _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
@@ -70692,6 +70694,7 @@ var ChartEncuestaComponent = /** @class */ (function () {
             this.arrayParametrosPreguntas.strEncuesta = this.objSelectEncuesta;
             this.arrayParametrosPreguntas.boolAgrupar = "SI";
         }
+        this.arrayParametrosPreguntas.intIdUsuario = this.user.intIdUsuario;
         if (this.arrayParametrosPreguntas.strEncuesta != undefined) {
             this.objEncuestaService.getPregunta(this.arrayParametrosPreguntas).subscribe(function (data) {
                 if (data["intStatus"] == 200) {
@@ -71798,7 +71801,8 @@ var ChartPreguntasComponent = /** @class */ (function () {
         this.objEncuestaService.getEncuesta(this.arrayParametrosEncuestas).subscribe(function (data) {
             if (data["intStatus"] == 200) {
                 _this.arrayEncuestas = data['arrayEncuesta'];
-                _this.objSelectEncuesta = _this.arrayEncuestas[0].strTitulo;
+                _this.objSelectEncuesta = _this.arrayEncuestas[0].intIdEncuesta;
+                _this.getPregunta();
             }
             else {
                 _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');

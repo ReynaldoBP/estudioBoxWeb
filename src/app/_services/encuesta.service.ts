@@ -21,7 +21,8 @@ export class EncuestaService {
             data: {
                 intIdEncuesta: arrayParametros.intIdEncuesta,
                 strEncuesta: arrayParametros.strEncuesta,
-                boolAgrupar: arrayParametros.boolAgrupar
+                boolAgrupar: arrayParametros.boolAgrupar,
+                intIdUsuario: arrayParametros.intIdUsuario
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getPregunta', datos);

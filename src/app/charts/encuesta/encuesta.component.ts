@@ -58,7 +58,8 @@ export class ChartEncuestaComponent implements OnInit {
   arrayParametrosPreguntas: any = {
     intIdEncuesta: "",
     strEncuesta: "",
-    boolAgrupar: "NO"
+    boolAgrupar: "NO",
+    intIdUsuario:""
   }
   arrayHorarios: any
   arrayEdades: any
@@ -234,6 +235,7 @@ export class ChartEncuestaComponent implements OnInit {
         if (data["intStatus"] == 200) {
           this.arrayEncuestas = data['arrayEncuesta']
           this.objSelectEncuesta = this.arrayEncuestas[0].strTitulo
+          this.getPregunta()
         } else {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
@@ -249,6 +251,7 @@ export class ChartEncuestaComponent implements OnInit {
       this.arrayParametrosPreguntas.strEncuesta = this.objSelectEncuesta
       this.arrayParametrosPreguntas.boolAgrupar = "SI"
     }
+    this.arrayParametrosPreguntas.intIdUsuario = this.user.intIdUsuario
     if (this.arrayParametrosPreguntas.strEncuesta != undefined) {
       this.objEncuestaService.getPregunta(this.arrayParametrosPreguntas).subscribe(
         data => {

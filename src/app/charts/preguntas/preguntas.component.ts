@@ -271,7 +271,8 @@ export class ChartPreguntasComponent implements OnInit {
       data => {
         if (data["intStatus"] == 200) {
           this.arrayEncuestas = data['arrayEncuesta']
-          this.objSelectEncuesta = this.arrayEncuestas[0].strTitulo
+          this.objSelectEncuesta = this.arrayEncuestas[0].intIdEncuesta
+          this.getPregunta()
         } else {
           this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
         }
