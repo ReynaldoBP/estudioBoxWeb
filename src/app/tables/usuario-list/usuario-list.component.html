@@ -59,7 +59,8 @@
                             </thead>
                             <tbody>
                                 <tr
-                                    *ngFor="let item of rows | byRol: idtiporol | byUsuario: usuariobuscar | paginate: { itemsPerPage: 10, currentPage: p }">
+                                    *ngFor="let item of rows | byRol: idtiporol | byUsuario: usuariobuscar | paginate: { itemsPerPage: 10, currentPage: p }"
+                                    [className]="item['strEstado']=='INACTIVO'?'bg-danger':'bg-light'">
                                     <td>{{item['strIdentificacion']}}</td>
                                     <td>{{item['strNombre'] + ' ' + item['strApellido']}}</td>
                                     <td>{{item['strCorreo']}}</td>

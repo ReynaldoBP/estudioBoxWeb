@@ -22,6 +22,9 @@ export class PermisosListComponent implements OnInit {
     usuariobuscar: any
     permisos: any
     acciones: any
+    objParametros: any = {
+        intIdEmpresaPorUsuario: 0
+      }
     constructor(private usuarioService: UsuarioService,
         private toastr: ToastrService) {
         this.rows = []
@@ -50,7 +53,8 @@ export class PermisosListComponent implements OnInit {
     }
 
     obtenerUsuarios() {
-        this.usuarioService.getUsuarios()
+        this.objParametros.intIdEmpresaPorUsuario = this.usuario.intIdUsuario
+        this.usuarioService.getUsuariosCriterio(this.objParametros)
             .subscribe(
                 data => {
                     this.rows = data['arrayUsuario']['resultados']
