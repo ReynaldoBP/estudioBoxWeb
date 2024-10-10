@@ -25,6 +25,9 @@ export class EncuestaComponent implements OnInit {
     strDescripcion: '',
     strPermiteFirma: '',
     strPermiteDatoAdicional: '',
+    strPermiteCorreo: '',
+    strPermiteAnio: '',
+    strPermiteGenero: '',
     intIdArea: '',
     strEstado: true
   }
@@ -150,6 +153,9 @@ export class EncuestaComponent implements OnInit {
             this.objEncuesta.strDescripcion = rest[0].strDescripcion
             this.objEncuesta.strEstado = rest[0].strEstado == 'ACTIVO' ? true : false
             this.objEncuesta.strPermiteDatoAdicional = rest[0].strPermiteDatoAdicional == 'Si' ? true : false
+            this.objEncuesta.strPermiteGenero = rest[0].strPermiteGenero == 'Si' ? true : false
+            this.objEncuesta.strPermiteCorreo = rest[0].strPermiteCorreo == 'Si' ? true : false
+            this.objEncuesta.strPermiteAnio = rest[0].strPermiteAnio == 'Si' ? true : false
             this.objEncuesta.strPermiteFirma = rest[0].strPermiteFirma == 'Si' ? true : false
             this.objSelectEmpresa = rest[0].intIdEmpresa
             this.objSelectSucursal = rest[0].intIdSucursal
@@ -253,6 +259,9 @@ export class EncuestaComponent implements OnInit {
     }
     this.objEncuesta.strEstado = this.objEncuesta.strEstado ? 'ACTIVO' : 'INACTIVO'
     this.objEncuesta.strPermiteDatoAdicional = this.objEncuesta.strPermiteDatoAdicional ? 'Si' : 'No'
+    this.objEncuesta.strPermiteGenero = this.objEncuesta.strPermiteGenero ? 'Si' : 'No'
+    this.objEncuesta.strPermiteCorreo = this.objEncuesta.strPermiteCorreo ? 'Si' : 'No'
+    this.objEncuesta.strPermiteAnio = this.objEncuesta.strPermiteAnio ? 'Si' : 'No'
     this.objEncuesta.strPermiteFirma = this.objEncuesta.strPermiteFirma ? 'Si' : 'No'
     this.objEncuesta.intIdArea = this.objSelectArea
     if (this.objEncuesta.intIdEncuesta == 0) {

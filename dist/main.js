@@ -940,6 +940,9 @@ var EncuestaService = /** @class */ (function () {
                 strDescripcion: arrayParametros.strDescripcion,
                 strPermiteFirma: arrayParametros.strPermiteFirma,
                 strPermiteDatoAdicional: arrayParametros.strPermiteDatoAdicional,
+                strPermiteGenero: arrayParametros.strPermiteGenero,
+                strPermiteCorreo: arrayParametros.strPermiteCorreo,
+                strPermiteAnio: arrayParametros.strPermiteAnio,
                 intIdArea: arrayParametros.intIdArea,
                 strEstado: arrayParametros.strEstado,
                 intIdUsuario: arrayParametros.intIdUsuario
@@ -955,6 +958,9 @@ var EncuestaService = /** @class */ (function () {
                 strDescripcion: arrayParametros.strDescripcion,
                 strPermiteFirma: arrayParametros.strPermiteFirma,
                 strPermiteDatoAdicional: arrayParametros.strPermiteDatoAdicional,
+                strPermiteGenero: arrayParametros.strPermiteGenero,
+                strPermiteCorreo: arrayParametros.strPermiteCorreo,
+                strPermiteAnio: arrayParametros.strPermiteAnio,
                 intIdArea: arrayParametros.intIdArea,
                 strEstado: arrayParametros.strEstado,
                 intIdUsuario: arrayParametros.intIdUsuario

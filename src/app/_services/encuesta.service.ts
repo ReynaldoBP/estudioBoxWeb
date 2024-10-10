@@ -71,6 +71,9 @@ export class EncuestaService {
                 strDescripcion: arrayParametros.strDescripcion,
                 strPermiteFirma: arrayParametros.strPermiteFirma,
                 strPermiteDatoAdicional: arrayParametros.strPermiteDatoAdicional,
+                strPermiteGenero: arrayParametros.strPermiteGenero,
+                strPermiteCorreo: arrayParametros.strPermiteCorreo,
+                strPermiteAnio: arrayParametros.strPermiteAnio,
                 intIdArea: arrayParametros.intIdArea,
                 strEstado: arrayParametros.strEstado,
                 intIdUsuario: arrayParametros.intIdUsuario
@@ -87,6 +90,9 @@ export class EncuestaService {
                 strDescripcion: arrayParametros.strDescripcion,
                 strPermiteFirma: arrayParametros.strPermiteFirma,
                 strPermiteDatoAdicional: arrayParametros.strPermiteDatoAdicional,
+                strPermiteGenero: arrayParametros.strPermiteGenero,
+                strPermiteCorreo: arrayParametros.strPermiteCorreo,
+                strPermiteAnio: arrayParametros.strPermiteAnio,
                 intIdArea: arrayParametros.intIdArea,
                 strEstado: arrayParametros.strEstado,
                 intIdUsuario: arrayParametros.intIdUsuario
