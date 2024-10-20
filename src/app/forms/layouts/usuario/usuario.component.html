@@ -9,7 +9,8 @@
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header">
-					<h4 class="card-title" id="basic-layout-form">{{usuario.intIdUsuario == '0'?'Nuevo usuario':'Editando
+					<h4 class="card-title" id="basic-layout-form">{{usuario.intIdUsuario == '0'?'Nuevo
+						usuario':'Editando
 						usuario'}}</h4>
 				</div>
 				<div class="card-body">
@@ -54,7 +55,8 @@
 										<div class="form-group">
 											<label for="cmbRol">Rol</label>
 											<select id="cmbRol" name="cmbRol" class="form-control"
-												[(ngModel)]="usuario.intIdTipoRol" #cmbRol="ngModel">
+												placeholder="Seleccione Empresa" [(ngModel)]="usuario.intIdTipoRol"
+												#cmbRol="ngModel">
 												<option value="" selected="" disabled="">Seleccione</option>
 												<option *ngFor="let item of listRol" value="{{item['intIdRol']}}">
 													{{item['strRol']}}</option>
@@ -62,19 +64,43 @@
 										</div>
 									</div>
 
-									<div class="col-md-4" *ngIf="usuario.idtiporol != 1">
+								</div>
+								<div class="row" *ngIf="usuario.intIdTipoRol!=1">
+									<div class="col-md-4">
 										<div class=" form-group">
 											<label for="lblRestaurante">Empresa</label>
 											<select id="cmbrestaurantes" name="cmbrestaurantes" class="form-control"
-												[(ngModel)]="usuario.intIdEmpresa" #cmbrestaurantes="ngModel">
+												(change)="getSucursales()" [(ngModel)]="usuario.intIdEmpresa"
+												#cmbrestaurantes="ngModel">
 												<option value="" selected="" disabled="">Seleccione</option>
-												<option *ngFor="let item of arrayEmpresa" value="{{item['intIdEmpresa']}}">
+												<option *ngFor="let item of arrayEmpresa"
+													value="{{item['intIdEmpresa']}}">
 													{{item['strNombreComercial']}}</option>
 											</select>
 										</div>
 									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="lblSucursal">Sucursal</label>
+											<ng-select [items]="arraySucursal" [multiple]="true" [closeOnSelect]="true"
+												[hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
+												[ngModelOptions]="{ standalone: true }"
+												placeholder="Seleccione Sucursal" [(ngModel)]="usuario.arrayIdSucursal"
+												(change)="getArea()">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="lblArea">Area</label>
+											<ng-select [items]="arrayArea" [multiple]="true" [closeOnSelect]="true"
+												[hideSelected]="false" bindLabel="strArea" bindValue="intIdArea"
+												[ngModelOptions]="{ standalone: true }" placeholder="Seleccione Area"
+												[(ngModel)]="usuario.arrayIdArea">
+											</ng-select>
+										</div>
+									</div>
 								</div>
-
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
@@ -82,15 +108,15 @@
 											<div class="input-group">
 												<div class="custom-control custom-radio display-inline-block">
 													<input type="radio" id="rdNotificacionSi" name="rdNotificacionSi"
-														class="custom-control-input" [(ngModel)]="usuario.strNotificacion"
-														[value]="true">
+														class="custom-control-input"
+														[(ngModel)]="usuario.strNotificacion" [value]="true">
 													<label class="custom-control-label"
 														for="rdNotificacionSi">Si</label>
 												</div>
 												<div class="custom-control custom-radio display-inline-block">
 													<input type="radio" id="rdNotificacionNo" name="rdNotificacionNo"
-														class="custom-control-input" [(ngModel)]="usuario.strNotificacion"
-														[value]="false">
+														class="custom-control-input"
+														[(ngModel)]="usuario.strNotificacion" [value]="false">
 													<label class="custom-control-label"
 														for="rdNotificacionNo">No</label>
 												</div>

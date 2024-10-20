@@ -101,6 +101,7 @@ var AreaService = /** @class */ (function () {
                 strEstado: objParametros.strEstado,
                 strContador: objParametros.strContador,
                 intIdUsuario: objParametros.intIdUsuario,
+                intIdUsuarioEmpresa: objParametros.intIdUsuarioEmpresa,
                 intIdSucursal: objParametros.intIdSucursal,
                 arrayIdSucursal: objParametros.arrayIdSucursal,
                 boolAgrupar: objParametros.boolAgrupar
@@ -2283,6 +2284,7 @@ var SucursalService = /** @class */ (function () {
                 strEstado: objParametros.strEstado,
                 strContador: objParametros.strContador,
                 intIdUsuario: objParametros.intIdUsuario,
+                intIdUsuarioEmpresa: objParametros.intIdUsuarioEmpresa,
                 intIdEmpresa: objParametros.intIdEmpresa
             }
         };
@@ -2551,6 +2553,9 @@ var UsuarioService = /** @class */ (function () {
                 strCorreo: objParametros.strCorreo,
                 intIdTipoRol: objParametros.intIdTipoRol,
                 intIdEmpresa: objParametros.intIdEmpresa,
+                intIdSucursal: objParametros.intIdSucursal,
+                arrayIdSucursal: objParametros.arrayIdSucursal,
+                arrayIdArea: objParametros.arrayIdArea,
                 strEstado: objParametros.strEstado,
                 strUsrSesion: objParametros.strUsrSesion
             }
@@ -2567,6 +2572,9 @@ var UsuarioService = /** @class */ (function () {
                 strCorreo: objParametros.strCorreo,
                 intIdTipoRol: objParametros.intIdTipoRol,
                 intIdEmpresa: objParametros.intIdEmpresa,
+                intIdSucursal: objParametros.intIdSucursal,
+                arrayIdSucursal: objParametros.arrayIdSucursal,
+                arrayIdArea: objParametros.arrayIdArea,
                 strEstado: objParametros.strEstado,
                 strUsrSesion: objParametros.strUsrSesion
             }

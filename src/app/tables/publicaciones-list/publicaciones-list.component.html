@@ -52,10 +52,16 @@
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
-                                    <div class="col-md-10">
+                                    <div class="col-md-5">
                                         <button type="button" style="width: 100%"
                                             class="btn btn-raised btn-raised btn-success" (click)="getDataEncuesta()">
                                             <i class="fa fa-search"></i> Buscar
+                                        </button>
+                                    </div>
+                                    <div class="col-md-5" align="right" *ngIf="getAccion('ELIMINAR')">
+                                        <button type="button" style="width: 100%"
+                                            class="btn btn-raised btn-raised btn-danger" (click)="declinar()">
+                                            <i class="fa fa-times"></i> Eliminar
                                         </button>
                                     </div>
                                     <div class="col-md-2">
@@ -317,7 +323,7 @@
                             <thead>
                                 <tr>
                                     <!--<th>Red Social</th>-->
-                                    <th *ngIf="user.strTipoRol=='ADMINISTRADOR'">Id</th>
+                                    <th *ngIf="getAccion('ELIMINAR')">Id</th>
                                     <th>Fecha</th>
                                     <th>Cliente</th>
                                     <th>Sucursal</th>
@@ -325,13 +331,13 @@
                                     <th>Promedio</th>
                                     <th>Respuestas</th>
                                     <!--<th>Imagen</th>-->
-                                    <th *ngIf="user.strTipoRol=='ADMINISTRADOR'">Selecc.</th>
+                                    <th *ngIf="getAccion('ELIMINAR')">Selecc.</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of rows | filterDataEncuesta : estadoFiltro| paginate: { itemsPerPage: intLimiteRegistros, currentPage: intPagina,totalItems:intTotalRegistros }"
                                     [className]="item['strEstado']=='ELIMINADO'||item['strEsmenor3']=='SI'?'bg-danger':'bg-light'">
-                                    <td *ngIf="user.strTipoRol=='ADMINISTRADOR'">
+                                    <td *ngIf="getAccion('ELIMINAR')">
                                         <div *ngIf="item['strVisto'] =='0' && item['strComentario'] !=''"
                                             style='font-weight:600;padding-top: 10'>
                                             {{item['intIdCltEncuesta']}}
@@ -440,7 +446,7 @@
                                             <i class="ft-list font-medium-3 mr-2"></i>
                                         </a>
                                     </td>
-                                    <td *ngIf="user.strTipoRol=='ADMINISTRADOR'">
+                                    <td *ngIf="getAccion('ELIMINAR')">
                                         <input type="checkbox" [(ngModel)]="item['CHECKED']" class="form-control">
                                     </td>
                                 </tr>
