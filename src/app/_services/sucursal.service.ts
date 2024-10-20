@@ -12,6 +12,7 @@ export class SucursalService {
                 strEstado: objParametros.strEstado,
                 strContador: objParametros.strContador,
                 intIdUsuario: objParametros.intIdUsuario,
+                intIdUsuarioEmpresa: objParametros.intIdUsuarioEmpresa,
                 intIdEmpresa: objParametros.intIdEmpresa
             }
         }
