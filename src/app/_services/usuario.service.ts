@@ -82,6 +82,9 @@ export class UsuarioService {
                 strCorreo: objParametros.strCorreo,
                 intIdTipoRol: objParametros.intIdTipoRol,
                 intIdEmpresa: objParametros.intIdEmpresa,
+                intIdSucursal: objParametros.intIdSucursal,
+                arrayIdSucursal: objParametros.arrayIdSucursal,
+                arrayIdArea: objParametros.arrayIdArea,
                 strEstado: objParametros.strEstado,
                 strUsrSesion: objParametros.strUsrSesion
             }
@@ -98,6 +101,9 @@ export class UsuarioService {
                 strCorreo: objParametros.strCorreo,
                 intIdTipoRol: objParametros.intIdTipoRol,
                 intIdEmpresa: objParametros.intIdEmpresa,
+                intIdSucursal: objParametros.intIdSucursal,
+                arrayIdSucursal: objParametros.arrayIdSucursal,
+                arrayIdArea: objParametros.arrayIdArea,
                 strEstado: objParametros.strEstado,
                 strUsrSesion: objParametros.strUsrSesion
             }
