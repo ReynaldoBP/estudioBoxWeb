@@ -1166,6 +1166,21 @@ var EncuestaService = /** @class */ (function () {
         };
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     };
+    EncuestaService.prototype.ingresarInformacionAdicional = function (arrayParametros) {
+        var datos = {
+            data: {
+                intFacturaValida: arrayParametros.facturaValida,
+                intEncuestaFisica: arrayParametros.encuestaFisica,
+                intNoContesto: arrayParametros.noContesto,
+                intMinObtener: arrayParametros.minObtener,
+                intMes: arrayParametros.intMes,
+                intAnio: arrayParametros.intAnio,
+                intIdArea: arrayParametros.intIdArea,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/ingresarInformacionAdicional', datos);
+    };
     EncuestaService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
         __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"], _global_service__WEBPACK_IMPORTED_MODULE_2__["Globals"]])

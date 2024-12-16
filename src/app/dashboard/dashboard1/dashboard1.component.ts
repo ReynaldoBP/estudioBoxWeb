@@ -28,6 +28,7 @@ export interface Chart {
 })
 
 export class Dashboard1Component implements OnInit {
+    boolMostrarComparativaArea: boolean
     totalClientesEdadMensual: number;
     totalBarrasEdades: number;
     contadorBarrasEdades: number;
@@ -163,6 +164,70 @@ export class Dashboard1Component implements OnInit {
             }
         },
     };
+    // Stacked Bar chart comparativa
+    StackbarchartAreaComparativa: Chart = {
+        type: 'Bar',
+        data: {
+            labels: [], // Etiquetas de cada área
+            series: [[], []] // Dos series: valores actuales y comparativa
+        },
+        options: {
+            stackBars: false, // No apilar barras
+            fullWidth: true,
+            seriesBarDistance: 15, // Espaciado entre barras
+            axisX: {
+                showGrid: false,
+                labelOffset: {
+                    y: 20
+                }
+            },
+            axisY: {
+                showGrid: true,
+                offset: 30 // Espacio para etiquetas numéricas
+            },
+            chartPadding: {
+                top: 20,
+                right: 20,
+                bottom: 20,
+                left: 20
+            }
+        },
+        events: {
+            created(data: any): void {
+                const defs = data.svg.elem('defs');
+                defs.elem('linearGradient', {
+                    id: 'linear',
+                    x1: 0,
+                    y1: 1,
+                    x2: 0,
+                    y2: 0
+                }).elem('stop', {
+                    offset: 0,
+                    'stop-color': 'rgba(0, 201, 255,1)' // Barra 1: Azul
+                }).parent().elem('stop', {
+                    offset: 1,
+                    'stop-color': 'rgb(204, 0, 0)' // Barra 2: Verde
+                });
+            },
+            draw(data: any): void {
+                if (data.type === 'bar') {
+                    // Personalización de las barras
+                    data.element.attr({
+                        style: `stroke-width: 5px; fill: url(#linear)`,
+                        x1: data.x1 + 0.001
+                    });
+    
+                    // Agregar etiquetas de valores sobre las barras
+                    const value = data.value.y;
+                    data.group.elem('text', {
+                        x: data.x2,
+                        y: data.y2 - 10, // Ajustar posición para colocar encima
+                        style: 'text-anchor: middle; font-size: 12px; fill: black'
+                    }).text(value.toString());
+                }
+            }
+        }
+    };
 
     // Stacked Bar chart configuration Starts
     StackbarchartArea: Chart = {
@@ -267,7 +332,7 @@ export class Dashboard1Component implements OnInit {
                             dy: data.y1 - 170, // Ajusta la posición según sea necesario
                             'text-anchor': 'middle',
                             class: 'ct-bar-label'
-                        }).text(data.value.y +" = "+percentage);
+                        }).text(data.value.y + " = " + percentage);
                     }
                 } else if (data.type === 'label') {
                     data.element.attr({
@@ -557,6 +622,11 @@ export class Dashboard1Component implements OnInit {
     }
     ngOnInit() {
         this.getDashboard(this.objSelectEmpresa)
+        console.log(this.user);
+        if(this.objSelectEmpresa == 11 || this.user.intIdUsuarioEmpresa == 11)
+        {
+            this.boolMostrarComparativaArea=true
+        }
     }
     getDashboard(objSelectEmpresa) {
         this.boolMostrarGeneroEdad = this.user.intIdUsuario == 14 ? "NO" : "SI"
@@ -732,7 +802,9 @@ export class Dashboard1Component implements OnInit {
                 data => {
                     if (data["intStatus"] == 200) {
                         this.totalEncuestasPorArea = data['arrayData']
-                        if (this.totalEncuestasPorArea != null && this.totalEncuestasPorArea != '') {
+                        console.log(this.objSelectEmpresa)
+                        if (this.totalEncuestasPorArea != null && this.totalEncuestasPorArea != '' && this.objSelectEmpresa != 11) {
+                            console.log("Grafico de Area sin Comparativa")
                             let maxValue = this.totalEncuestasPorArea.reduce(function (prev, current) {
                                 return (Number.parseInt(prev.intCantidad) > Number.parseInt(current.intCantidad)) ? prev : current
                             })
@@ -743,6 +815,38 @@ export class Dashboard1Component implements OnInit {
                                 ]
                             }
                         }
+                        if (this.totalEncuestasPorArea != null && this.totalEncuestasPorArea != '' && (this.objSelectEmpresa == 11 || this.user.intIdUsuarioEmpresa == 11)) {
+                            console.log("Grafico de Area Comparativo")
+                            if (this.totalEncuestasPorArea != null && this.totalEncuestasPorArea.length > 0) {
+                                let valoresActuales = this.totalEncuestasPorArea.map(item => Number(item.intCantidad));
+
+                                // Serie 2: Comparativa basada en el valor máximo
+                                let maxValor = Math.max(...valoresActuales);
+                                let valoresComparativos = this.totalEncuestasPorArea.map(item => Number(item.intComparativa));
+                                //let valoresComparativos = this.totalEncuestasPorArea.map(item => maxValor);
+
+                                console.log("Valores Actuales:", valoresActuales);
+                                console.log("Valores Comparativos:", valoresComparativos);
+
+                                this.StackbarchartAreaComparativa.data = {
+                                    labels: this.totalEncuestasPorArea.map(item => {
+                                        // Validar si intComparativa es válido y mayor a 0
+                                        const porcentaje = item.intComparativa && item.intComparativa > 0
+                                            ? ((item.intCantidad / item.intComparativa) * 100).toFixed(1) // Calcula el porcentaje
+                                            : '0'; // Devuelve 'N/A' si intComparativa es 0 o no está definido
+                                
+                                        return `${porcentaje}% ${item.strArea}`;
+                                    }),
+                                    series: [
+                                        valoresActuales,       // Serie 1: Valores actuales
+                                        valoresComparativos    // Serie 2: Comparativa
+                                    ]
+                                };
+                            } else {
+                                console.warn("No hay datos disponibles para mostrar.");
+                            }
+                        }
+
                     } else {
                         this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                     }

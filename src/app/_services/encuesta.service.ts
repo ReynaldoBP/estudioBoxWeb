@@ -311,4 +311,19 @@ export class EncuestaService {
         }
         return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
     }
+    ingresarInformacionAdicional(arrayParametros: any) {
+        let datos = {
+            data: {
+                intFacturaValida: arrayParametros.facturaValida,
+                intEncuestaFisica: arrayParametros.encuestaFisica,
+                intNoContesto: arrayParametros.noContesto,
+                intMinObtener: arrayParametros.minObtener,
+                intMes: arrayParametros.intMes,
+                intAnio: arrayParametros.intAnio,
+                intIdArea: arrayParametros.intIdArea,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/ingresarInformacionAdicional', datos);
+    }
 }

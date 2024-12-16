@@ -191,7 +191,35 @@
 		</div>
 	</div>
 </div>
-<div *ngIf="totalEncuestasPorArea" class="row" matchHeight="card">
+<div *ngIf="totalEncuestasPorArea && boolMostrarComparativaArea" class="row" matchHeight="card">
+	<!-- Card View de Encuestas por Area -->
+	<div class="col-xl-12 col-lg-12 col-md-12 col-12">
+		<div class="card">
+			<div class="card-header">
+				<h4 class="card-title">Encuestas por Área</h4>
+			</div>
+			<div class="card-body">
+				<!-- Leyenda -->
+				<figure id="chartLegend" class="chart-legend">
+					<figcaption>
+						<span class="legend-item legend-actual"></span> Encuesta Digital
+						<span class="legend-item legend-comparative"></span> # Pacientes
+					</figcaption>
+				</figure>
+				<!-- Gráfico -->
+				<div id="Stack-bar-chart" class="height-350 StackbarchartAreaComparativa mb-2">
+					<x-chartist class="" [data]="StackbarchartAreaComparativa.data"
+						[type]="StackbarchartAreaComparativa.type" [options]="StackbarchartAreaComparativa.options"
+						[responsiveOptions]="StackbarchartAreaComparativa.responsiveOptions"
+						[events]="StackbarchartAreaComparativa.events">
+					</x-chartist>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div *ngIf="totalEncuestasPorArea && !boolMostrarComparativaArea" class="row" matchHeight="card">
 	<!--Card View de Encuestas por area-->
 	<div class="col-xl-12 col-lg-12 col-md-12 col-12">
 		<div class="card">

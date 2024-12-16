@@ -15,6 +15,7 @@ import { forkJoin } from 'rxjs';
 })
 
 export class PublicacionesListComponent implements OnInit {
+    mostrarCargaData = false;
     objLoading: any = false;
     date = new Date();
     rows: any
@@ -62,6 +63,14 @@ export class PublicacionesListComponent implements OnInit {
     arrayEncuestas
     objSelectEncuesta: any = null
     arraySelectSucursal: any[] = []
+    arrayParametrosInfoAdicional: any = {
+        facturaValida: '',
+        encuestaFisica: '',
+        noContesto: '',
+        minObtener: '',
+        intIdArea: ''
+    }
+
     arrayParametrosEncuestas: any = {
         intIdSucursal: '',
         arrayIdSucursal: [],
@@ -410,6 +419,11 @@ export class PublicacionesListComponent implements OnInit {
             )
     }
     getEncuesta() {
+        this.mostrarCargaData = false
+        if(this.user.strTipoRol == "ADMINISTRADOR")
+        {
+            this.mostrarCargaData=true
+        }
         this.objLoading = true
         this.objSelectEncuesta = null
         this.arrayParametrosEncuestas.arrayIdSucursal = []
@@ -515,8 +529,7 @@ export class PublicacionesListComponent implements OnInit {
             "intIdSucursal": this.objSelectSucursal,
             "intIdArea": this.objSelectArea
         }
-        if(this.objSelectSucursal == null && this.user.strTipoRol == "ADMINISTRADOR")
-        {
+        if (this.objSelectSucursal == null && this.user.strTipoRol == "ADMINISTRADOR") {
             this.toastr.warning("Estimado Usuario por favor su ayuda seleccioanndo una sucursal")
             this.objLoading = false
             return
@@ -564,5 +577,103 @@ export class PublicacionesListComponent implements OnInit {
     onPageChange(event: number): void {
         this.intPagina = event;
         this.getDataEncuesta()
+    }
+    getCargarDataParaReporte() {
+        // Crea un contenedor principal
+        const objDivMain = document.createElement('div');
+        objDivMain.className = "row justify-content-center mt-4";
+        // Arma el HTML del formulario
+        const formHTML = `
+            <div class="container mt-4">
+                <!-- Fila 1 -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="facturaValida"><strong># Facturas válidas</strong></label>
+                        <input type="number" class="form-control text-center" id="facturaValida" placeholder="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="encuestaFisica"><strong># Encuesta física</strong></label>
+                        <input type="number" class="form-control text-center" id="encuestaFisica" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Fila 2 -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="noContesto"><strong># No contestó</strong></label>
+                        <input type="number" class="form-control text-center" id="noContesto" placeholder="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="minObtener"><strong>% Min. a Obtener</strong></label>
+                        <input type="number" class="form-control text-center" id="minObtener" placeholder="0">
+                    </div>
+                </div>
+            </div>
+        `;
+        // Inserta el HTML en el contenedor
+        objDivMain.innerHTML = formHTML;
+        // Muestra el formulario usando SweetAlert2
+        swal({
+            title: "Registro de Información Adicional",
+            html: objDivMain,
+            showCancelButton: true,
+            confirmButtonText: "Aceptar",
+            cancelButtonText: "Cancelar",
+            width: 600,
+            preConfirm: () => {
+                const facturaValida = (document.getElementById('facturaValida') as HTMLInputElement).value;
+                if (!facturaValida || isNaN(Number(facturaValida))) {
+                    swal.showValidationMessage("Debe ingresar un número de factura válido");
+                }
+                const encuestaFisica = (document.getElementById('encuestaFisica') as HTMLInputElement).value;
+                if (!encuestaFisica || isNaN(Number(encuestaFisica))) {
+                    swal.showValidationMessage("Debe ingresar un número de encuesta válido");
+                }
+                const noContesto = (document.getElementById('noContesto') as HTMLInputElement).value;
+                if (!noContesto || isNaN(Number(noContesto))) {
+                    swal.showValidationMessage("Debe ingresar un número de No conestó válido");
+                }
+                const minObtener = (document.getElementById('minObtener') as HTMLInputElement).value;
+                if (!minObtener || isNaN(Number(minObtener))) {
+                    swal.showValidationMessage("Debe ingresar un número de Mínimo válido");
+                }
+                if (this.objSelectArea != undefined) {
+                    this.arrayParametrosInfoAdicional.intIdArea = this.objSelectArea
+                }
+                this.arrayParametrosInfoAdicional.facturaValida = Number(facturaValida)
+                this.arrayParametrosInfoAdicional.encuestaFisica = Number(encuestaFisica)
+                this.arrayParametrosInfoAdicional.noContesto = Number(noContesto)
+                this.arrayParametrosInfoAdicional.minObtener = Number(minObtener)
+                this.arrayParametrosInfoAdicional.intMes = Number(this.mesEncuestas.toString())
+                this.arrayParametrosInfoAdicional.intAnio = Number(this.anioEncuestas.toString())
+                this.arrayParametrosInfoAdicional.intIdUsuario = this.user.intIdUsuario
+                return this.arrayParametrosInfoAdicional; // Retorna el valor del campo
+            }
+        }).then((result: any) => { // Aquí se usa 'any' para evitar el error de tipado
+            if (result.value) { // Verifica si hay un valor (si se confirmó)
+                console.log("Info Adicional:", result.value);
+                this.procesarInformacionAdicional(result.value);
+            } else {
+                console.log("Operación cancelada");
+            }
+        });
+    }
+
+    // Ejemplo de función para procesar el número de paciente
+    procesarInformacionAdicional(arrayParametrosInfoAdicional: any) {
+        this.objLoading = true
+        console.log("Procesando la información adicional:", arrayParametrosInfoAdicional)
+        this.objEncuestaService.ingresarInformacionAdicional(arrayParametrosInfoAdicional).subscribe(
+            data => {
+                this.objLoading = false
+                if (data["intStatus"] == 200) {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                } else {
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            },
+            error => {
+                this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+            });
     }
 }

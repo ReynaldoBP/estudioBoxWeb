@@ -60,7 +60,19 @@
         }
     }
 }
+:host /deep/ .StackbarchartAreaComparativa {
+    .ct-series-a {
+        .ct-bar {
+            stroke: url($dashboard1-gradient-path +  #linear) !important
+        }
+    }
 
+    .ct-series-b {
+        .ct-bar {
+            stroke: #b5c017;
+        }
+    }
+}
 :host /deep/ .EdadesChart {
     .ct-series-a {
         .ct-bar {
@@ -214,6 +226,26 @@
     filter: drop-shadow(0px 15px 5px rgba(0, 0, 0, 0.8));
     /* Same syntax as box-shadow, except 
                                                        for the spread property */
+}
+.chart-legend {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+
+    .legend-item {
+        display: inline-block;
+        width: 15px;
+        height: 15px;
+        border-radius: 3px;
+    }
+
+    .legend-actual {
+        background: linear-gradient(0deg, rgba(0, 201, 255, 1) 0%, rgba(0, 150, 255, 0.7) 100%);
+    }
+
+    .legend-comparative {
+        background: linear-gradient(0deg, rgba(181, 192, 23, 1) 0%, rgba(200, 140, 15, 0.7) 100%);
+    }
 }
 
 // Widget line Chart CSS Ends

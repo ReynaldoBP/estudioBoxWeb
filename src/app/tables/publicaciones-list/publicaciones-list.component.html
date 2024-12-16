@@ -26,9 +26,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
-                                            (change)="getArea()" [hideSelected]="false"
-                                            bindLabel="strNombre" bindValue="intIdSucursal"
-                                            placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal">
+                                            (change)="getArea()" [hideSelected]="false" bindLabel="strNombre"
+                                            bindValue="intIdSucursal" placeholder="Seleccione Sucursal"
+                                            [(ngModel)]="objSelectSucursal">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -52,19 +52,25 @@
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <button type="button" style="width: 100%"
                                             class="btn btn-raised btn-raised btn-success" (click)="getDataEncuesta()">
                                             <i class="fa fa-search"></i> Buscar
                                         </button>
                                     </div>
-                                    <div class="col-md-5" align="right" *ngIf="getAccion('ELIMINAR')">
+                                    <div class="col-md-3" *ngIf="mostrarCargaData">
+                                        <button type="button" class="btn btn-raised btn-raised btn-success"
+                                            (click)="getCargarDataParaReporte()">
+                                            <i class="fa fa-upload"></i> Ingresar
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3" align="right" *ngIf="getAccion('ELIMINAR')">
                                         <button type="button" style="width: 100%"
                                             class="btn btn-raised btn-raised btn-danger" (click)="declinar()">
                                             <i class="fa fa-times"></i> Eliminar
                                         </button>
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-3">
                                         <button type="button" class="btn btn-raised btn-raised btn-success"
                                             (click)="getExportarCsv()">
                                             <i class="fa fa-file-excel-o"></i>
@@ -171,9 +177,9 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <ng-select [items]="arraySucursal" [multiple]="false" [closeOnSelect]="true"
-                                            (change)="getArea()" [hideSelected]="false"
-                                            bindLabel="strNombre" bindValue="intIdSucursal"
-                                            placeholder="Seleccione Sucursal" [(ngModel)]="objSelectSucursal">
+                                            (change)="getArea()" [hideSelected]="false" bindLabel="strNombre"
+                                            bindValue="intIdSucursal" placeholder="Seleccione Sucursal"
+                                            [(ngModel)]="objSelectSucursal">
                                         </ng-select>
                                     </div>
                                 </div>
@@ -197,19 +203,25 @@
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
-                                    <div class="col-md-5">
+                                    <div class="col-md-3">
                                         <button type="button" style="width: 100%"
                                             class="btn btn-raised btn-raised btn-success" (click)="getDataEncuesta()">
                                             <i class="fa fa-search"></i> Buscar
                                         </button>
                                     </div>
-                                    <div class="col-md-5" align="right">
+                                    <div class="col-md-3" *ngIf="mostrarCargaData">
+                                        <button type="button" class="btn btn-raised btn-raised btn-success"
+                                            (click)="getCargarDataParaReporte()">
+                                            <i class="fa fa-upload"></i> Ingresar
+                                        </button>
+                                    </div>
+                                    <div class="col-md-3" align="right">
                                         <button type="button" style="width: 100%"
                                             class="btn btn-raised btn-raised btn-danger" (click)="declinar()">
                                             <i class="fa fa-times"></i> Eliminar
                                         </button>
                                     </div>
-                                    <div class="col-md-2" align="right">
+                                    <div class="col-md-3" align="right">
                                         <button type="button" class="btn btn-raised btn-raised btn-success"
                                             (click)="getExportarCsv()">
                                             <i class="fa fa-file-excel-o"></i>
