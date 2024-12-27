@@ -7,7 +7,7 @@ import swal from 'sweetalert2';
 import { EncuestaService } from 'app/_services/encuesta.service';
 import { ToastrService } from 'ngx-toastr';
 import { forkJoin } from 'rxjs';
-
+import { ReporteService } from 'app/_services/reporte.service';
 @Component({
     selector: 'app-extended-table',
     templateUrl: './publicaciones-list.component.html',
@@ -15,7 +15,46 @@ import { forkJoin } from 'rxjs';
 })
 
 export class PublicacionesListComponent implements OnInit {
+    formHTMLTenisClub = `
+            <div class="container mt-4">
+                <!-- Fila 1 -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="facturaValida"><strong># Facturas válidas</strong></label>
+                        <input type="number" class="form-control text-center" id="facturaValida" placeholder="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="encuestaFisica"><strong># Encuesta física</strong></label>
+                        <input type="number" class="form-control text-center" id="encuestaFisica" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Fila 2 -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="noContesto"><strong># No contestó</strong></label>
+                        <input type="number" class="form-control text-center" id="noContesto" placeholder="0">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="minObtener"><strong>% Min. a Obtener</strong></label>
+                        <input type="number" class="form-control text-center" id="minObtener" placeholder="0">
+                    </div>
+                </div>
+            </div>
+        `;
+    formHTMLHospital = `
+        <div class="container mt-4">
+            <!-- Fila 1 -->
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <label for="pacientes"><strong># Pacientes</strong></label>
+                    <input type="number" class="form-control text-center" id="pacientes" placeholder="0">
+                </div>
+            </div>
+        </div>
+    `;
     mostrarCargaData = false;
+    mostrarReporte = false;
     objLoading: any = false;
     date = new Date();
     rows: any
@@ -123,6 +162,7 @@ export class PublicacionesListComponent implements OnInit {
         private objExportarDataService: ExcelService,
         private toastr: ToastrService,
         private objSucursalService: SucursalService,
+        private reporteService: ReporteService,
         private objAreaService: AreaService) {
         this.rows = []
         toastr.toastrConfig.timeOut = 3000
@@ -419,11 +459,10 @@ export class PublicacionesListComponent implements OnInit {
             )
     }
     getEncuesta() {
-        this.mostrarCargaData = false
-        if(this.user.strTipoRol == "ADMINISTRADOR")
-        {
-            this.mostrarCargaData=true
-        }
+        this.mostrarCargaData = (this.getAccion('DATA ADICIONAL')) ? true : false
+        console.log("getEncuesta")
+        console.log(this.mostrarCargaData)
+        this.mostrarReporte = (this.getAccion('REPORTE')) ? true : false
         this.objLoading = true
         this.objSelectEncuesta = null
         this.arrayParametrosEncuestas.arrayIdSucursal = []
@@ -579,37 +618,72 @@ export class PublicacionesListComponent implements OnInit {
         this.getDataEncuesta()
     }
     getCargarDataParaReporte() {
+        if (this.objSelectArea != undefined) {
+            this.arrayParametrosInfoAdicional.intIdArea = this.objSelectArea
+        }
+        else {
+            this.toastr.warning("Error, La Area es un campo obligatorio")
+            return
+        }
+        this.arrayParametrosInfoAdicional.intIdUsuario = this.user.intIdUsuario
+        this.arrayParametrosInfoAdicional.intMes = Number(this.mesEncuestas.toString())
+        this.arrayParametrosInfoAdicional.intAnio = Number(this.anioEncuestas.toString())
+        if (this.user.strTipoRol == "ADMINISTRADOR") {
+            this.toastr.warning("Error, La opción solo es permitido para usuarios de tipo Empresa")
+            return
+        }
+        const empresasPermitidas = [11, 14, 18];
+        // Verificar casos no permitidos primero
+        if (!empresasPermitidas.includes(this.user.intIdUsuarioEmpresa)) {
+            this.toastr.warning("Error, La Empresa a la que ud. pertenece no permite el ingreso de datos adicionales")
+            return
+        }
+        else {
+            this.objLoading = true
+            console.log("Procesando la información adicional:", this.arrayParametrosInfoAdicional)
+            this.objEncuestaService.consultarInformacionAdicional(this.arrayParametrosInfoAdicional).subscribe(
+                data => {
+                    this.objLoading = false
+                    if (data["intStatus"] == 200) {
+                        let arrayAreaCaract = data['arrayAreaCaract'];
+                        console.log(arrayAreaCaract)
+                        for (const valor of arrayAreaCaract) {
+                            console.log(valor.intId);
+                            console.log(valor.strCaracteristica);
+                            console.log(valor.strValor1);
+                            console.log(valor.strValor2);
+                            console.log(valor.strValor3);
+                            console.log(valor.strEstado);
+                            if (valor.strCaracteristica == "NUMERO_PACIENTE") {
+                                (document.getElementById('pacientes') as HTMLInputElement).value = valor.strValor1
+                            }
+                            if (valor.strCaracteristica == "FACTURAS VALIDAS") {
+                                (document.getElementById('facturaValida') as HTMLInputElement).value = valor.strValor1
+                            }
+                            if (valor.strCaracteristica == "ENCUESTA FÍSICA") {
+                                (document.getElementById('encuestaFisica') as HTMLInputElement).value = valor.strValor1
+                            }
+                            if (valor.strCaracteristica == "NO CONTESTO") {
+                                (document.getElementById('noContesto') as HTMLInputElement).value = valor.strValor1
+                            }
+                            if (valor.strCaracteristica == "MÍNIMO A OBTENER") {
+                                (document.getElementById('minObtener') as HTMLInputElement).value = valor.strValor1
+                            }
+                        }
+                    } else {
+                        this.toastr.warning('No Existen datos con los parámetros por favor ingresar.', 'Informativo')
+                    }
+                },
+                error => {
+                    this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+                });
+        }
+
         // Crea un contenedor principal
         const objDivMain = document.createElement('div');
         objDivMain.className = "row justify-content-center mt-4";
         // Arma el HTML del formulario
-        const formHTML = `
-            <div class="container mt-4">
-                <!-- Fila 1 -->
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="facturaValida"><strong># Facturas válidas</strong></label>
-                        <input type="number" class="form-control text-center" id="facturaValida" placeholder="0">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="encuestaFisica"><strong># Encuesta física</strong></label>
-                        <input type="number" class="form-control text-center" id="encuestaFisica" placeholder="0">
-                    </div>
-                </div>
-
-                <!-- Fila 2 -->
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <label for="noContesto"><strong># No contestó</strong></label>
-                        <input type="number" class="form-control text-center" id="noContesto" placeholder="0">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="minObtener"><strong>% Min. a Obtener</strong></label>
-                        <input type="number" class="form-control text-center" id="minObtener" placeholder="0">
-                    </div>
-                </div>
-            </div>
-        `;
+        const formHTML = (this.user.intIdUsuarioEmpresa == 11 || this.user.intIdUsuarioEmpresa == 18) ? this.formHTMLHospital : this.formHTMLTenisClub;
         // Inserta el HTML en el contenedor
         objDivMain.innerHTML = formHTML;
         // Muestra el formulario usando SweetAlert2
@@ -621,32 +695,36 @@ export class PublicacionesListComponent implements OnInit {
             cancelButtonText: "Cancelar",
             width: 600,
             preConfirm: () => {
-                const facturaValida = (document.getElementById('facturaValida') as HTMLInputElement).value;
-                if (!facturaValida || isNaN(Number(facturaValida))) {
-                    swal.showValidationMessage("Debe ingresar un número de factura válido");
+                if (this.user.intIdUsuarioEmpresa == 11 || this.user.intIdUsuarioEmpresa == 18) {
+                    const pacientes = (document.getElementById('pacientes') as HTMLInputElement).value;
+                    if (!pacientes || isNaN(Number(pacientes))) {
+                        swal.showValidationMessage("Debe ingresar un número de pacientes válido");
+                    }
+                    this.arrayParametrosInfoAdicional.pacientes = Number(pacientes)
                 }
-                const encuestaFisica = (document.getElementById('encuestaFisica') as HTMLInputElement).value;
-                if (!encuestaFisica || isNaN(Number(encuestaFisica))) {
-                    swal.showValidationMessage("Debe ingresar un número de encuesta válido");
+                else if (this.user.intIdUsuarioEmpresa == 14 || this.user.intIdUsuarioEmpresa == 14) {
+                    const facturaValida = (document.getElementById('facturaValida') as HTMLInputElement).value;
+                    if (!facturaValida || isNaN(Number(facturaValida))) {
+                        swal.showValidationMessage("Debe ingresar un número de factura válido");
+                    }
+                    const encuestaFisica = (document.getElementById('encuestaFisica') as HTMLInputElement).value;
+                    if (!encuestaFisica || isNaN(Number(encuestaFisica))) {
+                        swal.showValidationMessage("Debe ingresar un número de encuesta válido");
+                    }
+                    const noContesto = (document.getElementById('noContesto') as HTMLInputElement).value;
+                    if (!noContesto || isNaN(Number(noContesto))) {
+                        swal.showValidationMessage("Debe ingresar un número de No conestó válido");
+                    }
+                    const minObtener = (document.getElementById('minObtener') as HTMLInputElement).value;
+                    if (!minObtener || isNaN(Number(minObtener))) {
+                        swal.showValidationMessage("Debe ingresar un número de Mínimo válido");
+                    }
+
+                    this.arrayParametrosInfoAdicional.facturaValida = Number(facturaValida)
+                    this.arrayParametrosInfoAdicional.encuestaFisica = Number(encuestaFisica)
+                    this.arrayParametrosInfoAdicional.noContesto = Number(noContesto)
+                    this.arrayParametrosInfoAdicional.minObtener = Number(minObtener)
                 }
-                const noContesto = (document.getElementById('noContesto') as HTMLInputElement).value;
-                if (!noContesto || isNaN(Number(noContesto))) {
-                    swal.showValidationMessage("Debe ingresar un número de No conestó válido");
-                }
-                const minObtener = (document.getElementById('minObtener') as HTMLInputElement).value;
-                if (!minObtener || isNaN(Number(minObtener))) {
-                    swal.showValidationMessage("Debe ingresar un número de Mínimo válido");
-                }
-                if (this.objSelectArea != undefined) {
-                    this.arrayParametrosInfoAdicional.intIdArea = this.objSelectArea
-                }
-                this.arrayParametrosInfoAdicional.facturaValida = Number(facturaValida)
-                this.arrayParametrosInfoAdicional.encuestaFisica = Number(encuestaFisica)
-                this.arrayParametrosInfoAdicional.noContesto = Number(noContesto)
-                this.arrayParametrosInfoAdicional.minObtener = Number(minObtener)
-                this.arrayParametrosInfoAdicional.intMes = Number(this.mesEncuestas.toString())
-                this.arrayParametrosInfoAdicional.intAnio = Number(this.anioEncuestas.toString())
-                this.arrayParametrosInfoAdicional.intIdUsuario = this.user.intIdUsuario
                 return this.arrayParametrosInfoAdicional; // Retorna el valor del campo
             }
         }).then((result: any) => { // Aquí se usa 'any' para evitar el error de tipado
@@ -658,8 +736,6 @@ export class PublicacionesListComponent implements OnInit {
             }
         });
     }
-
-    // Ejemplo de función para procesar el número de paciente
     procesarInformacionAdicional(arrayParametrosInfoAdicional: any) {
         this.objLoading = true
         console.log("Procesando la información adicional:", arrayParametrosInfoAdicional)
@@ -667,7 +743,11 @@ export class PublicacionesListComponent implements OnInit {
             data => {
                 this.objLoading = false
                 if (data["intStatus"] == 200) {
-                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    swal({ title: "Datos Adicionales", text: "Datos Adicionales ingresado exitosamente!", type: "success", showConfirmButton: true })
+                        .then((result) => {
+                            if (result.value)
+                                this.getDataEncuesta()
+                        });
                 } else {
                     this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
                 }
@@ -676,4 +756,35 @@ export class PublicacionesListComponent implements OnInit {
                 this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
             });
     }
+    getExportarCsvPersonalizado() {
+        this.objLoading = true;
+
+        let arrayParametrosReporteEncuesta = {
+            intIdUsuario: this.user.intIdUsuario,
+            strTitulo: 'Califique su experiencia gastronómica',
+            intMes: Number(this.mesEncuestas.toString()),
+            intAnio: Number(this.anioEncuestas.toString()),
+            intIdSucursal: null, // Si no lo necesitas, puedes eliminarlo
+            intIdArea: null, // Si no lo necesitas, puedes eliminarlo
+            strReporteP: 'S'
+        };
+        this.reporteService.getReporteDataEncuesta(arrayParametrosReporteEncuesta).subscribe(
+            (blob: Blob) => {
+                this.objLoading = false;
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'reporte_con_graficos_personalizado.xlsx';
+                link.click();
+                window.URL.revokeObjectURL(url);
+            },
+            (error) => {
+
+                this.objLoading = false;
+                this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
+                console.error('Error en la respuesta del servidor:', error);
+            }
+        );
+    }
+
 }

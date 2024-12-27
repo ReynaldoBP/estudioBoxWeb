@@ -1169,6 +1169,7 @@ var EncuestaService = /** @class */ (function () {
     EncuestaService.prototype.ingresarInformacionAdicional = function (arrayParametros) {
         var datos = {
             data: {
+                intPaciente: arrayParametros.pacientes,
                 intFacturaValida: arrayParametros.facturaValida,
                 intEncuestaFisica: arrayParametros.encuestaFisica,
                 intNoContesto: arrayParametros.noContesto,
@@ -1180,6 +1181,16 @@ var EncuestaService = /** @class */ (function () {
             }
         };
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/ingresarInformacionAdicional', datos);
+    };
+    EncuestaService.prototype.consultarInformacionAdicional = function (arrayParametros) {
+        var datos = {
+            data: {
+                intMes: arrayParametros.intMes,
+                intAnio: arrayParametros.intAnio,
+                intIdArea: arrayParametros.intIdArea
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/consultarInformacionAdicional', datos);
     };
     EncuestaService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
@@ -2078,7 +2089,9 @@ var ReporteService = /** @class */ (function () {
                 strReporteP: arrayParametros.strReporteP
             }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getReporteDataEncuesta', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/excel', datos, {
+            responseType: 'blob'
+        });
     };
     ReporteService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),

@@ -43,9 +43,11 @@ export class ReporteService {
                 strTitulo: arrayParametros.strTitulo,
                 intIdSucursal: arrayParametros.intIdSucursal,
                 intIdArea: arrayParametros.intIdArea,
-                strReporteP:  arrayParametros.strReporteP
+                strReporteP: arrayParametros.strReporteP
             }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/getReporteDataEncuesta', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/excel', datos, {
+            responseType: 'blob'
+        });
     }
 }

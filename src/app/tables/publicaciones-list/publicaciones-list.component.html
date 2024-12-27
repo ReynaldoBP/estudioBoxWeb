@@ -58,10 +58,16 @@
                                             <i class="fa fa-search"></i> Buscar
                                         </button>
                                     </div>
-                                    <div class="col-md-3" *ngIf="mostrarCargaData">
+                                    <div class="col-md-2" *ngIf="mostrarCargaData">
                                         <button type="button" class="btn btn-raised btn-raised btn-success"
                                             (click)="getCargarDataParaReporte()">
-                                            <i class="fa fa-upload"></i> Ingresar
+                                            <i class="fa fa-upload"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2" *ngIf="mostrarReporte">
+                                        <button type="button" class="btn btn-raised btn-raised btn-success"
+                                            (click)="getExportarCsvPersonalizado()">
+                                            <i class="fa fa-file-excel-o"></i>
                                         </button>
                                     </div>
                                     <div class="col-md-3" align="right" *ngIf="getAccion('ELIMINAR')">
@@ -70,7 +76,7 @@
                                             <i class="fa fa-times"></i> Eliminar
                                         </button>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
                                         <button type="button" class="btn btn-raised btn-raised btn-success"
                                             (click)="getExportarCsv()">
                                             <i class="fa fa-file-excel-o"></i>
@@ -209,10 +215,16 @@
                                             <i class="fa fa-search"></i> Buscar
                                         </button>
                                     </div>
-                                    <div class="col-md-3" *ngIf="mostrarCargaData">
+                                    <div class="col-md-2" *ngIf="mostrarCargaData">
                                         <button type="button" class="btn btn-raised btn-raised btn-success"
                                             (click)="getCargarDataParaReporte()">
-                                            <i class="fa fa-upload"></i> Ingresar
+                                            <i class="fa fa-upload"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2" *ngIf="mostrarReporte">
+                                        <button type="button" class="btn btn-raised btn-raised btn-success"
+                                            (click)="getExportarCsvPersonalizado()">
+                                            <i class="fa fa-file-excel-o"></i>
                                         </button>
                                     </div>
                                     <div class="col-md-3" align="right">
@@ -221,7 +233,7 @@
                                             <i class="fa fa-times"></i> Eliminar
                                         </button>
                                     </div>
-                                    <div class="col-md-3" align="right">
+                                    <div class="col-md-2" align="right">
                                         <button type="button" class="btn btn-raised btn-raised btn-success"
                                             (click)="getExportarCsv()">
                                             <i class="fa fa-file-excel-o"></i>

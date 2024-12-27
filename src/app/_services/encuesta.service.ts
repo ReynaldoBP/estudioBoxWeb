@@ -314,6 +314,7 @@ export class EncuestaService {
     ingresarInformacionAdicional(arrayParametros: any) {
         let datos = {
             data: {
+                intPaciente: arrayParametros.pacientes,
                 intFacturaValida: arrayParametros.facturaValida,
                 intEncuestaFisica: arrayParametros.encuestaFisica,
                 intNoContesto: arrayParametros.noContesto,
@@ -325,5 +326,15 @@ export class EncuestaService {
             }
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/ingresarInformacionAdicional', datos);
+    }
+    consultarInformacionAdicional(arrayParametros: any) {
+        let datos = {
+            data: {
+                intMes: arrayParametros.intMes,
+                intAnio: arrayParametros.intAnio,
+                intIdArea: arrayParametros.intIdArea
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/consultarInformacionAdicional', datos);
     }
 }

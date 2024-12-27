@@ -216,7 +216,7 @@ export class Dashboard1Component implements OnInit {
                         style: `stroke-width: 5px; fill: url(#linear)`,
                         x1: data.x1 + 0.001
                     });
-    
+
                     // Agregar etiquetas de valores sobre las barras
                     const value = data.value.y;
                     data.group.elem('text', {
@@ -612,6 +612,8 @@ export class Dashboard1Component implements OnInit {
         strEstado: "ACTIVO",
         intIdUsuario: ""
     }
+    lblComparativa = ""
+    empresasValidas = [11, 18, 14];
     constructor(private objSucursalService: SucursalService,
         private objEmpresaService: EmpresaService,
         private objClienteService: ClienteService,
@@ -623,9 +625,8 @@ export class Dashboard1Component implements OnInit {
     ngOnInit() {
         this.getDashboard(this.objSelectEmpresa)
         console.log(this.user);
-        if(this.objSelectEmpresa == 11 || this.user.intIdUsuarioEmpresa == 11)
-        {
-            this.boolMostrarComparativaArea=true
+        if (this.empresasValidas.includes(this.objSelectEmpresa) || this.empresasValidas.includes(this.user.intIdUsuarioEmpresa)) {
+            this.boolMostrarComparativaArea = true
         }
     }
     getDashboard(objSelectEmpresa) {
@@ -815,7 +816,8 @@ export class Dashboard1Component implements OnInit {
                                 ]
                             }
                         }
-                        if (this.totalEncuestasPorArea != null && this.totalEncuestasPorArea != '' && (this.objSelectEmpresa == 11 || this.user.intIdUsuarioEmpresa == 11)) {
+                        if (this.totalEncuestasPorArea != null && this.totalEncuestasPorArea != '' && (this.empresasValidas.includes(this.objSelectEmpresa) || this.empresasValidas.includes(this.user.intIdUsuarioEmpresa))) {
+                            this.lblComparativa = (this.objSelectEmpresa == 11 || this.user.intIdUsuarioEmpresa == 11 || this.objSelectEmpresa == 18 || this.user.intIdUsuarioEmpresa == 18) ? "# Pacientes" : "# Facturas";
                             console.log("Grafico de Area Comparativo")
                             if (this.totalEncuestasPorArea != null && this.totalEncuestasPorArea.length > 0) {
                                 let valoresActuales = this.totalEncuestasPorArea.map(item => Number(item.intCantidad));
@@ -834,7 +836,7 @@ export class Dashboard1Component implements OnInit {
                                         const porcentaje = item.intComparativa && item.intComparativa > 0
                                             ? ((item.intCantidad / item.intComparativa) * 100).toFixed(1) // Calcula el porcentaje
                                             : '0'; // Devuelve 'N/A' si intComparativa es 0 o no está definido
-                                
+
                                         return `${porcentaje}% ${item.strArea}`;
                                     }),
                                     series: [

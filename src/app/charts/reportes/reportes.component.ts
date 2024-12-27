@@ -86,7 +86,7 @@ export class ChartReportesComponent implements OnInit {
     descargarReporte(url: string) {
         window.open(url, '_blank');
     }
-
+/*
     getExportarCsv() {
         this.objLoading = true
 
@@ -111,5 +111,5 @@ export class ChartReportesComponent implements OnInit {
                 this.toastr.warning("Error en el servidor, comuniquise con el dpto. de sistemas")
             });
 
-    }
+    }*/
 }
