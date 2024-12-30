@@ -46,36 +46,34 @@ export class ClienteService {
     get(objCliente: any) {
         let datos = {
             data: {
-                idCliente: objCliente.intIdCliente
-            },
-            op: 'getCliente'
+                intIdCliente: objCliente.intIdCliente
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getCliente', datos);
     }
 
-    edit(objCliente: any) {
+    edit(objParametros: any) {
         let datos = {
             data: {
-                idCliente: objCliente.intIdCliente,
-                nombre: objCliente.strNombre,
-                apellido: objCliente.strApellido,
-                idTipoCLiente: objCliente.intIdTipo,
-                estado: objCliente.strEstado,
-            },
-            op: 'editCliente'
+                arrayIdArea: objParametros.arrayIdArea,
+                arrayIdSucursal: objParametros.arrayIdSucursal,
+                intIdCliente: objParametros.intIdCliente,
+                intIdEmpresa: objParametros.intIdEmpresa,
+                strCorreo: objParametros.strCorreo,
+                strEstado: objParametros.strEstado,
+                strNombre: objParametros.strNombre,
+                strUsuarioCreacion: objParametros.strUsuarioCreacion
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/movilBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editCliente', datos);
     }
 
     getClientesAdmin() {
         let datos = {
             data: {
-                strCupoDisponible: 'SI',
-                strEstado: ['ACTIVO', 'INACTIVO']
-            },
-            op: 'getCliente'
+            }
         }
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getCliente', datos);
     }
     getTipoCliente() {
         let datos = {

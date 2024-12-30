@@ -16,7 +16,7 @@ export const ROUTES: RouteInfo[] = [
             { value: "21", path: '/tables/banner', title: 'Banner', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "25", path: '/tables/cupon', title: 'Cupón', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "26", path: '/tables/centroComercial', title: 'Centro Comercial', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
-            { value: "27", path: '/tables/clienteMovil', title: 'Usuario Móvil', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },*/
+            */
         ]
     },
     {
@@ -45,8 +45,10 @@ export const ROUTES: RouteInfo[] = [
     {
         value: "0", path: '', title: 'Seguridad', icon: 'ft-lock', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
         submenu: [
-            { value: "12", path: '/tables/usuario', title: 'Usuarios', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "12", path: '/tables/usuario', title: 'Usuarios Web', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "14", path: '/tables/clienteMovil', title: 'Usuarios Móvil', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "11", path: '/tables/permisos', title: 'Permisos', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            
         ]
     },
 ];

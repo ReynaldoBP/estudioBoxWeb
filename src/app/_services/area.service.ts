@@ -13,6 +13,7 @@ export class AreaService {
                 strContador: objParametros.strContador,
                 intIdUsuario: objParametros.intIdUsuario,
                 intIdUsuarioEmpresa: objParametros.intIdUsuarioEmpresa,
+                intIdClienteEmpresa:objParametros.intIdClienteEmpresa,
                 intIdSucursal: objParametros.intIdSucursal,
                 arrayIdSucursal: objParametros.arrayIdSucursal,
                 boolAgrupar:objParametros.boolAgrupar

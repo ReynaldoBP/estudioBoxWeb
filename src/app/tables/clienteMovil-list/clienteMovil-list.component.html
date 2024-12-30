@@ -22,7 +22,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-2" align="left">
+                        <!--<div class="col-sm-2" align="left">
                             <div class="form-group">
                                 <label for="projectinput5">Exportar</label>
                                 <div class="row">
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
                         <div class="col-md-2">
                             <label for="projectinput5">Estado</label>
                             <div class="row">
@@ -52,33 +52,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <label for="projectinput5">Tipo</label>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <select id="cmbTipoCliente" name="cmbTipoCliente" class="form-control"
-                                            [(ngModel)]="strTipoCltFiltro" #cmbRol="ngModel">
-                                            <option *ngFor="let item of arrayTipoCliente" value="{{item['strTipo']}}">
-                                                {{item['strTipo']}}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--<div *ngIf="getAccion('CREAR')" class="col-sm-2">
-                            <div class="form-group">
-                                <label for="projectinput5">Acción</label>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <button type="button" class="btn btn-raised btn-raised btn-primary"
-                                            [routerLink]="['/forms/centroComercial/0']">
-                                            <i class="fa fa-plus"></i> Nuevo Centro Comercial
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>-->
                     </div>
                 </div>
                 <div class="card-body">
@@ -89,22 +62,25 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th>Correo</th>
-                                        <th>Tipo</th>
                                         <th>Estado</th>
+                                        <th>Empresa</th>
                                         <th>Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr *ngFor="let item of arrayResultado | FilterClienteMovil : strNombre : strEstadoFiltro : strTipoCltFiltro | paginate: { itemsPerPage: 20, currentPage: p }"
-                                        [className]="item['ESTADO']=='INACTIVO'?'bg-danger':'bg-light'">
-                                        <td>{{item['NOMBRE_COMPLETO']}}</td>
-                                        <td>{{item['CORREO']}}</td>
-                                        <td>{{item['TIPO_CLIENTE']}}</td>
-                                        <td>{{item['ESTADO']}}</td>
+                                    <!--
+                                    <tr *ngFor="let item of arrayResultado | paginate: { itemsPerPage: 20, currentPage: p }"
+                                    -->
+                                    <tr *ngFor="let item of arrayResultado | FilterClienteMovil : strNombre : strEstadoFiltro | paginate: { itemsPerPage: 20, currentPage: p }"
+                                        [className]="item['strEstado']=='INACTIVO'?'bg-danger':'bg-light'">
+                                        <td>{{item['strNombre']}}</td>
+                                        <td>{{item['strCorreo']}}</td>
+                                        <td>{{item['strEstado']}}</td>
+                                        <td>{{item['strNombreEmpresa']}}</td>
                                         <td>
                                             <a *ngIf="getAccion('EDITAR')" class="success p-0" data-original-title=""
                                                 title="Editar cliente"
-                                                [routerLink]="['/forms/clienteMovil/' + item['ID_CLIENTE']]">
+                                                [routerLink]="['/forms/clienteMovil/' + item['intIdCliente']]">
                                                 <i class="ft-edit-2 font-medium-3 mr-2"></i>
                                             </a>
                                         </td>

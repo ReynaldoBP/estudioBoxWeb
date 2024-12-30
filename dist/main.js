@@ -102,6 +102,7 @@ var AreaService = /** @class */ (function () {
                 strContador: objParametros.strContador,
                 intIdUsuario: objParametros.intIdUsuario,
                 intIdUsuarioEmpresa: objParametros.intIdUsuarioEmpresa,
+                intIdClienteEmpresa: objParametros.intIdClienteEmpresa,
                 intIdSucursal: objParametros.intIdSucursal,
                 arrayIdSucursal: objParametros.arrayIdSucursal,
                 boolAgrupar: objParametros.boolAgrupar
@@ -552,34 +553,31 @@ var ClienteService = /** @class */ (function () {
     ClienteService.prototype.get = function (objCliente) {
         var datos = {
             data: {
-                idCliente: objCliente.intIdCliente
-            },
-            op: 'getCliente'
+                intIdCliente: objCliente.intIdCliente
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getCliente', datos);
     };
-    ClienteService.prototype.edit = function (objCliente) {
+    ClienteService.prototype.edit = function (objParametros) {
         var datos = {
             data: {
-                idCliente: objCliente.intIdCliente,
-                nombre: objCliente.strNombre,
-                apellido: objCliente.strApellido,
-                idTipoCLiente: objCliente.intIdTipo,
-                estado: objCliente.strEstado,
-            },
-            op: 'editCliente'
+                arrayIdArea: objParametros.arrayIdArea,
+                arrayIdSucursal: objParametros.arrayIdSucursal,
+                intIdCliente: objParametros.intIdCliente,
+                intIdEmpresa: objParametros.intIdEmpresa,
+                strCorreo: objParametros.strCorreo,
+                strEstado: objParametros.strEstado,
+                strNombre: objParametros.strNombre,
+                strUsuarioCreacion: objParametros.strUsuarioCreacion
+            }
         };
-        return this.http.post(this.globals.host + this.globals.port + '/movilBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/editCliente', datos);
     };
     ClienteService.prototype.getClientesAdmin = function () {
         var datos = {
-            data: {
-                strCupoDisponible: 'SI',
-                strEstado: ['ACTIVO', 'INACTIVO']
-            },
-            op: 'getCliente'
+            data: {}
         };
-        return this.http.post(this.globals.host + this.globals.port + '/webBitte/procesar', datos);
+        return this.http.post(this.globals.host + this.globals.port + '/apiMovil/getCliente', datos);
     };
     ClienteService.prototype.getTipoCliente = function () {
         var datos = {
@@ -832,6 +830,7 @@ var EmpresaService = /** @class */ (function () {
             data: {
                 strEstado: objParametrosEmpresa.strEstado,
                 strContador: objParametrosEmpresa.strContador,
+                intIdCltMovil: objParametrosEmpresa.intIdCltMovil,
                 intIdUsuario: objParametrosEmpresa.intIdUsuario
             }
         };
@@ -2313,6 +2312,7 @@ var SucursalService = /** @class */ (function () {
                 strContador: objParametros.strContador,
                 intIdUsuario: objParametros.intIdUsuario,
                 intIdUsuarioEmpresa: objParametros.intIdUsuarioEmpresa,
+                intIdClienteEmpresa: objParametros.intIdClienteEmpresa,
                 intIdEmpresa: objParametros.intIdEmpresa
             }
         };
@@ -3673,7 +3673,8 @@ var ROUTES = [
     {
         value: "0", path: '', title: 'Seguridad', icon: 'ft-lock', class: 'has-sub', badge: '', badgeClass: 'badge badge-pill badge-success float-right mr-1 mt-1', isExternalLink: false,
         submenu: [
-            { value: "12", path: '/tables/usuario', title: 'Usuarios', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "12", path: '/tables/usuario', title: 'Usuarios Web', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
+            { value: "14", path: '/tables/clienteMovil', title: 'Usuarios Móvil', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
             { value: "11", path: '/tables/permisos', title: 'Permisos', icon: '', class: '', badge: '', badgeClass: '', isExternalLink: false, submenu: [] },
         ]
     },

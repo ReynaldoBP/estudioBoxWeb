@@ -11,6 +11,7 @@ export class EmpresaService {
             data: {
                 strEstado: objParametrosEmpresa.strEstado,
                 strContador: objParametrosEmpresa.strContador,
+                intIdCltMovil: objParametrosEmpresa.intIdCltMovil,
                 intIdUsuario: objParametrosEmpresa.intIdUsuario
             }
         }

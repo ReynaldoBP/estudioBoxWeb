@@ -13,6 +13,7 @@ export class SucursalService {
                 strContador: objParametros.strContador,
                 intIdUsuario: objParametros.intIdUsuario,
                 intIdUsuarioEmpresa: objParametros.intIdUsuarioEmpresa,
+                intIdClienteEmpresa:objParametros.intIdClienteEmpresa,
                 intIdEmpresa: objParametros.intIdEmpresa
             }
         }

@@ -20,56 +20,54 @@
 							<div class="form-body">
 								<h4 class="form-section"><i class="ft-user"></i> Datos del cliente</h4>
 								<div class="row">
-									<div class="col-md-4">
+									<div class="col-md-6">
 										<div class="form-group">
-											<label for="txtNombre">Nombre</label>
+											<label for="txtNombre">Nombre Completo</label>
 											<input type="text" id="txtNombre" [(ngModel)]="objCliente.strNombre"
 												class="form-control" name="fname">
 										</div>
 									</div>
-									<div class="col-md-4">
+									<div class="col-md-6">
 										<div class="form-group">
-											<label for="txtApellido">Apellido</label>
-											<input type="text" id="txtApellido" [(ngModel)]="objCliente.strApellido"
-												class="form-control" name="fApellido">
+											<label for="txtCorreo">Correo</label>
+											<input type="text" id="txtCorreo" [(ngModel)]="objCliente.strCorreo"
+												class="form-control" name="fcorreo">
 										</div>
 									</div>
-
 								</div>
 								<div class="row">
 									<div class="col-md-4">
-										<label for="projectinput5">Tipo</label>
-										<div class="row">
-											<div class="col-sm-12">
-												<div class="form-group">
-													<select id="cmbTipoCliente" name="cmbTipoCliente"
-														class="form-control" [(ngModel)]="objCliente.intIdTipo"
-														#cmbRol="ngModel">
-														<option *ngFor="let item of arrayTipoCliente"
-															value="{{item['intIdTipo']}}">
-															{{item['strTipo']}}</option>
-													</select>
-												</div>
-											</div>
+										<div class=" form-group">
+											<label for="lblRestaurante">Empresa</label>
+											<select id="cmbrestaurantes" name="cmbrestaurantes" class="form-control"
+												(change)="getSucursales()" [(ngModel)]="objCliente.intIdEmpresa"
+												#cmbrestaurantes="ngModel">
+												<option value="" selected="" disabled="">Seleccione</option>
+												<option *ngFor="let item of arrayEmpresa"
+													value="{{item['intIdEmpresa']}}">
+													{{item['strNombreComercial']}}</option>
+											</select>
 										</div>
 									</div>
 									<div class="col-md-4">
 										<div class="form-group">
-											<label>Estado</label>
-											<div class="input-group">
-												<div class="custom-control custom-radio display-inline-block">
-													<input type="radio" id="rdEstado" name="rdEstado"
-														class="custom-control-input" [(ngModel)]="objCliente.strEstado"
-														[value]="true">
-													<label class="custom-control-label" for="rdEstado">Activo</label>
-												</div>
-												<div class="custom-control custom-radio display-inline-block">
-													<input type="radio" id="rdEstado2" name="rdEstado2"
-														class="custom-control-input" [(ngModel)]="objCliente.strEstado"
-														[value]="false">
-													<label class="custom-control-label" for="rdEstado2">Inactivo</label>
-												</div>
-											</div>
+											<label for="lblSucursal">Sucursal</label>
+											<ng-select [items]="arraySucursal" [multiple]="true" [closeOnSelect]="true"
+												[hideSelected]="false" bindLabel="strNombre" bindValue="intIdSucursal"
+												[ngModelOptions]="{ standalone: true }"
+												placeholder="Seleccione Sucursal"
+												[(ngModel)]="objCliente.arrayIdSucursal" (change)="getArea()">
+											</ng-select>
+										</div>
+									</div>
+									<div class="col-md-4">
+										<div class="form-group">
+											<label for="lblArea">Area</label>
+											<ng-select [items]="arrayArea" [multiple]="true" [closeOnSelect]="true"
+												[hideSelected]="false" bindLabel="strArea" bindValue="intIdArea"
+												[ngModelOptions]="{ standalone: true }" placeholder="Seleccione Area"
+												[(ngModel)]="objCliente.arrayIdArea">
+											</ng-select>
 										</div>
 									</div>
 								</div>

@@ -449,12 +449,12 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var FilterClienteMovil = /** @class */ (function () {
     function FilterClienteMovil() {
     }
-    FilterClienteMovil.prototype.transform = function (items, strNombre, strEstado, strTipoClt) {
-        if (!items || !strEstado || !strNombre || !strTipoClt) {
-            return items.filter(function (item) { return item['ESTADO'] == strEstado && item['TIPO_CLIENTE'] == strTipoClt; });
+    FilterClienteMovil.prototype.transform = function (items, strNombre, strEstado) {
+        if (!items || !strEstado || !strNombre) {
+            return items.filter(function (item) { return item['strEstado'] == strEstado; });
         }
         return items.filter(function (item) {
-            return item['NOMBRE_COMPLETO'].toUpperCase().includes(strNombre.toUpperCase());
+            return item['strNombre'].toUpperCase().includes(strNombre.toUpperCase());
         });
     };
     FilterClienteMovil = __decorate([
@@ -1302,7 +1302,7 @@ var CentroComercialListComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!--Extended Table starts-->\r\n<div class=\"row text-left\">\r\n    <div class=\"col-12\">\r\n        <div class=\"content-header mt-0\">Usuarios Móvil</div>\r\n        <p class=\"content-sub-header\">Listado de Usuarios.</p>\r\n    </div>\r\n</div>\r\n<section id=\"extended\">\r\n    <div class=\"row text-left\">\r\n        <div class=\"col-sm-12\">\r\n            <div class=\"card\">\r\n                <div class=\"card-header\">\r\n                    <div class=\"row\">\r\n                        <div class=\"col-sm-6\">\r\n                            <div class=\"form-group\">\r\n                                <label for=\"projectinput5\">Criterios de Búsqueda</label>\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-sm-12\">\r\n                                        <input type='text' class=\"form-control\" [(ngModel)]=\"strNombre\"\r\n                                            placeholder='Filtra por nombre' />\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-sm-2\" align=\"left\">\r\n                            <div class=\"form-group\">\r\n                                <label for=\"projectinput5\">Exportar</label>\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-sm-12\">\r\n                                        <button *ngIf=\"getAccion('EXCEL')\" type=\"button\"\r\n                                            class=\"btn btn-raised btn-raised btn-success\" (click)=\"exportAsXLSX()\">\r\n                                            <i class=\"fa fa-file-excel-o\"></i>\r\n                                        </button>\r\n                                        <button *ngIf=\"getAccion('PDF')\" type=\"button\" style=\"margin-left:0.7rem\"\r\n                                            class=\"btn btn-raised btn-raised btn-danger\" (click)=\"exportAsPDF()\">\r\n                                            <i class=\"fa fa-file-pdf-o\"></i>\r\n                                        </button>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-md-2\">\r\n                            <label for=\"projectinput5\">Estado</label>\r\n                            <div class=\"row\">\r\n                                <div class=\"col-sm-12\">\r\n                                    <div class=\"form-group\">\r\n                                        <select id=\"cmbEstado\" name=\"cmbEstado\" class=\"form-control\"\r\n                                            [(ngModel)]=\"strEstadoFiltro\" #cmbRol=\"ngModel\">\r\n                                            <option *ngFor=\"let item of arrayEstados\" value=\"{{item}}\">{{item}}</option>\r\n                                        </select>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <div class=\"col-md-2\">\r\n                            <label for=\"projectinput5\">Tipo</label>\r\n                            <div class=\"row\">\r\n                                <div class=\"col-sm-12\">\r\n                                    <div class=\"form-group\">\r\n                                        <select id=\"cmbTipoCliente\" name=\"cmbTipoCliente\" class=\"form-control\"\r\n                                            [(ngModel)]=\"strTipoCltFiltro\" #cmbRol=\"ngModel\">\r\n                                            <option *ngFor=\"let item of arrayTipoCliente\" value=\"{{item['strTipo']}}\">\r\n                                                {{item['strTipo']}}</option>\r\n                                        </select>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <!--<div *ngIf=\"getAccion('CREAR')\" class=\"col-sm-2\">\r\n                            <div class=\"form-group\">\r\n                                <label for=\"projectinput5\">Acción</label>\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-sm-12\">\r\n                                        <button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n                                            [routerLink]=\"['/forms/centroComercial/0']\">\r\n                                            <i class=\"fa fa-plus\"></i> Nuevo Centro Comercial\r\n                                        </button>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>-->\r\n                    </div>\r\n                </div>\r\n                <div class=\"card-body\">\r\n                    <div *ngIf=\"getAccion('VER')\" class=\"card-block\">\r\n                        <div class=\"card-block\">\r\n                            <table class=\"table table-responsive-md text-center\">\r\n                                <thead>\r\n                                    <tr>\r\n                                        <th>Nombre</th>\r\n                                        <th>Correo</th>\r\n                                        <th>Tipo</th>\r\n                                        <th>Estado</th>\r\n                                        <th>Acciones</th>\r\n                                    </tr>\r\n                                </thead>\r\n                                <tbody>\r\n                                    <tr *ngFor=\"let item of arrayResultado | FilterClienteMovil : strNombre : strEstadoFiltro : strTipoCltFiltro | paginate: { itemsPerPage: 20, currentPage: p }\"\r\n                                        [className]=\"item['ESTADO']=='INACTIVO'?'bg-danger':'bg-light'\">\r\n                                        <td>{{item['NOMBRE_COMPLETO']}}</td>\r\n                                        <td>{{item['CORREO']}}</td>\r\n                                        <td>{{item['TIPO_CLIENTE']}}</td>\r\n                                        <td>{{item['ESTADO']}}</td>\r\n                                        <td>\r\n                                            <a *ngIf=\"getAccion('EDITAR')\" class=\"success p-0\" data-original-title=\"\"\r\n                                                title=\"Editar cliente\"\r\n                                                [routerLink]=\"['/forms/clienteMovil/' + item['ID_CLIENTE']]\">\r\n                                                <i class=\"ft-edit-2 font-medium-3 mr-2\"></i>\r\n                                            </a>\r\n                                        </td>\r\n                                    </tr>\r\n                                </tbody>\r\n                            </table>\r\n                            <pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n<!--Extended Table Ends-->"
+module.exports = "<!--Extended Table starts-->\r\n<div class=\"row text-left\">\r\n    <div class=\"col-12\">\r\n        <div class=\"content-header mt-0\">Usuarios Móvil</div>\r\n        <p class=\"content-sub-header\">Listado de Usuarios.</p>\r\n    </div>\r\n</div>\r\n<section id=\"extended\">\r\n    <div class=\"row text-left\">\r\n        <div class=\"col-sm-12\">\r\n            <div class=\"card\">\r\n                <div class=\"card-header\">\r\n                    <div class=\"row\">\r\n                        <div class=\"col-sm-6\">\r\n                            <div class=\"form-group\">\r\n                                <label for=\"projectinput5\">Criterios de Búsqueda</label>\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-sm-12\">\r\n                                        <input type='text' class=\"form-control\" [(ngModel)]=\"strNombre\"\r\n                                            placeholder='Filtra por nombre' />\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                        <!--<div class=\"col-sm-2\" align=\"left\">\r\n                            <div class=\"form-group\">\r\n                                <label for=\"projectinput5\">Exportar</label>\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-sm-12\">\r\n                                        <button *ngIf=\"getAccion('EXCEL')\" type=\"button\"\r\n                                            class=\"btn btn-raised btn-raised btn-success\" (click)=\"exportAsXLSX()\">\r\n                                            <i class=\"fa fa-file-excel-o\"></i>\r\n                                        </button>\r\n                                        <button *ngIf=\"getAccion('PDF')\" type=\"button\" style=\"margin-left:0.7rem\"\r\n                                            class=\"btn btn-raised btn-raised btn-danger\" (click)=\"exportAsPDF()\">\r\n                                            <i class=\"fa fa-file-pdf-o\"></i>\r\n                                        </button>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>-->\r\n                        <div class=\"col-md-2\">\r\n                            <label for=\"projectinput5\">Estado</label>\r\n                            <div class=\"row\">\r\n                                <div class=\"col-sm-12\">\r\n                                    <div class=\"form-group\">\r\n                                        <select id=\"cmbEstado\" name=\"cmbEstado\" class=\"form-control\"\r\n                                            [(ngModel)]=\"strEstadoFiltro\" #cmbRol=\"ngModel\">\r\n                                            <option *ngFor=\"let item of arrayEstados\" value=\"{{item}}\">{{item}}</option>\r\n                                        </select>\r\n                                    </div>\r\n                                </div>\r\n                            </div>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"card-body\">\r\n                    <div *ngIf=\"getAccion('VER')\" class=\"card-block\">\r\n                        <div class=\"card-block\">\r\n                            <table class=\"table table-responsive-md text-center\">\r\n                                <thead>\r\n                                    <tr>\r\n                                        <th>Nombre</th>\r\n                                        <th>Correo</th>\r\n                                        <th>Estado</th>\r\n                                        <th>Empresa</th>\r\n                                        <th>Acciones</th>\r\n                                    </tr>\r\n                                </thead>\r\n                                <tbody>\r\n                                    <!--\r\n                                    <tr *ngFor=\"let item of arrayResultado | paginate: { itemsPerPage: 20, currentPage: p }\"\r\n                                    -->\r\n                                    <tr *ngFor=\"let item of arrayResultado | FilterClienteMovil : strNombre : strEstadoFiltro | paginate: { itemsPerPage: 20, currentPage: p }\"\r\n                                        [className]=\"item['strEstado']=='INACTIVO'?'bg-danger':'bg-light'\">\r\n                                        <td>{{item['strNombre']}}</td>\r\n                                        <td>{{item['strCorreo']}}</td>\r\n                                        <td>{{item['strEstado']}}</td>\r\n                                        <td>{{item['strNombreEmpresa']}}</td>\r\n                                        <td>\r\n                                            <a *ngIf=\"getAccion('EDITAR')\" class=\"success p-0\" data-original-title=\"\"\r\n                                                title=\"Editar cliente\"\r\n                                                [routerLink]=\"['/forms/clienteMovil/' + item['intIdCliente']]\">\r\n                                                <i class=\"ft-edit-2 font-medium-3 mr-2\"></i>\r\n                                            </a>\r\n                                        </td>\r\n                                    </tr>\r\n                                </tbody>\r\n                            </table>\r\n                            <pagination-controls (pageChange)=\"p = $event\"></pagination-controls>\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</section>\r\n<!--Extended Table Ends-->"
 
 /***/ }),
 
@@ -1330,6 +1330,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var app_services_excel_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! app/_services/excel.service */ "./src/app/_services/excel.service.ts");
 /* harmony import */ var app_services_cliente_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! app/_services/cliente.service */ "./src/app/_services/cliente.service.ts");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1342,23 +1346,43 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+
 var ClienteMovilListComponent = /** @class */ (function () {
-    function ClienteMovilListComponent(objClienteService, objServiceExportData) {
+    function ClienteMovilListComponent(objClienteService, objServiceExportData, toastr, router, route) {
         this.objClienteService = objClienteService;
         this.objServiceExportData = objServiceExportData;
+        this.toastr = toastr;
+        this.router = router;
+        this.route = route;
+        this.objCliente = {
+            intIdCliente: null,
+            strNombre: '',
+            strCorreo: '',
+            strEstado: true,
+            strUsuarioCreacion: ''
+        };
         this.arrayResultado = [];
         this.arrayTipoCliente = [];
         this.strTipoCltFiltro = "CLIENTE";
-        this.getPermisos("Mant/UsuarioMovil");
+        this.getPermisos("Seg/UsuariosMovil");
         this.objUsuario = JSON.parse(localStorage.getItem('usuario'));
         this.arrayEstados = ["ACTIVO", "INACTIVO"];
         this.strEstadoFiltro = "ACTIVO";
     }
     ClienteMovilListComponent.prototype.ngOnInit = function () {
         if (this.getAccion('VER')) {
-            this.getTipoCliente();
-            this.get();
+            if (this.objUsuario.strTipoRol == "ADMINISTRADOR") {
+                this.getClientesAdmin();
+            }
+            else {
+                this.get();
+            }
         }
+    };
+    ClienteMovilListComponent.prototype.iraListado = function () {
+        this.router.navigate(['/tables/usuario']);
     };
     ClienteMovilListComponent.prototype.getPermisos = function (strDescModulo) {
         this.strPermisos = JSON.parse(localStorage.getItem('permisos'));
@@ -1369,40 +1393,94 @@ var ClienteMovilListComponent = /** @class */ (function () {
     };
     ClienteMovilListComponent.prototype.get = function () {
         var _this = this;
-        this.objClienteService.getClientesAdmin()
+        this.objCliente.intIdEmpresa = this.objUsuario.intIdUsuarioEmpresa;
+        this.objCliente.strEsUsEmpresa = this.objUsuario.strEsUsEmpresa;
+        console.log(this.objCliente);
+        this.objClienteService.get(this.objCliente)
             .subscribe(function (data) {
-            _this.arrayResultado = data['resultado']['resultados'];
-            _this.objArrayExcel = _this.arrayResultado.map(function (item) {
-                var arrayItem = {
-                    NOMBRE: item.NOMBRE_COMPLETO,
-                    CORREO: item.CORREO,
-                    TIPO_CLIENTE: item.TIPO_CLIENTE,
-                    ESTADO: item.ESTADO
-                };
-                return arrayItem;
-            });
+            if (data['intStatus'] != 200) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({ title: "Usuario móvil no encontrado", text: data['resultado'], type: "error", showConfirmButton: true })
+                    .then(function (result) {
+                    if (result.value)
+                        _this.iraListado();
+                });
+            }
+            else {
+                _this.arrayResultado = data['arrayCliente'];
+                console.log(_this.arrayResultado);
+                var arrayResultadoFiltrado = _this.arrayResultado.filter(function (item) { return item.intIdEmpresa !== null && item.intIdEmpresa == _this.objUsuario.intIdUsuarioEmpresa; }).map(function (item) {
+                    var arrayTemp = {
+                        intIdEmpresa: item.intIdEmpresa,
+                        intIdCliente: item.intIdCliente,
+                        strAutenticacionRS: item.strAutenticacionRS,
+                        strCorreo: item.strCorreo,
+                        strEdad: item.strEdad,
+                        strEstado: item.strEstado,
+                        strFeCreacion: item.strFeCreacion,
+                        strFeModificacion: item.strFeModificacion,
+                        strGenero: item.strGenero,
+                        strIdentificacion: item.strIdentificacion,
+                        strNombre: item.strNombre,
+                        strNombreEmpresa: item.strNombreEmpresa,
+                        strUsrModificacion: item.strUsrModificacion,
+                        strusrCreacion: item.strusrCreacion
+                    };
+                    return arrayTemp;
+                });
+                _this.arrayResultado = arrayResultadoFiltrado;
+                console.log(_this.arrayResultado);
+                _this.objArrayExcel = _this.arrayResultado.map(function (item) {
+                    var arrayItem = {
+                        NOMBRE: item.strNombre,
+                        CORREO: item.strCorreo,
+                        ESTADO: item.strEstado,
+                        EMPRESA: item.strNombreEmpresa
+                    };
+                    return arrayItem;
+                });
+            }
         }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
     };
-    ClienteMovilListComponent.prototype.getTipoCliente = function () {
+    ClienteMovilListComponent.prototype.getClientesAdmin = function () {
         var _this = this;
-        this.objClienteService.getTipoCliente()
+        this.objClienteService.getClientesAdmin()
             .subscribe(function (data) {
-            _this.arrayTipoCliente = data['resultado']['tipoCliente'];
+            console.log(data);
+            if (data['intStatus'] != 200) {
+                sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({ title: 'Usuarios Móvil no encontrado', text: data['resultado'], type: "error", showConfirmButton: true })
+                    .then(function (result) {
+                    if (result.value)
+                        _this.iraListado();
+                });
+            }
+            else {
+                _this.arrayResultado = data['arrayCliente'];
+                console.log(_this.arrayResultado);
+                _this.objArrayExcel = _this.arrayResultado.map(function (item) {
+                    var arrayItem = {
+                        NOMBRE: item.strNombre,
+                        CORREO: item.strCorreo,
+                        ESTADO: item.strEstado,
+                        EMPRESA: item.strNombreEmpresa
+                    };
+                    return arrayItem;
+                });
+            }
         }, function (error) {
         });
     };
     ClienteMovilListComponent.prototype.exportAsXLSX = function () {
-        this.objServiceExportData.exportAsExcelFile(this.objArrayExcel, 'centro_comerciales_bitte');
+        this.objServiceExportData.exportAsExcelFile(this.objArrayExcel, 'clientesMovil');
     };
     ClienteMovilListComponent.prototype.exportAsPDF = function () {
         var cols = [
-            { title: "NOMBRE_COMPLETO", dataKey: "NOMBRE_COMPLETO" },
-            { title: "CORREO", dataKey: "CORREO" },
-            { title: "TIPO_CLIENTE", dataKey: "TIPO_CLIENTE" },
-            { title: "ESTADO", dataKey: "ESTADO" }
+            { title: "NOMBRE_COMPLETO", dataKey: "strNombre" },
+            { title: "CORREO", dataKey: "strCorreo" },
+            { title: "ESTADO", dataKey: "strEstado" }
         ];
-        this.objServiceExportData.exportAsPdfFile(cols, this.arrayResultado, 'centro_comerciales_bitte');
+        this.objServiceExportData.exportAsPdfFile(cols, this.arrayResultado, 'clientesMovil');
     };
     ClienteMovilListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1411,7 +1489,10 @@ var ClienteMovilListComponent = /** @class */ (function () {
             styles: [__webpack_require__(/*! ./clienteMovil-list.component.scss */ "./src/app/tables/clienteMovil-list/clienteMovil-list.component.scss")]
         }),
         __metadata("design:paramtypes", [app_services_cliente_service__WEBPACK_IMPORTED_MODULE_2__["ClienteService"],
-            app_services_excel_service__WEBPACK_IMPORTED_MODULE_1__["ExcelService"]])
+            app_services_excel_service__WEBPACK_IMPORTED_MODULE_1__["ExcelService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_5__["ToastrService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]])
     ], ClienteMovilListComponent);
     return ClienteMovilListComponent;
 }());

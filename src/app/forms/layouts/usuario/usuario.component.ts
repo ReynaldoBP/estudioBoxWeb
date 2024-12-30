@@ -52,7 +52,7 @@ export class UsuarioComponent implements OnInit {
   }
   objSelectEmpresa: any = null
   arrayRestaurante: any
-  user: any
+  objUsuario: any
   chkTODOSrestaurante: boolean
   objListSucursal: any
   objChkTodaSucursal: boolean
@@ -79,14 +79,14 @@ export class UsuarioComponent implements OnInit {
     private toastr: ToastrService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.user = JSON.parse(localStorage.getItem('usuario'))
+    this.objUsuario = JSON.parse(localStorage.getItem('usuario'))
     this.usuario.intIdUsuario = this.route.snapshot.paramMap.get('id');
   }
 
   ngOnInit() {
     this.getRoles()
-    this.usuario.strUsrSesion = this.user.intIdUsuario
-    if (this.user.strTipoRol == "ADMINISTRADOR") {
+    this.usuario.strUsrSesion = this.objUsuario.intIdUsuario
+    if (this.objUsuario.strTipoRol == "ADMINISTRADOR") {
       this.getEmpresas()
     } else {
       this.getEmpresasPorUsuario()
@@ -231,7 +231,7 @@ export class UsuarioComponent implements OnInit {
     this.usuarioService.getRoles()
       .subscribe(
         data => {
-          if (this.user.strTipoRol === "EMPRESA") {
+          if (this.objUsuario.strTipoRol === "EMPRESA") {
             // Filtra el rol de EMPRESA
             this.listRol = data['arrayRoles'].filter(rol => rol.strRol === "EMPRESA");
           } else {
@@ -266,7 +266,7 @@ export class UsuarioComponent implements OnInit {
       )
   }
   getSucursales() {
-    this.objParametrosSucursal.intIdUsuario = this.user.intIdUsuario
+    this.objParametrosSucursal.intIdUsuario = this.objUsuario.intIdUsuario
     this.objParametrosSucursal.intIdUsuarioEmpresa = this.usuario.intIdUsuario
     this.objParametrosSucursal.intIdEmpresa = this.usuario.intIdEmpresa
     this.objSucursalService.getSucursal(this.objParametrosSucursal)
@@ -287,7 +287,7 @@ export class UsuarioComponent implements OnInit {
     this.usuario.arrayIdArea = ""
     this.arrayParametrosArea.arrayIdSucursal = this.usuario.arrayIdSucursal
     this.arrayParametrosArea.intIdUsuarioEmpresa = this.usuario.intIdUsuario
-    this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario
+    this.arrayParametrosArea.intIdUsuario = this.objUsuario.intIdUsuario
     this.objAreaService.getArea(this.arrayParametrosArea)
       .subscribe(
         data => {
@@ -303,7 +303,7 @@ export class UsuarioComponent implements OnInit {
   }
   getEmpresasPorUsuario() {
     this.objParametrosEmpresa.strContador = "NO"
-    this.objParametrosEmpresa.intIdUsuario = this.user.intIdUsuario
+    this.objParametrosEmpresa.intIdUsuario = this.objUsuario.intIdUsuario
     this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
       .subscribe(
         data => {

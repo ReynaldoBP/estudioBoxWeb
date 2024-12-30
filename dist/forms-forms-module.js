@@ -8883,7 +8883,7 @@ var CentroComercialComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Basic form layout section start -->\r\n<section id=\"basic-form-layouts\">\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-sm-12\">\r\n\t\t\t<div class=\"content-header mt-0\">Cliente</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"card\">\r\n\t\t\t\t<div class=\"card-header\">\r\n\t\t\t\t\t<h4 class=\"card-title\" id=\"basic-layout-form\">{{objCliente.intIdCliente == '0'?'Nuevo\r\n\t\t\t\t\t\tCliente':'Editando\r\n\t\t\t\t\t\tCliente'}}\r\n\t\t\t\t\t</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"card-body\">\r\n\t\t\t\t\t<div class=\"px-3\">\r\n\t\t\t\t\t\t<form class=\"form\">\r\n\t\t\t\t\t\t\t<div class=\"form-body\">\r\n\t\t\t\t\t\t\t\t<h4 class=\"form-section\"><i class=\"ft-user\"></i> Datos del cliente</h4>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtNombre\">Nombre</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtNombre\" [(ngModel)]=\"objCliente.strNombre\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"fname\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtApellido\">Apellido</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtApellido\" [(ngModel)]=\"objCliente.strApellido\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"fApellido\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<label for=\"projectinput5\">Tipo</label>\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-sm-12\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<select id=\"cmbTipoCliente\" name=\"cmbTipoCliente\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" [(ngModel)]=\"objCliente.intIdTipo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t#cmbRol=\"ngModel\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of arrayTipoCliente\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tvalue=\"{{item['intIdTipo']}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t{{item['strTipo']}}</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label>Estado</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"input-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado\" name=\"rdEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"objCliente.strEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"true\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado\">Activo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-radio display-inline-block\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"radio\" id=\"rdEstado2\" name=\"rdEstado2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tclass=\"custom-control-input\" [(ngModel)]=\"objCliente.strEstado\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t[value]=\"false\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"rdEstado2\">Inactivo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class=\"form-actions\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-warning mr-1\"\r\n\t\t\t\t\t\t\t\t\t[routerLink]=\"['/tables/clienteMovil']\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"ft-x\"></i> Cancelar\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n\t\t\t\t\t\t\t\t\t(click)=\"guardarDatos()\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-check-square-o\"></i> Guardar Datos\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</form>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</section>\r\n<!-- // Basic form layout section end -->"
+module.exports = "<!-- Basic form layout section start -->\r\n<section id=\"basic-form-layouts\">\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-sm-12\">\r\n\t\t\t<div class=\"content-header mt-0\">Cliente</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class=\"row text-left\">\r\n\t\t<div class=\"col-md-12\">\r\n\t\t\t<div class=\"card\">\r\n\t\t\t\t<div class=\"card-header\">\r\n\t\t\t\t\t<h4 class=\"card-title\" id=\"basic-layout-form\">{{objCliente.intIdCliente == '0'?'Nuevo\r\n\t\t\t\t\t\tCliente':'Editando\r\n\t\t\t\t\t\tCliente'}}\r\n\t\t\t\t\t</h4>\r\n\t\t\t\t</div>\r\n\t\t\t\t<div class=\"card-body\">\r\n\t\t\t\t\t<div class=\"px-3\">\r\n\t\t\t\t\t\t<form class=\"form\">\r\n\t\t\t\t\t\t\t<div class=\"form-body\">\r\n\t\t\t\t\t\t\t\t<h4 class=\"form-section\"><i class=\"ft-user\"></i> Datos del cliente</h4>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtNombre\">Nombre Completo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtNombre\" [(ngModel)]=\"objCliente.strNombre\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"fname\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"txtCorreo\">Correo</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"text\" id=\"txtCorreo\" [(ngModel)]=\"objCliente.strCorreo\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tclass=\"form-control\" name=\"fcorreo\">\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t<div class=\"row\">\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\" form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"lblRestaurante\">Empresa</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<select id=\"cmbrestaurantes\" name=\"cmbrestaurantes\" class=\"form-control\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t(change)=\"getSucursales()\" [(ngModel)]=\"objCliente.intIdEmpresa\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t#cmbrestaurantes=\"ngModel\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t<option value=\"\" selected=\"\" disabled=\"\">Seleccione</option>\r\n\t\t\t\t\t\t\t\t\t\t\t\t<option *ngFor=\"let item of arrayEmpresa\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t\tvalue=\"{{item['intIdEmpresa']}}\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t\t{{item['strNombreComercial']}}</option>\r\n\t\t\t\t\t\t\t\t\t\t\t</select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"lblSucursal\">Sucursal</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<ng-select [items]=\"arraySucursal\" [multiple]=\"true\" [closeOnSelect]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[hideSelected]=\"false\" bindLabel=\"strNombre\" bindValue=\"intIdSucursal\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{ standalone: true }\"\r\n\t\t\t\t\t\t\t\t\t\t\t\tplaceholder=\"Seleccione Sucursal\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objCliente.arrayIdSucursal\" (change)=\"getArea()\">\r\n\t\t\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-4\">\r\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\r\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"lblArea\">Area</label>\r\n\t\t\t\t\t\t\t\t\t\t\t<ng-select [items]=\"arrayArea\" [multiple]=\"true\" [closeOnSelect]=\"true\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[hideSelected]=\"false\" bindLabel=\"strArea\" bindValue=\"intIdArea\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[ngModelOptions]=\"{ standalone: true }\" placeholder=\"Seleccione Area\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t[(ngModel)]=\"objCliente.arrayIdArea\">\r\n\t\t\t\t\t\t\t\t\t\t\t</ng-select>\r\n\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<div class=\"form-actions\">\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-warning mr-1\"\r\n\t\t\t\t\t\t\t\t\t[routerLink]=\"['/tables/clienteMovil']\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"ft-x\"></i> Cancelar\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t\t<button type=\"button\" class=\"btn btn-raised btn-raised btn-primary\"\r\n\t\t\t\t\t\t\t\t\t(click)=\"guardarDatos()\">\r\n\t\t\t\t\t\t\t\t\t<i class=\"fa fa-check-square-o\"></i> Guardar Datos\r\n\t\t\t\t\t\t\t\t</button>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t</form>\r\n\t\t\t\t\t</div>\r\n\t\t\t\t</div>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</section>\r\n<!-- // Basic form layout section end -->"
 
 /***/ }),
 
@@ -8914,6 +8914,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 /* harmony import */ var app_services_cliente_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! app/_services/cliente.service */ "./src/app/_services/cliente.service.ts");
+/* harmony import */ var app_services_empresa_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! app/_services/empresa.service */ "./src/app/_services/empresa.service.ts");
+/* harmony import */ var app_services_sucursal_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! app/_services/sucursal.service */ "./src/app/_services/sucursal.service.ts");
+/* harmony import */ var app_services_area_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! app/_services/area.service */ "./src/app/_services/area.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8929,40 +8932,63 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
+
+
+
 var ClienteMovilComponent = /** @class */ (function () {
-    function ClienteMovilComponent(objClienteService, router, route, toastr) {
+    function ClienteMovilComponent(objClienteService, router, route, toastr, objEmpresaService, objSucursalService, objAreaService) {
         this.objClienteService = objClienteService;
         this.router = router;
         this.route = route;
         this.toastr = toastr;
+        this.objEmpresaService = objEmpresaService;
+        this.objSucursalService = objSucursalService;
+        this.objAreaService = objAreaService;
         this.objCliente = {
             intIdCliente: null,
             strNombre: '',
-            strApellido: '',
-            strnombreCompleto: '',
             strCorreo: '',
-            intIdTipo: '',
             strEstado: true,
             strUsuarioCreacion: ''
+        };
+        this.objParametrosEmpresa = {
+            strEstado: "ACTIVO",
+            strContador: "SI"
+        };
+        this.objParametrosSucursal = {
+            strEstado: "ACTIVO",
+            strContador: "NO",
+            intIdUsuario: "",
+            intIdEmpresa: ""
+        };
+        this.arrayParametrosArea = {
+            strEstado: "ACTIVO",
+            intIdUsuario: "",
+            arrayIdSucursal: ""
         };
         toastr.toastrConfig.timeOut = 5000;
         this.arrayTipoCliente = [];
         this.strTipoCltFiltro = "CLIENTE";
         this.objUsuario = JSON.parse(localStorage.getItem('usuario'));
         this.objCliente.intIdCliente = this.route.snapshot.paramMap.get('id');
-        this.objCliente.strUsuarioCreacion = this.objUsuario.ID_USUARIO;
+        this.objCliente.strUsuarioCreacion = this.objUsuario.intIdUsuario;
     }
     ClienteMovilComponent.prototype.ngOnInit = function () {
+        if (this.objUsuario.strTipoRol == "ADMINISTRADOR") {
+            this.getEmpresas();
+        }
+        else {
+            this.getEmpresasPorUsuario();
+        }
         if (this.objCliente.intIdCliente != "0") {
             this.get();
-            this.getTipoCliente();
         }
     };
     ClienteMovilComponent.prototype.get = function () {
         var _this = this;
         this.objClienteService.get(this.objCliente)
             .subscribe(function (data) {
-            if (data['status'] == 204) {
+            if (data['intStatus'] != 200) {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_2___default()({ title: "Usuario móvil no encontrado", text: data['resultado'], type: "error", showConfirmButton: true })
                     .then(function (result) {
                     if (result.value)
@@ -8970,25 +8996,84 @@ var ClienteMovilComponent = /** @class */ (function () {
                 });
             }
             else {
-                var rest = data['resultado']['resultados'][0];
-                _this.objCliente.intIdCliente = rest.ID_CLIENTE;
-                _this.objCliente.strNombre = rest.NOMBRE;
-                _this.objCliente.strApellido = rest.APELLIDO;
-                _this.objCliente.strnombreCompleto = rest.NOMBRE_COMPLETO;
-                _this.objCliente.strCorreo = rest.CORREO;
-                _this.objCliente.intIdTipo = rest.TIPO_CLIENTE_PUNTAJE_ID;
-                _this.objCliente.strEstado = rest.ESTADO == 'ACTIVO' ? true : false;
+                var rest = data['arrayCliente'][0];
+                _this.objCliente.intIdCliente = rest.intIdCliente;
+                _this.objCliente.strNombre = rest.strNombre;
+                _this.objCliente.strCorreo = rest.strCorreo;
+                _this.objCliente.strEstado = rest.strEstado == 'ACTIVO' ? true : false;
+                _this.objCliente.intIdEmpresa = rest.intIdEmpresa;
             }
         }, function (error) {
             _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
     };
-    ClienteMovilComponent.prototype.getTipoCliente = function () {
+    ClienteMovilComponent.prototype.getEmpresasPorUsuario = function () {
         var _this = this;
-        this.objClienteService.getTipoCliente()
+        this.objParametrosEmpresa.intIdUsuario = this.objUsuario.intIdUsuario;
+        this.objParametrosEmpresa.strContador = "NO";
+        //this.objParametrosEmpresa.intIdCltMovil = this.objCliente.intIdCliente
+        this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
             .subscribe(function (data) {
-            _this.arrayTipoCliente = data['resultado']['tipoCliente'];
+            if (data['intStatus'] != 200) {
+                _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+            }
+            else {
+                _this.arrayEmpresa = data["arrayEmpresa"];
+                _this.getSucursales();
+                //this.objCliente.intIdEmpresa = this.arrayEmpresa.map(item => item.intIdEmpresa)
+            }
         }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+        });
+    };
+    ClienteMovilComponent.prototype.getEmpresas = function () {
+        var _this = this;
+        this.objParametrosEmpresa.strContador = "NO";
+        //this.objParametrosEmpresa.intIdCltMovil = this.objCliente.intIdCliente
+        this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
+            .subscribe(function (data) {
+            if (data['intStatus'] != 200) {
+                _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+            }
+            else {
+                _this.arrayEmpresa = data["arrayEmpresa"];
+                _this.getSucursales();
+                //this.objCliente.intIdEmpresa = this.arrayEmpresa.map(item => item.intIdEmpresa)
+            }
+        }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+        });
+    };
+    ClienteMovilComponent.prototype.getSucursales = function () {
+        var _this = this;
+        this.objParametrosSucursal.intIdUsuario = this.objUsuario.intIdUsuario;
+        this.objParametrosSucursal.intIdClienteEmpresa = this.objCliente.intIdCliente;
+        this.objParametrosSucursal.intIdEmpresa = this.objCliente.intIdEmpresa;
+        this.objSucursalService.getSucursal(this.objParametrosSucursal)
+            .subscribe(function (data) {
+            _this.arraySucursal = data["arraySucursal"];
+            var sucursalesAsignadas = _this.arraySucursal.filter(function (sucursal) { return sucursal.intIdCltSucursal !== null; }).map(function (sucursal) { return sucursal.intIdCltSucursal; });
+            // Asignar las sucursales preseleccionadas al modelo de usuario
+            _this.objCliente.arrayIdSucursal = sucursalesAsignadas;
+            _this.getArea();
+        }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
+        });
+    };
+    ClienteMovilComponent.prototype.getArea = function () {
+        var _this = this;
+        this.objCliente.arrayIdArea = "";
+        this.arrayParametrosArea.arrayIdSucursal = this.objCliente.arrayIdSucursal;
+        this.arrayParametrosArea.intIdClienteEmpresa = this.objCliente.intIdCliente;
+        this.arrayParametrosArea.intIdUsuario = this.objUsuario.intIdUsuario;
+        this.objAreaService.getArea(this.arrayParametrosArea)
+            .subscribe(function (data) {
+            _this.arrayArea = data["arrayArea"];
+            var areasAsignadas = _this.arrayArea.filter(function (area) { return area.intIdCltArea !== null; }).map(function (area) { return area.intIdCltArea; });
+            // Asignar las áreas preseleccionadas al modelo de objCliente
+            _this.objCliente.arrayIdArea = areasAsignadas;
+        }, function (error) {
+            _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
         });
     };
     ClienteMovilComponent.prototype.guardarDatos = function () {
@@ -8997,15 +9082,15 @@ var ClienteMovilComponent = /** @class */ (function () {
         if (this.objCliente.intIdCliente != 0) {
             this.objClienteService.edit(this.objCliente)
                 .subscribe(function (data) {
-                if (data['status'] == 400) {
-                    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default()({ title: _this.objCliente.strnombreCompleto, text: 'Usuario móvil editado con éxito!', type: "success", showConfirmButton: true })
+                if (data['intStatus'] == 200) {
+                    sweetalert2__WEBPACK_IMPORTED_MODULE_2___default()({ title: _this.objCliente.strNombre, text: 'Usuario móvil editado con éxito!', type: "success", showConfirmButton: true })
                         .then(function (result) {
                         if (result.value)
                             _this.iraListado();
                     });
                 }
                 else {
-                    _this.toastr.warning(data['resultado'], 'Error');
+                    _this.toastr.warning(data['strMensaje'], 'Error');
                 }
             }, function (error) {
                 _this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error');
@@ -9024,7 +9109,10 @@ var ClienteMovilComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [app_services_cliente_service__WEBPACK_IMPORTED_MODULE_4__["ClienteService"],
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"],
-            ngx_toastr__WEBPACK_IMPORTED_MODULE_1__["ToastrService"]])
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_1__["ToastrService"],
+            app_services_empresa_service__WEBPACK_IMPORTED_MODULE_5__["EmpresaService"],
+            app_services_sucursal_service__WEBPACK_IMPORTED_MODULE_6__["SucursalService"],
+            app_services_area_service__WEBPACK_IMPORTED_MODULE_7__["AreaService"]])
     ], ClienteMovilComponent);
     return ClienteMovilComponent;
 }());
@@ -12111,13 +12199,13 @@ var UsuarioComponent = /** @class */ (function () {
             intIdUsuario: "",
             arrayIdSucursal: ""
         };
-        this.user = JSON.parse(localStorage.getItem('usuario'));
+        this.objUsuario = JSON.parse(localStorage.getItem('usuario'));
         this.usuario.intIdUsuario = this.route.snapshot.paramMap.get('id');
     }
     UsuarioComponent.prototype.ngOnInit = function () {
         this.getRoles();
-        this.usuario.strUsrSesion = this.user.intIdUsuario;
-        if (this.user.strTipoRol == "ADMINISTRADOR") {
+        this.usuario.strUsrSesion = this.objUsuario.intIdUsuario;
+        if (this.objUsuario.strTipoRol == "ADMINISTRADOR") {
             this.getEmpresas();
         }
         else {
@@ -12246,7 +12334,7 @@ var UsuarioComponent = /** @class */ (function () {
         var _this = this;
         this.usuarioService.getRoles()
             .subscribe(function (data) {
-            if (_this.user.strTipoRol === "EMPRESA") {
+            if (_this.objUsuario.strTipoRol === "EMPRESA") {
                 // Filtra el rol de EMPRESA
                 _this.listRol = data['arrayRoles'].filter(function (rol) { return rol.strRol === "EMPRESA"; });
             }
@@ -12277,7 +12365,7 @@ var UsuarioComponent = /** @class */ (function () {
     };
     UsuarioComponent.prototype.getSucursales = function () {
         var _this = this;
-        this.objParametrosSucursal.intIdUsuario = this.user.intIdUsuario;
+        this.objParametrosSucursal.intIdUsuario = this.objUsuario.intIdUsuario;
         this.objParametrosSucursal.intIdUsuarioEmpresa = this.usuario.intIdUsuario;
         this.objParametrosSucursal.intIdEmpresa = this.usuario.intIdEmpresa;
         this.objSucursalService.getSucursal(this.objParametrosSucursal)
@@ -12296,7 +12384,7 @@ var UsuarioComponent = /** @class */ (function () {
         this.usuario.arrayIdArea = "";
         this.arrayParametrosArea.arrayIdSucursal = this.usuario.arrayIdSucursal;
         this.arrayParametrosArea.intIdUsuarioEmpresa = this.usuario.intIdUsuario;
-        this.arrayParametrosArea.intIdUsuario = this.user.intIdUsuario;
+        this.arrayParametrosArea.intIdUsuario = this.objUsuario.intIdUsuario;
         this.objAreaService.getArea(this.arrayParametrosArea)
             .subscribe(function (data) {
             _this.arrayArea = data["arrayArea"];
@@ -12310,7 +12398,7 @@ var UsuarioComponent = /** @class */ (function () {
     UsuarioComponent.prototype.getEmpresasPorUsuario = function () {
         var _this = this;
         this.objParametrosEmpresa.strContador = "NO";
-        this.objParametrosEmpresa.intIdUsuario = this.user.intIdUsuario;
+        this.objParametrosEmpresa.intIdUsuario = this.objUsuario.intIdUsuario;
         this.objEmpresaService.getEmpresa(this.objParametrosEmpresa)
             .subscribe(function (data) {
             if (data['intStatus'] != 200) {
