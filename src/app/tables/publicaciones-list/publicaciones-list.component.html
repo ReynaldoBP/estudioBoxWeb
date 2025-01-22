@@ -52,34 +52,45 @@
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <button type="button" style="width: 100%"
-                                            class="btn btn-raised btn-raised btn-success" (click)="getDataEncuesta()">
+                                    <!-- Columna siempre visible: Buscar -->
+                                    <div class="col">
+                                        <button type="button" style="width: 100%" class="btn btn-raised btn-success"
+                                            (click)="getDataEncuesta()">
                                             <i class="fa fa-search"></i> Buscar
                                         </button>
                                     </div>
-                                    <div class="col-md-2" *ngIf="mostrarCargaData">
-                                        <button type="button" class="btn btn-raised btn-raised btn-success"
-                                            (click)="getCargarDataParaReporte()">
-                                            <i class="fa fa-upload"></i>
-                                        </button>
-                                    </div>
-                                    <div class="col-md-2" *ngIf="mostrarReporte">
-                                        <button type="button" class="btn btn-raised btn-raised btn-success"
-                                            (click)="getExportarCsvPersonalizado()">
-                                            <i class="fa fa-file-excel-o"></i>
-                                        </button>
-                                    </div>
-                                    <div class="col-md-3" align="right" *ngIf="getAccion('ELIMINAR')">
-                                        <button type="button" style="width: 100%"
-                                            class="btn btn-raised btn-raised btn-danger" (click)="declinar()">
-                                            <i class="fa fa-times"></i> Eliminar
-                                        </button>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <button type="button" class="btn btn-raised btn-raised btn-success"
+                                    <!-- Columna condicional: Subir Data -->
+                                    <ng-container *ngIf="mostrarCargaData">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-raised btn-success"
+                                                (click)="getCargarDataParaReporte()">
+                                                <i class="fa fa-upload"></i> Subir Data
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <!-- Columna condicional: Descargar Reporte -->
+                                    <ng-container *ngIf="mostrarReporte">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-raised btn-success"
+                                                (click)="getExportarCsvPersonalizado()">
+                                                <i class="fa fa-file-excel-o"></i> Descargar Reporte Estadístico
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <!-- Columna condicional: Eliminar -->
+                                    <ng-container *ngIf="getAccion('ELIMINAR')">
+                                        <div class="col">
+                                            <button type="button" style="width: 100%" class="btn btn-raised btn-danger"
+                                                (click)="declinar()">
+                                                <i class="fa fa-times"></i> Eliminar
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <!-- Columna siempre visible: Descargar base -->
+                                    <div class="col">
+                                        <button type="button" class="btn btn-raised btn-success"
                                             (click)="getExportarCsv()">
-                                            <i class="fa fa-file-excel-o"></i>
+                                            <i class="fa fa-file-excel-o"></i> Descargar base
                                         </button>
                                     </div>
                                 </div>
@@ -209,34 +220,45 @@
                             <div class="form-group">
                                 <label for="projectinput5">Acción</label>
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <button type="button" style="width: 100%"
-                                            class="btn btn-raised btn-raised btn-success" (click)="getDataEncuesta()">
+                                    <!-- Columna siempre visible: Buscar -->
+                                    <div class="col">
+                                        <button type="button" style="width: 100%" class="btn btn-raised btn-success"
+                                            (click)="getDataEncuesta()">
                                             <i class="fa fa-search"></i> Buscar
                                         </button>
                                     </div>
-                                    <div class="col-md-2" *ngIf="mostrarCargaData">
-                                        <button type="button" class="btn btn-raised btn-raised btn-success"
-                                            (click)="getCargarDataParaReporte()">
-                                            <i class="fa fa-upload"></i>
-                                        </button>
-                                    </div>
-                                    <div class="col-md-2" *ngIf="mostrarReporte">
-                                        <button type="button" class="btn btn-raised btn-raised btn-success"
-                                            (click)="getExportarCsvPersonalizado()">
-                                            <i class="fa fa-file-excel-o"></i>
-                                        </button>
-                                    </div>
-                                    <div class="col-md-3" align="right">
-                                        <button type="button" style="width: 100%"
-                                            class="btn btn-raised btn-raised btn-danger" (click)="declinar()">
-                                            <i class="fa fa-times"></i> Eliminar
-                                        </button>
-                                    </div>
-                                    <div class="col-md-2" align="right">
-                                        <button type="button" class="btn btn-raised btn-raised btn-success"
+                                    <!-- Columna condicional: Subir Data -->
+                                    <ng-container *ngIf="mostrarCargaData">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-raised btn-success"
+                                                (click)="getCargarDataParaReporte()">
+                                                <i class="fa fa-upload"></i> Subir Data
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <!-- Columna condicional: Descargar Reporte -->
+                                    <ng-container *ngIf="mostrarReporte">
+                                        <div class="col">
+                                            <button type="button" class="btn btn-raised btn-success"
+                                                (click)="getExportarCsvPersonalizado()">
+                                                <i class="fa fa-file-excel-o"></i> Descargar Reporte Estadístico
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <!-- Columna condicional: Eliminar -->
+                                    <ng-container *ngIf="getAccion('ELIMINAR')">
+                                        <div class="col">
+                                            <button type="button" style="width: 100%" class="btn btn-raised btn-danger"
+                                                (click)="declinar()">
+                                                <i class="fa fa-times"></i> Eliminar
+                                            </button>
+                                        </div>
+                                    </ng-container>
+                                    <!-- Columna siempre visible: Descargar base -->
+                                    <div class="col">
+                                        <button type="button" class="btn btn-raised btn-success"
                                             (click)="getExportarCsv()">
-                                            <i class="fa fa-file-excel-o"></i>
+                                            <i class="fa fa-file-excel-o"></i> Descargar base
                                         </button>
                                     </div>
                                 </div>
