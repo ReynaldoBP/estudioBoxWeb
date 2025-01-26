@@ -209,7 +209,15 @@ export class EncuestaService {
         }
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/descargarRespuesta', datos);
     }
-
+    descargarRespuestasGeneral(arrayParametros: any) {
+        let datos = {
+            data: {
+                intIdCltEncuesta: arrayParametros.intIdCltEncuesta,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        }
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/descargarRespuestasGeneral', datos);
+    }
     getRespuesta(arrayParametros: any) {
         let datos = {
             data: {

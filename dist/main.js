@@ -1070,6 +1070,15 @@ var EncuestaService = /** @class */ (function () {
         };
         return this.http.post(this.globals.host + this.globals.port + '/apiWeb/descargarRespuesta', datos);
     };
+    EncuestaService.prototype.descargarRespuestasGeneral = function (arrayParametros) {
+        var datos = {
+            data: {
+                intIdCltEncuesta: arrayParametros.intIdCltEncuesta,
+                intIdUsuario: arrayParametros.intIdUsuario
+            }
+        };
+        return this.http.post(this.globals.host + this.globals.port + '/apiWeb/descargarRespuestasGeneral', datos);
+    };
     EncuestaService.prototype.getRespuesta = function (arrayParametros) {
         var datos = {
             data: {

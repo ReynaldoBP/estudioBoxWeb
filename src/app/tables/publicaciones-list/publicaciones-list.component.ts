@@ -258,6 +258,26 @@ export class PublicacionesListComponent implements OnInit {
                 }
             )
     }
+    descargarRespuestasGeneral(objCltEncuesta: any) {
+        this.objLoading = true
+        this.arrayParametrosDescargarRespuestas.intIdCltEncuesta = objCltEncuesta.intIdCltEncuesta
+        this.arrayParametrosDescargarRespuestas.intIdUsuario = this.user.intIdUsuario
+        this.objEncuestaService.descargarRespuestasGeneral(this.arrayParametrosDescargarRespuestas)
+            .subscribe(
+                data => {
+                    this.objLoading = false
+                    if (data['intStatus'] != 200) {
+                        this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                    } else {
+                        this.objExportarDataService.convertirHtmlaPdf(data["arrayData"])
+                    }
+                },
+                error => {
+                    this.objLoading = false
+                    this.toastr.warning('Hubo un error, por favor comuníquese con el departamento de sistemas.', 'Error')
+                }
+            )
+    }
     descargarRespuestas(objCltEncuesta: any) {
         this.objLoading = true
         this.arrayParametrosDescargarRespuestas.intIdCltEncuesta = objCltEncuesta.intIdCltEncuesta
